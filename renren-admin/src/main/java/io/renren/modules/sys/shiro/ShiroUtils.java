@@ -25,7 +25,7 @@ import org.apache.shiro.subject.Subject;
 
 /**
  * Shiro工具类
- * 
+ *
  * @author chenshun
  * @email sunlightcs@gmail.com
  * @date 2016年11月12日 上午9:49:19
@@ -55,7 +55,7 @@ public class ShiroUtils {
 	public static Long getUserId() {
 		return getUserEntity().getUserId();
 	}
-	
+
 	public static void setSessionAttribute(Object key, Object value) {
 		getSession().setAttribute(key, value);
 	}
@@ -71,7 +71,7 @@ public class ShiroUtils {
 	public static void logout() {
 		SecurityUtils.getSubject().logout();
 	}
-	
+
 	public static String getKaptcha(String key) {
 		Object kaptcha = getSessionAttribute(key);
 		if(kaptcha == null){

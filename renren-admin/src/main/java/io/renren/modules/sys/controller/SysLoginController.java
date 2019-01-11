@@ -25,6 +25,7 @@ import org.apache.shiro.authc.*;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -34,10 +35,11 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.Map;
 
 /**
  * 登录相关
- * 
+ *
  * @author chenshun
  * @email sunlightcs@gmail.com
  * @date 2016年11月10日 下午1:15:31
@@ -46,58 +48,89 @@ import java.io.IOException;
 public class SysLoginController {
 	@Autowired
 	private Producer producer;
-	
+
 	@RequestMapping("captcha.jpg")
 	public void captcha(HttpServletResponse response)throws IOException {
         response.setHeader("Cache-Control", "no-store, no-cache");
         response.setContentType("image/jpeg");
-
-        //生成文字验证码
-        String text = producer.createText();
+		//生成文字验证码
+		String text = producer.createText();
+		System.out.println(text+"   _____________");
         //生成图片验证码
         BufferedImage image = producer.createImage(text);
         //保存到shiro session
         ShiroUtils.setSessionAttribute(Constants.KAPTCHA_SESSION_KEY, text);
-        
+
         ServletOutputStream out = response.getOutputStream();
         ImageIO.write(image, "jpg", out);
 	}
-	
+
 	/**
 	 * 登录
 	 */
 	@ResponseBody
 	@RequestMapping(value = "/sys/login", method = RequestMethod.POST)
-	public R login(String username, String password, String captcha) {
+	public R login(@RequestBody Map<String, String> map) {
+		R r = new R();
+		String username = map.get("userName");
+		String password = map.get("password");
+		String captcha = map.get("captcha");
+
 		String kaptcha = ShiroUtils.getKaptcha(Constants.KAPTCHA_SESSION_KEY);
 		if(!captcha.equalsIgnoreCase(kaptcha)){
-			return R.error("验证码不正确");
+			r.put("code",500);
+			r.put("status","error");
+			r.put("msg","验证码不正确");
+			r.put("type", "account");
+			return r;
 		}
-		
+
 		try{
 			Subject subject = ShiroUtils.getSubject();
 			UsernamePasswordToken token = new UsernamePasswordToken(username, password);
 			subject.login(token);
 		}catch (UnknownAccountException e) {
-			return R.error(e.getMessage());
+			r.put("code",500);
+			r.put("status","error");
+			r.put("msg","账号或密码不存在");
+			r.put("type", "account");
+			return r;
 		}catch (IncorrectCredentialsException e) {
-			return R.error("账号或密码不正确");
+			r.put("code",500);
+			r.put("status","error");
+			r.put("msg","账号或密码不正确");
+			r.put("type", "account");
+			return r;
 		}catch (LockedAccountException e) {
-			return R.error("账号已被锁定,请联系管理员");
+			r.put("code",500);
+			r.put("status","error");
+			r.put("msg","账号已被锁定,请联系管理员");
+			r.put("type", "account");
+			return r;
 		}catch (AuthenticationException e) {
-			return R.error("账户验证失败");
+			r.put("code",500);
+			r.put("status","error");
+			r.put("msg","账户验证失败");
+			r.put("type", "account");
+			return r;
 		}
-	    
-		return R.ok();
+
+
+		r.put("code",0);
+		r.put("msg", "success");
+		r.put("status", "ok");
+
+		r.put("currentAuthority", "user");
+		r.put("type", "account");
+		return r;
 	}
-	
+
 	/**
 	 * 退出
 	 */
 	@RequestMapping(value = "logout", method = RequestMethod.GET)
-	public String logout() {
+	public void logout() {
 		ShiroUtils.logout();
-		return "redirect:login.html";
 	}
-	
+
 }

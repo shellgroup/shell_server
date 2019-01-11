@@ -19,11 +19,13 @@ package io.renren.common.utils;
 import com.baomidou.mybatisplus.plugins.Page;
 
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 分页工具类
- * 
+ *
  * @author chenshun
  * @email sunlightcs@gmail.com
  * @date 2016年11月4日 下午12:59:00
@@ -40,7 +42,8 @@ public class PageUtils implements Serializable {
 	private int currPage;
 	//列表数据
 	private List<?> list;
-	
+	private Map<String, String> pagination;
+
 	/**
 	 * 分页
 	 * @param list        列表数据
@@ -49,22 +52,34 @@ public class PageUtils implements Serializable {
 	 * @param currPage    当前页数
 	 */
 	public PageUtils(List<?> list, int totalCount, int pageSize, int currPage) {
+		Map map = new HashMap();
+		map.put("current",currPage);
+		map.put("pageSize",pageSize);
+		map.put("total",totalCount);
+
 		this.list = list;
-		this.totalCount = totalCount;
-		this.pageSize = pageSize;
-		this.currPage = currPage;
-		this.totalPage = (int)Math.ceil((double)totalCount/pageSize);
+		this.pagination = map;
+
 	}
 
 	/**
 	 * 分页
 	 */
 	public PageUtils(Page<?> page) {
+		Map map = new HashMap();
+		map.put("current",page.getCurrent());
+		map.put("pageSize",page.getSize());
+		map.put("total",page.getTotal());
+		this.pagination = map;
 		this.list = page.getRecords();
-		this.totalCount = page.getTotal();
-		this.pageSize = page.getSize();
-		this.currPage = page.getCurrent();
-		this.totalPage = page.getPages();
+	}
+
+	public Map<String, String> getPagination() {
+		return pagination;
+	}
+
+	public void setPagination(Map<String, String> pagination) {
+		this.pagination = pagination;
 	}
 
 	public int getTotalCount() {
@@ -106,5 +121,5 @@ public class PageUtils implements Serializable {
 	public void setList(List<?> list) {
 		this.list = list;
 	}
-	
+
 }
