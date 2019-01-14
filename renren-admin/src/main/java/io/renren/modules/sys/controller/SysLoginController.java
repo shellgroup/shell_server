@@ -71,17 +71,19 @@ public class SysLoginController {
 	@ResponseBody
 	@RequestMapping(value = "/sys/login", method = RequestMethod.POST)
 	public R login(@RequestBody Map<String, String> map) {
+//	public R login(String username,String password,String captcha) {
 		R r = new R();
 		String username = map.get("userName");
 		String password = map.get("password");
 		String captcha = map.get("captcha");
+		String type = map.get("type");
 
 		String kaptcha = ShiroUtils.getKaptcha(Constants.KAPTCHA_SESSION_KEY);
 		if(!captcha.equalsIgnoreCase(kaptcha)){
 			r.put("code",500);
 			r.put("status","error");
 			r.put("msg","验证码不正确");
-			r.put("type", "account");
+			r.put("type", type);
 			return r;
 		}
 
@@ -93,25 +95,25 @@ public class SysLoginController {
 			r.put("code",500);
 			r.put("status","error");
 			r.put("msg","账号或密码不存在");
-			r.put("type", "account");
+			r.put("type", type);
 			return r;
 		}catch (IncorrectCredentialsException e) {
 			r.put("code",500);
 			r.put("status","error");
 			r.put("msg","账号或密码不正确");
-			r.put("type", "account");
+			r.put("type", type);
 			return r;
 		}catch (LockedAccountException e) {
 			r.put("code",500);
 			r.put("status","error");
 			r.put("msg","账号已被锁定,请联系管理员");
-			r.put("type", "account");
+			r.put("type", type);
 			return r;
 		}catch (AuthenticationException e) {
 			r.put("code",500);
 			r.put("status","error");
 			r.put("msg","账户验证失败");
-			r.put("type", "account");
+			r.put("type", type);
 			return r;
 		}
 
@@ -119,9 +121,11 @@ public class SysLoginController {
 		r.put("code",0);
 		r.put("msg", "success");
 		r.put("status", "ok");
-
-		r.put("currentAuthority", "user");
-		r.put("type", "account");
+		/*
+		* 前台使用
+		* */
+		r.put("currentAuthority", "admin");
+		r.put("type", type);
 		return r;
 	}
 

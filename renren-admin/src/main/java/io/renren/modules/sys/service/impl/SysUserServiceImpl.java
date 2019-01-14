@@ -26,6 +26,7 @@ import io.renren.common.utils.PageUtils;
 import io.renren.common.utils.Query;
 import io.renren.modules.sys.dao.SysUserDao;
 import io.renren.modules.sys.entity.SysDeptEntity;
+import io.renren.modules.sys.entity.SysMenuEntity;
 import io.renren.modules.sys.entity.SysUserEntity;
 import io.renren.modules.sys.service.SysDeptService;
 import io.renren.modules.sys.service.SysUserRoleService;
@@ -55,6 +56,8 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUserEntity> i
 	private SysUserRoleService sysUserRoleService;
 	@Autowired
 	private SysDeptService sysDeptService;
+	@Autowired
+	private SysUserDao sysUserDao;
 
 	@Override
 	public List<Long> queryAllMenuId(Long userId) {
@@ -118,5 +121,10 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUserEntity> i
         return this.update(userEntity,
                 new EntityWrapper<SysUserEntity>().eq("user_id", userId).eq("password", password));
     }
+
+	@Override
+	public List<SysMenuEntity> queryAllButton(Map map) {
+		return sysUserDao.queryAllButton(map);
+	}
 
 }

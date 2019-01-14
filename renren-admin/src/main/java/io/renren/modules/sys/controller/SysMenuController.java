@@ -16,7 +16,7 @@
 
 package io.renren.modules.sys.controller;
 
-import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import io.renren.common.annotation.SysLog;
 import io.renren.common.exception.RRException;
 import io.renren.common.utils.Constant;
@@ -51,82 +51,9 @@ public class SysMenuController extends AbstractController {
 	 */
 	@RequestMapping("/nav")
 	public R nav(){
-		//List<SysMenuEntity> menuList = sysMenuService.getUserMenuList(getUserId());
-		List list = JSONArray.parseArray("[\n" +
-				"    {\n" +
-				"        \"path\": \"/system-manager\",\n" +
-				"        \"icon\": \"table\",\n" +
-				"        \"name\": \"系统管理\",\n" +
-				"        \"locale\": \"menu.systemManager\",\n" +
-				"        \"authority\": [\n" +
-				"            \"admin\",\n" +
-				"            \"user\"\n" +
-				"        ],\n" +
-				"        \"children\": [\n" +
-				"            {\n" +
-				"                \"path\": \"/system-manager/admin-manager\",\n" +
-				"                \"name\": \"管理员管理\",\n" +
-				"                \"exact\": true,\n" +
-				"                \"locale\": \"menu.systemManager.adminManager\"\n" +
-				"            },\n" +
-				"            {\n" +
-				"                \"path\": \"/system-manager/department-manager\",\n" +
-				"                \"name\": \"部门管理\",\n" +
-				"                \"exact\": true,\n" +
-				"                \"locale\": \"menu.systemManager.departmentManager\"\n" +
-				"            },\n" +
-				"            {\n" +
-				"                \"path\": \"/system-manager/role-manager\",\n" +
-				"                \"name\": \"角色管理\",\n" +
-				"                \"exact\": true,\n" +
-				"                \"locale\": \"menu.systemManager.roleManager\"\n" +
-				"            },\n" +
-				"            {\n" +
-				"                \"path\": \"/system-manager/menu-manager\",\n" +
-				"                \"name\": \"菜单管理\",\n" +
-				"                \"exact\": true,\n" +
-				"                \"locale\": \"menu.systemManager.menuManager\",\n" +
-				"            },\n" +
-				"            {\n" +
-				"                \"path\": \"/system-manager/sql-manager\",\n" +
-				"                \"name\": \"SQL监控\",\n" +
-				"                \"exact\": true,\n" +
-				"                \"locale\": \"menu.systemManager.sqlManager\"\n" +
-				"            },\n" +
-				"            {\n" +
-				"                \"path\": \"/system-manager/timing-manager\",\n" +
-				"                \"name\": \"定时任务\",\n" +
-				"                \"exact\": true,\n" +
-				"                \"locale\": \"menu.systemManager.timingManager\"\n" +
-				"            },\n" +
-				"            {\n" +
-				"                \"path\": \"/system-manager/parameter-manager\",\n" +
-				"                \"name\": \"参数管理\",\n" +
-				"                \"exact\": true,\n" +
-				"                \"locale\": \"menu.systemManager.parameterManager\"\n" +
-				"            },\n" +
-				"            {\n" +
-				"                \"path\": \"/system-manager/file-upload\",\n" +
-				"                \"name\": \"文件上传\",\n" +
-				"                \"exact\": true,\n" +
-				"                \"locale\": \"menu.systemManager.fileUpload\"\n" +
-				"            },\n" +
-				"            {\n" +
-				"                \"path\": \"/system-manager/dictionary-manager\",\n" +
-				"                \"name\": \"字典管理\",\n" +
-				"                \"exact\": true,\n" +
-				"                \"locale\": \"menu.systemManager.dictionaryManager\"\n" +
-				"            },\n" +
-				"            {\n" +
-				"                \"path\": \"/system-manager/system-log\",\n" +
-				"                \"name\": \"系统日志\",\n" +
-				"                \"exact\": true,\n" +
-				"                \"locale\": \"menu.systemManager.systemLog\"\n" +
-				"            },\n" +
-				"        ]\n" +
-				"    }\n" +
-				"]");
-		return R.ok().put("menuList", list);
+		List<SysMenuEntity> menuList = sysMenuService.getUserMenuList(getUserId());
+		System.out.println(JSONObject.toJSONString(menuList));
+		return R.ok().put("menuList", menuList);
 	}
 
 	/**
@@ -242,7 +169,7 @@ public class SysMenuController extends AbstractController {
 
 		//菜单
 		if(menu.getType() == Constant.MenuType.MENU.getValue()){
-			if(StringUtils.isBlank(menu.getUrl())){
+			if(StringUtils.isBlank(menu.getPath())){
 				throw new RRException("菜单URL不能为空");
 			}
 		}

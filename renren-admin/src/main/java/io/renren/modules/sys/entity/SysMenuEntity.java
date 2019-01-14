@@ -60,7 +60,7 @@ public class SysMenuEntity implements Serializable {
 	/**
 	 * 菜单URL
 	 */
-	private String url;
+	private String path;
 
 	/**
 	 * 授权(多个用逗号分隔，如：user:list,user:create)
@@ -81,6 +81,25 @@ public class SysMenuEntity implements Serializable {
 	 * 排序
 	 */
 	private Integer orderNum;
+
+	/*
+	*
+	* 前台面包屑导航使用到的，具体作用只能问前台了
+	*
+	* */
+	private String locale;
+
+	/*
+	* 前台使用，应该是默认是否展开，具体内容问前台
+	* */
+	private Boolean exact;
+
+	/*
+	* 用于控制按钮的是否显示，详情逻辑查看SysMenuServiceImpl.java类中的getMenuTreeList方法
+	* */
+	@TableField(exist=false)
+	private List<String> parmsList;
+
 	
 	/**
 	 * ztree属性
@@ -89,7 +108,7 @@ public class SysMenuEntity implements Serializable {
 	private Boolean open;
 
 	@TableField(exist=false)
-	private List<?> list;
+	private List<?> children;
 
 	public void setMenuId(Long menuId) {
 		this.menuId = menuId;
@@ -133,19 +152,21 @@ public class SysMenuEntity implements Serializable {
 	
 	/**
 	 * 设置：菜单URL
-	 * @param url 菜单URL
+	 * @param path 菜单URL
 	 */
-	public void setUrl(String url) {
-		this.url = url;
+	public void setPath(String path) {
+		this.path = path;
 	}
-
 	/**
 	 * 获取：菜单URL
 	 * @return String
 	 */
-	public String getUrl() {
-		return url;
+	public String getPath() {
+		return path;
 	}
+
+
+
 	
 	public String getPerms() {
 		return perms;
@@ -195,12 +216,36 @@ public class SysMenuEntity implements Serializable {
 		return orderNum;
 	}
 
-	public List<?> getList() {
-		return list;
+	public String getLocale() {
+		return locale;
 	}
 
-	public void setList(List<?> list) {
-		this.list = list;
+	public void setLocale(String locale) {
+		this.locale = locale;
+	}
+
+	public Boolean getExact() {
+		return exact;
+	}
+
+	public void setExact(Boolean exact) {
+		this.exact = exact;
+	}
+
+	public List<String> getParmsList() {
+		return parmsList;
+	}
+
+	public void setParmsList(List<String> parmsList) {
+		this.parmsList = parmsList;
+	}
+
+	public List<?> getChildren() {
+		return children;
+	}
+
+	public void setChildren(List<?> children) {
+		this.children = children;
 	}
 
 	public String getParentName() {

@@ -42,7 +42,7 @@ public class PageUtils implements Serializable {
 	private int currPage;
 	//列表数据
 	private List<?> list;
-	private Map<String, String> pagination;
+	private Map pagination;
 
 	/**
 	 * 分页
@@ -74,11 +74,11 @@ public class PageUtils implements Serializable {
 		this.list = page.getRecords();
 	}
 
-	public Map<String, String> getPagination() {
+	public Map getPagination() {
 		return pagination;
 	}
 
-	public void setPagination(Map<String, String> pagination) {
+	public void setPagination(Map pagination) {
 		this.pagination = pagination;
 	}
 

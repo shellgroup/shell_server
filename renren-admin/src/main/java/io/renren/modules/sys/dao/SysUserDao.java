@@ -17,9 +17,11 @@
 package io.renren.modules.sys.dao;
 
 import com.baomidou.mybatisplus.mapper.BaseMapper;
+import io.renren.modules.sys.entity.SysMenuEntity;
 import io.renren.modules.sys.entity.SysUserEntity;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 系统用户
@@ -40,5 +42,8 @@ public interface SysUserDao extends BaseMapper<SysUserEntity> {
 	 * 查询用户的所有菜单ID
 	 */
 	List<Long> queryAllMenuId(Long userId);
+
+	/*查询用户的所有按钮*/
+	List<SysMenuEntity> queryAllButton(Map map);
 
 }
