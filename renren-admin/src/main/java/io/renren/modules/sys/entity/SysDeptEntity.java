@@ -57,7 +57,7 @@ public class SysDeptEntity implements Serializable {
 	@TableField(exist=false)
 	private Boolean open;
 	@TableField(exist=false)
-	private List<?> list;
+	private List<SysDeptEntity> children;
 
 
 	public void setDeptId(Long deptId) {
@@ -128,11 +128,11 @@ public class SysDeptEntity implements Serializable {
 		this.open = open;
 	}
 
-	public List<?> getList() {
-		return list;
+	public List<SysDeptEntity> getChildren() {
+		return children;
 	}
 
-	public void setList(List<?> list) {
-		this.list = list;
+	public void setChildren(List<SysDeptEntity> children) {
+		this.children = children;
 	}
 }

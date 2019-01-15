@@ -61,16 +61,20 @@ public class SysMenuController extends AbstractController {
 	 */
 	@RequestMapping("/list")
 	@RequiresPermissions("sys:menu:list")
-	public List<SysMenuEntity> list(){
-		List<SysMenuEntity> menuList = sysMenuService.selectList(null);
-		for(SysMenuEntity sysMenuEntity : menuList){
-			SysMenuEntity parentMenuEntity = sysMenuService.selectById(sysMenuEntity.getParentId());
-			if(parentMenuEntity != null){
-				sysMenuEntity.setParentName(parentMenuEntity.getName());
-			}
-		}
-
-		return menuList;
+	public R list(){
+//		List<SysMenuEntity> menuList = sysMenuService.selectList(null);
+//		for(SysMenuEntity sysMenuEntity : menuList){
+//			SysMenuEntity parentMenuEntity = sysMenuService.selectById(sysMenuEntity.getParentId());
+//			if(parentMenuEntity != null){
+//				sysMenuEntity.setParentName(parentMenuEntity.getName());
+//			}
+//		}
+//
+//		return menuList;
+		System.out.println("开始拼装*****************************");
+		List<SysMenuEntity> menuList = sysMenuService.treeTableShow();
+		System.out.println(JSONObject.toJSONString(menuList));
+		return  R.ok().put("list",menuList);
 	}
 
 	/**

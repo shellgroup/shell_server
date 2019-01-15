@@ -59,4 +59,9 @@ public interface SysMenuService extends IService<SysMenuEntity> {
 	 * 删除
 	 */
 	void delete(Long menuId);
+
+	/*
+	* 获取菜单页中的，treeTable
+	* */
+	List<SysMenuEntity> treeTableShow();
 }

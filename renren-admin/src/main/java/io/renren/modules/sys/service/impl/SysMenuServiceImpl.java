@@ -42,29 +42,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuDao, SysMenuEntity> i
 	private SysUserService sysUserService;
 	@Autowired
 	private SysRoleMenuService sysRoleMenuService;
-	
-	@Override
-	public List<SysMenuEntity> queryListParentId(Long parentId, List<Long> menuIdList) {
-		/*
-		* 通过传入的parentId参数，获取该parentId下的所有的菜单
-		* 例如：
-		* 筛选方法，通过接受的parentId= 0，查询所有的根目录，
-		* 然后通过接受menuIdList，将查询到的所有根目录和该用户拥有的所有的菜单中通过id进行对比
-		* 获取该用户拥有的根菜单并返回
-		* */
-		List<SysMenuEntity> menuList = queryListParentId(parentId);
-		if(menuIdList == null){
-			return menuList;
-		}
-		
-		List<SysMenuEntity> userMenuList = new ArrayList<>();
-		for(SysMenuEntity menu : menuList){
-			if(menuIdList.contains(menu.getMenuId())){
-				userMenuList.add(menu);
-			}
-		}
-		return userMenuList;
-	}
+
 
 	@Override
 	public List<SysMenuEntity> queryListParentId(Long parentId) {
@@ -77,6 +55,16 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuDao, SysMenuEntity> i
 	}
 
 	@Override
+	public void delete(Long menuId){
+		//删除菜单
+		this.deleteById(menuId);
+		//删除菜单与角色关联
+		sysRoleMenuService.deleteByMap(new MapUtils().put("menu_id", menuId));
+	}
+
+
+	/*开始装填主页左侧菜单*/
+	@Override
 	public List<SysMenuEntity> getUserMenuList(Long userId) {
 		//系统管理员，拥有最高权限
 		if(userId == Constant.SUPER_ADMIN){
@@ -87,14 +75,6 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuDao, SysMenuEntity> i
 		List<Long> menuIdList = sysUserService.queryAllMenuId(userId);
 
 		return getAllMenuList(menuIdList);
-	}
-
-	@Override
-	public void delete(Long menuId){
-		//删除菜单
-		this.deleteById(menuId);
-		//删除菜单与角色关联
-		sysRoleMenuService.deleteByMap(new MapUtils().put("menu_id", menuId));
 	}
 
 	/**
@@ -112,6 +92,29 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuDao, SysMenuEntity> i
 		getMenuTreeList(menuList, menuIdList);
 		
 		return menuList;
+	}
+
+	@Override
+	public List<SysMenuEntity> queryListParentId(Long parentId, List<Long> menuIdList) {
+		/*
+		 * 通过传入的parentId参数，获取该parentId下的所有的菜单
+		 * 例如：
+		 * 筛选方法，通过接受的parentId= 0，查询所有的根目录，
+		 * 然后通过接受menuIdList，将查询到的所有根目录和该用户拥有的所有的菜单中通过id进行对比
+		 * 获取该用户拥有的根菜单并返回
+		 * */
+		List<SysMenuEntity> menuList = queryListParentId(parentId);
+		if(menuIdList == null){
+			return menuList;
+		}
+
+		List<SysMenuEntity> userMenuList = new ArrayList<>();
+		for(SysMenuEntity menu : menuList){
+			if(menuIdList.contains(menu.getMenuId())){
+				userMenuList.add(menu);
+			}
+		}
+		return userMenuList;
 	}
 
 	/**
@@ -174,7 +177,38 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuDao, SysMenuEntity> i
 		return subMenuList;
 	}
 
+	/*主页左侧菜单装填结束*/
+
+
 	/*
-	* 查询
+	* 开始装填菜单页面的treeTable
 	* */
+	@Override
+	public List<SysMenuEntity> treeTableShow() {
+		/*
+		 * 获取所有的根节点
+		 * */
+		List<SysMenuEntity> menuList = queryListParentId((long) Constant.MenuType.CATALOG.getValue());
+		return getTreeTableList(menuList);
+	}
+
+	/*
+	* 递归装填所有的菜单
+	* */
+	private List<SysMenuEntity> getTreeTableList(List<SysMenuEntity> menuList){
+
+		for(SysMenuEntity menuEntity:menuList){
+			List<SysMenuEntity> sysMenuEntityListTemp = queryListParentId(menuEntity.getMenuId());
+			if(sysMenuEntityListTemp != null){
+				menuEntity.setChildren(getTreeTableList(sysMenuEntityListTemp));
+			}else {
+				continue;
+			}
+
+		}
+
+		return menuList;
+	}
+
+
 }

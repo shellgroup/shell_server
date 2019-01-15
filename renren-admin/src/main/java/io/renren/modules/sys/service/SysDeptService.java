@@ -45,4 +45,14 @@ public interface SysDeptService extends IService<SysDeptEntity> {
 	 */
 	List<Long> getSubDeptIdList(Long deptId);
 
+	/*
+	* 查询子部门列表
+	* */
+	List<SysDeptEntity> queryDetpList(Long parentId);
+
+	/*
+	* 部门管理页，treeTable加载
+	* */
+	List<SysDeptEntity> treeTableShow();
+
 }

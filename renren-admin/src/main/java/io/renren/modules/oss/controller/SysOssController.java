@@ -68,7 +68,7 @@ public class SysOssController {
 	public R list(@RequestParam Map<String, Object> params){
 		PageUtils page = sysOssService.queryPage(params);
 
-		return R.ok().put("page", page);
+		return R.ok().put("list", page.getList()).put("pagination",page.getPagination());
 	}
 
 

@@ -49,10 +49,10 @@ public class SysDeptController extends AbstractController {
 	 */
 	@RequestMapping("/list")
 	@RequiresPermissions("sys:dept:list")
-	public List<SysDeptEntity> list(){
-		List<SysDeptEntity> deptList = sysDeptService.queryList(new HashMap<String, Object>());
+	public R list(){
+		List<SysDeptEntity> deptList = sysDeptService.treeTableShow();
 
-		return deptList;
+		return R.ok().put("list",deptList);
 	}
 
 	/**

@@ -22,7 +22,9 @@ import io.renren.common.annotation.DataFilter;
 import io.renren.common.utils.Constant;
 import io.renren.modules.sys.dao.SysDeptDao;
 import io.renren.modules.sys.entity.SysDeptEntity;
+import io.renren.modules.sys.entity.SysMenuEntity;
 import io.renren.modules.sys.service.SysDeptService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -32,6 +34,9 @@ import java.util.Map;
 
 @Service("sysDeptService")
 public class SysDeptServiceImpl extends ServiceImpl<SysDeptDao, SysDeptEntity> implements SysDeptService {
+	@Autowired
+	private SysDeptDao sysDeptDao;
+
 	
 	@Override
 	@DataFilter(subDept = true, user = false)
@@ -64,6 +69,41 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptDao, SysDeptEntity> i
 		getDeptTreeList(subIdList, deptIdList);
 
 		return deptIdList;
+	}
+
+	@Override
+	public List<SysDeptEntity> queryDetpList(Long parentId) {
+		return sysDeptDao.queryDetpList(parentId);
+	}
+
+
+	@Override
+	public List<SysDeptEntity> treeTableShow() {
+
+		/*
+		* 查询顶级部门列表
+		* */
+		List<SysDeptEntity> sysDeptEntityList = sysDeptDao.queryDetpList((long) Constant.MenuType.CATALOG.getValue());
+		return getTreeTableList(sysDeptEntityList);
+	}
+
+	/*
+	 * 递归装填所有的菜单
+	 * */
+	private List<SysDeptEntity> getTreeTableList(List<SysDeptEntity> sysDeptEntityList){
+
+		for(SysDeptEntity sysDeptEntity:sysDeptEntityList){
+			List<SysDeptEntity> sysMenuEntityListTemp = queryDetpList(sysDeptEntity.getDeptId());
+
+			if(sysMenuEntityListTemp != null){
+				sysDeptEntity.setChildren(getTreeTableList(sysMenuEntityListTemp));
+			}else {
+				continue;
+			}
+
+		}
+
+		return sysDeptEntityList;
 	}
 
 	/**
