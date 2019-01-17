@@ -27,6 +27,7 @@ import io.renren.common.utils.Query;
 import io.renren.modules.sys.dao.SysUserDao;
 import io.renren.modules.sys.entity.SysDeptEntity;
 import io.renren.modules.sys.entity.SysMenuEntity;
+import io.renren.modules.sys.entity.SysRoleEntity;
 import io.renren.modules.sys.entity.SysUserEntity;
 import io.renren.modules.sys.service.SysDeptService;
 import io.renren.modules.sys.service.SysUserRoleService;
@@ -38,6 +39,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -79,6 +81,18 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUserEntity> i
 		for(SysUserEntity sysUserEntity : page.getRecords()){
 			SysDeptEntity sysDeptEntity = sysDeptService.selectById(sysUserEntity.getDeptId());
 			sysUserEntity.setDeptName(sysDeptEntity.getName());
+
+			/*
+			* 拼装一下用户角色id，前台修改用户信息回显时需要
+			* */
+			List<SysRoleEntity> roleList = sysUserDao.queryAllRole(sysUserEntity.getUserId());
+			List<Long> roleIdList = new ArrayList<>();
+			for(SysRoleEntity sysRoleEntity :roleList){
+				if(sysRoleEntity.getRoleId() != null){
+					roleIdList.add(sysRoleEntity.getRoleId());
+				}
+			}
+			sysUserEntity.setRoleIdList(roleIdList);
 		}
 
 		return new PageUtils(page);
@@ -125,6 +139,11 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUserEntity> i
 	@Override
 	public List<SysMenuEntity> queryAllButton(Map map) {
 		return sysUserDao.queryAllButton(map);
+	}
+
+	@Override
+	public List<SysRoleEntity> queryAllRole(Long userId) {
+		return sysUserDao.queryAllRole(userId);
 	}
 
 }

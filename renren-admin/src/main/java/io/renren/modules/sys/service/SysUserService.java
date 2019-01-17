@@ -19,6 +19,7 @@ package io.renren.modules.sys.service;
 import com.baomidou.mybatisplus.service.IService;
 import io.renren.common.utils.PageUtils;
 import io.renren.modules.sys.entity.SysMenuEntity;
+import io.renren.modules.sys.entity.SysRoleEntity;
 import io.renren.modules.sys.entity.SysUserEntity;
 
 import java.util.List;
@@ -61,4 +62,9 @@ public interface SysUserService extends IService<SysUserEntity> {
 
 	/*查询用户的所有按钮*/
 	List<SysMenuEntity> queryAllButton(Map map);
+
+	/*
+	* 查询用户所有角色
+	* */
+	List<SysRoleEntity> queryAllRole(Long userId);
 }

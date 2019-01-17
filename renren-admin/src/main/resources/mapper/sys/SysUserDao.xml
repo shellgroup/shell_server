@@ -18,6 +18,8 @@
 		where ur.user_id = #{userId}
 	</select>
 
+
+
 	<!--查询用户的所有butten-->
 	<select id="queryAllButton" resultType="io.renren.modules.sys.entity.SysMenuEntity">
 		select m.* from sys_user_role ur
@@ -29,6 +31,18 @@
 					</if>
 					and m.type = #{menuType}
 				</where>
+	</select>
+
+	<!--查询用户所有角色-->
+	<select id="queryAllRole" resultType="io.renren.modules.sys.entity.SysRoleEntity">
+
+		SELECT
+			*
+		FROM
+			sys_role sr
+			LEFT JOIN sys_user_role ur ON ur.role_id = sr.role_id
+		WHERE
+			ur.user_id = #{userId}
 	</select>
 
 </mapper>

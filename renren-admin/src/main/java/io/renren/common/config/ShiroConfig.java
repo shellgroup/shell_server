@@ -16,6 +16,7 @@
 
 package io.renren.common.config;
 
+import io.renren.common.filter.MyShiroFilter;
 import io.renren.modules.sys.shiro.UserRealm;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.session.mgt.SessionManager;
@@ -31,6 +32,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import javax.servlet.Filter;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -81,11 +83,15 @@ public class ShiroConfig {
     @Bean("shiroFilter")
     public ShiroFilterFactoryBean shiroFilter(SecurityManager securityManager) {
         ShiroFilterFactoryBean shiroFilter = new ShiroFilterFactoryBean();
+
+
+
         shiroFilter.setSecurityManager(securityManager);
         shiroFilter.setLoginUrl("/login.html");
         shiroFilter.setUnauthorizedUrl("/");
 
         Map<String, String> filterMap = new LinkedHashMap<>();
+//        filterMap.put("/**","anon");
         filterMap.put("/swagger/**", "anon");
         filterMap.put("/v2/api-docs", "anon");
         filterMap.put("/swagger-ui.html", "anon");
@@ -98,6 +104,10 @@ public class ShiroConfig {
         filterMap.put("/favicon.ico", "anon");
         filterMap.put("/captcha.jpg", "anon");
         filterMap.put("/**", "authc");
+
+        Map<String, Filter> filterMap1 = shiroFilter.getFilters();
+        filterMap1.put("authc", new MyShiroFilter());
+
         shiroFilter.setFilterChainDefinitionMap(filterMap);
 
         return shiroFilter;
