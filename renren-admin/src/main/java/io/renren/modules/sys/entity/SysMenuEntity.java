@@ -24,6 +24,7 @@ import lombok.ToString;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Set;
 
 /**
  * 菜单管理
@@ -100,7 +101,7 @@ public class SysMenuEntity implements Serializable {
 	* 用于控制按钮的是否显示，详情逻辑查看SysMenuServiceImpl.java类中的getMenuTreeList方法
 	* */
 	@TableField(exist=false)
-	private List<String> parmsList;
+	private Set<String> parmsList;
 
 	
 	/**
@@ -234,11 +235,11 @@ public class SysMenuEntity implements Serializable {
 		this.exact = exact;
 	}
 
-	public List<String> getParmsList() {
+	public Set<String> getParmsList() {
 		return parmsList;
 	}
 
-	public void setParmsList(List<String> parmsList) {
+	public void setParmsList(Set<String> parmsList) {
 		this.parmsList = parmsList;
 	}
 

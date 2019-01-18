@@ -28,10 +28,7 @@ import io.renren.modules.sys.service.SysUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static io.renren.modules.sys.shiro.ShiroUtils.getUserId;
 
@@ -162,13 +159,24 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuDao, SysMenuEntity> i
 					sysMenuEntityList = sysUserService.queryAllButton(map);
 				}
 
-				List buttonList = new ArrayList();
+				/*使用set去重复*/
+				Set<String> buttonSet = new HashSet<>();
 				for (SysMenuEntity sysMenuEntity:sysMenuEntityList){
 					if(sysMenuEntity.getParentId() == entity.getMenuId()){
-						buttonList.add(sysMenuEntity.getPerms());
+						/*
+						* 说明这个按钮是这个菜单下的
+						* */
+						if(sysMenuEntity.getPerms().contains(",") ){
+							String[] str = sysMenuEntity.getPerms().split(",");
+							for(int i = 0 ; i < str.length; i++){
+								buttonSet.add(str[i]);
+							}
+						}else {
+							buttonSet.add(sysMenuEntity.getPerms());
+						}
 					}
 				}
-				entity.setParmsList(buttonList);
+				entity.setParmsList(buttonSet);
 			}
 
 			subMenuList.add(entity);
