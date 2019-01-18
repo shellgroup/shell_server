@@ -20,6 +20,7 @@ package io.renren.modules.sys.entity;
 import com.baomidou.mybatisplus.annotations.TableField;
 import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.annotations.TableName;
+import lombok.ToString;
 
 import java.io.Serializable;
 import java.util.List;
@@ -31,6 +32,7 @@ import java.util.List;
  * @email sunlightcs@gmail.com
  * @date 2016年9月18日 上午9:26:39
  */
+@ToString
 @TableName("sys_menu")
 public class SysMenuEntity implements Serializable {
 	private static final long serialVersionUID = 1L;

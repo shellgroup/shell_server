@@ -40,6 +40,7 @@
         <commons.codec.version>1.10</commons.codec.version>
         <fastjson.version>1.2.45</fastjson.version>
         <joda.time.version>2.9.9</joda.time.version>
+        <lombok.version>1.18.4</lombok.version>
     </properties>
 
     <dependencies>
@@ -148,6 +149,14 @@
             <artifactId>joda-time</artifactId>
             <version>${joda.time.version}</version>
         </dependency>
+
+        <!-- lombok -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>${lombok.version}</version>
+        </dependency>
+
     </dependencies>
 
     <!-- 阿里云maven仓库 -->

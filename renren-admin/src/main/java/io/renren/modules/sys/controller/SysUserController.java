@@ -17,6 +17,7 @@
 package io.renren.modules.sys.controller;
 
 
+import com.alibaba.fastjson.JSONObject;
 import io.renren.common.annotation.SysLog;
 import io.renren.common.utils.PageUtils;
 import io.renren.common.utils.R;
@@ -30,10 +31,14 @@ import io.renren.modules.sys.service.SysUserService;
 import io.renren.modules.sys.shiro.ShiroUtils;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -47,6 +52,8 @@ import java.util.Map;
 @RestController
 @RequestMapping("/sys/user")
 public class SysUserController extends AbstractController {
+	Logger logger = LoggerFactory.getLogger(this.getClass());
+
 	@Autowired
 	private SysUserService sysUserService;
 	@Autowired
@@ -117,9 +124,16 @@ public class SysUserController extends AbstractController {
 	public R save(@RequestBody SysUserEntity user){
 		ValidatorUtils.validateEntity(user, AddGroup.class);
 
-		sysUserService.save(user);
-
-		return R.ok();
+		try{
+			sysUserService.save(user);
+			return R.ok();
+		}catch (Exception e){
+			Date date = new Date();
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			String now = sdf.format(date);
+			logger.error("新增用户异常，异常时间："+now+":::异常数据："+user.toString()+":::异常原因："+e.toString());
+			return R.error("网络错误，添加失败！");
+		}
 	}
 
 	/**
@@ -131,9 +145,18 @@ public class SysUserController extends AbstractController {
 	public R update(@RequestBody SysUserEntity user){
 		ValidatorUtils.validateEntity(user, UpdateGroup.class);
 
-		sysUserService.update(user);
 
-		return R.ok();
+		try{
+			sysUserService.update(user);
+			return R.ok();
+		}catch (Exception e){
+			Date date = new Date();
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			String now = sdf.format(date);
+			logger.error("更新用户异常，异常时间："+now+":::异常数据："+user.toString()+":::异常原因："+e.toString());
+			return R.error("网络错误，更新失败！");
+		}
+
 	}
 
 	/**
@@ -150,9 +173,15 @@ public class SysUserController extends AbstractController {
 		if(ArrayUtils.contains(userIds, getUserId())){
 			return R.error("当前用户不能删除");
 		}
-
-		sysUserService.deleteBatchIds(Arrays.asList(userIds));
-
-		return R.ok();
+        try{
+            sysUserService.deleteBatchIds(Arrays.asList(userIds));
+			return R.ok();
+        }catch (Exception e){
+            Date date = new Date();
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            String now = sdf.format(date);
+            logger.error("用户删除异常，异常时间："+now+":::异常数据："+ JSONObject.toJSONString(userIds)+":::异常原因："+e.toString());
+			return R.error("网络错误，删除失败！");
+        }
 	}
 }

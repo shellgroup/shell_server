@@ -31,6 +31,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -117,9 +119,17 @@ public class SysMenuController extends AbstractController {
 		//数据校验
 		verifyForm(menu);
 
-		sysMenuService.insert(menu);
+		try{
+			sysMenuService.insert(menu);
+			return R.ok();
+		}catch (Exception e){
+			Date date = new Date();
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			String now = sdf.format(date);
+			logger.error("添加菜单异常，异常时间："+now+":::异常数据："+menu.toString()+":::异常原因："+e.toString());
+			return R.error("网络错误，菜单添加失败！");
+		}
 
-		return R.ok();
 	}
 
 	/**
@@ -132,9 +142,17 @@ public class SysMenuController extends AbstractController {
 		//数据校验
 		verifyForm(menu);
 
-		sysMenuService.updateById(menu);
+		try{
+			sysMenuService.updateById(menu);
+			return R.ok();
+		}catch (Exception e){
+			Date date = new Date();
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			String now = sdf.format(date);
+			logger.error("更新菜单异常，异常时间："+now+":::异常数据："+menu.toString()+":::异常原因："+e.toString());
+			return R.error("网络错误，菜单更新失败！");
+		}
 
-		return R.ok();
 	}
 
 	/**
@@ -154,9 +172,18 @@ public class SysMenuController extends AbstractController {
 			return R.error("请先删除子菜单或按钮");
 		}
 
-		sysMenuService.delete(menuId);
 
-		return R.ok();
+		try{
+			sysMenuService.delete(menuId);
+			return R.ok();
+		}catch (Exception e){
+			Date date = new Date();
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			String now = sdf.format(date);
+			logger.error("删除菜单异常，异常时间："+now+":::异常数据："+menuId+":::异常原因："+e.toString());
+			return R.error("网络错误，菜单更新失败！");
+		}
+
 	}
 
 	/**

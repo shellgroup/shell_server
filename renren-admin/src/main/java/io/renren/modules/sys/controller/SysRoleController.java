@@ -16,6 +16,7 @@
 
 package io.renren.modules.sys.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import io.renren.common.annotation.SysLog;
 import io.renren.common.utils.PageUtils;
 import io.renren.common.utils.R;
@@ -28,6 +29,8 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -98,9 +101,18 @@ public class SysRoleController extends AbstractController {
 	public R save(@RequestBody SysRoleEntity role){
 		ValidatorUtils.validateEntity(role);
 		
-		sysRoleService.save(role);
-		
-		return R.ok();
+
+		try{
+			sysRoleService.save(role);
+			return R.ok();
+		}catch (Exception e){
+			Date date = new Date();
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			String now = sdf.format(date);
+			logger.error("保存角色信息异常，异常时间："+now+":::异常数据："+role.toString()+":::异常原因："+e.toString());
+			return R.error("网络错误，角色新增失败！");
+		}
+
 	}
 	
 	/**
@@ -111,10 +123,18 @@ public class SysRoleController extends AbstractController {
 	@RequiresPermissions("sys:role:update")
 	public R update(@RequestBody SysRoleEntity role){
 		ValidatorUtils.validateEntity(role);
-		
-		sysRoleService.update(role);
-		
-		return R.ok();
+
+		try{
+			sysRoleService.update(role);
+			return R.ok();
+		}catch (Exception e){
+			Date date = new Date();
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			String now = sdf.format(date);
+			logger.error("更新角色信息异常，异常时间："+now+":::异常数据："+role.toString()+":::异常原因："+e.toString());
+			return R.error("网络错误，角色更新失败！");
+		}
+
 	}
 	
 	/**
@@ -124,8 +144,17 @@ public class SysRoleController extends AbstractController {
 	@RequestMapping("/delete")
 	@RequiresPermissions("sys:role:delete")
 	public R delete(@RequestBody Long[] roleIds){
-		sysRoleService.deleteBatch(roleIds);
-		
-		return R.ok();
+
+
+		try{
+			sysRoleService.deleteBatch(roleIds);
+			return R.ok();
+		}catch (Exception e){
+			Date date = new Date();
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			String now = sdf.format(date);
+			logger.error("删除角色信息异常，异常时间："+now+":::异常数据："+ JSONObject.toJSONString(roleIds)+":::异常原因："+e.toString());
+			return R.error("网络错误，角色删除失败！");
+		}
 	}
 }

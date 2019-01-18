@@ -23,6 +23,7 @@ import com.baomidou.mybatisplus.annotations.TableName;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.renren.common.validator.group.AddGroup;
 import io.renren.common.validator.group.UpdateGroup;
+import lombok.ToString;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -38,6 +39,7 @@ import java.util.List;
  * @email sunlightcs@gmail.com
  * @date 2016年9月18日 上午9:28:55
  */
+@ToString
 @TableName("sys_user")
 public class SysUserEntity implements Serializable {
 	private static final long serialVersionUID = 1L;

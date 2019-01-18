@@ -21,6 +21,7 @@ import com.baomidou.mybatisplus.annotations.TableField;
 import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.annotations.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.ToString;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -35,6 +36,7 @@ import java.util.List;
  * @email sunlightcs@gmail.com
  * @date 2016年9月18日 上午9:27:38
  */
+@ToString
 @TableName("sys_role")
 public class SysRoleEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
