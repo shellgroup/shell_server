@@ -16,9 +16,9 @@
 
 package io.renren.entity;
 
-import com.baomidou.mybatisplus.annotations.TableId;
-import com.baomidou.mybatisplus.annotations.TableName;
-import com.baomidou.mybatisplus.enums.IdType;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -39,7 +39,7 @@ public class TokenEntity implements Serializable {
 	/**
 	 * 用户ID
 	 */
-	@TableId(type=IdType.INPUT)
+	@TableId(type= IdType.INPUT)
 	private Long userId;
 	private String token;
 	/**

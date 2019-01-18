@@ -17,11 +17,11 @@
 package io.renren.modules.sys.service.impl;
 
 
-import com.baomidou.mybatisplus.mapper.EntityWrapper;
-import com.baomidou.mybatisplus.plugins.Page;
-import com.baomidou.mybatisplus.service.impl.ServiceImpl;
+
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import io.renren.common.annotation.DataFilter;
-import io.renren.common.utils.Constant;
 import io.renren.common.utils.PageUtils;
 import io.renren.common.utils.Query;
 import io.renren.modules.sys.dao.SysUserDao;
@@ -70,16 +70,20 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUserEntity> i
 	@DataFilter(subDept = true, user = false)
 	public PageUtils queryPage(Map<String, Object> params) {
 		String username = (String)params.get("username");
+		String mobile = (String)params.get("mobile");
+		Long deptId = (Long)params.get("deptId");
 
-		Page<SysUserEntity> page = this.selectPage(
+
+		Page<SysUserEntity> page = (Page<SysUserEntity>) this.page(
 			new Query<SysUserEntity>(params).getPage(),
-			new EntityWrapper<SysUserEntity>()
+			new QueryWrapper<SysUserEntity>()
 				.like(StringUtils.isNotBlank(username),"username", username)
-				.addFilterIfNeed(params.get(Constant.SQL_FILTER) != null, (String)params.get(Constant.SQL_FILTER))
+				.like(StringUtils.isNotBlank(mobile),"mobile",mobile)
+
 		);
 
 		for(SysUserEntity sysUserEntity : page.getRecords()){
-			SysDeptEntity sysDeptEntity = sysDeptService.selectById(sysUserEntity.getDeptId());
+			SysDeptEntity sysDeptEntity = sysDeptService.getById(sysUserEntity.getDeptId());
 			sysUserEntity.setDeptName(sysDeptEntity.getName());
 
 			/*
@@ -100,16 +104,17 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUserEntity> i
 
 	@Override
 	@Transactional(rollbackFor = Exception.class)
-	public void save(SysUserEntity user) {
+	public boolean save(SysUserEntity user) {
 		user.setCreateTime(new Date());
 		//sha256加密
 		String salt = RandomStringUtils.randomAlphanumeric(20);
 		user.setSalt(salt);
 		user.setPassword(ShiroUtils.sha256(user.getPassword(), user.getSalt()));
-		this.insert(user);
+		this.save(user);
 		
 		//保存用户与角色关系
 		sysUserRoleService.saveOrUpdate(user.getUserId(), user.getRoleIdList());
+		return true;
 	}
 
 	@Override
@@ -118,9 +123,11 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUserEntity> i
 		if(StringUtils.isBlank(user.getPassword())){
 			user.setPassword(null);
 		}else{
-			SysUserEntity userEntity = this.selectById(user.getUserId());
+			SysUserEntity userEntity = this.getById(user.getUserId());
 			user.setPassword(ShiroUtils.sha256(user.getPassword(), userEntity.getSalt()));
 		}
+
+//        new UpdateWrapper().lambda();
 		this.updateById(user);
 		
 		//保存用户与角色关系
@@ -133,7 +140,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUserEntity> i
         SysUserEntity userEntity = new SysUserEntity();
         userEntity.setPassword(newPassword);
         return this.update(userEntity,
-                new EntityWrapper<SysUserEntity>().eq("user_id", userId).eq("password", password));
+                new QueryWrapper<SysUserEntity>().eq("user_id", userId).eq("password", password));
     }
 
 	@Override
@@ -144,6 +151,11 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUserEntity> i
 	@Override
 	public List<SysRoleEntity> queryAllRole(Long userId) {
 		return sysUserDao.queryAllRole(userId);
+	}
+
+	@Override
+	public Integer isExistByUserName(String userName) {
+		return null;
 	}
 
 }

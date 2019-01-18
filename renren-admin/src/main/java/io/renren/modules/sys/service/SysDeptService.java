@@ -17,7 +17,7 @@
 package io.renren.modules.sys.service;
 
 
-import com.baomidou.mybatisplus.service.IService;
+import com.baomidou.mybatisplus.extension.service.IService;
 import io.renren.modules.sys.entity.SysDeptEntity;
 
 import java.util.List;

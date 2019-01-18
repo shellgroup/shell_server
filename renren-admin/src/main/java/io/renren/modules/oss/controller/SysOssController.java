@@ -128,7 +128,7 @@ public class SysOssController {
 		SysOssEntity ossEntity = new SysOssEntity();
 		ossEntity.setUrl(url);
 		ossEntity.setCreateDate(new Date());
-		sysOssService.insert(ossEntity);
+		sysOssService.save(ossEntity);
 
 		return R.ok().put("url", url);
 	}
@@ -140,7 +140,7 @@ public class SysOssController {
 	@RequestMapping("/delete")
 	@RequiresPermissions("sys:oss:all")
 	public R delete(@RequestBody Long[] ids){
-		sysOssService.deleteBatchIds(Arrays.asList(ids));
+		sysOssService.removeByIds(Arrays.asList(ids));
 
 		return R.ok();
 	}

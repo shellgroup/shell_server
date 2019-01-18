@@ -16,13 +16,11 @@
 
 package io.renren.modules.sys.service.impl;
 
-import com.baomidou.mybatisplus.mapper.EntityWrapper;
-import com.baomidou.mybatisplus.service.impl.ServiceImpl;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import io.renren.common.annotation.DataFilter;
 import io.renren.common.utils.Constant;
 import io.renren.modules.sys.dao.SysDeptDao;
 import io.renren.modules.sys.entity.SysDeptEntity;
-import io.renren.modules.sys.entity.SysMenuEntity;
 import io.renren.modules.sys.service.SysDeptService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -41,17 +39,18 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptDao, SysDeptEntity> i
 	@Override
 	@DataFilter(subDept = true, user = false)
 	public List<SysDeptEntity> queryList(Map<String, Object> params){
-		List<SysDeptEntity> deptList =
-			this.selectList(new EntityWrapper<SysDeptEntity>()
-			.addFilterIfNeed(params.get(Constant.SQL_FILTER) != null, (String)params.get(Constant.SQL_FILTER)));
-
-		for(SysDeptEntity sysDeptEntity : deptList){
-			SysDeptEntity parentDeptEntity =  this.selectById(sysDeptEntity.getParentId());
-			if(parentDeptEntity != null){
-				sysDeptEntity.setParentName(parentDeptEntity.getName());
-			}
-		}
-		return deptList;
+//		List<SysDeptEntity> deptList =
+//			this.selectList(new QueryWrapper<SysDeptEntity>()
+//			.addFilterIfNeed(params.get(Constant.SQL_FILTER) != null, (String)params.get(Constant.SQL_FILTER)));
+//
+//		for(SysDeptEntity sysDeptEntity : deptList){
+//			SysDeptEntity parentDeptEntity =  this.getById(sysDeptEntity.getParentId());
+//			if(parentDeptEntity != null){
+//				sysDeptEntity.setParentName(parentDeptEntity.getName());
+//			}
+//		}
+//		return deptList;
+		return null;
 	}
 
 	@Override

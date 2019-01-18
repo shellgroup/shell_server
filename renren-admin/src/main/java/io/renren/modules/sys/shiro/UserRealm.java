@@ -17,17 +17,12 @@
 package io.renren.modules.sys.shiro;
 
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import io.renren.common.utils.Constant;
-import io.renren.modules.sys.entity.SysUserEntity;
 import io.renren.modules.sys.dao.SysMenuDao;
 import io.renren.modules.sys.dao.SysUserDao;
 import io.renren.modules.sys.entity.SysMenuEntity;
+import io.renren.modules.sys.entity.SysUserEntity;
 import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authc.credential.CredentialsMatcher;
@@ -39,6 +34,8 @@ import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.util.ByteSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.util.*;
 
 /**
  * 认证
@@ -100,7 +97,7 @@ public class UserRealm extends AuthorizingRealm {
 		//查询用户信息
 		SysUserEntity user = new SysUserEntity();
 		user.setUsername(token.getUsername());
-		user = sysUserDao.selectOne(user);
+		user = sysUserDao.selectOne(new QueryWrapper<SysUserEntity>(user));
 
 		//账号不存在
 		if(user == null) {

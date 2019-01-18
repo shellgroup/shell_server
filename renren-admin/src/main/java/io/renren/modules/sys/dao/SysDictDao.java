@@ -17,7 +17,7 @@
 package io.renren.modules.sys.dao;
 
 import io.renren.modules.sys.entity.SysDictEntity;
-import com.baomidou.mybatisplus.mapper.BaseMapper;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**
  * 数据字典

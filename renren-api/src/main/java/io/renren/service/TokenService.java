@@ -16,7 +16,7 @@
 
 package io.renren.service;
 
-import com.baomidou.mybatisplus.service.IService;
+import com.baomidou.mybatisplus.extension.service.IService;
 import io.renren.entity.TokenEntity;
 
 /**

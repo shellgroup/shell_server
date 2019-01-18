@@ -16,7 +16,7 @@
 
 package io.renren.modules.sys.service;
 
-import com.baomidou.mybatisplus.service.IService;
+import com.baomidou.mybatisplus.extension.service.IService;
 import io.renren.common.utils.PageUtils;
 import io.renren.modules.sys.entity.SysMenuEntity;
 import io.renren.modules.sys.entity.SysRoleEntity;
@@ -45,7 +45,7 @@ public interface SysUserService extends IService<SysUserEntity> {
 	/**
 	 * 保存用户
 	 */
-	void save(SysUserEntity user);
+	boolean save(SysUserEntity user);
 	
 	/**
 	 * 修改用户
@@ -67,4 +67,9 @@ public interface SysUserService extends IService<SysUserEntity> {
 	* 查询用户所有角色
 	* */
 	List<SysRoleEntity> queryAllRole(Long userId);
+
+	/*
+	* 通过用户名查询用户是否存在
+	* */
+	Integer isExistByUserName(String userName);
 }

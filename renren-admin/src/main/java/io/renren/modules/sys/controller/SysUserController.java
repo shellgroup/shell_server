@@ -106,7 +106,7 @@ public class SysUserController extends AbstractController {
 	@RequestMapping("/info/{userId}")
 	@RequiresPermissions("sys:user:info")
 	public R info(@PathVariable("userId") Long userId){
-		SysUserEntity user = sysUserService.selectById(userId);
+		SysUserEntity user = sysUserService.getById(userId);
 
 		//获取用户所属的角色列表
 		List<Long> roleIdList = sysUserRoleService.queryRoleIdList(userId);
@@ -174,7 +174,7 @@ public class SysUserController extends AbstractController {
 			return R.error("当前用户不能删除");
 		}
         try{
-            sysUserService.deleteBatchIds(Arrays.asList(userIds));
+            sysUserService.removeByIds(Arrays.asList(userIds));
 			return R.ok();
         }catch (Exception e){
             Date date = new Date();
@@ -184,4 +184,17 @@ public class SysUserController extends AbstractController {
 			return R.error("网络错误，删除失败！");
         }
 	}
+
+	/*
+	* 通过用户名查询用户是否已经存在
+	*
+	* */
+	@RequestMapping("isExistByUserName")
+    public R isExistByUserName(@RequestBody Map<String,String> map){
+	    R r = new R();
+        Integer userCount = sysUserService.isExistByUserName(map.get("userName"));
+
+        System.out.println("*****************"+userCount);
+        return r;
+    }
 }

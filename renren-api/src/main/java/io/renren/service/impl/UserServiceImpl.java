@@ -17,7 +17,8 @@
 package io.renren.service.impl;
 
 
-import com.baomidou.mybatisplus.service.impl.ServiceImpl;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import io.renren.common.exception.RRException;
 import io.renren.common.validator.Assert;
 import io.renren.dao.UserDao;
@@ -42,7 +43,7 @@ public class UserServiceImpl extends ServiceImpl<UserDao, UserEntity> implements
 	public UserEntity queryByMobile(String mobile) {
 		UserEntity userEntity = new UserEntity();
 		userEntity.setMobile(mobile);
-		return baseMapper.selectOne(userEntity);
+		return baseMapper.selectOne(new QueryWrapper<>(userEntity));
 	}
 
 	@Override

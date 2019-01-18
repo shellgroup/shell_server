@@ -58,7 +58,7 @@ public class SysDictController {
     @RequestMapping("/info/{id}")
     @RequiresPermissions("sys:dict:info")
     public R info(@PathVariable("id") Long id){
-        SysDictEntity dict = sysDictService.selectById(id);
+        SysDictEntity dict = sysDictService.getById(id);
 
         return R.ok().put("dict", dict);
     }
@@ -72,7 +72,7 @@ public class SysDictController {
         //校验类型
         ValidatorUtils.validateEntity(dict);
 
-        sysDictService.insert(dict);
+        sysDictService.save(dict);
 
         return R.ok();
     }
@@ -97,7 +97,7 @@ public class SysDictController {
     @RequestMapping("/delete")
     @RequiresPermissions("sys:dict:delete")
     public R delete(@RequestBody Long[] ids){
-        sysDictService.deleteBatchIds(Arrays.asList(ids));
+        sysDictService.removeByIds(Arrays.asList(ids));
 
         return R.ok();
     }

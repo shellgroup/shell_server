@@ -16,8 +16,8 @@
 
 package io.renren.service.impl;
 
-import com.baomidou.mybatisplus.mapper.EntityWrapper;
-import com.baomidou.mybatisplus.service.impl.ServiceImpl;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import io.renren.dao.TokenDao;
 import io.renren.entity.TokenEntity;
 import io.renren.service.TokenService;
@@ -36,7 +36,7 @@ public class TokenServiceImpl extends ServiceImpl<TokenDao, TokenEntity> impleme
 
 	@Override
 	public TokenEntity queryByToken(String token) {
-		return this.selectOne(new EntityWrapper<TokenEntity>().eq("token", token));
+		return this.getOne(new QueryWrapper<TokenEntity>().eq("token", token));
 	}
 
 	@Override
@@ -55,7 +55,7 @@ public class TokenServiceImpl extends ServiceImpl<TokenDao, TokenEntity> impleme
 		tokenEntity.setToken(token);
 		tokenEntity.setUpdateTime(now);
 		tokenEntity.setExpireTime(expireTime);
-		this.insertOrUpdate(tokenEntity);
+		this.saveOrUpdate(tokenEntity);
 
 		return tokenEntity;
 	}
@@ -68,7 +68,7 @@ public class TokenServiceImpl extends ServiceImpl<TokenDao, TokenEntity> impleme
 		tokenEntity.setUserId(userId);
 		tokenEntity.setUpdateTime(now);
 		tokenEntity.setExpireTime(now);
-		this.insertOrUpdate(tokenEntity);
+		this.saveOrUpdate(tokenEntity);
 	}
 
 	private String generateToken(){

@@ -16,9 +16,9 @@
 
 package io.renren.modules.sys.service.impl;
 
-import com.baomidou.mybatisplus.mapper.EntityWrapper;
-import com.baomidou.mybatisplus.plugins.Page;
-import com.baomidou.mybatisplus.service.impl.ServiceImpl;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import io.renren.common.utils.PageUtils;
 import io.renren.common.utils.Query;
 import io.renren.modules.sys.dao.SysDictDao;
@@ -37,9 +37,9 @@ public class SysDictServiceImpl extends ServiceImpl<SysDictDao, SysDictEntity> i
     public PageUtils queryPage(Map<String, Object> params) {
         String name = (String)params.get("name");
 
-        Page<SysDictEntity> page = this.selectPage(
+        Page<SysDictEntity> page = (Page<SysDictEntity>) this.page(
                 new Query<SysDictEntity>(params).getPage(),
-                new EntityWrapper<SysDictEntity>()
+                new QueryWrapper<SysDictEntity>()
                     .like(StringUtils.isNotBlank(name),"name", name)
         );
 
