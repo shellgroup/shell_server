@@ -46,8 +46,7 @@ public class ScheduleJobServiceImpl extends ServiceImpl<ScheduleJobDao, Schedule
 	 */
 	@PostConstruct
 	public void init(){
-//		List<ScheduleJobEntity> scheduleJobList = this.selectList(null);
-		List<ScheduleJobEntity> scheduleJobList = (List<ScheduleJobEntity>) this.query();
+		List<ScheduleJobEntity> scheduleJobList = this.list(null);
 		for(ScheduleJobEntity scheduleJob : scheduleJobList){
 			CronTrigger cronTrigger = ScheduleUtils.getCronTrigger(scheduler, scheduleJob.getJobId());
             //如果不存在，则创建

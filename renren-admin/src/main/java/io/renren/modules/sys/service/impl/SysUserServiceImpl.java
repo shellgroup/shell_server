@@ -17,11 +17,11 @@
 package io.renren.modules.sys.service.impl;
 
 
-
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import io.renren.common.annotation.DataFilter;
+import io.renren.common.utils.Constant;
 import io.renren.common.utils.PageUtils;
 import io.renren.common.utils.Query;
 import io.renren.modules.sys.dao.SysUserDao;
@@ -79,7 +79,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUserEntity> i
 			new QueryWrapper<SysUserEntity>()
 				.like(StringUtils.isNotBlank(username),"username", username)
 				.like(StringUtils.isNotBlank(mobile),"mobile",mobile)
-
+				.apply(params.get(Constant.SQL_FILTER) != null, (String)params.get(Constant.SQL_FILTER))
 		);
 
 		for(SysUserEntity sysUserEntity : page.getRecords()){
@@ -127,7 +127,9 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUserEntity> i
 			user.setPassword(ShiroUtils.sha256(user.getPassword(), userEntity.getSalt()));
 		}
 
-//        new UpdateWrapper().lambda();
+		//用户名不让更新
+		user.setUsername(null);
+
 		this.updateById(user);
 		
 		//保存用户与角色关系

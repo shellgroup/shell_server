@@ -20,6 +20,7 @@
         <module>renren-admin</module>
         <module>renren-api</module>
         <module>renren-generator</module>
+
     </modules>
 
     <properties>
@@ -29,8 +30,7 @@
         <junit.version>4.12</junit.version>
         <jedis.version>2.9.0</jedis.version>
         <druid.version>1.1.10</druid.version>
-        <mybatisplus.version>3.0.7</mybatisplus.version>
-		<mybatisplus.spring.boot.version>1.0.5</mybatisplus.spring.boot.version>
+        <mybatisplus.version>3.0.7.1</mybatisplus.version>
         <mysql.version>5.1.38</mysql.version>
         <mssql.version>4.0</mssql.version>
         <oracle.version>11.2.0.3</oracle.version>
@@ -109,16 +109,21 @@
             <artifactId>druid-spring-boot-starter</artifactId>
             <version>${druid.version}</version>
         </dependency>
+        <!--<dependency>-->
+            <!--<groupId>com.baomidou</groupId>-->
+            <!--<artifactId>mybatis-plus</artifactId>-->
+            <!--<version>${mybatisplus.version}</version>-->
+        <!--</dependency>-->
+		<!--<dependency>-->
+			<!--<groupId>com.baomidou</groupId>-->
+			<!--<artifactId>mybatisplus-spring-boot-starter</artifactId>-->
+			<!--<version>${mybatisplus.spring.boot.version}</version>-->
+		<!--</dependency>-->
         <dependency>
             <groupId>com.baomidou</groupId>
-            <artifactId>mybatis-plus</artifactId>
+            <artifactId>mybatis-plus-boot-starter</artifactId>
             <version>${mybatisplus.version}</version>
         </dependency>
-		<dependency>
-			<groupId>com.baomidou</groupId>
-			<artifactId>mybatisplus-spring-boot-starter</artifactId>
-			<version>${mybatisplus.spring.boot.version}</version>
-		</dependency>
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
