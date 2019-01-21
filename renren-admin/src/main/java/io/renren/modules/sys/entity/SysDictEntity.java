@@ -20,6 +20,7 @@ package io.renren.modules.sys.entity;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.ToString;
 
 import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
@@ -30,6 +31,7 @@ import java.io.Serializable;
  * @author Mark sunlightcs@gmail.com
  * @since 3.1.0 2018-01-27
  */
+@ToString
 @TableName("sys_dict")
 public class SysDictEntity implements Serializable {
 	private static final long serialVersionUID = 1L;

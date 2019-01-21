@@ -16,16 +16,21 @@
 
 package io.renren.modules.sys.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import io.renren.common.utils.PageUtils;
 import io.renren.common.utils.R;
 import io.renren.common.validator.ValidatorUtils;
 import io.renren.modules.sys.entity.SysDictEntity;
 import io.renren.modules.sys.service.SysDictService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.Map;
 
 /**
@@ -37,6 +42,8 @@ import java.util.Map;
 @RestController
 @RequestMapping("sys/dict")
 public class SysDictController {
+    private static final Logger logger = LoggerFactory.getLogger(SysDictController.class);
+
     @Autowired
     private SysDictService sysDictService;
 
@@ -72,9 +79,17 @@ public class SysDictController {
         //校验类型
         ValidatorUtils.validateEntity(dict);
 
-        sysDictService.save(dict);
+        try{
+            sysDictService.save(dict);
+            return R.ok();
+        }catch (Exception e){
+            Date date = new Date();
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            String now = sdf.format(date);
+            logger.error("保存字典信息异常，异常时间："+now+":::异常数据："+dict.toString()+":::异常原因："+e.toString());
+            return R.error("网络错误，字典保存失败！");
+        }
 
-        return R.ok();
     }
 
     /**
@@ -86,9 +101,17 @@ public class SysDictController {
         //校验类型
         ValidatorUtils.validateEntity(dict);
 
-        sysDictService.updateById(dict);
+        try{
+            sysDictService.updateById(dict);
+            return R.ok();
+        }catch (Exception e){
+            Date date = new Date();
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            String now = sdf.format(date);
+            logger.error("修改字典信息异常，异常时间："+now+":::异常数据："+dict.toString()+":::异常原因："+e.toString());
+            return R.error("网络错误，字典修改失败！");
+        }
 
-        return R.ok();
     }
 
     /**
@@ -97,9 +120,17 @@ public class SysDictController {
     @RequestMapping("/delete")
     @RequiresPermissions("sys:dict:delete")
     public R delete(@RequestBody Long[] ids){
-        sysDictService.removeByIds(Arrays.asList(ids));
 
-        return R.ok();
+        try{
+            sysDictService.removeByIds(Arrays.asList(ids));
+            return R.ok();
+        }catch (Exception e){
+            Date date = new Date();
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            String now = sdf.format(date);
+            logger.error("删除字典信息异常，异常时间："+now+":::异常数据："+ JSONObject.toJSONString(ids)+":::异常原因："+e.toString());
+            return R.error("网络错误，字典删除失败！");
+        }
     }
 
 }

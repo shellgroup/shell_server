@@ -19,6 +19,7 @@ package io.renren.modules.sys.entity;
 
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.ToString;
 
 import javax.validation.constraints.NotBlank;
 
@@ -29,6 +30,7 @@ import javax.validation.constraints.NotBlank;
  * @email sunlightcs@gmail.com
  * @date 2016年12月4日 下午6:43:36
  */
+@ToString
 @TableName("sys_config")
 public class SysConfigEntity {
 	@TableId

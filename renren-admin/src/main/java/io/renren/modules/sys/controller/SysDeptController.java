@@ -16,6 +16,7 @@
 
 package io.renren.modules.sys.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import io.renren.common.utils.Constant;
 import io.renren.common.utils.R;
 import io.renren.modules.sys.entity.SysDeptEntity;
@@ -27,6 +28,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -41,6 +44,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/sys/dept")
 public class SysDeptController extends AbstractController {
+
 	@Autowired
 	private SysDeptService sysDeptService;
 	
@@ -119,9 +123,17 @@ public class SysDeptController extends AbstractController {
 	@RequestMapping("/save")
 	@RequiresPermissions("sys:dept:save")
 	public R save(@RequestBody SysDeptEntity dept){
-		sysDeptService.save(dept);
-		
-		return R.ok();
+
+		try{
+			sysDeptService.save(dept);
+			return R.ok();
+		}catch (Exception e){
+			Date date = new Date();
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			String now = sdf.format(date);
+			logger.error("保存部门信息异常，异常时间："+now+":::异常数据："+dept.toString()+":::异常原因："+e.toString());
+			return R.error("网络错误，部门保存失败！");
+		}
 	}
 	
 	/**
@@ -130,9 +142,18 @@ public class SysDeptController extends AbstractController {
 	@RequestMapping("/update")
 	@RequiresPermissions("sys:dept:update")
 	public R update(@RequestBody SysDeptEntity dept){
-		sysDeptService.updateById(dept);
-		
-		return R.ok();
+
+		try{
+			sysDeptService.updateById(dept);
+			return R.ok();
+		}catch (Exception e){
+			Date date = new Date();
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			String now = sdf.format(date);
+			logger.error("修改部门信息异常，异常时间："+now+":::异常数据："+dept.toString()+":::异常原因："+e.toString());
+			return R.error("网络错误，部门修改失败！");
+		}
+
 	}
 	
 	/**
@@ -140,16 +161,24 @@ public class SysDeptController extends AbstractController {
 	 */
 	@RequestMapping("/delete")
 	@RequiresPermissions("sys:dept:delete")
-	public R delete(long deptId){
+	public R delete(@RequestBody long deptId){
 		//判断是否有子部门
 		List<Long> deptList = sysDeptService.queryDetpIdList(deptId);
 		if(deptList.size() > 0){
 			return R.error("请先删除子部门");
 		}
 
-		sysDeptService.removeById(deptId);
-		
-		return R.ok();
+
+		try{
+			sysDeptService.removeById(deptId);
+			return R.ok();
+		}catch (Exception e){
+			Date date = new Date();
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			String now = sdf.format(date);
+			logger.error("删除部门信息异常，异常时间："+now+":::异常数据："+ JSONObject.toJSONString(deptId) +":::异常原因："+e.toString());
+			return R.error("网络错误，部门删除失败！");
+		}
 	}
 	
 }

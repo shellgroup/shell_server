@@ -20,6 +20,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.ToString;
 
 import java.io.Serializable;
 import java.util.List;
@@ -32,6 +33,7 @@ import java.util.List;
  * @email sunlightcs@gmail.com
  * @date 2017-06-20 15:23:47
  */
+@ToString
 @TableName("sys_dept")
 public class SysDeptEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
