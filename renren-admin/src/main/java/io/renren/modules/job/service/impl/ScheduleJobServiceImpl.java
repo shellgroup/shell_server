@@ -76,7 +76,7 @@ public class ScheduleJobServiceImpl extends ServiceImpl<ScheduleJobDao, Schedule
 	public boolean save(ScheduleJobEntity scheduleJob) {
 		scheduleJob.setCreateTime(new Date());
 		scheduleJob.setStatus(Constant.ScheduleStatus.NORMAL.getValue());
-        this.save(scheduleJob);
+        super.save(scheduleJob);
         
         ScheduleUtils.createScheduleJob(scheduler, scheduleJob);
 

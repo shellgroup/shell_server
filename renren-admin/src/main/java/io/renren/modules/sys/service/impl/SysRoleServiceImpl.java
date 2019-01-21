@@ -53,6 +53,8 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleDao, SysRoleEntity> i
 	private SysUserRoleService sysUserRoleService;
 	@Autowired
 	private SysDeptService sysDeptService;
+	@Autowired
+	private SysRoleDao sysRoleDao;
 
 	@Override
 	@DataFilter(subDept = true, user = false)
@@ -80,8 +82,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleDao, SysRoleEntity> i
 	@Transactional(rollbackFor = Exception.class)
 	public boolean save(SysRoleEntity role) {
 		role.setCreateTime(new Date());
-		this.save(role);
-
+		super.save(role);
 		//保存角色与菜单关系
 		sysRoleMenuService.saveOrUpdate(role.getRoleId(), role.getMenuIdList());
 

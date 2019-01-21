@@ -56,7 +56,7 @@ public class SysConfigServiceImpl extends ServiceImpl<SysConfigDao, SysConfigEnt
 	
 	@Override
 	public boolean save(SysConfigEntity config) {
-		this.save(config);
+		super.save(config);
 		sysConfigRedis.saveOrUpdate(config);
 
 		return true;
