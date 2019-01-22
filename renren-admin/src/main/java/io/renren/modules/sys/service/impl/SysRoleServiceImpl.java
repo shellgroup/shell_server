@@ -33,6 +33,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 
@@ -66,6 +67,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleDao, SysRoleEntity> i
 			new QueryWrapper<SysRoleEntity>()
 				.like(StringUtils.isNotBlank(roleName),"role_name", roleName)
 
+
 		);
 
 		for(SysRoleEntity sysRoleEntity : page.getRecords()){
@@ -73,6 +75,14 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleDao, SysRoleEntity> i
 			if(sysDeptEntity != null){
 				sysRoleEntity.setDeptName(sysDeptEntity.getName());
 			}
+			//查询角色对应的菜单
+			List<Long> menuIdList = sysRoleMenuService.queryMenuIdList(sysRoleEntity.getRoleId());
+			sysRoleEntity.setMenuIdList(menuIdList);
+
+			//查询角色对应的部门
+			List<Long> deptIdList = sysRoleDeptService.queryDeptIdList(new Long[]{sysRoleEntity.getRoleId()});
+			sysRoleEntity.setDeptIdList(deptIdList);
+
 		}
 
 		return new PageUtils(page);
