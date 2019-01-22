@@ -20,6 +20,8 @@ package io.renren.modules.sys.entity;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -62,6 +64,7 @@ public class SysLogEntity implements Serializable {
 	/**
 	 * 获取：
 	 */
+	@JsonSerialize(using= ToStringSerializer.class)
 	public Long getId() {
 		return id;
 	}

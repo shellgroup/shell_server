@@ -1,11 +1,11 @@
 spring:
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
-    driverClassName: oracle.jdbc.OracleDriver
+    driverClassName: com.mysql.jdbc.Driver
     druid:
-      url: jdbc:oracle:thin:@localhost:1521:XE
-      username: renren
-      password: renren1234
+      url: jdbc:mysql://localhost:3306/renren_security?useUnicode=true&characterEncoding=UTF-8&useSSL=false
+      username: root
+      password: admin
       initial-size: 10
       max-active: 100
       min-idle: 10

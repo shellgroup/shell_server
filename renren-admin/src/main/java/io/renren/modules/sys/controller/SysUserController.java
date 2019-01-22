@@ -190,11 +190,12 @@ public class SysUserController extends AbstractController {
 	*
 	* */
 	@RequestMapping("isExistByUserName")
-    public R isExistByUserName(@RequestBody Map<String,String> map){
-	    R r = new R();
-        Integer userCount = sysUserService.isExistByUserName(map.get("userName"));
-
-        System.out.println("*****************"+userCount);
-        return r;
+    public boolean isExistByUserName(@RequestBody Map<String,String> map){
+	    if(sysUserService.isExistByUserName(map.get("userName"))){
+			System.out.println("*********************************存在一个或者多个**************************************");
+		}else {
+			System.out.println("***********************************不存在**********************************************");
+		}
+        return sysUserService.isExistByUserName(map.get("userName"));
     }
 }

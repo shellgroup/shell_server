@@ -72,6 +72,19 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUserEntity> i
 		String username = (String)params.get("username");
 		String mobile = (String)params.get("mobile");
 		Long deptId = (Long)params.get("deptId");
+		String statusStr = (String)params.get("status");
+		Boolean statusTemp1 = false;
+		Boolean statusTemp2 = false;
+		if(statusStr != null ){
+			statusTemp1 = false;
+			statusTemp2 = false;
+			if(statusStr.contains("0")){
+				statusTemp1 = true;
+			}
+			if(statusStr.contains("1")){
+				statusTemp2 = true;
+			}
+		}
 
 
 		Page<SysUserEntity> page = (Page<SysUserEntity>) this.page(
@@ -79,6 +92,9 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUserEntity> i
 			new QueryWrapper<SysUserEntity>()
 				.like(StringUtils.isNotBlank(username),"username", username)
 				.like(StringUtils.isNotBlank(mobile),"mobile",mobile)
+				.eq(deptId != null,"dept_id",deptId)
+				.eq(statusTemp1,"status",0)
+				.eq(statusTemp2,"status",1)
 				.apply(params.get(Constant.SQL_FILTER) != null, (String)params.get(Constant.SQL_FILTER))
 		);
 
@@ -156,8 +172,13 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUserEntity> i
 	}
 
 	@Override
-	public Integer isExistByUserName(String userName) {
-		return null;
+	public boolean isExistByUserName(String userName) {
+		List<SysUserEntity> list = super.list(new QueryWrapper<SysUserEntity>().eq("userName",userName));
+		if(list.size() > 0){
+			return true;
+		}else {
+			return false;
+		}
 	}
 
 }

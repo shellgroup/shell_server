@@ -67,7 +67,6 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleDao, SysRoleEntity> i
 			new QueryWrapper<SysRoleEntity>()
 				.like(StringUtils.isNotBlank(roleName),"role_name", roleName)
 
-
 		);
 
 		for(SysRoleEntity sysRoleEntity : page.getRecords()){

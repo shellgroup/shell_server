@@ -21,6 +21,8 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import lombok.ToString;
 
 import javax.validation.constraints.NotBlank;
@@ -93,6 +95,7 @@ public class SysRoleEntity implements Serializable {
 	 * 获取：
 	 * @return Long
 	 */
+	@JsonSerialize(using= ToStringSerializer.class)
 	public Long getRoleId() {
 		return roleId;
 	}

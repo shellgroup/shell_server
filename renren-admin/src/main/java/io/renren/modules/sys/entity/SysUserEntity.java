@@ -21,6 +21,8 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import io.renren.common.validator.group.AddGroup;
 import io.renren.common.validator.group.UpdateGroup;
 import lombok.ToString;
@@ -120,6 +122,7 @@ public class SysUserEntity implements Serializable {
 	 * 获取：
 	 * @return Long
 	 */
+	@JsonSerialize(using= ToStringSerializer.class)
 	public Long getUserId() {
 		return userId;
 	}

@@ -20,6 +20,8 @@ package io.renren.modules.sys.entity;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import lombok.ToString;
 
 import java.io.Serializable;
@@ -117,6 +119,7 @@ public class SysMenuEntity implements Serializable {
 		this.menuId = menuId;
 	}
 
+	@JsonSerialize(using= ToStringSerializer.class)
 	public Long getMenuId() {
 		return menuId;
 	}

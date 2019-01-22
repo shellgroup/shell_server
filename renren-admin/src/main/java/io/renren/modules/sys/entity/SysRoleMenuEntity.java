@@ -19,6 +19,8 @@ package io.renren.modules.sys.entity;
 
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 
 import java.io.Serializable;
 
@@ -57,6 +59,7 @@ public class SysRoleMenuEntity implements Serializable {
 	 * 获取：
 	 * @return Long
 	 */
+	@JsonSerialize(using= ToStringSerializer.class)
 	public Long getId() {
 		return id;
 	}

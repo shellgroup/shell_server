@@ -19,6 +19,8 @@ package io.renren.modules.sys.entity;
 
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import lombok.ToString;
 
 import javax.validation.constraints.NotBlank;
@@ -41,6 +43,7 @@ public class SysConfigEntity {
 	private String paramValue;
 	private String remark;
 
+	@JsonSerialize(using= ToStringSerializer.class)
 	public Long getId() {
 		return id;
 	}
