@@ -71,7 +71,10 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUserEntity> i
 	public PageUtils queryPage(Map<String, Object> params) {
 		String username = (String)params.get("username");
 		String mobile = (String)params.get("mobile");
-		Long deptId = (Long)params.get("deptId");
+        Long deptId = null;
+        if(null != params.get("deptId")){
+            deptId = Long.valueOf((String)params.get("deptId"));
+        }
 		String statusStr = (String)params.get("status");
 		Boolean statusTemp1 = false;
 		Boolean statusTemp2 = false;

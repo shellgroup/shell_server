@@ -48,11 +48,11 @@ public class Query<T> extends LinkedHashMap<String, Object> {
         this.putAll(params);
 
         //分页参数
-        if(params.get("page") != null){
-            currPage = Integer.parseInt((String)params.get("page"));
+        if(params.get("currentPage") != null){
+            currPage = Integer.parseInt((String)params.get("currentPage"));
         }
-        if(params.get("limit") != null){
-            limit = Integer.parseInt((String)params.get("limit"));
+        if(params.get("pageSize") != null){
+            limit = Integer.parseInt((String)params.get("pageSize"));
         }
 
         this.put("offset", (currPage - 1) * limit);

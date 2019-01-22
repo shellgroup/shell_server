@@ -61,11 +61,16 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleDao, SysRoleEntity> i
 	@DataFilter(subDept = true, user = false)
 	public PageUtils queryPage(Map<String, Object> params) {
 		String roleName = (String)params.get("roleName");
+        Long deptId = null;
+		if(null != params.get("deptId")){
+            deptId = Long.valueOf((String)params.get("deptId"));
+        }
 
 		Page<SysRoleEntity> page = (Page<SysRoleEntity>) this.page(
 			new Query<SysRoleEntity>(params).getPage(),
 			new QueryWrapper<SysRoleEntity>()
 				.like(StringUtils.isNotBlank(roleName),"role_name", roleName)
+                .eq(deptId != null,"dept_id",deptId)
 
 		);
 
