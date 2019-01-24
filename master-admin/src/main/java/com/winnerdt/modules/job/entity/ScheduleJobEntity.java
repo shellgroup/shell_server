@@ -3,6 +3,7 @@ package com.winnerdt.modules.job.entity;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.ToString;
 
 import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
@@ -14,6 +15,7 @@ import java.util.Date;
  * @author Mark sunlightcs@gmail.com
  * @since 1.2.0 2016-11-28
  */
+@ToString
 @TableName("schedule_job")
 public class ScheduleJobEntity implements Serializable {
 	private static final long serialVersionUID = 1L;

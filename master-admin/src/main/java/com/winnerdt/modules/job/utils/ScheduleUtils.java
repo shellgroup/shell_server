@@ -4,6 +4,11 @@ import com.winnerdt.common.exception.RRException;
 import com.winnerdt.common.utils.Constant;
 import com.winnerdt.modules.job.entity.ScheduleJobEntity;
 import org.quartz.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * 定时任务工具类
@@ -12,6 +17,7 @@ import org.quartz.*;
  * @since 1.2.0 2016-11-28
  */
 public class ScheduleUtils {
+    private static final Logger logger = LoggerFactory.getLogger(ScheduleUtils.class);
     private final static String JOB_NAME = "TASK_";
     
     /**
@@ -65,6 +71,10 @@ public class ScheduleUtils {
             	pauseJob(scheduler, scheduleJob.getJobId());
             }
         } catch (SchedulerException e) {
+            Date date = new Date();
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            String now = sdf.format(date);
+            logger.error("创建定时信息异常，异常时间："+now+":::异常数据："+scheduleJob.toString()+":::异常原因："+e.toString());
             throw new RRException("创建定时任务失败", e);
         }
     }
@@ -96,6 +106,10 @@ public class ScheduleUtils {
             }
             
         } catch (SchedulerException e) {
+            Date date = new Date();
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            String now = sdf.format(date);
+            logger.error("修改定时信息异常，异常时间："+now+":::异常数据："+scheduleJob.toString()+":::异常原因："+e.toString());
             throw new RRException("更新定时任务失败", e);
         }
     }
@@ -111,6 +125,10 @@ public class ScheduleUtils {
         	
             scheduler.triggerJob(getJobKey(scheduleJob.getJobId()), dataMap);
         } catch (SchedulerException e) {
+            Date date = new Date();
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            String now = sdf.format(date);
+            logger.error("立即执行定时任务异常，异常时间："+now+":::异常数据："+scheduleJob.toString()+":::异常原因："+e.toString());
             throw new RRException("立即执行定时任务失败", e);
         }
     }
@@ -122,6 +140,10 @@ public class ScheduleUtils {
         try {
             scheduler.pauseJob(getJobKey(jobId));
         } catch (SchedulerException e) {
+            Date date = new Date();
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            String now = sdf.format(date);
+            logger.error("暂停定时信息异常，异常时间："+now+":::异常数据："+jobId.toString()+":::异常原因："+e.toString());
             throw new RRException("暂停定时任务失败", e);
         }
     }
@@ -133,7 +155,11 @@ public class ScheduleUtils {
         try {
             scheduler.resumeJob(getJobKey(jobId));
         } catch (SchedulerException e) {
-            throw new RRException("暂停定时任务失败", e);
+            Date date = new Date();
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            String now = sdf.format(date);
+            logger.error("恢复定时信息异常，异常时间："+now+":::异常数据："+jobId.toString()+":::异常原因："+e.toString());
+            throw new RRException("恢复定时任务失败", e);
         }
     }
 
@@ -144,6 +170,10 @@ public class ScheduleUtils {
         try {
             scheduler.deleteJob(getJobKey(jobId));
         } catch (SchedulerException e) {
+            Date date = new Date();
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            String now = sdf.format(date);
+            logger.error("删除定时信息异常，异常时间："+now+":::异常数据："+jobId.toString()+":::异常原因："+e.toString());
             throw new RRException("删除定时任务失败", e);
         }
     }
