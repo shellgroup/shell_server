@@ -1,13 +1,12 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>io.renren</groupId>
-    <artifactId>renren-security</artifactId>
+    <groupId>com.winnerdt</groupId>
+    <artifactId>master-security</artifactId>
     <version>3.2.0</version>
     <packaging>pom</packaging>
 
-    <name>renren-security</name>
-    <url>http://www.renren.io</url>
+    <name>master-security</name>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
@@ -16,10 +15,10 @@
 	</parent>
 
     <modules>
-        <module>renren-common</module>
-        <module>renren-admin</module>
-        <module>renren-api</module>
-        <module>renren-generator</module>
+        <module>master-common</module>
+        <module>master-admin</module>
+        <module>master-api</module>
+        <module>master-generator</module>
 
     </modules>
 
