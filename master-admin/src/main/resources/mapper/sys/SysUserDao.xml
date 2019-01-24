@@ -22,15 +22,21 @@
 
 	<!--查询用户的所有butten-->
 	<select id="queryAllButton" resultType="com.winnerdt.modules.sys.entity.SysMenuEntity">
-		select m.* from sys_user_role ur
-					LEFT JOIN sys_role_menu rm on ur.role_id = rm.role_id
-					LEFT JOIN sys_menu m on rm.menu_id = m.menu_id
-				<where>
-					<if test=" userId != null and userId != ''">
-						and ur.user_id = #{userId}
-					</if>
-					and m.type = #{menuType}
-				</where>
+		<if test="userId == superAdmin">
+			select * from sys_menu where type = #{menuType}
+		</if>
+		<if test="userId != superAdmin">
+			select m.* from sys_user_role ur
+			LEFT JOIN sys_role_menu rm on ur.role_id = rm.role_id
+			LEFT JOIN sys_menu m on rm.menu_id = m.menu_id
+			<where>
+				<if test=" userId != null and userId != ''">
+					and ur.user_id = #{userId}
+				</if>
+				and m.type = #{menuType}
+			</where>
+		</if>
+
 	</select>
 
 	<!--查询用户所有角色-->

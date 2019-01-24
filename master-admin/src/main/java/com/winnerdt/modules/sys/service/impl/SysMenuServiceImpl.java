@@ -130,11 +130,13 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuDao, SysMenuEntity> i
 			if(entity.getType() == Constant.MenuType.MENU.getValue()){
 				List<SysMenuEntity> sysMenuEntityList;
 				Map map = new HashMap();
+				map.put("superAdmin",Constant.SUPER_ADMIN);
 				Long userId = getUserId();
 				/*
 				* 超级管理员拥有所有的按钮
 				* */
 				if(userId == Constant.SUPER_ADMIN){
+					map.put("userId",Constant.SUPER_ADMIN);
 					map.put("menuType",Constant.MenuType.BUTTON.getValue());
 					sysMenuEntityList = sysUserService.queryAllButton(map);
 				}else {
