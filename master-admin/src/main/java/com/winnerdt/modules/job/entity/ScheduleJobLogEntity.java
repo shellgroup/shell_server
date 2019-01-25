@@ -3,6 +3,7 @@ package com.winnerdt.modules.job.entity;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import lombok.ToString;
 
 import java.io.Serializable;
@@ -66,6 +67,7 @@ public class ScheduleJobLogEntity implements Serializable {
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
 	private Date createTime;
 
+	@JsonSerialize(using= ToStringSerializer.class)
 	public Long getLogId() {
 		return logId;
 	}

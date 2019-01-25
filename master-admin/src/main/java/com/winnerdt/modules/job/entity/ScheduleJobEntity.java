@@ -3,6 +3,8 @@ package com.winnerdt.modules.job.entity;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import lombok.ToString;
 
 import javax.validation.constraints.NotBlank;
@@ -82,6 +84,7 @@ public class ScheduleJobEntity implements Serializable {
 	 * 获取：任务id
 	 * @return Long
 	 */
+	@JsonSerialize(using= ToStringSerializer.class)
 	public Long getJobId() {
 		return jobId;
 	}
