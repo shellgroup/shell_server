@@ -32,8 +32,8 @@ public class ScheduleJobLogController {
 	@RequiresPermissions("sys:schedule:log")
 	public R list(@RequestParam Map<String, Object> params){
 		PageUtils page = scheduleJobLogService.queryPage(params);
-		
-		return R.ok().put("page", page);
+
+		return R.ok().put("list", page.getList()).put("pagination",page.getPagination());
 	}
 	
 	/**
