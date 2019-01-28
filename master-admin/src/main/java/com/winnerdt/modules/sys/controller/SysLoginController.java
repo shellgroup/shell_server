@@ -56,7 +56,6 @@ public class SysLoginController {
 	@ResponseBody
 	@RequestMapping(value = "/sys/login", method = RequestMethod.POST)
 	public R login(@RequestBody Map<String, String> map) {
-//	public R login(String username,String password,String captcha) {
 		R r = new R();
 		String username = map.get("userName");
 		String password = map.get("password");

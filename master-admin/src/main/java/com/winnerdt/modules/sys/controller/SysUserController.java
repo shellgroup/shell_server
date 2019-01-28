@@ -2,9 +2,6 @@ package com.winnerdt.modules.sys.controller;
 
 
 import com.alibaba.fastjson.JSONObject;
-import com.winnerdt.modules.sys.service.SysUserRoleService;
-import com.winnerdt.modules.sys.service.SysUserService;
-import com.winnerdt.modules.sys.shiro.ShiroUtils;
 import com.winnerdt.common.annotation.SysLog;
 import com.winnerdt.common.utils.PageUtils;
 import com.winnerdt.common.utils.R;
@@ -12,7 +9,12 @@ import com.winnerdt.common.validator.Assert;
 import com.winnerdt.common.validator.ValidatorUtils;
 import com.winnerdt.common.validator.group.AddGroup;
 import com.winnerdt.common.validator.group.UpdateGroup;
+import com.winnerdt.modules.sys.entity.SysDeptEntity;
 import com.winnerdt.modules.sys.entity.SysUserEntity;
+import com.winnerdt.modules.sys.service.SysDeptService;
+import com.winnerdt.modules.sys.service.SysUserRoleService;
+import com.winnerdt.modules.sys.service.SysUserService;
+import com.winnerdt.modules.sys.shiro.ShiroUtils;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
@@ -42,6 +44,8 @@ public class SysUserController extends AbstractController {
 	private SysUserService sysUserService;
 	@Autowired
 	private SysUserRoleService sysUserRoleService;
+	@Autowired
+	private SysDeptService sysDeptService;
 
 	/**
 	 * 所有用户列表
@@ -59,7 +63,10 @@ public class SysUserController extends AbstractController {
 	 */
 	@RequestMapping("/info")
 	public R info(){
-		return R.ok().put("user", getUser());
+		SysUserEntity sysUserEntity = getUser();
+		SysDeptEntity sysDeptEntity = sysDeptService.getById(sysUserEntity.getDeptId());
+		sysUserEntity.setDeptName(sysDeptEntity.getName());
+		return R.ok().put("user", sysUserEntity);
 	}
 
 	/**
@@ -95,6 +102,10 @@ public class SysUserController extends AbstractController {
 		//获取用户所属的角色列表
 		List<Long> roleIdList = sysUserRoleService.queryRoleIdList(userId);
 		user.setRoleIdList(roleIdList);
+
+		//获取用户部门名称
+		SysDeptEntity sysDeptEntity = sysDeptService.getById(user.getDeptId());
+		user.setDeptName(sysDeptEntity.getName());
 
 		return R.ok().put("user", user);
 	}

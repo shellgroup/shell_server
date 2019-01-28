@@ -42,6 +42,9 @@ public class SysUserEntity implements Serializable {
 	@NotBlank(message="用户名不能为空", groups = {AddGroup.class, UpdateGroup.class})
 	private String username;
 
+	/*昵称*/
+	private String nickName;
+
 	/**
 	 * 密码
 	 */
@@ -76,6 +79,16 @@ public class SysUserEntity implements Serializable {
 	 */
 	@TableField(exist=false)
 	private List<Long> roleIdList;
+
+	/*
+	* 头像
+	* */
+	private String avatar;
+
+	/*
+	* 个人说明
+	* */
+	private String signature;
 
 	/**
 	 * 创建时间
@@ -126,7 +139,15 @@ public class SysUserEntity implements Serializable {
 	public String getUsername() {
 		return username;
 	}
-	
+
+	public String getNickName() {
+		return nickName;
+	}
+
+	public void setNickName(String nickName) {
+		this.nickName = nickName;
+	}
+
 	/**
 	 * 设置：密码
 	 * @param password 密码
@@ -190,7 +211,23 @@ public class SysUserEntity implements Serializable {
 	public Integer getStatus() {
 		return status;
 	}
-	
+
+	public String getAvatar() {
+		return avatar;
+	}
+
+	public void setAvatar(String avatar) {
+		this.avatar = avatar;
+	}
+
+	public String getSignature() {
+		return signature;
+	}
+
+	public void setSignature(String signature) {
+		this.signature = signature;
+	}
+
 	/**
 	 * 设置：创建时间
 	 * @param createTime 创建时间
