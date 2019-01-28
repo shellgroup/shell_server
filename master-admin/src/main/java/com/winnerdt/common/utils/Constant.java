@@ -72,15 +72,15 @@ public class Constant {
         /**
          * 七牛云
          */
-        QINIU(1),
+        QINIU(0),
         /**
          * 阿里云
          */
-        ALIYUN(2),
+        ALIYUN(1),
         /**
          * 腾讯云
          */
-        QCLOUD(3);
+        QCLOUD(2);
 
         private int value;
 
