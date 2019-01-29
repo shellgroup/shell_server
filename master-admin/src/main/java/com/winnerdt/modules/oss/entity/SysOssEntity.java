@@ -25,6 +25,17 @@ public class SysOssEntity implements Serializable {
 	 * URL地址
 	 */
 	private String url;
+
+	/*
+	* 文件名称
+	* */
+
+	private String fileName;
+
+	/*
+	* 存储空间
+	* */
+	private String bucketName;
 	/**
 	 * 创建时间
 	 */
@@ -55,6 +66,23 @@ public class SysOssEntity implements Serializable {
 	public String getUrl() {
 		return url;
 	}
+
+	public String getFileName() {
+		return fileName;
+	}
+
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
+	}
+
+	public String getBucketName() {
+		return bucketName;
+	}
+
+	public void setBucketName(String bucketName) {
+		this.bucketName = bucketName;
+	}
+
 	/**
 	 * 设置：创建时间
 	 */

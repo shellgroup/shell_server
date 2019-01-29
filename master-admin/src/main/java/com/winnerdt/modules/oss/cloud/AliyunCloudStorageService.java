@@ -1,10 +1,13 @@
 package com.winnerdt.modules.oss.cloud;
 
 import com.aliyun.oss.OSSClient;
+import com.qiniu.common.QiniuException;
 import com.winnerdt.common.exception.RRException;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 阿里云存储
@@ -28,28 +31,40 @@ public class AliyunCloudStorageService extends CloudStorageService {
     }
 
     @Override
-    public String upload(byte[] data, String path) {
+    public Map<String,String> upload(byte[] data, String path) {
         return upload(new ByteArrayInputStream(data), path);
     }
 
     @Override
-    public String upload(InputStream inputStream, String path) {
+    public Map<String,String> upload(InputStream inputStream, String path) {
         try {
             client.putObject(config.getAliyunBucketName(), path, inputStream);
         } catch (Exception e){
             throw new RRException("上传文件失败，请检查配置信息", e);
         }
 
-        return config.getAliyunDomain() + "/" + path;
+        Map<String,String> map = new HashMap<>();
+        map.put("url",config.getAliyunDomain() + "/" + path);
+        map.put("fileName",path);
+        map.put("bucketName",config.getAliyunBucketName());
+        return map;
     }
 
     @Override
-    public String uploadSuffix(byte[] data, String suffix) {
+    public Map<String,String> uploadSuffix(byte[] data, String suffix) {
         return upload(data, getPath(config.getAliyunPrefix(), suffix));
     }
 
     @Override
-    public String uploadSuffix(InputStream inputStream, String suffix) {
+    public Map<String,String> uploadSuffix(InputStream inputStream, String suffix) {
         return upload(inputStream, getPath(config.getAliyunPrefix(), suffix));
+    }
+
+    @Override
+    public void delete(String BucketName, String fileName) throws QiniuException {
+        /*
+        * 删除未实现
+        * */
+
     }
 }

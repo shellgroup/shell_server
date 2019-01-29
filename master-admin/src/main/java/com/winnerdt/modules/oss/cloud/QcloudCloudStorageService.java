@@ -5,12 +5,15 @@ import com.qcloud.cos.COSClient;
 import com.qcloud.cos.ClientConfig;
 import com.qcloud.cos.request.UploadFileRequest;
 import com.qcloud.cos.sign.Credentials;
+import com.qiniu.common.QiniuException;
 import com.winnerdt.common.exception.RRException;
 import net.sf.json.JSONObject;
 import org.apache.commons.io.IOUtils;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 腾讯云存储
@@ -41,7 +44,7 @@ public class QcloudCloudStorageService extends CloudStorageService {
     }
 
     @Override
-    public String upload(byte[] data, String path) {
+    public Map<String,String> upload(byte[] data, String path) {
         //腾讯云必需要以"/"开头
         if(!path.startsWith("/")) {
             path = "/" + path;
@@ -55,12 +58,15 @@ public class QcloudCloudStorageService extends CloudStorageService {
         if(jsonObject.getInt("code") != 0) {
             throw new RRException("文件上传失败，" + jsonObject.getString("message"));
         }
-
-        return config.getQcloudDomain() + path;
+        Map<String,String> map = new HashMap<>();
+        map.put("url",config.getQcloudDomain() + path);
+        map.put("fileName",path);
+        map.put("bucketName",config.getQcloudBucketName());
+        return map;
     }
 
     @Override
-    public String upload(InputStream inputStream, String path) {
+    public Map<String,String> upload(InputStream inputStream, String path) {
     	try {
             byte[] data = IOUtils.toByteArray(inputStream);
             return this.upload(data, path);
@@ -70,12 +76,19 @@ public class QcloudCloudStorageService extends CloudStorageService {
     }
 
     @Override
-    public String uploadSuffix(byte[] data, String suffix) {
+    public Map<String, String> uploadSuffix(byte[] data, String suffix) {
         return upload(data, getPath(config.getQcloudPrefix(), suffix));
     }
 
     @Override
-    public String uploadSuffix(InputStream inputStream, String suffix) {
+    public Map<String, String> uploadSuffix(InputStream inputStream, String suffix) {
         return upload(inputStream, getPath(config.getQcloudPrefix(), suffix));
+    }
+
+    @Override
+    public void delete(String BucketName, String fileName) throws QiniuException {
+        /*
+        * 删除未实现
+        * */
     }
 }

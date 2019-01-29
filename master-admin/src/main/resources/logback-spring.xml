@@ -12,7 +12,7 @@
         </encoder>
     </appender>
 
-    <springProfile name="pro">
+    <springProfile name="test">
         <!-- 注意这里一定要放到springProfile里, 否则在你本机执行的时候还是会去找相应的文件 -->
         <appender name="FILE"  class="ch.qos.logback.core.rolling.RollingFileAppender">
             <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">

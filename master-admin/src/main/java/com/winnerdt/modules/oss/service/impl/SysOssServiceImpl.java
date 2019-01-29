@@ -18,7 +18,7 @@ public class SysOssServiceImpl extends ServiceImpl<SysOssDao, SysOssEntity> impl
 	@Override
 	public PageUtils queryPage(Map<String, Object> params) {
 		Page<SysOssEntity> page = (Page<SysOssEntity>) this.page(
-				new Query<SysOssEntity>(params).getPage()
+				new Query<SysOssEntity>(params).getPage().setDesc("create_date")
 		);
 
 		return new PageUtils(page);

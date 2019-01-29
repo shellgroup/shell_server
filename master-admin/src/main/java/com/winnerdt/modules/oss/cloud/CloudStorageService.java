@@ -1,10 +1,12 @@
 package com.winnerdt.modules.oss.cloud;
 
+import com.qiniu.common.QiniuException;
 import com.winnerdt.common.utils.DateUtils;
 import org.apache.commons.lang.StringUtils;
 
 import java.io.InputStream;
 import java.util.Date;
+import java.util.Map;
 import java.util.UUID;
 
 /**
@@ -42,7 +44,7 @@ public abstract class CloudStorageService {
      * @param path    文件路径，包含文件名
      * @return        返回http地址
      */
-    public abstract String upload(byte[] data, String path);
+    public abstract Map<String,String> upload(byte[] data, String path);
 
     /**
      * 文件上传
@@ -50,7 +52,7 @@ public abstract class CloudStorageService {
      * @param suffix   后缀
      * @return         返回http地址
      */
-    public abstract String uploadSuffix(byte[] data, String suffix);
+    public abstract Map<String,String> uploadSuffix(byte[] data, String suffix);
 
     /**
      * 文件上传
@@ -58,7 +60,7 @@ public abstract class CloudStorageService {
      * @param path          文件路径，包含文件名
      * @return              返回http地址
      */
-    public abstract String upload(InputStream inputStream, String path);
+    public abstract Map<String,String> upload(InputStream inputStream, String path);
 
     /**
      * 文件上传
@@ -66,6 +68,13 @@ public abstract class CloudStorageService {
      * @param suffix       后缀
      * @return             返回http地址
      */
-    public abstract String uploadSuffix(InputStream inputStream, String suffix);
+    public abstract Map<String,String> uploadSuffix(InputStream inputStream, String suffix);
+
+
+    /*
+    * 文件删除
+    *
+    * */
+    public abstract void delete(String BucketName,String fileName) throws QiniuException;
 
 }

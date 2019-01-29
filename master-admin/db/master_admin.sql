@@ -11,7 +11,7 @@
  Target Server Version : 50722
  File Encoding         : 65001
 
- Date: 24/01/2019 16:24:48
+ Date: 29/01/2019 18:42:30
 */
 
 SET NAMES utf8mb4;
@@ -55,6 +55,11 @@ CREATE TABLE `qrtz_cron_triggers`  (
   PRIMARY KEY (`SCHED_NAME`, `TRIGGER_NAME`, `TRIGGER_GROUP`) USING BTREE,
   CONSTRAINT `qrtz_cron_triggers_ibfk_1` FOREIGN KEY (`SCHED_NAME`, `TRIGGER_NAME`, `TRIGGER_GROUP`) REFERENCES `qrtz_triggers` (`SCHED_NAME`, `TRIGGER_NAME`, `TRIGGER_GROUP`) ON DELETE RESTRICT ON UPDATE RESTRICT
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of qrtz_cron_triggers
+-- ----------------------------
+INSERT INTO `qrtz_cron_triggers` VALUES ('MasterScheduler', 'TASK_3', 'DEFAULT', '0 0/30 * * * ?', 'Asia/Shanghai');
 
 -- ----------------------------
 -- Table structure for qrtz_fired_triggers
@@ -104,6 +109,11 @@ CREATE TABLE `qrtz_job_details`  (
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
+-- Records of qrtz_job_details
+-- ----------------------------
+INSERT INTO `qrtz_job_details` VALUES ('MasterScheduler', 'TASK_3', 'DEFAULT', NULL, 'com.winnerdt.modules.job.utils.ScheduleJob', '0', '0', '0', '0', 0xACED0005737200156F72672E71756172747A2E4A6F62446174614D61709FB083E8BFA9B0CB020000787200266F72672E71756172747A2E7574696C732E537472696E674B65794469727479466C61674D61708208E8C3FBC55D280200015A0013616C6C6F77735472616E7369656E74446174617872001D6F72672E71756172747A2E7574696C732E4469727479466C61674D617013E62EAD28760ACE0200025A000564697274794C00036D617074000F4C6A6176612F7574696C2F4D61703B787001737200116A6176612E7574696C2E486173684D61700507DAC1C31660D103000246000A6C6F6164466163746F724900097468726573686F6C6478703F4000000000000C7708000000100000000174000D4A4F425F504152414D5F4B455973720031636F6D2E77696E6E657264742E6D6F64756C65732E6A6F622E656E746974792E5363686564756C654A6F62456E7469747900000000000000010200084C00086265616E4E616D657400124C6A6176612F6C616E672F537472696E673B4C000A63726561746554696D657400104C6A6176612F7574696C2F446174653B4C000E63726F6E45787072657373696F6E71007E00094C00056A6F6249647400104C6A6176612F6C616E672F4C6F6E673B4C000A6D6574686F644E616D6571007E00094C0006706172616D7371007E00094C000672656D61726B71007E00094C00067374617475737400134C6A6176612F6C616E672F496E74656765723B7870740008746573745461736B7372000E6A6176612E7574696C2E44617465686A81014B59741903000078707708000001687F4246A17874000E3020302F3330202A202A202A203F7372000E6A6176612E6C616E672E4C6F6E673B8BE490CC8F23DF0200014A000576616C7565787200106A6176612E6C616E672E4E756D62657286AC951D0B94E08B02000078700000000000000003740005746573743274000074000FE697A0E58F82E695B0E6B58BE8AF95737200116A6176612E6C616E672E496E746567657212E2A0A4F781873802000149000576616C75657871007E0013000000007800);
+
+-- ----------------------------
 -- Table structure for qrtz_locks
 -- ----------------------------
 DROP TABLE IF EXISTS `qrtz_locks`;
@@ -112,6 +122,12 @@ CREATE TABLE `qrtz_locks`  (
   `LOCK_NAME` varchar(40) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   PRIMARY KEY (`SCHED_NAME`, `LOCK_NAME`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of qrtz_locks
+-- ----------------------------
+INSERT INTO `qrtz_locks` VALUES ('MasterScheduler', 'STATE_ACCESS');
+INSERT INTO `qrtz_locks` VALUES ('MasterScheduler', 'TRIGGER_ACCESS');
 
 -- ----------------------------
 -- Table structure for qrtz_paused_trigger_grps
@@ -138,7 +154,7 @@ CREATE TABLE `qrtz_scheduler_state`  (
 -- ----------------------------
 -- Records of qrtz_scheduler_state
 -- ----------------------------
-INSERT INTO `qrtz_scheduler_state` VALUES ('RenrenScheduler', 'DESKTOP-CUD9MR51548317813311', 1548318283483, 15000);
+INSERT INTO `qrtz_scheduler_state` VALUES ('MasterScheduler', 'DESKTOP-CUD9MR51548758344765', 1548758423707, 15000);
 
 -- ----------------------------
 -- Table structure for qrtz_simple_triggers
@@ -216,6 +232,11 @@ CREATE TABLE `qrtz_triggers`  (
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
+-- Records of qrtz_triggers
+-- ----------------------------
+INSERT INTO `qrtz_triggers` VALUES ('MasterScheduler', 'TASK_3', 'DEFAULT', 'TASK_3', 'DEFAULT', NULL, 1548759600000, -1, 5, 'WAITING', 'CRON', 1548323276000, 0, NULL, 2, 0xACED0005737200156F72672E71756172747A2E4A6F62446174614D61709FB083E8BFA9B0CB020000787200266F72672E71756172747A2E7574696C732E537472696E674B65794469727479466C61674D61708208E8C3FBC55D280200015A0013616C6C6F77735472616E7369656E74446174617872001D6F72672E71756172747A2E7574696C732E4469727479466C61674D617013E62EAD28760ACE0200025A000564697274794C00036D617074000F4C6A6176612F7574696C2F4D61703B787001737200116A6176612E7574696C2E486173684D61700507DAC1C31660D103000246000A6C6F6164466163746F724900097468726573686F6C6478703F4000000000000C7708000000100000000174000D4A4F425F504152414D5F4B455973720031636F6D2E77696E6E657264742E6D6F64756C65732E6A6F622E656E746974792E5363686564756C654A6F62456E7469747900000000000000010200084C00086265616E4E616D657400124C6A6176612F6C616E672F537472696E673B4C000A63726561746554696D657400104C6A6176612F7574696C2F446174653B4C000E63726F6E45787072657373696F6E71007E00094C00056A6F6249647400104C6A6176612F6C616E672F4C6F6E673B4C000A6D6574686F644E616D6571007E00094C0006706172616D7371007E00094C000672656D61726B71007E00094C00067374617475737400134C6A6176612F6C616E672F496E74656765723B7870740008746573745461736B7372000E6A6176612E7574696C2E44617465686A81014B59741903000078707708000001687F4244E07874000E3020302F3330202A202A202A203F7372000E6A6176612E6C616E672E4C6F6E673B8BE490CC8F23DF0200014A000576616C7565787200106A6176612E6C616E672E4E756D62657286AC951D0B94E08B020000787000000000000000037400047465737474000A3131313131313131313174000FE69C89E58F82E695B0E6B58BE8AF95737200116A6176612E6C616E672E496E746567657212E2A0A4F781873802000149000576616C75657871007E0013000000007800);
+
+-- ----------------------------
 -- Table structure for schedule_job
 -- ----------------------------
 DROP TABLE IF EXISTS `schedule_job`;
@@ -229,7 +250,12 @@ CREATE TABLE `schedule_job`  (
   `remark` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '备注',
   `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`job_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '定时任务' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '定时任务' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of schedule_job
+-- ----------------------------
+INSERT INTO `schedule_job` VALUES (3, 'testTask', 'test', '1111111111', '0 0/30 * * * ?', 0, '有参数测试', '2019-01-24 17:47:56');
 
 -- ----------------------------
 -- Table structure for schedule_job_log
@@ -247,7 +273,92 @@ CREATE TABLE `schedule_job_log`  (
   `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`log_id`) USING BTREE,
   INDEX `job_id`(`job_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1087620886778900507 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '定时任务日志' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1087620886778900588 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '定时任务日志' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of schedule_job_log
+-- ----------------------------
+INSERT INTO `schedule_job_log` VALUES (1087620886778900507, 3, 'testTask333', 'test2eee333', '1111111111', 1, 'org.springframework.beans.factory.NoSuchBeanDefinitionException: No bean named \'testTask333\' available', 46, '2019-01-24 18:00:00');
+INSERT INTO `schedule_job_log` VALUES (1087620886778900508, 3, 'testTask33354545', 'test2eee33354545', '1111111111', 1, 'org.springframework.beans.factory.NoSuchBeanDefinitionException: No bean named \'testTask33354545\' available', 0, '2019-01-24 18:30:00');
+INSERT INTO `schedule_job_log` VALUES (1087620886778900509, 3, 'testTask33354545', 'test2eee33354545', '1111111111', 1, 'org.springframework.beans.factory.NoSuchBeanDefinitionException: No bean named \'testTask33354545\' available', 1, '2019-01-24 18:36:46');
+INSERT INTO `schedule_job_log` VALUES (1087620886778900510, 3, 'testTask', 'test', '1111111111', 0, NULL, 4488, '2019-01-24 18:38:01');
+INSERT INTO `schedule_job_log` VALUES (1087620886778900511, 3, 'testTask', 'test', '1111111111', 0, NULL, 1020, '2019-01-24 18:40:20');
+INSERT INTO `schedule_job_log` VALUES (1087620886778900512, 3, 'testTask', 'test', '1111111111', 0, NULL, 1005, '2019-01-24 18:40:25');
+INSERT INTO `schedule_job_log` VALUES (1087620886778900513, 3, 'testTask', 'test', '1111111111', 0, NULL, 1005, '2019-01-24 18:40:30');
+INSERT INTO `schedule_job_log` VALUES (1087620886778900514, 3, 'testTask', 'test', '1111111111', 0, NULL, 1004, '2019-01-24 18:40:35');
+INSERT INTO `schedule_job_log` VALUES (1087620886778900515, 3, 'testTask', 'test', '1111111111', 0, NULL, 1004, '2019-01-24 18:40:40');
+INSERT INTO `schedule_job_log` VALUES (1087620886778900516, 3, 'testTask', 'test', '1111111111', 0, NULL, 1003, '2019-01-24 18:40:45');
+INSERT INTO `schedule_job_log` VALUES (1087620886778900517, 3, 'testTask', 'test', '1111111111', 0, NULL, 1003, '2019-01-24 18:40:50');
+INSERT INTO `schedule_job_log` VALUES (1087620886778900518, 3, 'testTask', 'test', '1111111111', 0, NULL, 1004, '2019-01-24 18:40:55');
+INSERT INTO `schedule_job_log` VALUES (1087620886778900519, 3, 'testTask', 'test', '1111111111', 0, NULL, 1003, '2019-01-24 18:41:00');
+INSERT INTO `schedule_job_log` VALUES (1087620886778900520, 3, 'testTask', 'test', '1111111111', 0, NULL, 1006, '2019-01-24 18:41:05');
+INSERT INTO `schedule_job_log` VALUES (1087620886778900521, 3, 'testTask', 'test', '1111111111', 0, NULL, 1026, '2019-01-24 18:41:10');
+INSERT INTO `schedule_job_log` VALUES (1087620886778900522, 3, 'testTask', 'test', '1111111111', 0, NULL, 1007, '2019-01-24 18:41:15');
+INSERT INTO `schedule_job_log` VALUES (1087620886778900523, 3, 'testTask', 'test', '1111111111', 0, NULL, 1005, '2019-01-24 18:41:20');
+INSERT INTO `schedule_job_log` VALUES (1087620886778900524, 3, 'testTask', 'test', '1111111111', 0, NULL, 1005, '2019-01-24 18:41:25');
+INSERT INTO `schedule_job_log` VALUES (1087620886778900525, 3, 'testTask', 'test', '1111111111', 0, NULL, 1005, '2019-01-24 18:41:30');
+INSERT INTO `schedule_job_log` VALUES (1087620886778900526, 3, 'testTask', 'test', '1111111111', 0, NULL, 1004, '2019-01-24 18:41:35');
+INSERT INTO `schedule_job_log` VALUES (1087620886778900527, 3, 'testTask', 'test', '1111111111', 0, NULL, 1003, '2019-01-24 18:41:40');
+INSERT INTO `schedule_job_log` VALUES (1087620886778900528, 3, 'testTask', 'test', '1111111111', 0, NULL, 1003, '2019-01-24 18:41:45');
+INSERT INTO `schedule_job_log` VALUES (1087620886778900529, 3, 'testTask', 'test', '1111111111', 0, NULL, 1004, '2019-01-24 18:41:50');
+INSERT INTO `schedule_job_log` VALUES (1087620886778900530, 3, 'testTask', 'test', '1111111111', 0, NULL, 1003, '2019-01-24 18:41:55');
+INSERT INTO `schedule_job_log` VALUES (1087620886778900531, 3, 'testTask', 'test', '1111111111', 0, NULL, 1004, '2019-01-24 18:42:00');
+INSERT INTO `schedule_job_log` VALUES (1087620886778900532, 3, 'testTask', 'test', '1111111111', 0, NULL, 1004, '2019-01-24 18:42:05');
+INSERT INTO `schedule_job_log` VALUES (1087620886778900533, 3, 'testTask', 'test', '1111111111', 0, NULL, 1003, '2019-01-24 18:42:10');
+INSERT INTO `schedule_job_log` VALUES (1087620886778900534, 3, 'testTask', 'test', '1111111111', 0, NULL, 1003, '2019-01-24 18:42:15');
+INSERT INTO `schedule_job_log` VALUES (1087620886778900535, 3, 'testTask', 'test', '1111111111', 0, NULL, 1004, '2019-01-24 18:42:20');
+INSERT INTO `schedule_job_log` VALUES (1087620886778900536, 3, 'testTask', 'test', '1111111111', 0, NULL, 1004, '2019-01-24 18:42:25');
+INSERT INTO `schedule_job_log` VALUES (1087620886778900537, 3, 'testTask', 'test', '1111111111', 0, NULL, 1019, '2019-01-24 18:42:30');
+INSERT INTO `schedule_job_log` VALUES (1087620886778900538, 3, 'testTask', 'test', '1111111111', 0, NULL, 1044, '2019-01-25 10:00:00');
+INSERT INTO `schedule_job_log` VALUES (1087620886778900539, 3, 'testTask', 'test', '1111111111', 0, NULL, 1024, '2019-01-25 10:30:00');
+INSERT INTO `schedule_job_log` VALUES (1087620886778900540, 3, 'testTask', 'test', '1111111111', 0, NULL, 1038, '2019-01-25 11:00:00');
+INSERT INTO `schedule_job_log` VALUES (1087620886778900541, 3, 'testTask', 'test', '1111111111', 0, NULL, 1024, '2019-01-25 11:30:00');
+INSERT INTO `schedule_job_log` VALUES (1087620886778900542, 3, 'testTask', 'test', '1111111111', 0, NULL, 1028, '2019-01-25 12:00:00');
+INSERT INTO `schedule_job_log` VALUES (1087620886778900543, 3, 'testTask', 'test', '1111111111', 0, NULL, 1028, '2019-01-25 12:30:00');
+INSERT INTO `schedule_job_log` VALUES (1087620886778900544, 3, 'testTask', 'test', '1111111111', 0, NULL, 1021, '2019-01-25 13:00:00');
+INSERT INTO `schedule_job_log` VALUES (1087620886778900545, 3, 'testTask', 'test', '1111111111', 0, NULL, 1059, '2019-01-25 13:30:00');
+INSERT INTO `schedule_job_log` VALUES (1087620886778900546, 3, 'testTask', 'test', '1111111111', 0, NULL, 1042, '2019-01-25 14:00:00');
+INSERT INTO `schedule_job_log` VALUES (1087620886778900547, 3, 'testTask', 'test', '1111111111', 0, NULL, 1027, '2019-01-25 14:30:00');
+INSERT INTO `schedule_job_log` VALUES (1087620886778900548, 3, 'testTask', 'test', '1111111111', 0, NULL, 1042, '2019-01-25 15:00:00');
+INSERT INTO `schedule_job_log` VALUES (1087620886778900549, 3, 'testTask', 'test', '1111111111', 0, NULL, 1036, '2019-01-25 15:30:00');
+INSERT INTO `schedule_job_log` VALUES (1087620886778900550, 3, 'testTask', 'test', '1111111111', 0, NULL, 1039, '2019-01-25 16:00:00');
+INSERT INTO `schedule_job_log` VALUES (1087620886778900551, 3, 'testTask', 'test', '1111111111', 0, NULL, 1028, '2019-01-25 16:30:00');
+INSERT INTO `schedule_job_log` VALUES (1087620886778900552, 3, 'testTask', 'test', '1111111111', 0, NULL, 1005, '2019-01-25 17:00:00');
+INSERT INTO `schedule_job_log` VALUES (1087620886778900553, 3, 'testTask', 'test', '1111111111', 0, NULL, 1004, '2019-01-25 17:30:00');
+INSERT INTO `schedule_job_log` VALUES (1087620886778900554, 3, 'testTask', 'test', '1111111111', 0, NULL, 1003, '2019-01-25 18:00:00');
+INSERT INTO `schedule_job_log` VALUES (1087620886778900555, 3, 'testTask', 'test', '1111111111', 0, NULL, 1011, '2019-01-25 18:30:00');
+INSERT INTO `schedule_job_log` VALUES (1087620886778900556, 3, 'testTask', 'test', '1111111111', 0, NULL, 1016, '2019-01-28 10:30:00');
+INSERT INTO `schedule_job_log` VALUES (1087620886778900557, 3, 'testTask', 'test', '1111111111', 0, NULL, 1026, '2019-01-28 11:00:00');
+INSERT INTO `schedule_job_log` VALUES (1087620886778900558, 3, 'testTask', 'test', '1111111111', 0, NULL, 1127, '2019-01-28 12:00:00');
+INSERT INTO `schedule_job_log` VALUES (1087620886778900559, 3, 'testTask', 'test', '1111111111', 0, NULL, 1032, '2019-01-28 12:30:00');
+INSERT INTO `schedule_job_log` VALUES (1087620886778900560, 3, 'testTask', 'test', '1111111111', 0, NULL, 1015, '2019-01-28 13:00:00');
+INSERT INTO `schedule_job_log` VALUES (1087620886778900561, 3, 'testTask', 'test', '1111111111', 0, NULL, 1012, '2019-01-28 13:30:00');
+INSERT INTO `schedule_job_log` VALUES (1087620886778900562, 3, 'testTask', 'test', '1111111111', 0, NULL, 1032, '2019-01-28 14:00:00');
+INSERT INTO `schedule_job_log` VALUES (1087620886778900563, 3, 'testTask', 'test', '1111111111', 0, NULL, 1017, '2019-01-28 14:30:00');
+INSERT INTO `schedule_job_log` VALUES (1087620886778900564, 3, 'testTask', 'test', '1111111111', 0, NULL, 1002, '2019-01-28 15:00:00');
+INSERT INTO `schedule_job_log` VALUES (1087620886778900565, 3, 'testTask', 'test', '1111111111', 0, NULL, 1104, '2019-01-28 15:30:00');
+INSERT INTO `schedule_job_log` VALUES (1087620886778900566, 3, 'testTask', 'test', '1111111111', 0, NULL, 1068, '2019-01-28 16:00:00');
+INSERT INTO `schedule_job_log` VALUES (1087620886778900567, 3, 'testTask', 'test', '1111111111', 0, NULL, 1056, '2019-01-28 16:30:00');
+INSERT INTO `schedule_job_log` VALUES (1087620886778900568, 3, 'testTask', 'test', '1111111111', 0, NULL, 1046, '2019-01-28 17:00:00');
+INSERT INTO `schedule_job_log` VALUES (1087620886778900569, 3, 'testTask', 'test', '1111111111', 0, NULL, 1034, '2019-01-28 17:30:00');
+INSERT INTO `schedule_job_log` VALUES (1087620886778900570, 3, 'testTask', 'test', '1111111111', 0, NULL, 1080, '2019-01-28 18:00:00');
+INSERT INTO `schedule_job_log` VALUES (1087620886778900571, 3, 'testTask', 'test', '1111111111', 0, NULL, 1010, '2019-01-29 10:30:00');
+INSERT INTO `schedule_job_log` VALUES (1087620886778900572, 3, 'testTask', 'test', '1111111111', 0, NULL, 1085, '2019-01-29 11:00:00');
+INSERT INTO `schedule_job_log` VALUES (1087620886778900573, 3, 'testTask', 'test', '1111111111', 0, NULL, 1100, '2019-01-29 11:30:00');
+INSERT INTO `schedule_job_log` VALUES (1087620886778900574, 3, 'testTask', 'test', '1111111111', 0, NULL, 1011, '2019-01-29 12:00:12');
+INSERT INTO `schedule_job_log` VALUES (1087620886778900575, 3, 'testTask', 'test', '1111111111', 0, NULL, 1034, '2019-01-29 12:30:00');
+INSERT INTO `schedule_job_log` VALUES (1087620886778900576, 3, 'testTask', 'test', '1111111111', 0, NULL, 1032, '2019-01-29 13:00:00');
+INSERT INTO `schedule_job_log` VALUES (1087620886778900577, 3, 'testTask', 'test', '1111111111', 0, NULL, 1017, '2019-01-29 13:30:00');
+INSERT INTO `schedule_job_log` VALUES (1087620886778900578, 3, 'testTask', 'test', '1111111111', 0, NULL, 1044, '2019-01-29 14:00:00');
+INSERT INTO `schedule_job_log` VALUES (1087620886778900579, 3, 'testTask', 'test', '1111111111', 0, NULL, 1013, '2019-01-29 14:30:00');
+INSERT INTO `schedule_job_log` VALUES (1087620886778900580, 3, 'testTask', 'test', '1111111111', 0, NULL, 1012, '2019-01-29 15:00:00');
+INSERT INTO `schedule_job_log` VALUES (1087620886778900581, 3, 'testTask', 'test', '1111111111', 0, NULL, 1015, '2019-01-29 15:30:00');
+INSERT INTO `schedule_job_log` VALUES (1087620886778900582, 3, 'testTask', 'test', '1111111111', 0, NULL, 1020, '2019-01-29 16:00:00');
+INSERT INTO `schedule_job_log` VALUES (1087620886778900583, 3, 'testTask', 'test', '1111111111', 0, NULL, 1012, '2019-01-29 16:30:00');
+INSERT INTO `schedule_job_log` VALUES (1087620886778900584, 3, 'testTask', 'test', '1111111111', 0, NULL, 1107, '2019-01-29 17:00:00');
+INSERT INTO `schedule_job_log` VALUES (1087620886778900585, 3, 'testTask', 'test', '1111111111', 0, NULL, 1035, '2019-01-29 17:30:00');
+INSERT INTO `schedule_job_log` VALUES (1087620886778900586, 3, 'testTask', 'test', '1111111111', 0, NULL, 1018, '2019-01-29 18:00:00');
+INSERT INTO `schedule_job_log` VALUES (1087620886778900587, 3, 'testTask', 'test', '1111111111', 0, NULL, 1027, '2019-01-29 18:30:00');
 
 -- ----------------------------
 -- Table structure for sys_config
@@ -261,13 +372,13 @@ CREATE TABLE `sys_config`  (
   `remark` varchar(500) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '备注',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `param_key`(`param_key`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '系统配置信息表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '系统配置信息表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_config
 -- ----------------------------
-INSERT INTO `sys_config` VALUES (1, 'CLOUD_STORAGE_CONFIG_KEY', '{\"aliyunAccessKeyId\":\"\",\"aliyunAccessKeySecret\":\"\",\"aliyunBucketName\":\"\",\"aliyunDomain\":\"\",\"aliyunEndPoint\":\"\",\"aliyunPrefix\":\"\",\"qcloudBucketName\":\"\",\"qcloudDomain\":\"\",\"qcloudPrefix\":\"\",\"qcloudSecretId\":\"\",\"qcloudSecretKey\":\"\",\"qiniuAccessKey\":\"NrgMfABZxWLo5B-YYSjoE8-AZ1EISdi1Z3ubLOeZ\",\"qiniuBucketName\":\"ios-app\",\"qiniuDomain\":\"http://7xqbwh.dl1.z0.glb.clouddn.com\",\"qiniuPrefix\":\"upload\",\"qiniuSecretKey\":\"uIwJHevMRWU0VLxFvgy0tAcOdGqasdtVlJkdy6vV\",\"type\":1}', 0, '云存储配置信息');
-INSERT INTO `sys_config` VALUES (2, 'test', 'test', 1, '123');
+INSERT INTO `sys_config` VALUES (1, 'CLOUD_STORAGE_CONFIG_KEY', '{\"type\":0,\"qiniuDomain\":\"http://pm2vkbv1m.bkt.clouddn.com\",\"qiniuPrefix\":\"upload\",\"qiniuAccessKey\":\"qg1BFsLRVadWHtyGYW2yVzz0ZVJGzLFmwTqhi0ZU\",\"qiniuSecretKey\":\"LGyVEEN_DL1M_NIydnCZlXXifPlE2Ng1RuEvsxkg\",\"qiniuBucketName\":\"master-test\"}', 0, '云存储配置信息');
+INSERT INTO `sys_config` VALUES (3, '323233', '33333232', 1, '323');
 
 -- ----------------------------
 -- Table structure for sys_dept
@@ -311,7 +422,6 @@ CREATE TABLE `sys_dict`  (
 -- ----------------------------
 -- Records of sys_dict
 -- ----------------------------
-INSERT INTO `sys_dict` VALUES (1, '性别', 'sex', '0', '女', 0, NULL, 0);
 INSERT INTO `sys_dict` VALUES (2, '性别', 'sex', '1', '男', 1, NULL, 0);
 INSERT INTO `sys_dict` VALUES (3, '性别', 'sex', '2', '未知', 3, NULL, 0);
 
@@ -643,7 +753,7 @@ CREATE TABLE `sys_log`  (
   `ip` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT 'IP地址',
   `create_date` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1087620602598027273 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '系统日志' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1087620602598027291 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '系统日志' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_log
@@ -734,6 +844,24 @@ INSERT INTO `sys_log` VALUES (1087620602598027269, 'admin', '修改角色', 'io.
 INSERT INTO `sys_log` VALUES (1087620602598027270, 'admin', '删除角色', 'io.renren.modules.sys.controller.SysRoleController.delete()', '[1087530554628247554]', 39, '192.168.199.192', '2019-01-22 17:46:00');
 INSERT INTO `sys_log` VALUES (1087620602598027271, 'admin', '保存角色', 'io.renren.modules.sys.controller.SysRoleController.save()', '{\"roleId\":1087620602119876613,\"roleName\":\"54\",\"remark\":\"54\",\"deptId\":1,\"menuIdList\":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,29,30,31,32,33,34,35,36,37,38,39,40,41],\"deptIdList\":[1,2,3,4,5],\"createTime\":\"Jan 22, 2019 6:11:19 PM\"}', 126, '192.168.199.192', '2019-01-22 18:11:19');
 INSERT INTO `sys_log` VALUES (1087620602598027272, 'admin', '修改角色', 'io.renren.modules.sys.controller.SysRoleController.update()', '{\"roleId\":1087620602119876613,\"roleName\":\"54\",\"remark\":\"54666\",\"deptId\":1,\"menuIdList\":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,29,30,31,32,33,34,35,36,37,38,39,40,41],\"deptIdList\":[]}', 96, '192.168.199.192', '2019-01-22 18:11:39');
+INSERT INTO `sys_log` VALUES (1087620602598027273, 'admin', '保存定时任务', 'com.winnerdt.modules.job.controller.ScheduleJobController.save()', '{\"jobId\":3,\"beanName\":\"testTask\",\"methodName\":\"test2\",\"params\":\"\",\"cronExpression\":\"0 0/30 * * * ?\",\"status\":0,\"remark\":\"无参数测试\",\"createTime\":\"Jan 24, 2019 5:47:56 PM\"}', 276, '192.168.199.239', '2019-01-24 17:47:57');
+INSERT INTO `sys_log` VALUES (1087620602598027274, 'admin', '修改定时任务', 'com.winnerdt.modules.job.controller.ScheduleJobController.update()', '{\"jobId\":3,\"beanName\":\"testTask\",\"methodName\":\"test2\",\"params\":\"1111111111\",\"cronExpression\":\"0 0/30 * * * ?\",\"status\":0,\"remark\":\"有参数测试\",\"createTime\":\"Jan 24, 2019 5:47:56 PM\"}', 340, '192.168.199.239', '2019-01-24 17:48:14');
+INSERT INTO `sys_log` VALUES (1087620602598027275, 'admin', '修改定时任务', 'com.winnerdt.modules.job.controller.ScheduleJobController.update()', '{\"jobId\":3,\"beanName\":\"testTask\",\"methodName\":\"test2eee\",\"params\":\"1111111111\",\"cronExpression\":\"0 0/30 * * * ?\",\"status\":0,\"remark\":\"有参数测试\",\"createTime\":\"Jan 24, 2019 5:47:56 PM\"}', 254, '192.168.199.239', '2019-01-24 17:57:01');
+INSERT INTO `sys_log` VALUES (1087620602598027276, 'admin', '修改定时任务', 'com.winnerdt.modules.job.controller.ScheduleJobController.update()', '{\"jobId\":3,\"beanName\":\"testTask333\",\"methodName\":\"test2eee333\",\"params\":\"1111111111\",\"cronExpression\":\"0 0/30 * * * ?\",\"status\":0,\"remark\":\"有参数测试\",\"createTime\":\"Jan 24, 2019 5:47:56 PM\"}', 159, '192.168.199.239', '2019-01-24 17:58:16');
+INSERT INTO `sys_log` VALUES (1087620602598027277, 'admin', '修改定时任务', 'com.winnerdt.modules.job.controller.ScheduleJobController.update()', '{\"jobId\":3,\"beanName\":\"testTask33354545\",\"methodName\":\"test2eee33354545\",\"params\":\"1111111111\",\"cronExpression\":\"0 0/30 * * * ?\",\"status\":0,\"remark\":\"有参数测试\",\"createTime\":\"Jan 24, 2019 5:47:56 PM\"}', 210, '192.168.199.239', '2019-01-24 18:00:36');
+INSERT INTO `sys_log` VALUES (1087620602598027278, 'admin', '暂停定时任务', 'com.winnerdt.modules.job.controller.ScheduleJobController.pause()', '[3]', 135, '192.168.199.239', '2019-01-24 18:35:30');
+INSERT INTO `sys_log` VALUES (1087620602598027279, 'admin', '恢复定时任务', 'com.winnerdt.modules.job.controller.ScheduleJobController.resume()', '[3]', 96, '192.168.199.239', '2019-01-24 18:36:25');
+INSERT INTO `sys_log` VALUES (1087620602598027280, 'admin', '立即执行任务', 'com.winnerdt.modules.job.controller.ScheduleJobController.run()', '[3]', 88, '192.168.199.239', '2019-01-24 18:36:46');
+INSERT INTO `sys_log` VALUES (1087620602598027281, 'admin', '修改定时任务', 'com.winnerdt.modules.job.controller.ScheduleJobController.update()', '{\"jobId\":3,\"beanName\":\"testTask\",\"methodName\":\"test\",\"params\":\"1111111111\",\"cronExpression\":\"0 0/30 * * * ?\",\"status\":0,\"remark\":\"有参数测试\",\"createTime\":\"Jan 24, 2019 5:47:56 PM\"}', 63, '192.168.199.239', '2019-01-24 18:37:49');
+INSERT INTO `sys_log` VALUES (1087620602598027282, 'admin', '立即执行任务', 'com.winnerdt.modules.job.controller.ScheduleJobController.run()', '[3]', 36, '192.168.199.239', '2019-01-24 18:38:01');
+INSERT INTO `sys_log` VALUES (1087620602598027283, 'admin', '修改定时任务', 'com.winnerdt.modules.job.controller.ScheduleJobController.update()', '{\"jobId\":3,\"beanName\":\"testTask\",\"methodName\":\"test\",\"params\":\"1111111111\",\"cronExpression\":\"0/5 * * * * ?\",\"status\":0,\"remark\":\"有参数测试\",\"createTime\":\"Jan 24, 2019 5:47:56 PM\"}', 157, '192.168.199.239', '2019-01-24 18:40:12');
+INSERT INTO `sys_log` VALUES (1087620602598027284, 'admin', '修改定时任务', 'com.winnerdt.modules.job.controller.ScheduleJobController.update()', '{\"jobId\":3,\"beanName\":\"testTask\",\"methodName\":\"test\",\"params\":\"1111111111\",\"cronExpression\":\"0 0/30 * * * ?\",\"status\":0,\"remark\":\"有参数测试\",\"createTime\":\"Jan 24, 2019 5:47:56 PM\"}', 123, '192.168.199.239', '2019-01-24 18:42:33');
+INSERT INTO `sys_log` VALUES (1087620602598027285, 'admin', '修改菜单', 'com.winnerdt.modules.sys.controller.SysMenuController.update()', '{\"menuId\":1,\"parentId\":0,\"name\":\"系统管理0\",\"path\":\"/system-manager\",\"type\":0,\"icon\":\"setting\",\"orderNum\":0}', 43, '192.168.199.239', '2019-01-24 18:43:00');
+INSERT INTO `sys_log` VALUES (1087620602598027286, 'admin', '修改菜单', 'com.winnerdt.modules.sys.controller.SysMenuController.update()', '{\"menuId\":1,\"parentId\":0,\"name\":\"系统管理\",\"path\":\"/system-manager\",\"type\":0,\"icon\":\"setting\",\"orderNum\":0}', 52, '0:0:0:0:0:0:0:1', '2019-01-25 16:48:24');
+INSERT INTO `sys_log` VALUES (1087620602598027287, 'admin', '保存配置', 'com.winnerdt.modules.sys.controller.SysConfigController.save()', '{\"id\":3,\"paramKey\":\"323233\",\"paramValue\":\"33333232\",\"remark\":\"323\"}', 51, '192.168.199.192', '2019-01-28 15:10:43');
+INSERT INTO `sys_log` VALUES (1087620602598027288, 'admin', '保存角色', 'com.winnerdt.modules.sys.controller.SysRoleController.save()', '{\"roleId\":1087620602119876614,\"roleName\":\"65\",\"remark\":\"666\",\"deptId\":1,\"menuIdList\":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,29,30,31,32,33,34,35,36,37,38,39,40,41],\"deptIdList\":[1,2,3,4,5],\"createTime\":\"Jan 28, 2019 3:14:46 PM\"}', 302, '192.168.199.192', '2019-01-28 15:14:46');
+INSERT INTO `sys_log` VALUES (1087620602598027289, 'admin', '保存用户', 'com.winnerdt.modules.sys.controller.SysUserController.save()', '{\"userId\":1087608018549415938,\"username\":\"111112\",\"password\":\"cac949cc797a864cd8f6e8a832817d827d42943f2e790ba76262808013105832\",\"salt\":\"X8f0wYhZDMMoKa1S1cuW\",\"email\":\"303314582@qq.com\",\"mobile\":\"12322548654\",\"status\":1,\"roleIdList\":[1],\"createTime\":\"Jan 29, 2019 3:01:22 PM\",\"deptId\":1}', 95, '0:0:0:0:0:0:0:1', '2019-01-29 15:01:23');
+INSERT INTO `sys_log` VALUES (1087620602598027290, 'admin', '删除用户', 'com.winnerdt.modules.sys.controller.SysUserController.delete()', '[1087608018549415938]', 64, '0:0:0:0:0:0:0:1', '2019-01-29 15:01:53');
 
 -- ----------------------------
 -- Table structure for sys_menu
@@ -804,9 +932,11 @@ DROP TABLE IF EXISTS `sys_oss`;
 CREATE TABLE `sys_oss`  (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `url` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT 'URL地址',
+  `bucket_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '存储空间',
+  `file_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '文件名',
   `create_date` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '文件上传' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 79 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '文件上传' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for sys_role
@@ -819,12 +949,13 @@ CREATE TABLE `sys_role`  (
   `dept_id` bigint(20) NULL DEFAULT NULL COMMENT '部门ID',
   `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`role_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1087620602119876614 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '角色' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1087620602119876615 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '角色' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_role
 -- ----------------------------
 INSERT INTO `sys_role` VALUES (1, 'test', '65656', 2, '2019-01-07 18:28:33');
+INSERT INTO `sys_role` VALUES (1087620602119876614, '65', '666', 1, '2019-01-28 15:14:46');
 
 -- ----------------------------
 -- Table structure for sys_role_dept
@@ -835,7 +966,16 @@ CREATE TABLE `sys_role_dept`  (
   `role_id` bigint(20) NULL DEFAULT NULL COMMENT '角色ID',
   `dept_id` bigint(20) NULL DEFAULT NULL COMMENT '部门ID',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1087620602212151318 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '角色与部门对应关系' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1087620602212151323 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '角色与部门对应关系' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of sys_role_dept
+-- ----------------------------
+INSERT INTO `sys_role_dept` VALUES (1087620602212151318, 1087620602119876614, 1);
+INSERT INTO `sys_role_dept` VALUES (1087620602212151319, 1087620602119876614, 2);
+INSERT INTO `sys_role_dept` VALUES (1087620602212151320, 1087620602119876614, 3);
+INSERT INTO `sys_role_dept` VALUES (1087620602212151321, 1087620602119876614, 4);
+INSERT INTO `sys_role_dept` VALUES (1087620602212151322, 1087620602119876614, 5);
 
 -- ----------------------------
 -- Table structure for sys_role_menu
@@ -846,7 +986,51 @@ CREATE TABLE `sys_role_menu`  (
   `role_id` bigint(20) NULL DEFAULT NULL COMMENT '角色ID',
   `menu_id` bigint(20) NULL DEFAULT NULL COMMENT '菜单ID',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1087609022518972700 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '角色与菜单对应关系' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1087609022518972740 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '角色与菜单对应关系' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of sys_role_menu
+-- ----------------------------
+INSERT INTO `sys_role_menu` VALUES (1087609022518972700, 1087620602119876614, 1);
+INSERT INTO `sys_role_menu` VALUES (1087609022518972701, 1087620602119876614, 2);
+INSERT INTO `sys_role_menu` VALUES (1087609022518972702, 1087620602119876614, 3);
+INSERT INTO `sys_role_menu` VALUES (1087609022518972703, 1087620602119876614, 4);
+INSERT INTO `sys_role_menu` VALUES (1087609022518972704, 1087620602119876614, 5);
+INSERT INTO `sys_role_menu` VALUES (1087609022518972705, 1087620602119876614, 6);
+INSERT INTO `sys_role_menu` VALUES (1087609022518972706, 1087620602119876614, 7);
+INSERT INTO `sys_role_menu` VALUES (1087609022518972707, 1087620602119876614, 8);
+INSERT INTO `sys_role_menu` VALUES (1087609022518972708, 1087620602119876614, 9);
+INSERT INTO `sys_role_menu` VALUES (1087609022518972709, 1087620602119876614, 10);
+INSERT INTO `sys_role_menu` VALUES (1087609022518972710, 1087620602119876614, 11);
+INSERT INTO `sys_role_menu` VALUES (1087609022518972711, 1087620602119876614, 12);
+INSERT INTO `sys_role_menu` VALUES (1087609022518972712, 1087620602119876614, 13);
+INSERT INTO `sys_role_menu` VALUES (1087609022518972713, 1087620602119876614, 14);
+INSERT INTO `sys_role_menu` VALUES (1087609022518972714, 1087620602119876614, 15);
+INSERT INTO `sys_role_menu` VALUES (1087609022518972715, 1087620602119876614, 16);
+INSERT INTO `sys_role_menu` VALUES (1087609022518972716, 1087620602119876614, 17);
+INSERT INTO `sys_role_menu` VALUES (1087609022518972717, 1087620602119876614, 18);
+INSERT INTO `sys_role_menu` VALUES (1087609022518972718, 1087620602119876614, 19);
+INSERT INTO `sys_role_menu` VALUES (1087609022518972719, 1087620602119876614, 20);
+INSERT INTO `sys_role_menu` VALUES (1087609022518972720, 1087620602119876614, 21);
+INSERT INTO `sys_role_menu` VALUES (1087609022518972721, 1087620602119876614, 22);
+INSERT INTO `sys_role_menu` VALUES (1087609022518972722, 1087620602119876614, 23);
+INSERT INTO `sys_role_menu` VALUES (1087609022518972723, 1087620602119876614, 24);
+INSERT INTO `sys_role_menu` VALUES (1087609022518972724, 1087620602119876614, 25);
+INSERT INTO `sys_role_menu` VALUES (1087609022518972725, 1087620602119876614, 26);
+INSERT INTO `sys_role_menu` VALUES (1087609022518972726, 1087620602119876614, 27);
+INSERT INTO `sys_role_menu` VALUES (1087609022518972727, 1087620602119876614, 29);
+INSERT INTO `sys_role_menu` VALUES (1087609022518972728, 1087620602119876614, 30);
+INSERT INTO `sys_role_menu` VALUES (1087609022518972729, 1087620602119876614, 31);
+INSERT INTO `sys_role_menu` VALUES (1087609022518972730, 1087620602119876614, 32);
+INSERT INTO `sys_role_menu` VALUES (1087609022518972731, 1087620602119876614, 33);
+INSERT INTO `sys_role_menu` VALUES (1087609022518972732, 1087620602119876614, 34);
+INSERT INTO `sys_role_menu` VALUES (1087609022518972733, 1087620602119876614, 35);
+INSERT INTO `sys_role_menu` VALUES (1087609022518972734, 1087620602119876614, 36);
+INSERT INTO `sys_role_menu` VALUES (1087609022518972735, 1087620602119876614, 37);
+INSERT INTO `sys_role_menu` VALUES (1087609022518972736, 1087620602119876614, 38);
+INSERT INTO `sys_role_menu` VALUES (1087609022518972737, 1087620602119876614, 39);
+INSERT INTO `sys_role_menu` VALUES (1087609022518972738, 1087620602119876614, 40);
+INSERT INTO `sys_role_menu` VALUES (1087609022518972739, 1087620602119876614, 41);
 
 -- ----------------------------
 -- Table structure for sys_user
@@ -855,21 +1039,24 @@ DROP TABLE IF EXISTS `sys_user`;
 CREATE TABLE `sys_user`  (
   `user_id` bigint(20) NOT NULL AUTO_INCREMENT,
   `username` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '用户名',
+  `nick_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '昵称',
   `password` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '密码',
   `salt` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '盐',
   `email` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '邮箱',
   `mobile` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '手机号',
   `status` tinyint(4) NULL DEFAULT NULL COMMENT '状态  0：禁用   1：正常',
   `dept_id` bigint(20) NULL DEFAULT NULL COMMENT '部门ID',
+  `avatar` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '头像',
+  `signature` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '座右铭',
   `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`user_id`) USING BTREE,
   UNIQUE INDEX `username`(`username`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1087608018549415938 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '系统用户' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1087608018549415939 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '系统用户' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_user
 -- ----------------------------
-INSERT INTO `sys_user` VALUES (1, 'admin', 'e1153123d7d180ceeb820d577ff119876678732a68eef4e6ffc0b1f06a01f91b', 'YzcmCZNvbXocrsz9dm8e', 'root@renren.io', '13612345678', 1, 1, '2016-11-11 11:11:11');
+INSERT INTO `sys_user` VALUES (1, 'admin', 'master', 'e1153123d7d180ceeb820d577ff119876678732a68eef4e6ffc0b1f06a01f91b', 'YzcmCZNvbXocrsz9dm8e', 'root@renren.io', '13612345678', 1, 1, 'https://gw.alipayobjects.com/zos/rmsportal/BiazfanxmamNRoxxVxka.png', '今天也是充满希望的一天', '2016-11-11 11:11:11');
 
 -- ----------------------------
 -- Table structure for sys_user_role
@@ -880,6 +1067,11 @@ CREATE TABLE `sys_user_role`  (
   `user_id` bigint(20) NULL DEFAULT NULL COMMENT '用户ID',
   `role_id` bigint(20) NULL DEFAULT NULL COMMENT '角色ID',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1087608018633302018 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '用户与角色对应关系' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1087608018633302019 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '用户与角色对应关系' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of sys_user_role
+-- ----------------------------
+INSERT INTO `sys_user_role` VALUES (1087608018633302018, 1087608018549415938, 1);
 
 SET FOREIGN_KEY_CHECKS = 1;
