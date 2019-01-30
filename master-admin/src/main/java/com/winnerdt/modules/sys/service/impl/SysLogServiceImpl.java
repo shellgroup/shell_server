@@ -35,7 +35,7 @@ public class SysLogServiceImpl extends ServiceImpl<SysLogDao, SysLogEntity> impl
                     .like(StringUtils.isNotBlank(userName),"username", userName)
                     .like(StringUtils.isNotBlank(operation),"operation",operation)
                     .like(StringUtils.isNotBlank(method),"method",method)
-                    .between(createDateFlag,"create_time",beginDate,endDate)
+                    .between(createDateFlag,"create_date",beginDate,endDate)
         );
 
         return new PageUtils(page);
