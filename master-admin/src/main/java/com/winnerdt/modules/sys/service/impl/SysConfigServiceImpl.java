@@ -28,11 +28,26 @@ public class SysConfigServiceImpl extends ServiceImpl<SysConfigDao, SysConfigEnt
 	public PageUtils queryPage(Map<String, Object> params) {
 		String paramKey = (String)params.get("paramKey");
 
+		String statusStr = (String)params.get("status");
+		Boolean statusTemp1 = false;
+		Boolean statusTemp2 = false;
+		if(statusStr != null ){
+			statusTemp1 = false;
+			statusTemp2 = false;
+			if(statusStr.contains("0")){
+				statusTemp1 = true;
+			}
+			if(statusStr.contains("1")){
+				statusTemp2 = true;
+			}
+		}
+
 		Page<SysConfigEntity> page = (Page<SysConfigEntity>) this.page(
 				new Query<SysConfigEntity>(params).getPage(),
 				new QueryWrapper<SysConfigEntity>()
 					.like(StringUtils.isNotBlank(paramKey),"param_key", paramKey)
-					.eq("status", 1)
+						.eq(statusTemp1,"status",0)
+						.eq(statusTemp2,"status",1)
 		);
 
 		return new PageUtils(page);

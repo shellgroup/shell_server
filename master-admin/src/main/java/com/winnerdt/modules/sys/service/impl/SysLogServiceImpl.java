@@ -19,11 +19,23 @@ public class SysLogServiceImpl extends ServiceImpl<SysLogDao, SysLogEntity> impl
 
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
-        String key = (String)params.get("key");
+        String userName = (String)params.get("userName");
+        String operation = (String)params.get("operation");
+        String method = (String)params.get("method");
+        String beginDate = (String)params.get("beginDate");
+        String endDate = (String)params.get("endDate");
+        boolean createDateFlag = false;
+        if(StringUtils.isNotBlank(beginDate) && StringUtils.isNotBlank(endDate)){
+            createDateFlag = true;
+        }
 
         Page<SysLogEntity> page = (Page<SysLogEntity>) this.page(
             new Query<SysLogEntity>(params).getPage(),
-            new QueryWrapper<SysLogEntity>().like(StringUtils.isNotBlank(key),"username", key)
+            new QueryWrapper<SysLogEntity>()
+                    .like(StringUtils.isNotBlank(userName),"username", userName)
+                    .like(StringUtils.isNotBlank(operation),"operation",operation)
+                    .like(StringUtils.isNotBlank(method),"method",method)
+                    .between(createDateFlag,"create_time",beginDate,endDate)
         );
 
         return new PageUtils(page);

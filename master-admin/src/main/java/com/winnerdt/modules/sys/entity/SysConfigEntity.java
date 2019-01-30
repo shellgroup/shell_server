@@ -25,6 +25,7 @@ public class SysConfigEntity {
 	private String paramKey;
 	@NotBlank(message="参数值不能为空")
 	private String paramValue;
+	private Integer status;
 	private String remark;
 
 	@JsonSerialize(using= ToStringSerializer.class)
@@ -56,5 +57,13 @@ public class SysConfigEntity {
 	}
 	public void setRemark(String remark) {
 		this.remark = remark;
+	}
+
+	public Integer getStatus() {
+		return status;
+	}
+
+	public void setStatus(Integer status) {
+		this.status = status;
 	}
 }

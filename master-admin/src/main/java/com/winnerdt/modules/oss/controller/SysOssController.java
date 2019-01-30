@@ -193,16 +193,26 @@ public class SysOssController {
 			/*
 			* 删除云存储数据
 			* */
-			for(SysOssEntity sysOssEntity : sysOssEntityList){
-				OSSFactory.build().delete(sysOssEntity.getBucketName(),sysOssEntity.getFileName());
+			try{
+				for(SysOssEntity sysOssEntity : sysOssEntityList){
+					OSSFactory.build().delete(sysOssEntity.getBucketName(),sysOssEntity.getFileName());
+				}
+			}catch (Exception e){
+				e.printStackTrace();
+				Date date = new Date();
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+				String now = sdf.format(date);
+				logger.error("云存储删除异常，异常时间："+now+":::异常数据："+ JSONObject.toJSONString(ids)+":::异常原因："+e.toString());
+				return R.error("网络错误，云储存删除失败！");
 			}
+
 			return R.ok();
 		}catch (Exception e){
 			e.printStackTrace();
 			Date date = new Date();
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 			String now = sdf.format(date);
-			logger.error("用户删除异常，异常时间："+now+":::异常数据："+ JSONObject.toJSONString(ids)+":::异常原因："+e.toString());
+			logger.error("OSS删除数据库异常，异常时间："+now+":::异常数据："+ JSONObject.toJSONString(ids)+":::异常原因："+e.toString());
 			return R.error("网络错误，删除失败！");
 		}
 	}

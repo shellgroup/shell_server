@@ -19,10 +19,37 @@ public class ScheduleJobLogServiceImpl extends ServiceImpl<ScheduleJobLogDao, Sc
 	@Override
 	public PageUtils queryPage(Map<String, Object> params) {
 		String jobId = (String)params.get("jobId");
+		String beanName = (String)params.get("beanName");
+		String methodName = (String)params.get("methodName");
+		String beginDate = (String)params.get("beginDate");
+		String endDate = (String)params.get("endDate");
+		boolean createDateFlag = false;
+		if(StringUtils.isNotBlank(beginDate) && StringUtils.isNotBlank(endDate)){
+			createDateFlag = true;
+		}
+		String statusStr = (String)params.get("status");
+		Boolean statusTemp1 = false;
+		Boolean statusTemp2 = false;
+		if(statusStr != null ){
+			statusTemp1 = false;
+			statusTemp2 = false;
+			if(statusStr.contains("0")){
+				statusTemp1 = true;
+			}
+			if(statusStr.contains("1")){
+				statusTemp2 = true;
+			}
+		}
 
 		Page<ScheduleJobLogEntity> page = (Page<ScheduleJobLogEntity>) this.page(
 				new Query<ScheduleJobLogEntity>(params).getPage(),
-				new QueryWrapper<ScheduleJobLogEntity>().like(StringUtils.isNotBlank(jobId),"job_id", jobId)
+				new QueryWrapper<ScheduleJobLogEntity>()
+						.like(StringUtils.isNotBlank(jobId),"job_id", jobId)
+						.like(StringUtils.isNotBlank(beanName),"bean_name", beanName)
+						.like(StringUtils.isNotBlank(methodName),"method_name",methodName)
+						.eq(statusTemp1,"status",0)
+						.eq(statusTemp2,"status",1)
+						.between(createDateFlag,"create_time",beginDate,endDate)
 		);
 
 		return new PageUtils(page);
