@@ -38,10 +38,9 @@ public class SysIconController {
             statusTemp2 = true;
         }else{
             statusStr = statusOb.toString();
-            if(statusStr.contains("0")){
+            if(statusStr.equals("0")){
                 statusTemp1 = true;
-            }
-            if(statusStr.contains("1")){
+            }else if(statusStr.equals("1")){
                 statusTemp2 = true;
             }
         }

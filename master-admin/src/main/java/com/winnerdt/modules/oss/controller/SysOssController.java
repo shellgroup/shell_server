@@ -52,7 +52,7 @@ public class SysOssController {
 	 * 列表
 	 */
 	@RequestMapping("/list")
-	@RequiresPermissions("sys:oss:all")
+	@RequiresPermissions("sys:oss:list")
 	public R list(@RequestParam Map<String, Object> params){
 		PageUtils page = sysOssService.queryPage(params);
 
@@ -64,7 +64,7 @@ public class SysOssController {
      * 云存储配置信息
      */
     @RequestMapping("/config")
-    @RequiresPermissions("sys:oss:all")
+    @RequiresPermissions("sys:oss:list")
     public R config(){
         CloudStorageConfig config = sysConfigService.getConfigObject(KEY, CloudStorageConfig.class);
 
@@ -76,7 +76,7 @@ public class SysOssController {
 	 * 保存云存储配置信息
 	 */
 	@RequestMapping("/saveConfig")
-	@RequiresPermissions("sys:oss:all")
+	@RequiresPermissions("sys:oss:save")
 	public R saveConfig(@RequestBody CloudStorageConfig config){
 		//校验类型
 		ValidatorUtils.validateEntity(config);
@@ -102,7 +102,7 @@ public class SysOssController {
 	 * 上传文件
 	 */
 	@RequestMapping("/upload")
-	@RequiresPermissions("sys:oss:all")
+	@RequiresPermissions("sys:oss:upload")
 	public R upload(@RequestBody Map<String,Object> fileForm) throws Exception {
 		List<String> suffixList = new ArrayList<>();
 		suffixList.add(".jpg");
@@ -175,7 +175,7 @@ public class SysOssController {
 	 * 删除
 	 */
 	@RequestMapping("/delete")
-	@RequiresPermissions("sys:oss:all")
+	@RequiresPermissions("sys:oss:delete")
 	public R delete(@RequestBody Long[] ids){
 
 		try{

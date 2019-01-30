@@ -63,14 +63,12 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUserEntity> i
 		Boolean statusTemp1 = false;
 		Boolean statusTemp2 = false;
 		if(statusStr != null ){
-			statusTemp1 = false;
-			statusTemp2 = false;
-			if(statusStr.contains("0")){
+			if(statusStr.equals("0")){
 				statusTemp1 = true;
-			}
-			if(statusStr.contains("1")){
+			}else if(statusStr.equals("1")){
 				statusTemp2 = true;
 			}
+
 		}
 
 
