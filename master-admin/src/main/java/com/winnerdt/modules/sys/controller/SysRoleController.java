@@ -141,4 +141,14 @@ public class SysRoleController extends AbstractController {
 			return R.error("网络错误，角色删除失败！");
 		}
 	}
+
+
+	/*
+	 * 通过角色名查询用户是否已经存在
+	 *
+	 * */
+	@RequestMapping("isExistByRoleName")
+	public String isExistByRoleName(@RequestBody Map<String,String> map){
+		return JSONObject.toJSONString(sysRoleService.isExistByRoleName(map.get("roleName")));
+	}
 }

@@ -1,5 +1,6 @@
 package com.winnerdt.common.config;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
@@ -15,6 +16,10 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 @EnableCaching
 public class WebConfig implements WebMvcConfigurer {
+    @Value("${master.imagePath}")
+    private String imagePath;
+    @Value("${master.uploadPath}")
+    private String filePath;
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
@@ -30,6 +35,8 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/statics/**").addResourceLocations("classpath:/statics/");
+        registry.addResourceHandler("/images/**").addResourceLocations("file:" + imagePath);
+        registry.addResourceHandler("/file/**").addResourceLocations("file:" + imagePath);
     }
 
 //    @Override

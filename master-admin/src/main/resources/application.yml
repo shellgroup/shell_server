@@ -52,6 +52,10 @@ master:
   globalSessionTimeout: 3600   #单机环境，session过期时间为60分钟
   redis:
     open: false  #是否开启redis缓存  true开启   false关闭
+  uploadPath: ./zFile/file
+  isDayType: false
+
+  imagePath: ./zFile/image/
 
 #mybatis
 mybatis-plus:

@@ -157,12 +157,12 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUserEntity> i
 	}
 
 	@Override
-	public boolean isExistByUserName(String userName) {
-		List<SysUserEntity> list = super.list(new QueryWrapper<SysUserEntity>().eq("userName",userName));
+	public String isExistByUserName(String userName) {
+		List<SysUserEntity> list = super.list(new QueryWrapper<SysUserEntity>().eq("username",userName));
 		if(list.size() > 0){
-			return true;
+			return "exist";
 		}else {
-			return false;
+			return "noExist";
 		}
 	}
 

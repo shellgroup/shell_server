@@ -55,5 +55,5 @@ public interface SysUserService extends IService<SysUserEntity> {
 	/*
 	* 通过用户名查询用户是否存在
 	* */
-	boolean isExistByUserName(String userName);
+	String isExistByUserName(String userName);
 }

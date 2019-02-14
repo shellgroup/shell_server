@@ -3,8 +3,11 @@ package com.winnerdt.modules.sys.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.winnerdt.common.annotation.SysLog;
+import com.winnerdt.common.utils.DeleteFileUtil;
 import com.winnerdt.common.utils.PageUtils;
 import com.winnerdt.common.utils.R;
+import com.winnerdt.common.utils.UploadUtil;
+import com.winnerdt.common.utils.base64ToMultipartFile.Base64MultipartFileUtil;
 import com.winnerdt.common.validator.Assert;
 import com.winnerdt.common.validator.ValidatorUtils;
 import com.winnerdt.common.validator.group.AddGroup;
@@ -20,8 +23,11 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
@@ -46,6 +52,10 @@ public class SysUserController extends AbstractController {
 	private SysUserRoleService sysUserRoleService;
 	@Autowired
 	private SysDeptService sysDeptService;
+    @Autowired
+    UploadUtil uploadUtil;
+    @Value("${master.imagePath}")
+    private String imagePath;
 
 	/**
 	 * 所有用户列表
@@ -63,7 +73,7 @@ public class SysUserController extends AbstractController {
 	 */
 	@RequestMapping("/info")
 	public R info(){
-		SysUserEntity sysUserEntity = getUser();
+		SysUserEntity sysUserEntity = sysUserService.getById(getUser().getUserId());
 		SysDeptEntity sysDeptEntity = sysDeptService.getById(sysUserEntity.getDeptId());
 		sysUserEntity.setDeptName(sysDeptEntity.getName());
 		return R.ok().put("user", sysUserEntity);
@@ -180,17 +190,152 @@ public class SysUserController extends AbstractController {
         }
 	}
 
+
+    /**
+     * 头像上传
+     */
+    @PostMapping(value = "upload")
+    @ResponseBody
+    public R imgUpload(@RequestBody Map model) {
+        R r = new R();
+        Long userId = null;
+        String originalAvatar = null;
+        MultipartFile file = null;
+
+        //处理接受的参数
+        try{
+        	originalAvatar =  model.get("originalAvatar").toString();
+            String base64 = model.get("newAvatar").toString();
+            file = Base64MultipartFileUtil.base64ToMultipart(base64);
+
+            if(null != model.get("userId")){
+                userId = Long.valueOf(model.get("userId").toString());
+            }else {
+                userId = getUserId();
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+
+            Date date = new Date();
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            String now = sdf.format(date);
+            logger.error("头像上传，参数处理异常，异常时间："+now+":::异常数据："+ JSONObject.toJSONString(model)+"接受的文件：：："+file+":::异常原因："+e.toString());
+
+            r.put("code",500);
+            r.put("msg","网络错误，头像更新失败");
+            r.put("avatar",originalAvatar);
+            return r;
+        }
+
+        /*
+        * 上传逻辑：总的逻辑：1.上传新图片》》》2.更新数据库》》》3.删除原来的图片
+        * 1.上传新图片：
+        *   1.1 成功:执行第2步
+        *   1.2 上传失败：返回错误信息和原来的图片信息
+        * 2.更新数据库
+        *   2.1 更新成功：执行第3步。
+        *   2.2 更新失败，删除新上传的图片，返回错误信息和原来的图片信息
+        *   2.2.1 删除新上传图片成功：返回2.2中的错误信息
+        *   2.2.2 删除新上传图片失败：记录本次错误信息，返回2.2中的错误信息
+        * 3. 删除原来的图片
+        *   3.1 删除成功：返回修改成功提示，返回新图片信息
+        *   3.2 删除失败：返回修改成功提示，返回新图片信息（记录异常信息，因为不影响更新图片，所以前端不报错）
+        *
+        * */
+        try{
+            //上传图片
+            String fileName=uploadUtil.upload(file);
+
+            //更新数据库
+            try{
+                SysUserEntity sysUserEntity = new SysUserEntity();
+                sysUserEntity.setUserId(userId);
+                sysUserEntity.setAvatar(fileName);
+                sysUserService.updateById(sysUserEntity);
+
+            }catch (Exception e){
+
+                Date date = new Date();
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                String now = sdf.format(date);
+                logger.error("头像上传，数据库更新异常，异常时间："+now+":::异常数据："+ JSONObject.toJSONString(model)+"接受的文件：：："+file+":::异常原因："+e.toString());
+
+                //数据库更新失败，将已经上传的文件删除了
+                try{
+                    File fileTemp = new File(imagePath+fileName);
+                    String newFilePath = fileTemp.getAbsolutePath();
+                    DeleteFileUtil.delete(newFilePath);
+
+                }catch (Exception E){
+                    Date date1 = new Date();
+                    SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                    String now1 = sdf1.format(date1);
+                    logger.error("头像上传失败，新上传文件删除异常，异常时间："+now1+":::异常数据："+ JSONObject.toJSONString(model)+"接受的文件：：："+file+":::异常原因："+e.toString());
+
+                    r.put("code",500);
+                    r.put("msg","头像更新失败");
+                    r.put("avatar",originalAvatar);
+                    return r;
+                }
+
+                r.put("code",500);
+                r.put("msg","头像更新失败");
+                r.put("avatar",originalAvatar);
+                return r;
+            }
+
+            /*
+            * 上传完成后，删除原来的头像信息，防止服务器数据冗余
+            * */
+            try{
+                if("defaultAvatar".equals(originalAvatar)){
+                    //默认头像不做删除
+                }else {
+                    File fileTemp = new File(imagePath+originalAvatar);
+                    String originalFilePath = fileTemp.getAbsolutePath();
+                    DeleteFileUtil.delete(originalFilePath);
+                }
+
+            }catch (Exception e){
+                /*
+                * 原头像删除异常时，依旧返回正常信息，不影响新头像的使用
+                * */
+                Date date1 = new Date();
+                SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                String now1 = sdf1.format(date1);
+                logger.error("头像上传成功，原文件删除异常，异常时间："+now1+":::异常数据："+ JSONObject.toJSONString(model)+"接受的文件：：："+file+":::异常原因："+e.toString());
+
+                r.put("code",0);
+                r.put("avatar",fileName);
+                return r;
+            }
+
+            r.put("code",0);
+            r.put("avatar",fileName);
+            return r;
+        }catch (Exception e){
+        	e.printStackTrace();
+            Date date = new Date();
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            String now = sdf.format(date);
+            logger.error("头像上传，上传异常，异常时间："+now+":::异常数据："+ JSONObject.toJSONString(model)+"接受的文件：：："+file+":::异常原因："+e.toString());
+
+
+            r.put("code",500);
+            r.put("msg","头像更新失败");
+            r.put("avatar",originalAvatar);
+            return r;
+        }
+
+    }
+
+
 	/*
 	* 通过用户名查询用户是否已经存在
 	*
 	* */
 	@RequestMapping("isExistByUserName")
-    public boolean isExistByUserName(@RequestBody Map<String,String> map){
-	    if(sysUserService.isExistByUserName(map.get("userName"))){
-			System.out.println("*********************************存在一个或者多个**************************************");
-		}else {
-			System.out.println("***********************************不存在**********************************************");
-		}
-        return sysUserService.isExistByUserName(map.get("userName"));
+    public String isExistByUserName(@RequestBody Map<String,String> map){
+        return JSONObject.toJSONString(sysUserService.isExistByUserName(map.get("userName")));
     }
 }

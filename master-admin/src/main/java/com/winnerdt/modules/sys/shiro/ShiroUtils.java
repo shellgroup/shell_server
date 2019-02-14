@@ -4,6 +4,7 @@ import com.winnerdt.common.exception.RRException;
 import com.winnerdt.modules.sys.entity.SysUserEntity;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.crypto.hash.SimpleHash;
+import org.apache.shiro.mgt.RealmSecurityManager;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 
@@ -54,6 +55,13 @@ public class ShiroUtils {
 
 	public static void logout() {
 		SecurityUtils.getSubject().logout();
+	}
+
+	/*清空权限信息*/
+	public static void clearAuth(){
+		RealmSecurityManager rsm = (RealmSecurityManager)SecurityUtils.getSecurityManager();
+		UserRealm realm = (UserRealm)rsm.getRealms().iterator().next();
+		realm.clearCachedAuthorization();
 	}
 
 	public static String getKaptcha(String key) {

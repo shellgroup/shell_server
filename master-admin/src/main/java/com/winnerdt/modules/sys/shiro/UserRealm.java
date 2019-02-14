@@ -2,12 +2,13 @@ package com.winnerdt.modules.sys.shiro;
 
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.winnerdt.common.utils.Constant;
 import com.winnerdt.modules.sys.dao.SysMenuDao;
 import com.winnerdt.modules.sys.dao.SysUserDao;
-import com.winnerdt.common.utils.Constant;
 import com.winnerdt.modules.sys.entity.SysMenuEntity;
 import com.winnerdt.modules.sys.entity.SysUserEntity;
 import org.apache.commons.lang.StringUtils;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authc.credential.CredentialsMatcher;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
@@ -104,4 +105,15 @@ public class UserRealm extends AuthorizingRealm {
 		shaCredentialsMatcher.setHashIterations(ShiroUtils.hashIterations);
 		super.setCredentialsMatcher(shaCredentialsMatcher);
 	}
+
+	/**
+	 * 清除当前用户的授权信息
+	 */
+
+	public void clearCachedAuthorization(){
+		//清空权限缓存
+		this.clearCachedAuthorizationInfo(SecurityUtils.getSubject().getPrincipals());
+	}
+
+
 }

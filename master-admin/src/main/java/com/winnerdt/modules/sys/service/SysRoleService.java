@@ -25,4 +25,9 @@ public interface SysRoleService extends IService<SysRoleEntity> {
 	
 	void deleteBatch(Long[] roleIds);
 
+	/*
+	 * 通过角色名查询角色是否存在
+	 * */
+	String isExistByRoleName(String roleName);
+
 }

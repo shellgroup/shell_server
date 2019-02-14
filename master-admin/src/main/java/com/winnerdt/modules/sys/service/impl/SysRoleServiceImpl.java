@@ -117,6 +117,14 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleDao, SysRoleEntity> i
 		//删除角色与用户关联
 		sysUserRoleService.deleteBatch(roleIds);
 	}
-
+	@Override
+	public String isExistByRoleName(String roleName) {
+		List<SysRoleEntity> list = super.list(new QueryWrapper<SysRoleEntity>().eq("role_name",roleName));
+		if(list.size() > 0){
+			return "exist";
+		}else {
+			return "noExist";
+		}
+	}
 
 }
