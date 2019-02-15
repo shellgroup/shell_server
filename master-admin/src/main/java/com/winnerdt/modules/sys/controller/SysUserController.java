@@ -171,16 +171,29 @@ public class SysUserController extends AbstractController {
 	@RequestMapping("/updateBasic")
 	@RequiresPermissions("sys:user:update")
 	public R updateBasic(@RequestBody SysUserEntity user){
+	    R r = new R();
+	    Boolean isUpdatePassword = false;
 		if(null == user || user.getUserId() == null){
 			return R.error("用户信息丢失");
 		}
 		if(null != user.getPassword()){
 			user.setPassword(ShiroUtils.sha256(user.getPassword(), getUser().getSalt()));
+			isUpdatePassword =true;
 		}
 
 		try{
 			sysUserService.updateById(user);
-			return R.ok();
+			if(isUpdatePassword){
+			    r.put("isUpdatePassword","true");
+			    r.put("msg","信息修改成功，密码已修改请重新登录");
+			    r.put("code",0);
+			    return r;
+            }else {
+                r.put("isUpdatePassword","false");
+                r.put("msg","信息修改成功");
+                r.put("code",0);
+                return r;
+            }
 		}catch (Exception e){
 			Date date = new Date();
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");

@@ -22,7 +22,7 @@ import java.util.List;
 @Service("sysUserRoleService")
 public class SysUserRoleServiceImpl extends ServiceImpl<SysUserRoleDao, SysUserRoleEntity> implements SysUserRoleService {
 	@Override
-	public void saveOrUpdate(Long userId, List<Long> roleIdList) {
+	public void saveOrUpdate(Long userId, List<String> roleIdList) {
 		//先删除用户与角色关系
 		this.removeByMap(new MapUtils().put("user_id", userId));
 
@@ -32,10 +32,10 @@ public class SysUserRoleServiceImpl extends ServiceImpl<SysUserRoleDao, SysUserR
 		
 		//保存用户与角色关系
 		List<SysUserRoleEntity> list = new ArrayList<>(roleIdList.size());
-		for(Long roleId : roleIdList){
+		for(String roleId : roleIdList){
 			SysUserRoleEntity sysUserRoleEntity = new SysUserRoleEntity();
 			sysUserRoleEntity.setUserId(userId);
-			sysUserRoleEntity.setRoleId(roleId);
+			sysUserRoleEntity.setRoleId(Long.valueOf(roleId));
 
 			list.add(sysUserRoleEntity);
 		}

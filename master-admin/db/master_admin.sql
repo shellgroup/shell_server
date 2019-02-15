@@ -11,7 +11,7 @@
  Target Server Version : 50722
  File Encoding         : 65001
 
- Date: 30/01/2019 17:12:02
+ Date: 15/02/2019 09:55:15
 */
 
 SET NAMES utf8mb4;
@@ -59,7 +59,6 @@ CREATE TABLE `qrtz_cron_triggers`  (
 -- ----------------------------
 -- Records of qrtz_cron_triggers
 -- ----------------------------
-INSERT INTO `qrtz_cron_triggers` VALUES ('MasterScheduler', 'TASK_3', 'DEFAULT', '0 0/30 * * * ?', 'Asia/Shanghai');
 INSERT INTO `qrtz_cron_triggers` VALUES ('MasterScheduler', 'TASK_4', 'DEFAULT', '0 0/30 * * * ?', 'Asia/Shanghai');
 
 -- ----------------------------
@@ -112,7 +111,6 @@ CREATE TABLE `qrtz_job_details`  (
 -- ----------------------------
 -- Records of qrtz_job_details
 -- ----------------------------
-INSERT INTO `qrtz_job_details` VALUES ('MasterScheduler', 'TASK_3', 'DEFAULT', NULL, 'com.winnerdt.modules.job.utils.ScheduleJob', '0', '0', '0', '0', 0xACED0005737200156F72672E71756172747A2E4A6F62446174614D61709FB083E8BFA9B0CB020000787200266F72672E71756172747A2E7574696C732E537472696E674B65794469727479466C61674D61708208E8C3FBC55D280200015A0013616C6C6F77735472616E7369656E74446174617872001D6F72672E71756172747A2E7574696C732E4469727479466C61674D617013E62EAD28760ACE0200025A000564697274794C00036D617074000F4C6A6176612F7574696C2F4D61703B787001737200116A6176612E7574696C2E486173684D61700507DAC1C31660D103000246000A6C6F6164466163746F724900097468726573686F6C6478703F4000000000000C7708000000100000000174000D4A4F425F504152414D5F4B455973720031636F6D2E77696E6E657264742E6D6F64756C65732E6A6F622E656E746974792E5363686564756C654A6F62456E7469747900000000000000010200084C00086265616E4E616D657400124C6A6176612F6C616E672F537472696E673B4C000A63726561746554696D657400104C6A6176612F7574696C2F446174653B4C000E63726F6E45787072657373696F6E71007E00094C00056A6F6249647400104C6A6176612F6C616E672F4C6F6E673B4C000A6D6574686F644E616D6571007E00094C0006706172616D7371007E00094C000672656D61726B71007E00094C00067374617475737400134C6A6176612F6C616E672F496E74656765723B7870740008746573745461736B7372000E6A6176612E7574696C2E44617465686A81014B59741903000078707708000001687F4246A17874000E3020302F3330202A202A202A203F7372000E6A6176612E6C616E672E4C6F6E673B8BE490CC8F23DF0200014A000576616C7565787200106A6176612E6C616E672E4E756D62657286AC951D0B94E08B02000078700000000000000003740005746573743274000074000FE697A0E58F82E695B0E6B58BE8AF95737200116A6176612E6C616E672E496E746567657212E2A0A4F781873802000149000576616C75657871007E0013000000007800);
 INSERT INTO `qrtz_job_details` VALUES ('MasterScheduler', 'TASK_4', 'DEFAULT', NULL, 'com.winnerdt.modules.job.utils.ScheduleJob', '0', '0', '0', '0', 0xACED0005737200156F72672E71756172747A2E4A6F62446174614D61709FB083E8BFA9B0CB020000787200266F72672E71756172747A2E7574696C732E537472696E674B65794469727479466C61674D61708208E8C3FBC55D280200015A0013616C6C6F77735472616E7369656E74446174617872001D6F72672E71756172747A2E7574696C732E4469727479466C61674D617013E62EAD28760ACE0200025A000564697274794C00036D617074000F4C6A6176612F7574696C2F4D61703B787001737200116A6176612E7574696C2E486173684D61700507DAC1C31660D103000246000A6C6F6164466163746F724900097468726573686F6C6478703F4000000000000C7708000000100000000174000D4A4F425F504152414D5F4B455973720031636F6D2E77696E6E657264742E6D6F64756C65732E6A6F622E656E746974792E5363686564756C654A6F62456E7469747900000000000000010200084C00086265616E4E616D657400124C6A6176612F6C616E672F537472696E673B4C000A63726561746554696D657400104C6A6176612F7574696C2F446174653B4C000E63726F6E45787072657373696F6E71007E00094C00056A6F6249647400104C6A6176612F6C616E672F4C6F6E673B4C000A6D6574686F644E616D6571007E00094C0006706172616D7371007E00094C000672656D61726B71007E00094C00067374617475737400134C6A6176612F6C616E672F496E74656765723B7870740008746573745461736B7372000E6A6176612E7574696C2E44617465686A81014B59741903000078707708000001689DDA533C7874000E3020302F3330202A202A202A203F7372000E6A6176612E6C616E672E4C6F6E673B8BE490CC8F23DF0200014A000576616C7565787200106A6176612E6C616E672E4E756D62657286AC951D0B94E08B02000078700000000000000004740005746573743274000B7873786173786173787378740009647363736463736373737200116A6176612E6C616E672E496E746567657212E2A0A4F781873802000149000576616C75657871007E0013000000007800);
 
 -- ----------------------------
@@ -156,7 +154,7 @@ CREATE TABLE `qrtz_scheduler_state`  (
 -- ----------------------------
 -- Records of qrtz_scheduler_state
 -- ----------------------------
-INSERT INTO `qrtz_scheduler_state` VALUES ('MasterScheduler', 'DESKTOP-CUD9MR51548839273984', 1548839518237, 15000);
+INSERT INTO `qrtz_scheduler_state` VALUES ('MasterScheduler', 'DESKTOP-CUD9MR51550195593938', 1550195703052, 15000);
 
 -- ----------------------------
 -- Table structure for qrtz_simple_triggers
@@ -236,8 +234,7 @@ CREATE TABLE `qrtz_triggers`  (
 -- ----------------------------
 -- Records of qrtz_triggers
 -- ----------------------------
-INSERT INTO `qrtz_triggers` VALUES ('MasterScheduler', 'TASK_3', 'DEFAULT', 'TASK_3', 'DEFAULT', NULL, 1548324000000, -1, 5, 'PAUSED', 'CRON', 1548323276000, 0, NULL, 2, 0xACED0005737200156F72672E71756172747A2E4A6F62446174614D61709FB083E8BFA9B0CB020000787200266F72672E71756172747A2E7574696C732E537472696E674B65794469727479466C61674D61708208E8C3FBC55D280200015A0013616C6C6F77735472616E7369656E74446174617872001D6F72672E71756172747A2E7574696C732E4469727479466C61674D617013E62EAD28760ACE0200025A000564697274794C00036D617074000F4C6A6176612F7574696C2F4D61703B787001737200116A6176612E7574696C2E486173684D61700507DAC1C31660D103000246000A6C6F6164466163746F724900097468726573686F6C6478703F4000000000000C7708000000100000000174000D4A4F425F504152414D5F4B455973720031636F6D2E77696E6E657264742E6D6F64756C65732E6A6F622E656E746974792E5363686564756C654A6F62456E7469747900000000000000010200084C00086265616E4E616D657400124C6A6176612F6C616E672F537472696E673B4C000A63726561746554696D657400104C6A6176612F7574696C2F446174653B4C000E63726F6E45787072657373696F6E71007E00094C00056A6F6249647400104C6A6176612F6C616E672F4C6F6E673B4C000A6D6574686F644E616D6571007E00094C0006706172616D7371007E00094C000672656D61726B71007E00094C00067374617475737400134C6A6176612F6C616E672F496E74656765723B7870740008746573745461736B7372000E6A6176612E7574696C2E44617465686A81014B59741903000078707708000001687F4244E07874000E3020302F3330202A202A202A203F7372000E6A6176612E6C616E672E4C6F6E673B8BE490CC8F23DF0200014A000576616C7565787200106A6176612E6C616E672E4E756D62657286AC951D0B94E08B020000787000000000000000037400047465737474000A3131313131313131313174000FE69C89E58F82E695B0E6B58BE8AF95737200116A6176612E6C616E672E496E746567657212E2A0A4F781873802000149000576616C75657871007E0013000000017800);
-INSERT INTO `qrtz_triggers` VALUES ('MasterScheduler', 'TASK_4', 'DEFAULT', 'TASK_4', 'DEFAULT', NULL, 1548840600000, -1, 5, 'WAITING', 'CRON', 1548836557000, 0, NULL, 2, 0xACED0005737200156F72672E71756172747A2E4A6F62446174614D61709FB083E8BFA9B0CB020000787200266F72672E71756172747A2E7574696C732E537472696E674B65794469727479466C61674D61708208E8C3FBC55D280200015A0013616C6C6F77735472616E7369656E74446174617872001D6F72672E71756172747A2E7574696C732E4469727479466C61674D617013E62EAD28760ACE0200025A000564697274794C00036D617074000F4C6A6176612F7574696C2F4D61703B787001737200116A6176612E7574696C2E486173684D61700507DAC1C31660D103000246000A6C6F6164466163746F724900097468726573686F6C6478703F4000000000000C7708000000100000000174000D4A4F425F504152414D5F4B455973720031636F6D2E77696E6E657264742E6D6F64756C65732E6A6F622E656E746974792E5363686564756C654A6F62456E7469747900000000000000010200084C00086265616E4E616D657400124C6A6176612F6C616E672F537472696E673B4C000A63726561746554696D657400104C6A6176612F7574696C2F446174653B4C000E63726F6E45787072657373696F6E71007E00094C00056A6F6249647400104C6A6176612F6C616E672F4C6F6E673B4C000A6D6574686F644E616D6571007E00094C0006706172616D7371007E00094C000672656D61726B71007E00094C00067374617475737400134C6A6176612F6C616E672F496E74656765723B7870740008746573745461736B7372000E6A6176612E7574696C2E44617465686A81014B59741903000078707708000001689DDA54B07874000E3020302F3330202A202A202A203F7372000E6A6176612E6C616E672E4C6F6E673B8BE490CC8F23DF0200014A000576616C7565787200106A6176612E6C616E672E4E756D62657286AC951D0B94E08B02000078700000000000000004740005746573743274000B7873786173786173787378740009647363736463736373737200116A6176612E6C616E672E496E746567657212E2A0A4F781873802000149000576616C75657871007E0013000000007800);
+INSERT INTO `qrtz_triggers` VALUES ('MasterScheduler', 'TASK_4', 'DEFAULT', 'TASK_4', 'DEFAULT', NULL, 1550196000000, -1, 5, 'WAITING', 'CRON', 1548836557000, 0, NULL, 2, 0xACED0005737200156F72672E71756172747A2E4A6F62446174614D61709FB083E8BFA9B0CB020000787200266F72672E71756172747A2E7574696C732E537472696E674B65794469727479466C61674D61708208E8C3FBC55D280200015A0013616C6C6F77735472616E7369656E74446174617872001D6F72672E71756172747A2E7574696C732E4469727479466C61674D617013E62EAD28760ACE0200025A000564697274794C00036D617074000F4C6A6176612F7574696C2F4D61703B787001737200116A6176612E7574696C2E486173684D61700507DAC1C31660D103000246000A6C6F6164466163746F724900097468726573686F6C6478703F4000000000000C7708000000100000000174000D4A4F425F504152414D5F4B455973720031636F6D2E77696E6E657264742E6D6F64756C65732E6A6F622E656E746974792E5363686564756C654A6F62456E7469747900000000000000010200084C00086265616E4E616D657400124C6A6176612F6C616E672F537472696E673B4C000A63726561746554696D657400104C6A6176612F7574696C2F446174653B4C000E63726F6E45787072657373696F6E71007E00094C00056A6F6249647400104C6A6176612F6C616E672F4C6F6E673B4C000A6D6574686F644E616D6571007E00094C0006706172616D7371007E00094C000672656D61726B71007E00094C00067374617475737400134C6A6176612F6C616E672F496E74656765723B7870740008746573745461736B7372000E6A6176612E7574696C2E44617465686A81014B59741903000078707708000001689DDA54B07874000E3020302F3330202A202A202A203F7372000E6A6176612E6C616E672E4C6F6E673B8BE490CC8F23DF0200014A000576616C7565787200106A6176612E6C616E672E4E756D62657286AC951D0B94E08B02000078700000000000000004740005746573743274000B7873786173786173787378740009647363736463736373737200116A6176612E6C616E672E496E746567657212E2A0A4F781873802000149000576616C75657871007E0013000000007800);
 
 -- ----------------------------
 -- Table structure for schedule_job
@@ -258,7 +255,6 @@ CREATE TABLE `schedule_job`  (
 -- ----------------------------
 -- Records of schedule_job
 -- ----------------------------
-INSERT INTO `schedule_job` VALUES (3, 'testTask', 'test', '1111111111', '0 0/30 * * * ?', 1, '有参数测试', '2019-01-24 17:47:56');
 INSERT INTO `schedule_job` VALUES (4, 'testTask', 'test2', 'xsxasxasxsx', '0 0/30 * * * ?', 0, 'dscsdcscs', '2019-01-30 16:22:38');
 
 -- ----------------------------
@@ -277,98 +273,13 @@ CREATE TABLE `schedule_job_log`  (
   `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`log_id`) USING BTREE,
   INDEX `job_id`(`job_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1087620886778900602 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '定时任务日志' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1087620886778900653 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '定时任务日志' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of schedule_job_log
 -- ----------------------------
 INSERT INTO `schedule_job_log` VALUES (1087620886778900507, 3, 'testTask333', 'test2eee333', '1111111111', 1, 'org.springframework.beans.factory.NoSuchBeanDefinitionException: No bean named \'testTask333\' available', 46, '2019-01-24 18:00:00');
-INSERT INTO `schedule_job_log` VALUES (1087620886778900508, 3, 'testTask33354545', 'test2eee33354545', '1111111111', 1, 'org.springframework.beans.factory.NoSuchBeanDefinitionException: No bean named \'testTask33354545\' available', 0, '2019-01-24 18:30:00');
-INSERT INTO `schedule_job_log` VALUES (1087620886778900509, 3, 'testTask33354545', 'test2eee33354545', '1111111111', 1, 'org.springframework.beans.factory.NoSuchBeanDefinitionException: No bean named \'testTask33354545\' available', 1, '2019-01-24 18:36:46');
-INSERT INTO `schedule_job_log` VALUES (1087620886778900510, 3, 'testTask', 'test', '1111111111', 0, NULL, 4488, '2019-01-24 18:38:01');
-INSERT INTO `schedule_job_log` VALUES (1087620886778900511, 3, 'testTask', 'test', '1111111111', 0, NULL, 1020, '2019-01-24 18:40:20');
-INSERT INTO `schedule_job_log` VALUES (1087620886778900512, 3, 'testTask', 'test', '1111111111', 0, NULL, 1005, '2019-01-24 18:40:25');
-INSERT INTO `schedule_job_log` VALUES (1087620886778900513, 3, 'testTask', 'test', '1111111111', 0, NULL, 1005, '2019-01-24 18:40:30');
-INSERT INTO `schedule_job_log` VALUES (1087620886778900514, 3, 'testTask', 'test', '1111111111', 0, NULL, 1004, '2019-01-24 18:40:35');
-INSERT INTO `schedule_job_log` VALUES (1087620886778900515, 3, 'testTask', 'test', '1111111111', 0, NULL, 1004, '2019-01-24 18:40:40');
-INSERT INTO `schedule_job_log` VALUES (1087620886778900516, 3, 'testTask', 'test', '1111111111', 0, NULL, 1003, '2019-01-24 18:40:45');
-INSERT INTO `schedule_job_log` VALUES (1087620886778900517, 3, 'testTask', 'test', '1111111111', 0, NULL, 1003, '2019-01-24 18:40:50');
-INSERT INTO `schedule_job_log` VALUES (1087620886778900518, 3, 'testTask', 'test', '1111111111', 0, NULL, 1004, '2019-01-24 18:40:55');
-INSERT INTO `schedule_job_log` VALUES (1087620886778900519, 3, 'testTask', 'test', '1111111111', 0, NULL, 1003, '2019-01-24 18:41:00');
-INSERT INTO `schedule_job_log` VALUES (1087620886778900520, 3, 'testTask', 'test', '1111111111', 0, NULL, 1006, '2019-01-24 18:41:05');
-INSERT INTO `schedule_job_log` VALUES (1087620886778900521, 3, 'testTask', 'test', '1111111111', 0, NULL, 1026, '2019-01-24 18:41:10');
-INSERT INTO `schedule_job_log` VALUES (1087620886778900522, 3, 'testTask', 'test', '1111111111', 0, NULL, 1007, '2019-01-24 18:41:15');
-INSERT INTO `schedule_job_log` VALUES (1087620886778900523, 3, 'testTask', 'test', '1111111111', 0, NULL, 1005, '2019-01-24 18:41:20');
-INSERT INTO `schedule_job_log` VALUES (1087620886778900524, 3, 'testTask', 'test', '1111111111', 0, NULL, 1005, '2019-01-24 18:41:25');
-INSERT INTO `schedule_job_log` VALUES (1087620886778900525, 3, 'testTask', 'test', '1111111111', 0, NULL, 1005, '2019-01-24 18:41:30');
 INSERT INTO `schedule_job_log` VALUES (1087620886778900526, 3, 'testTask', 'test', '1111111111', 0, NULL, 1004, '2019-01-24 18:41:35');
-INSERT INTO `schedule_job_log` VALUES (1087620886778900527, 3, 'testTask', 'test', '1111111111', 0, NULL, 1003, '2019-01-24 18:41:40');
-INSERT INTO `schedule_job_log` VALUES (1087620886778900528, 3, 'testTask', 'test', '1111111111', 0, NULL, 1003, '2019-01-24 18:41:45');
-INSERT INTO `schedule_job_log` VALUES (1087620886778900529, 3, 'testTask', 'test', '1111111111', 0, NULL, 1004, '2019-01-24 18:41:50');
-INSERT INTO `schedule_job_log` VALUES (1087620886778900530, 3, 'testTask', 'test', '1111111111', 0, NULL, 1003, '2019-01-24 18:41:55');
-INSERT INTO `schedule_job_log` VALUES (1087620886778900531, 3, 'testTask', 'test', '1111111111', 0, NULL, 1004, '2019-01-24 18:42:00');
-INSERT INTO `schedule_job_log` VALUES (1087620886778900532, 3, 'testTask', 'test', '1111111111', 0, NULL, 1004, '2019-01-24 18:42:05');
-INSERT INTO `schedule_job_log` VALUES (1087620886778900533, 3, 'testTask', 'test', '1111111111', 0, NULL, 1003, '2019-01-24 18:42:10');
-INSERT INTO `schedule_job_log` VALUES (1087620886778900534, 3, 'testTask', 'test', '1111111111', 0, NULL, 1003, '2019-01-24 18:42:15');
-INSERT INTO `schedule_job_log` VALUES (1087620886778900535, 3, 'testTask', 'test', '1111111111', 0, NULL, 1004, '2019-01-24 18:42:20');
-INSERT INTO `schedule_job_log` VALUES (1087620886778900536, 3, 'testTask', 'test', '1111111111', 0, NULL, 1004, '2019-01-24 18:42:25');
-INSERT INTO `schedule_job_log` VALUES (1087620886778900537, 3, 'testTask', 'test', '1111111111', 0, NULL, 1019, '2019-01-24 18:42:30');
-INSERT INTO `schedule_job_log` VALUES (1087620886778900538, 3, 'testTask', 'test', '1111111111', 0, NULL, 1044, '2019-01-25 10:00:00');
-INSERT INTO `schedule_job_log` VALUES (1087620886778900539, 3, 'testTask', 'test', '1111111111', 0, NULL, 1024, '2019-01-25 10:30:00');
-INSERT INTO `schedule_job_log` VALUES (1087620886778900540, 3, 'testTask', 'test', '1111111111', 0, NULL, 1038, '2019-01-25 11:00:00');
-INSERT INTO `schedule_job_log` VALUES (1087620886778900541, 3, 'testTask', 'test', '1111111111', 0, NULL, 1024, '2019-01-25 11:30:00');
-INSERT INTO `schedule_job_log` VALUES (1087620886778900542, 3, 'testTask', 'test', '1111111111', 0, NULL, 1028, '2019-01-25 12:00:00');
-INSERT INTO `schedule_job_log` VALUES (1087620886778900543, 3, 'testTask', 'test', '1111111111', 0, NULL, 1028, '2019-01-25 12:30:00');
-INSERT INTO `schedule_job_log` VALUES (1087620886778900544, 3, 'testTask', 'test', '1111111111', 0, NULL, 1021, '2019-01-25 13:00:00');
-INSERT INTO `schedule_job_log` VALUES (1087620886778900545, 3, 'testTask', 'test', '1111111111', 0, NULL, 1059, '2019-01-25 13:30:00');
-INSERT INTO `schedule_job_log` VALUES (1087620886778900546, 3, 'testTask', 'test', '1111111111', 0, NULL, 1042, '2019-01-25 14:00:00');
-INSERT INTO `schedule_job_log` VALUES (1087620886778900547, 3, 'testTask', 'test', '1111111111', 0, NULL, 1027, '2019-01-25 14:30:00');
-INSERT INTO `schedule_job_log` VALUES (1087620886778900548, 3, 'testTask', 'test', '1111111111', 0, NULL, 1042, '2019-01-25 15:00:00');
-INSERT INTO `schedule_job_log` VALUES (1087620886778900549, 3, 'testTask', 'test', '1111111111', 0, NULL, 1036, '2019-01-25 15:30:00');
-INSERT INTO `schedule_job_log` VALUES (1087620886778900550, 3, 'testTask', 'test', '1111111111', 0, NULL, 1039, '2019-01-25 16:00:00');
-INSERT INTO `schedule_job_log` VALUES (1087620886778900551, 3, 'testTask', 'test', '1111111111', 0, NULL, 1028, '2019-01-25 16:30:00');
-INSERT INTO `schedule_job_log` VALUES (1087620886778900552, 3, 'testTask', 'test', '1111111111', 0, NULL, 1005, '2019-01-25 17:00:00');
-INSERT INTO `schedule_job_log` VALUES (1087620886778900553, 3, 'testTask', 'test', '1111111111', 0, NULL, 1004, '2019-01-25 17:30:00');
-INSERT INTO `schedule_job_log` VALUES (1087620886778900554, 3, 'testTask', 'test', '1111111111', 0, NULL, 1003, '2019-01-25 18:00:00');
-INSERT INTO `schedule_job_log` VALUES (1087620886778900555, 3, 'testTask', 'test', '1111111111', 0, NULL, 1011, '2019-01-25 18:30:00');
-INSERT INTO `schedule_job_log` VALUES (1087620886778900556, 3, 'testTask', 'test', '1111111111', 0, NULL, 1016, '2019-01-28 10:30:00');
-INSERT INTO `schedule_job_log` VALUES (1087620886778900557, 3, 'testTask', 'test', '1111111111', 0, NULL, 1026, '2019-01-28 11:00:00');
-INSERT INTO `schedule_job_log` VALUES (1087620886778900558, 3, 'testTask', 'test', '1111111111', 0, NULL, 1127, '2019-01-28 12:00:00');
-INSERT INTO `schedule_job_log` VALUES (1087620886778900559, 3, 'testTask', 'test', '1111111111', 0, NULL, 1032, '2019-01-28 12:30:00');
-INSERT INTO `schedule_job_log` VALUES (1087620886778900560, 3, 'testTask', 'test', '1111111111', 0, NULL, 1015, '2019-01-28 13:00:00');
-INSERT INTO `schedule_job_log` VALUES (1087620886778900561, 3, 'testTask', 'test', '1111111111', 0, NULL, 1012, '2019-01-28 13:30:00');
-INSERT INTO `schedule_job_log` VALUES (1087620886778900562, 3, 'testTask', 'test', '1111111111', 0, NULL, 1032, '2019-01-28 14:00:00');
-INSERT INTO `schedule_job_log` VALUES (1087620886778900563, 3, 'testTask', 'test', '1111111111', 0, NULL, 1017, '2019-01-28 14:30:00');
-INSERT INTO `schedule_job_log` VALUES (1087620886778900564, 3, 'testTask', 'test', '1111111111', 0, NULL, 1002, '2019-01-28 15:00:00');
-INSERT INTO `schedule_job_log` VALUES (1087620886778900565, 3, 'testTask', 'test', '1111111111', 0, NULL, 1104, '2019-01-28 15:30:00');
-INSERT INTO `schedule_job_log` VALUES (1087620886778900566, 3, 'testTask', 'test', '1111111111', 0, NULL, 1068, '2019-01-28 16:00:00');
-INSERT INTO `schedule_job_log` VALUES (1087620886778900567, 3, 'testTask', 'test', '1111111111', 0, NULL, 1056, '2019-01-28 16:30:00');
-INSERT INTO `schedule_job_log` VALUES (1087620886778900568, 3, 'testTask', 'test', '1111111111', 0, NULL, 1046, '2019-01-28 17:00:00');
-INSERT INTO `schedule_job_log` VALUES (1087620886778900569, 3, 'testTask', 'test', '1111111111', 0, NULL, 1034, '2019-01-28 17:30:00');
-INSERT INTO `schedule_job_log` VALUES (1087620886778900570, 3, 'testTask', 'test', '1111111111', 0, NULL, 1080, '2019-01-28 18:00:00');
-INSERT INTO `schedule_job_log` VALUES (1087620886778900571, 3, 'testTask', 'test', '1111111111', 0, NULL, 1010, '2019-01-29 10:30:00');
-INSERT INTO `schedule_job_log` VALUES (1087620886778900572, 3, 'testTask', 'test', '1111111111', 0, NULL, 1085, '2019-01-29 11:00:00');
-INSERT INTO `schedule_job_log` VALUES (1087620886778900573, 3, 'testTask', 'test', '1111111111', 0, NULL, 1100, '2019-01-29 11:30:00');
-INSERT INTO `schedule_job_log` VALUES (1087620886778900574, 3, 'testTask', 'test', '1111111111', 0, NULL, 1011, '2019-01-29 12:00:12');
-INSERT INTO `schedule_job_log` VALUES (1087620886778900575, 3, 'testTask', 'test', '1111111111', 0, NULL, 1034, '2019-01-29 12:30:00');
-INSERT INTO `schedule_job_log` VALUES (1087620886778900576, 3, 'testTask', 'test', '1111111111', 0, NULL, 1032, '2019-01-29 13:00:00');
-INSERT INTO `schedule_job_log` VALUES (1087620886778900577, 3, 'testTask', 'test', '1111111111', 0, NULL, 1017, '2019-01-29 13:30:00');
-INSERT INTO `schedule_job_log` VALUES (1087620886778900578, 3, 'testTask', 'test', '1111111111', 0, NULL, 1044, '2019-01-29 14:00:00');
-INSERT INTO `schedule_job_log` VALUES (1087620886778900579, 3, 'testTask', 'test', '1111111111', 0, NULL, 1013, '2019-01-29 14:30:00');
-INSERT INTO `schedule_job_log` VALUES (1087620886778900580, 3, 'testTask', 'test', '1111111111', 0, NULL, 1012, '2019-01-29 15:00:00');
-INSERT INTO `schedule_job_log` VALUES (1087620886778900581, 3, 'testTask', 'test', '1111111111', 0, NULL, 1015, '2019-01-29 15:30:00');
-INSERT INTO `schedule_job_log` VALUES (1087620886778900582, 3, 'testTask', 'test', '1111111111', 0, NULL, 1020, '2019-01-29 16:00:00');
-INSERT INTO `schedule_job_log` VALUES (1087620886778900583, 3, 'testTask', 'test', '1111111111', 0, NULL, 1012, '2019-01-29 16:30:00');
-INSERT INTO `schedule_job_log` VALUES (1087620886778900584, 3, 'testTask', 'test', '1111111111', 0, NULL, 1107, '2019-01-29 17:00:00');
-INSERT INTO `schedule_job_log` VALUES (1087620886778900585, 3, 'testTask', 'test', '1111111111', 0, NULL, 1035, '2019-01-29 17:30:00');
-INSERT INTO `schedule_job_log` VALUES (1087620886778900586, 3, 'testTask', 'test', '1111111111', 0, NULL, 1018, '2019-01-29 18:00:00');
-INSERT INTO `schedule_job_log` VALUES (1087620886778900587, 3, 'testTask', 'test', '1111111111', 0, NULL, 1027, '2019-01-29 18:30:00');
-INSERT INTO `schedule_job_log` VALUES (1087620886778900588, 3, 'testTask', 'test', '1111111111', 0, NULL, 1037, '2019-01-30 11:00:00');
-INSERT INTO `schedule_job_log` VALUES (1087620886778900589, 3, 'testTask', 'test', '1111111111', 0, NULL, 1004, '2019-01-30 11:30:00');
-INSERT INTO `schedule_job_log` VALUES (1087620886778900590, 3, 'testTask', 'test', '1111111111', 0, NULL, 1065, '2019-01-30 12:00:00');
-INSERT INTO `schedule_job_log` VALUES (1087620886778900591, 3, 'testTask', 'test', '1111111111', 0, NULL, 1018, '2019-01-30 12:30:00');
-INSERT INTO `schedule_job_log` VALUES (1087620886778900592, 3, 'testTask', 'test', '1111111111', 0, NULL, 1046, '2019-01-30 13:00:00');
-INSERT INTO `schedule_job_log` VALUES (1087620886778900593, 3, 'testTask', 'test', '1111111111', 0, NULL, 1019, '2019-01-30 13:30:00');
 INSERT INTO `schedule_job_log` VALUES (1087620886778900594, 3, 'testTask', 'test', '1111111111', 0, NULL, 1037, '2019-01-30 14:00:00');
 INSERT INTO `schedule_job_log` VALUES (1087620886778900595, 3, 'testTask', 'test', '1111111111', 0, NULL, 1022, '2019-01-30 14:30:00');
 INSERT INTO `schedule_job_log` VALUES (1087620886778900596, 3, 'testTask', 'test', '1111111111', 0, NULL, 1006, '2019-01-30 15:00:00');
@@ -377,6 +288,57 @@ INSERT INTO `schedule_job_log` VALUES (1087620886778900598, 3, 'testTask', 'test
 INSERT INTO `schedule_job_log` VALUES (1087620886778900599, 4, 'testTask', 'test2', 'xsxasxasxsx', 1, 'java.lang.NoSuchMethodException: com.winnerdt.modules.job.task.TestTask.test2(java.lang.String)', 0, '2019-01-30 16:30:00');
 INSERT INTO `schedule_job_log` VALUES (1087620886778900600, 3, 'testTask', 'test', '1111111111', 0, NULL, 1008, '2019-01-30 16:30:00');
 INSERT INTO `schedule_job_log` VALUES (1087620886778900601, 4, 'testTask', 'test2', 'xsxasxasxsx', 1, 'java.lang.NoSuchMethodException: com.winnerdt.modules.job.task.TestTask.test2(java.lang.String)', 1, '2019-01-30 17:00:00');
+INSERT INTO `schedule_job_log` VALUES (1087620886778900602, 4, 'testTask', 'test2', 'xsxasxasxsx', 1, 'java.lang.NoSuchMethodException: com.winnerdt.modules.job.task.TestTask.test2(java.lang.String)', 4, '2019-01-30 17:30:00');
+INSERT INTO `schedule_job_log` VALUES (1087620886778900603, 4, 'testTask', 'test2', 'xsxasxasxsx', 1, 'java.lang.NoSuchMethodException: com.winnerdt.modules.job.task.TestTask.test2(java.lang.String)', 1, '2019-01-30 18:00:00');
+INSERT INTO `schedule_job_log` VALUES (1087620886778900604, 4, 'testTask', 'test2', 'xsxasxasxsx', 1, 'java.lang.NoSuchMethodException: com.winnerdt.modules.job.task.TestTask.test2(java.lang.String)', 4, '2019-01-30 18:30:00');
+INSERT INTO `schedule_job_log` VALUES (1087620886778900605, 4, 'testTask', 'test2', 'xsxasxasxsx', 1, 'java.lang.NoSuchMethodException: com.winnerdt.modules.job.task.TestTask.test2(java.lang.String)', 37, '2019-02-12 10:00:00');
+INSERT INTO `schedule_job_log` VALUES (1087620886778900606, 4, 'testTask', 'test2', 'xsxasxasxsx', 1, 'java.lang.NoSuchMethodException: com.winnerdt.modules.job.task.TestTask.test2(java.lang.String)', 2, '2019-02-12 10:30:00');
+INSERT INTO `schedule_job_log` VALUES (1087620886778900607, 4, 'testTask', 'test2', 'xsxasxasxsx', 1, 'java.lang.NoSuchMethodException: com.winnerdt.modules.job.task.TestTask.test2(java.lang.String)', 1, '2019-02-12 11:00:00');
+INSERT INTO `schedule_job_log` VALUES (1087620886778900608, 4, 'testTask', 'test2', 'xsxasxasxsx', 1, 'java.lang.NoSuchMethodException: com.winnerdt.modules.job.task.TestTask.test2(java.lang.String)', 2, '2019-02-12 11:30:00');
+INSERT INTO `schedule_job_log` VALUES (1087620886778900609, 4, 'testTask', 'test2', 'xsxasxasxsx', 1, 'java.lang.NoSuchMethodException: com.winnerdt.modules.job.task.TestTask.test2(java.lang.String)', 0, '2019-02-12 12:00:00');
+INSERT INTO `schedule_job_log` VALUES (1087620886778900610, 4, 'testTask', 'test2', 'xsxasxasxsx', 1, 'java.lang.NoSuchMethodException: com.winnerdt.modules.job.task.TestTask.test2(java.lang.String)', 1, '2019-02-12 12:30:00');
+INSERT INTO `schedule_job_log` VALUES (1087620886778900611, 4, 'testTask', 'test2', 'xsxasxasxsx', 1, 'java.lang.NoSuchMethodException: com.winnerdt.modules.job.task.TestTask.test2(java.lang.String)', 2, '2019-02-12 13:00:00');
+INSERT INTO `schedule_job_log` VALUES (1087620886778900612, 4, 'testTask', 'test2', 'xsxasxasxsx', 1, 'java.lang.NoSuchMethodException: com.winnerdt.modules.job.task.TestTask.test2(java.lang.String)', 1, '2019-02-12 13:30:00');
+INSERT INTO `schedule_job_log` VALUES (1087620886778900613, 4, 'testTask', 'test2', 'xsxasxasxsx', 1, 'java.lang.NoSuchMethodException: com.winnerdt.modules.job.task.TestTask.test2(java.lang.String)', 2, '2019-02-12 14:00:00');
+INSERT INTO `schedule_job_log` VALUES (1087620886778900614, 4, 'testTask', 'test2', 'xsxasxasxsx', 1, 'java.lang.NoSuchMethodException: com.winnerdt.modules.job.task.TestTask.test2(java.lang.String)', 45, '2019-02-12 14:30:00');
+INSERT INTO `schedule_job_log` VALUES (1087620886778900615, 4, 'testTask', 'test2', 'xsxasxasxsx', 1, 'java.lang.NoSuchMethodException: com.winnerdt.modules.job.task.TestTask.test2(java.lang.String)', 5, '2019-02-12 15:00:00');
+INSERT INTO `schedule_job_log` VALUES (1087620886778900616, 4, 'testTask', 'test2', 'xsxasxasxsx', 1, 'java.lang.NoSuchMethodException: com.winnerdt.modules.job.task.TestTask.test2(java.lang.String)', 2, '2019-02-12 15:30:00');
+INSERT INTO `schedule_job_log` VALUES (1087620886778900617, 4, 'testTask', 'test2', 'xsxasxasxsx', 1, 'java.lang.NoSuchMethodException: com.winnerdt.modules.job.task.TestTask.test2(java.lang.String)', 3, '2019-02-12 16:00:00');
+INSERT INTO `schedule_job_log` VALUES (1087620886778900618, 4, 'testTask', 'test2', 'xsxasxasxsx', 1, 'java.lang.NoSuchMethodException: com.winnerdt.modules.job.task.TestTask.test2(java.lang.String)', 14, '2019-02-12 16:30:00');
+INSERT INTO `schedule_job_log` VALUES (1087620886778900619, 4, 'testTask', 'test2', 'xsxasxasxsx', 1, 'java.lang.NoSuchMethodException: com.winnerdt.modules.job.task.TestTask.test2(java.lang.String)', 2, '2019-02-12 17:00:00');
+INSERT INTO `schedule_job_log` VALUES (1087620886778900620, 4, 'testTask', 'test2', 'xsxasxasxsx', 1, 'java.lang.NoSuchMethodException: com.winnerdt.modules.job.task.TestTask.test2(java.lang.String)', 1, '2019-02-12 17:30:00');
+INSERT INTO `schedule_job_log` VALUES (1087620886778900621, 4, 'testTask', 'test2', 'xsxasxasxsx', 1, 'java.lang.NoSuchMethodException: com.winnerdt.modules.job.task.TestTask.test2(java.lang.String)', 2, '2019-02-12 18:00:00');
+INSERT INTO `schedule_job_log` VALUES (1087620886778900622, 4, 'testTask', 'test2', 'xsxasxasxsx', 1, 'java.lang.NoSuchMethodException: com.winnerdt.modules.job.task.TestTask.test2(java.lang.String)', 127, '2019-02-13 10:30:00');
+INSERT INTO `schedule_job_log` VALUES (1087620886778900623, 4, 'testTask', 'test2', 'xsxasxasxsx', 1, 'java.lang.NoSuchMethodException: com.winnerdt.modules.job.task.TestTask.test2(java.lang.String)', 2, '2019-02-13 11:00:00');
+INSERT INTO `schedule_job_log` VALUES (1087620886778900624, 4, 'testTask', 'test2', 'xsxasxasxsx', 1, 'java.lang.NoSuchMethodException: com.winnerdt.modules.job.task.TestTask.test2(java.lang.String)', 1, '2019-02-13 11:30:00');
+INSERT INTO `schedule_job_log` VALUES (1087620886778900625, 4, 'testTask', 'test2', 'xsxasxasxsx', 1, 'java.lang.NoSuchMethodException: com.winnerdt.modules.job.task.TestTask.test2(java.lang.String)', 2, '2019-02-13 12:00:00');
+INSERT INTO `schedule_job_log` VALUES (1087620886778900626, 4, 'testTask', 'test2', 'xsxasxasxsx', 1, 'java.lang.NoSuchMethodException: com.winnerdt.modules.job.task.TestTask.test2(java.lang.String)', 2, '2019-02-13 12:30:00');
+INSERT INTO `schedule_job_log` VALUES (1087620886778900627, 4, 'testTask', 'test2', 'xsxasxasxsx', 1, 'java.lang.NoSuchMethodException: com.winnerdt.modules.job.task.TestTask.test2(java.lang.String)', 3, '2019-02-13 13:00:00');
+INSERT INTO `schedule_job_log` VALUES (1087620886778900628, 4, 'testTask', 'test2', 'xsxasxasxsx', 1, 'java.lang.NoSuchMethodException: com.winnerdt.modules.job.task.TestTask.test2(java.lang.String)', 1, '2019-02-13 13:30:00');
+INSERT INTO `schedule_job_log` VALUES (1087620886778900629, 4, 'testTask', 'test2', 'xsxasxasxsx', 1, 'java.lang.NoSuchMethodException: com.winnerdt.modules.job.task.TestTask.test2(java.lang.String)', 3, '2019-02-13 14:00:00');
+INSERT INTO `schedule_job_log` VALUES (1087620886778900630, 4, 'testTask', 'test2', 'xsxasxasxsx', 1, 'java.lang.NoSuchMethodException: com.winnerdt.modules.job.task.TestTask.test2(java.lang.String)', 2, '2019-02-13 14:30:00');
+INSERT INTO `schedule_job_log` VALUES (1087620886778900631, 4, 'testTask', 'test2', 'xsxasxasxsx', 1, 'java.lang.NoSuchMethodException: com.winnerdt.modules.job.task.TestTask.test2(java.lang.String)', 1, '2019-02-13 15:00:00');
+INSERT INTO `schedule_job_log` VALUES (1087620886778900632, 4, 'testTask', 'test2', 'xsxasxasxsx', 1, 'java.lang.NoSuchMethodException: com.winnerdt.modules.job.task.TestTask.test2(java.lang.String)', 1, '2019-02-13 15:30:00');
+INSERT INTO `schedule_job_log` VALUES (1087620886778900633, 4, 'testTask', 'test2', 'xsxasxasxsx', 1, 'java.lang.NoSuchMethodException: com.winnerdt.modules.job.task.TestTask.test2(java.lang.String)', 3, '2019-02-13 16:00:00');
+INSERT INTO `schedule_job_log` VALUES (1087620886778900634, 4, 'testTask', 'test2', 'xsxasxasxsx', 1, 'java.lang.NoSuchMethodException: com.winnerdt.modules.job.task.TestTask.test2(java.lang.String)', 3, '2019-02-13 16:30:00');
+INSERT INTO `schedule_job_log` VALUES (1087620886778900635, 4, 'testTask', 'test2', 'xsxasxasxsx', 1, 'java.lang.NoSuchMethodException: com.winnerdt.modules.job.task.TestTask.test2(java.lang.String)', 3, '2019-02-13 17:30:00');
+INSERT INTO `schedule_job_log` VALUES (1087620886778900636, 4, 'testTask', 'test2', 'xsxasxasxsx', 1, 'java.lang.NoSuchMethodException: com.winnerdt.modules.job.task.TestTask.test2(java.lang.String)', 3, '2019-02-13 18:00:22');
+INSERT INTO `schedule_job_log` VALUES (1087620886778900637, 4, 'testTask', 'test2', 'xsxasxasxsx', 1, 'java.lang.NoSuchMethodException: com.winnerdt.modules.job.task.TestTask.test2(java.lang.String)', 28, '2019-02-14 10:00:00');
+INSERT INTO `schedule_job_log` VALUES (1087620886778900638, 4, 'testTask', 'test2', 'xsxasxasxsx', 1, 'java.lang.NoSuchMethodException: com.winnerdt.modules.job.task.TestTask.test2(java.lang.String)', 3, '2019-02-14 10:33:05');
+INSERT INTO `schedule_job_log` VALUES (1087620886778900639, 4, 'testTask', 'test2', 'xsxasxasxsx', 1, 'java.lang.NoSuchMethodException: com.winnerdt.modules.job.task.TestTask.test2(java.lang.String)', 3, '2019-02-14 11:30:00');
+INSERT INTO `schedule_job_log` VALUES (1087620886778900640, 4, 'testTask', 'test2', 'xsxasxasxsx', 1, 'java.lang.NoSuchMethodException: com.winnerdt.modules.job.task.TestTask.test2(java.lang.String)', 1, '2019-02-14 12:00:00');
+INSERT INTO `schedule_job_log` VALUES (1087620886778900641, 4, 'testTask', 'test2', 'xsxasxasxsx', 1, 'java.lang.NoSuchMethodException: com.winnerdt.modules.job.task.TestTask.test2(java.lang.String)', 1, '2019-02-14 12:30:00');
+INSERT INTO `schedule_job_log` VALUES (1087620886778900642, 4, 'testTask', 'test2', 'xsxasxasxsx', 1, 'java.lang.NoSuchMethodException: com.winnerdt.modules.job.task.TestTask.test2(java.lang.String)', 2, '2019-02-14 13:00:00');
+INSERT INTO `schedule_job_log` VALUES (1087620886778900643, 4, 'testTask', 'test2', 'xsxasxasxsx', 1, 'java.lang.NoSuchMethodException: com.winnerdt.modules.job.task.TestTask.test2(java.lang.String)', 3, '2019-02-14 13:30:00');
+INSERT INTO `schedule_job_log` VALUES (1087620886778900644, 4, 'testTask', 'test2', 'xsxasxasxsx', 1, 'java.lang.NoSuchMethodException: com.winnerdt.modules.job.task.TestTask.test2(java.lang.String)', 1, '2019-02-14 14:00:00');
+INSERT INTO `schedule_job_log` VALUES (1087620886778900645, 4, 'testTask', 'test2', 'xsxasxasxsx', 1, 'java.lang.NoSuchMethodException: com.winnerdt.modules.job.task.TestTask.test2(java.lang.String)', 1, '2019-02-14 14:30:00');
+INSERT INTO `schedule_job_log` VALUES (1087620886778900646, 4, 'testTask', 'test2', 'xsxasxasxsx', 1, 'java.lang.NoSuchMethodException: com.winnerdt.modules.job.task.TestTask.test2(java.lang.String)', 29, '2019-02-14 15:00:00');
+INSERT INTO `schedule_job_log` VALUES (1087620886778900647, 4, 'testTask', 'test2', 'xsxasxasxsx', 1, 'java.lang.NoSuchMethodException: com.winnerdt.modules.job.task.TestTask.test2(java.lang.String)', 2, '2019-02-14 15:30:00');
+INSERT INTO `schedule_job_log` VALUES (1087620886778900648, 4, 'testTask', 'test2', 'xsxasxasxsx', 1, 'java.lang.NoSuchMethodException: com.winnerdt.modules.job.task.TestTask.test2(java.lang.String)', 42, '2019-02-14 16:00:00');
+INSERT INTO `schedule_job_log` VALUES (1087620886778900649, 4, 'testTask', 'test2', 'xsxasxasxsx', 1, 'java.lang.NoSuchMethodException: com.winnerdt.modules.job.task.TestTask.test2(java.lang.String)', 2, '2019-02-14 16:30:00');
+INSERT INTO `schedule_job_log` VALUES (1087620886778900650, 4, 'testTask', 'test2', 'xsxasxasxsx', 1, 'java.lang.NoSuchMethodException: com.winnerdt.modules.job.task.TestTask.test2(java.lang.String)', 3, '2019-02-14 17:00:00');
+INSERT INTO `schedule_job_log` VALUES (1087620886778900651, 4, 'testTask', 'test2', 'xsxasxasxsx', 1, 'java.lang.NoSuchMethodException: com.winnerdt.modules.job.task.TestTask.test2(java.lang.String)', 22, '2019-02-14 17:30:00');
+INSERT INTO `schedule_job_log` VALUES (1087620886778900652, 4, 'testTask', 'test2', 'xsxasxasxsx', 1, 'java.lang.NoSuchMethodException: com.winnerdt.modules.job.task.TestTask.test2(java.lang.String)', 4, '2019-02-14 18:00:00');
 
 -- ----------------------------
 -- Table structure for sys_config
@@ -435,13 +397,14 @@ CREATE TABLE `sys_dict`  (
   `del_flag` tinyint(4) NULL DEFAULT 0 COMMENT '删除标记  -1：已删除  0：正常',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `type`(`type`, `code`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '数据字典表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '数据字典表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_dict
 -- ----------------------------
 INSERT INTO `sys_dict` VALUES (2, '性别', 'sex', '1', '男', 1, '性别', 0);
 INSERT INTO `sys_dict` VALUES (3, '性别', 'sex', '2', '未知', 3, '性别', 0);
+INSERT INTO `sys_dict` VALUES (4, '34', '43', '43', '43', 43, '443', 0);
 
 -- ----------------------------
 -- Table structure for sys_icon
@@ -771,7 +734,7 @@ CREATE TABLE `sys_log`  (
   `ip` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT 'IP地址',
   `create_date` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1087620602598027302 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '系统日志' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1087620602598027312 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '系统日志' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_log
@@ -891,6 +854,16 @@ INSERT INTO `sys_log` VALUES (1087620602598027298, 'admin', '保存菜单', 'com
 INSERT INTO `sys_log` VALUES (1087620602598027299, 'admin', '保存菜单', 'com.winnerdt.modules.sys.controller.SysMenuController.save()', '{\"menuId\":50,\"parentId\":29,\"name\":\"查看\",\"perms\":\"sys:log:list\",\"type\":2,\"orderNum\":1}', 28, '192.168.199.192', '2019-01-30 15:53:10');
 INSERT INTO `sys_log` VALUES (1087620602598027300, 'admin', '保存定时任务', 'com.winnerdt.modules.job.controller.ScheduleJobController.save()', '{\"jobId\":4,\"beanName\":\"testTask\",\"methodName\":\"test2\",\"params\":\"xsxasxasxsx\",\"cronExpression\":\"0 0/30 * * * ?\",\"status\":0,\"remark\":\"dscsdcscs\",\"createTime\":\"Jan 30, 2019 4:22:37 PM\"}', 465, '192.168.199.192', '2019-01-30 16:22:38');
 INSERT INTO `sys_log` VALUES (1087620602598027301, 'admin', '暂停定时任务', 'com.winnerdt.modules.job.controller.ScheduleJobController.pause()', '[3]', 220, '192.168.199.192', '2019-01-30 16:55:02');
+INSERT INTO `sys_log` VALUES (1087620602598027302, 'admin', '保存菜单', 'com.winnerdt.modules.sys.controller.SysMenuController.save()', '{\"menuId\":51,\"parentId\":41,\"name\":\"查看\",\"perms\":\"sys:oss:list\",\"type\":2,\"icon\":\"step-forward\",\"orderNum\":12}', 111, '0:0:0:0:0:0:0:1', '2019-02-12 10:03:16');
+INSERT INTO `sys_log` VALUES (1087620602598027303, 'admin', '保存菜单', 'com.winnerdt.modules.sys.controller.SysMenuController.save()', '{\"menuId\":52,\"parentId\":41,\"name\":\"te\",\"perms\":\"ds\",\"type\":2,\"icon\":\"caret-up\",\"orderNum\":1}', 75, '192.168.199.192', '2019-02-12 10:13:24');
+INSERT INTO `sys_log` VALUES (1087620602598027304, 'admin', '删除定时任务', 'com.winnerdt.modules.job.controller.ScheduleJobController.delete()', '[3]', 345, '192.168.199.192', '2019-02-12 10:14:48');
+INSERT INTO `sys_log` VALUES (1087620602598027305, 'admin', '修改菜单', 'com.winnerdt.modules.sys.controller.SysMenuController.update()', '{\"menuId\":52,\"parentId\":41,\"name\":\"tetttt\",\"perms\":\"ds\",\"type\":2,\"icon\":\"caret-up\",\"orderNum\":1}', 45, '192.168.199.192', '2019-02-12 10:15:29');
+INSERT INTO `sys_log` VALUES (1087620602598027306, 'admin', '删除菜单', 'com.winnerdt.modules.sys.controller.SysMenuController.delete()', '51', 51, '0:0:0:0:0:0:0:1', '2019-02-12 10:19:26');
+INSERT INTO `sys_log` VALUES (1087620602598027307, 'admin', '删除菜单', 'com.winnerdt.modules.sys.controller.SysMenuController.delete()', '52', 47, '0:0:0:0:0:0:0:1', '2019-02-12 10:20:31');
+INSERT INTO `sys_log` VALUES (1087620602598027308, 'admin', '保存角色', 'com.winnerdt.modules.sys.controller.SysRoleController.save()', '{\"roleId\":1087620602119876615,\"roleName\":\"test\",\"deptId\":0,\"menuIdList\":[],\"deptIdList\":[],\"createTime\":\"Feb 14, 2019 1:40:41 PM\"}', 398, '192.168.199.192', '2019-02-14 13:40:42');
+INSERT INTO `sys_log` VALUES (1087620602598027309, 'admin', '保存角色', 'com.winnerdt.modules.sys.controller.SysRoleController.save()', '{\"roleId\":1087620602119876616,\"roleName\":\"test\",\"deptId\":0,\"menuIdList\":[],\"deptIdList\":[],\"createTime\":\"Feb 14, 2019 1:42:36 PM\"}', 83, '192.168.199.192', '2019-02-14 13:42:36');
+INSERT INTO `sys_log` VALUES (1087620602598027310, 'admin', '保存角色', 'com.winnerdt.modules.sys.controller.SysRoleController.save()', '{\"roleId\":1087620602119876617,\"roleName\":\"ctest\",\"deptId\":0,\"menuIdList\":[],\"deptIdList\":[],\"createTime\":\"Feb 14, 2019 1:46:10 PM\"}', 56, '192.168.199.192', '2019-02-14 13:46:11');
+INSERT INTO `sys_log` VALUES (1087620602598027311, 'admin', '保存角色', 'com.winnerdt.modules.sys.controller.SysRoleController.save()', '{\"roleId\":1087620602119876618,\"roleName\":\"tests\",\"deptId\":0,\"menuIdList\":[],\"deptIdList\":[],\"createTime\":\"Feb 14, 2019 1:46:47 PM\"}', 117, '192.168.199.192', '2019-02-14 13:46:48');
 
 -- ----------------------------
 -- Table structure for sys_menu
@@ -1041,13 +1014,17 @@ CREATE TABLE `sys_role`  (
   `dept_id` bigint(20) NULL DEFAULT NULL COMMENT '部门ID',
   `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`role_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1087620602119876615 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '角色' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1087620602119876619 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '角色' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_role
 -- ----------------------------
 INSERT INTO `sys_role` VALUES (1, 'test', '65656', 2, '2019-01-07 18:28:33');
 INSERT INTO `sys_role` VALUES (1087620602119876614, '65', '666', 1, '2019-01-28 15:14:46');
+INSERT INTO `sys_role` VALUES (1087620602119876615, 'test', NULL, 0, '2019-02-14 13:40:42');
+INSERT INTO `sys_role` VALUES (1087620602119876616, 'test', NULL, 0, '2019-02-14 13:42:36');
+INSERT INTO `sys_role` VALUES (1087620602119876617, 'ctest', NULL, 0, '2019-02-14 13:46:11');
+INSERT INTO `sys_role` VALUES (1087620602119876618, 'tests', NULL, 0, '2019-02-14 13:46:47');
 
 -- ----------------------------
 -- Table structure for sys_role_dept
@@ -1138,17 +1115,17 @@ CREATE TABLE `sys_user`  (
   `mobile` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '手机号',
   `status` tinyint(4) NULL DEFAULT NULL COMMENT '状态  0：禁用   1：正常',
   `dept_id` bigint(20) NULL DEFAULT NULL COMMENT '部门ID',
-  `avatar` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '头像',
+  `avatar` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT 'defaultAvatar.png' COMMENT '头像',
   `signature` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '座右铭',
   `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`user_id`) USING BTREE,
   UNIQUE INDEX `username`(`username`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1087608018549415939 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '系统用户' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '系统用户' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_user
 -- ----------------------------
-INSERT INTO `sys_user` VALUES (1, 'admin', 'master', 'e1153123d7d180ceeb820d577ff119876678732a68eef4e6ffc0b1f06a01f91b', 'YzcmCZNvbXocrsz9dm8e', 'root@renren.io', '13612345678', 1, 1, 'https://gw.alipayobjects.com/zos/rmsportal/BiazfanxmamNRoxxVxka.png', '今天也是充满希望的一天', '2016-11-11 11:11:11');
+INSERT INTO `sys_user` VALUES (1, 'admin', 'master', 'e1153123d7d180ceeb820d577ff119876678732a68eef4e6ffc0b1f06a01f91b', 'YzcmCZNvbXocrsz9dm8e', 'root@renren.io', '13612345678', 1, 1, 'ef561538-5fc3-498f-aaf3-a1977a659db5.jpeg', '今天也是充满希望的一天', '2016-11-11 11:11:11');
 
 -- ----------------------------
 -- Table structure for sys_user_role

@@ -82,7 +82,7 @@ public class SysUserEntity implements Serializable {
 	 * 角色ID列表
 	 */
 	@TableField(exist=false)
-	private List<Long> roleIdList;
+	private List roleIdList;
 
 	/*
 	* 头像
@@ -248,11 +248,11 @@ public class SysUserEntity implements Serializable {
 		return createTime;
 	}
 
-	public List<Long> getRoleIdList() {
+	public List getRoleIdList() {
 		return roleIdList;
 	}
 
-	public void setRoleIdList(List<Long> roleIdList) {
+	public void setRoleIdList(List roleIdList) {
 		this.roleIdList = roleIdList;
 	}
 

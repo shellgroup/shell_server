@@ -91,10 +91,10 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUserEntity> i
 			* 拼装一下用户角色id，前台修改用户信息回显时需要
 			* */
 			List<SysRoleEntity> roleList = sysUserDao.queryAllRole(sysUserEntity.getUserId());
-			List<Long> roleIdList = new ArrayList<>();
+			List roleIdList = new ArrayList<>();
 			for(SysRoleEntity sysRoleEntity :roleList){
 				if(sysRoleEntity.getRoleId() != null){
-					roleIdList.add(sysRoleEntity.getRoleId());
+					roleIdList.add(sysRoleEntity.getRoleId().toString());
 				}
 			}
 			sysUserEntity.setRoleIdList(roleIdList);
