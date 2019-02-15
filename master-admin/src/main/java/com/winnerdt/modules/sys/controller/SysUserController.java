@@ -165,6 +165,33 @@ public class SysUserController extends AbstractController {
 	}
 
 	/**
+	 * 修改用户基本信息
+	 */
+	@SysLog("修改用户")
+	@RequestMapping("/updateBasic")
+	@RequiresPermissions("sys:user:update")
+	public R updateBasic(@RequestBody SysUserEntity user){
+		if(null == user || user.getUserId() == null){
+			return R.error("用户信息丢失");
+		}
+		if(null != user.getPassword()){
+			user.setPassword(ShiroUtils.sha256(user.getPassword(), getUser().getSalt()));
+		}
+
+		try{
+			sysUserService.updateById(user);
+			return R.ok();
+		}catch (Exception e){
+			Date date = new Date();
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			String now = sdf.format(date);
+			logger.error("更新用户异常，异常时间："+now+":::异常数据："+user.toString()+":::异常原因："+e.toString());
+			return R.error("网络错误，更新失败！");
+		}
+
+	}
+
+	/**
 	 * 删除用户
 	 */
 	@SysLog("删除用户")

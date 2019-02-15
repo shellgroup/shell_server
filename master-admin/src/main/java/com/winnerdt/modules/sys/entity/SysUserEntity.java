@@ -1,6 +1,7 @@
 package com.winnerdt.modules.sys.entity;
 
 
+import com.baomidou.mybatisplus.annotation.FieldStrategy;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -48,6 +49,7 @@ public class SysUserEntity implements Serializable {
 	/**
 	 * 密码
 	 */
+	@TableField(strategy = FieldStrategy.NOT_EMPTY)
 	@NotBlank(message="密码不能为空", groups = AddGroup.class)
 	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	private String password;
@@ -60,6 +62,7 @@ public class SysUserEntity implements Serializable {
 	/**
 	 * 邮箱
 	 */
+	@TableField(strategy = FieldStrategy.NOT_EMPTY)
 	@NotBlank(message="邮箱不能为空", groups = {AddGroup.class, UpdateGroup.class})
 	@Email(message="邮箱格式不正确", groups = {AddGroup.class, UpdateGroup.class})
 	private String email;
@@ -67,6 +70,7 @@ public class SysUserEntity implements Serializable {
 	/**
 	 * 手机号
 	 */
+	@TableField(strategy = FieldStrategy.NOT_EMPTY)
 	private String mobile;
 
 	/**
