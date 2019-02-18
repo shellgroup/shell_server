@@ -1,6 +1,7 @@
 package com.winnerdt.common.config;
 
 import com.winnerdt.common.filter.MyShiroFilter;
+import com.winnerdt.modules.sys.shiro.ShiroLogoutFilter;
 import com.winnerdt.modules.sys.shiro.UserRealm;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.session.mgt.SessionManager;
@@ -75,27 +76,38 @@ public class ShiroConfig {
         shiroFilter.setUnauthorizedUrl("/");
 
         Map<String, String> filterMap = new LinkedHashMap<>();
-//        filterMap.put("/**","anon");
         filterMap.put("/swagger/**", "anon");
         filterMap.put("/v2/api-docs", "anon");
         filterMap.put("/swagger-ui.html", "anon");
         filterMap.put("/webjars/**", "anon");
         filterMap.put("/swagger-resources/**", "anon");
-
         filterMap.put("/statics/**", "anon");
         filterMap.put("/login.html", "anon");
         filterMap.put("/sys/login", "anon");
         filterMap.put("/favicon.ico", "anon");
         filterMap.put("/captcha.jpg", "anon");
+        filterMap.put("/logout", "logout");
         filterMap.put("/**", "authc");
+        shiroFilter.setFilterChainDefinitionMap(filterMap);
 
         Map<String, Filter> filterMap1 = shiroFilter.getFilters();
         filterMap1.put("authc", new MyShiroFilter());
+        filterMap1.put("logout",shiroLogoutFilter());
 
-        shiroFilter.setFilterChainDefinitionMap(filterMap);
 
         return shiroFilter;
     }
+    /**
+     * 配置LogoutFilter
+     * @return
+     */
+    public ShiroLogoutFilter shiroLogoutFilter(){
+        ShiroLogoutFilter shiroLogoutFilter = new ShiroLogoutFilter();
+        //配置登出后重定向的地址，等出后配置跳转到登录接口
+//        shiroLogoutFilter.setRedirectUrl("/login");
+        return shiroLogoutFilter;
+    }
+
 
     @Bean("lifecycleBeanPostProcessor")
     public LifecycleBeanPostProcessor lifecycleBeanPostProcessor() {

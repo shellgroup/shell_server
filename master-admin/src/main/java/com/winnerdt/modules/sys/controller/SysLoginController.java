@@ -115,10 +115,11 @@ public class SysLoginController {
 
 	/**
 	 * 退出
+	 * 目前将登出操作，放到了过滤器中（ShiroConfig.java中有配置）
 	 */
-	@RequestMapping(value = "logout", method = RequestMethod.GET)
-	public void logout() {
-		ShiroUtils.logout();
-	}
+//	@RequestMapping(value = "logout", method = RequestMethod.GET)
+//	public void logout() {
+//		ShiroUtils.logout();
+//	}
 
 }
