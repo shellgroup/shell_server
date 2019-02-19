@@ -101,6 +101,28 @@ public class SysMenuController extends AbstractController {
 	public R save(@RequestBody SysMenuEntity menu){
 		//数据校验
 		verifyForm(menu);
+		/*
+		* 处理locale字段
+		* */
+		try{
+			String path = menu.getPath();
+			if(null != path){
+				String localeTemp = path.replace("/",".");
+				while (localeTemp.contains("-")){
+					int i = localeTemp.indexOf("-");
+					StringBuffer localeSBTemp = new StringBuffer(localeTemp);
+					localeSBTemp = localeSBTemp.replace((i+1),(i+1),(String.valueOf(localeTemp.charAt(i+1)).toUpperCase()));
+					localeTemp = localeSBTemp.toString();
+					localeTemp = localeTemp.replaceFirst("-","");
+				}
+				menu.setLocale("menu"+localeTemp);
+			}
+		}catch (Exception e){
+			Date date = new Date();
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			String now = sdf.format(date);
+			logger.error("添加菜单处理locale字段，异常时间："+now+":::异常数据："+menu.toString()+":::异常原因："+e.toString());
+		}
 
 		try{
 			sysMenuService.save(menu);
