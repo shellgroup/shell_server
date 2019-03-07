@@ -1,9 +1,9 @@
 package com.winnerdt.common.utils.base64ToMultipartFile;
 
 import org.springframework.web.multipart.MultipartFile;
-import sun.misc.BASE64Decoder;
 
-import java.io.IOException;
+import java.util.Base64;
+import java.util.Base64.Decoder;
 
 /**
  * @author:zsk
@@ -15,9 +15,9 @@ public class Base64MultipartFileUtil {
         try {
             String[] baseStrs = base64.split(",");
 
-            BASE64Decoder decoder = new BASE64Decoder();
+            Decoder decoder = Base64.getDecoder();
             byte[] b = new byte[0];
-            b = decoder.decodeBuffer(baseStrs[1]);
+            b = decoder.decode(baseStrs[1]);
 
             for(int i = 0; i < b.length; ++i) {
                 if (b[i] < 0) {
@@ -26,7 +26,7 @@ public class Base64MultipartFileUtil {
             }
 
             return new BASE64DecodedMultipartFile(b, baseStrs[0]);
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
