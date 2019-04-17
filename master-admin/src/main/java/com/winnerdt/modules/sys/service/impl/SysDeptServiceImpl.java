@@ -1,12 +1,11 @@
 package com.winnerdt.modules.sys.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.winnerdt.modules.sys.dao.SysDeptDao;
-import com.winnerdt.modules.sys.service.SysDeptService;
 import com.winnerdt.common.annotation.DataFilter;
 import com.winnerdt.common.utils.Constant;
+import com.winnerdt.modules.sys.dao.SysDeptDao;
 import com.winnerdt.modules.sys.entity.SysDeptEntity;
+import com.winnerdt.modules.sys.service.SysDeptService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,11 +21,9 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptDao, SysDeptEntity> i
 
 	
 	@Override
-	@DataFilter(subDept = true, user = false)
+	@DataFilter(subDept = true, user = false, tableAlias = "t1")
 	public List<SysDeptEntity> queryList(Map<String, Object> params){
-		List<SysDeptEntity> deptList =
-			this.list(new QueryWrapper<SysDeptEntity>()
-			.apply(params.get(Constant.SQL_FILTER) != null, (String)params.get(Constant.SQL_FILTER)));
+		List<SysDeptEntity> deptList = baseMapper.queryList(params);
 
 		for(SysDeptEntity sysDeptEntity : deptList){
 			SysDeptEntity parentDeptEntity =  this.getById(sysDeptEntity.getParentId());
