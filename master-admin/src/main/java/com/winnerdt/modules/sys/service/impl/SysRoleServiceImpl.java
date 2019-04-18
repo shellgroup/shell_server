@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.winnerdt.common.annotation.DataFilter;
+import com.winnerdt.common.utils.Constant;
 import com.winnerdt.common.utils.PageUtils;
 import com.winnerdt.common.utils.Query;
 import com.winnerdt.modules.sys.dao.SysRoleDao;
@@ -55,6 +56,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleDao, SysRoleEntity> i
 			new QueryWrapper<SysRoleEntity>()
 				.like(StringUtils.isNotBlank(roleName),"role_name", roleName)
                 .eq(deptId != null,"dept_id",deptId)
+				.apply(params.get(Constant.SQL_FILTER) != null, (String)params.get(Constant.SQL_FILTER))
 
 		);
 
