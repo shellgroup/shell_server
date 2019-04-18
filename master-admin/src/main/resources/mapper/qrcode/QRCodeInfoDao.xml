@@ -7,6 +7,7 @@
         <result property="mallCode" column="mall_code"/>
         <result property="mallName" column="mall_name"/>
         <result property="deptName" column="dept_name"/>
+        <result property="deptId" column="dept_id"/>
         <result property="userId" column="user_id"/>
         <result property="userName" column="user_name"/>
         <result property="userPhone" column="user_phone"/>
@@ -18,6 +19,7 @@
         <result property="isCreateQrcode" column="is_create_qrcode"/>
         <result property="enterpriseId" column="enterprise_id"/>
         <result property="enterpriseName" column="enterprise_name"/>
+        <result property="isDel" column="is_del"/>
         <result property="createTime" column="create_time"/>
         <result property="updateTime" column="update_time"/>
         <collection property="qrCodeConfigEntity" ofType="com.winnerdt.modules.qrcode.entity.QRCodeConfigEntity">
@@ -86,6 +88,7 @@
                 <if test="createBeginTime != null and createBeginTime != '' and createEndTime != null and createEndTime != ''">
                     and sc.create_time between #{createBeginTime} and #{createEndTime}
                 </if>
+                and sc.is_del = 0
             </where>
             <if test="pageSize != null and currRecord != null">
                 limit #{currRecord},#{pageSize}
@@ -128,6 +131,7 @@
             <if test="createBeginTime != null and createBeginTime != '' and createEndTime != null and createEndTime != ''">
                 and sc.create_time between #{createBeginTime} and #{createEndTime}
             </if>
+            and sc.is_del = 0
         </where>
 
     </select>

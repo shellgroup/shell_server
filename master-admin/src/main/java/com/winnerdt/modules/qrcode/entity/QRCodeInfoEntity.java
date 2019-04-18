@@ -28,6 +28,9 @@ public class QRCodeInfoEntity {
     //部门名称
     private String deptName;
 
+    //部门id
+    private String deptId;
+
     //用户id
     private String userId;
 
@@ -60,6 +63,9 @@ public class QRCodeInfoEntity {
 
     //公司名称
     private String enterpriseName;
+
+    //0=未删除 , 1=已经删除
+    private Integer isDel;
 
     //创建时间
     private Date createTime;
