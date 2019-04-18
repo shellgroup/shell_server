@@ -40,6 +40,7 @@
         <fastjson.version>1.2.45</fastjson.version>
         <joda.time.version>2.9.9</joda.time.version>
         <lombok.version>1.18.4</lombok.version>
+        <weixin-java-miniapp>3.3.0</weixin-java-miniapp>
     </properties>
 
     <dependencies>
@@ -175,6 +176,13 @@
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>${lombok.version}</version>
+        </dependency>
+
+        <!--weixin-java-tools-->
+        <dependency>
+            <groupId>com.github.binarywang</groupId>
+            <artifactId>weixin-java-miniapp</artifactId>
+            <version>${weixin-java-miniapp}</version>
         </dependency>
 
     </dependencies>
