@@ -2,6 +2,7 @@ package com.winnerdt.modules.qrcode.entity;
 
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableLogic;
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
 import java.util.Date;
@@ -11,6 +12,7 @@ import java.util.Date;
  * @CreateTime:2019-04-15 16:48
  */
 @Data
+@TableName("qrcode_config")
 public class QRCodeConfigEntity {
 
     @TableId
@@ -43,6 +45,9 @@ public class QRCodeConfigEntity {
 
     //说明
     private String remark;
+
+    //二维码的形状：0=圆形，1=方形
+    private Integer qrcodeShape;
 
     //创建时间
     private Date createTime;

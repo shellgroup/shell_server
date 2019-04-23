@@ -120,14 +120,37 @@ public class QRCodeInfoController {
         }
     }
 
-    @RequestMapping("createShoppersCode")
-    @RequiresPermissions("qrcode:info:create")
-    public R createQRCode(Integer id){
+    /*
+    * 生成的单个二维码
+    * */
+    @RequestMapping("createqrCode")
+    @RequiresPermissions("qrcode:info:createqrCode")
+    public R createQRCode(@RequestBody Map map){
 
-        qrCodeInfoService.createShoppersCode(id);
-
-        return R.error();
+        /*
+        * map的字段名：
+        * qrcodeId:二维码id
+        * qrcodeConfigId：二维码参数id
+        * wxAppinfoId：小程序参数id
+        * */
+        return qrCodeInfoService.createQrCode(map);
     }
 
+    /*
+    * 生成多个二维码
+    * */
+    @RequestMapping("createqrCodes")
+    @RequiresPermissions("qrcode:info:createqrCodes")
+    public R createqrCodes(@RequestBody Map map){
+        /*
+        * map参数说明：
+        * qrcodeIds：二维码id，示例：[1,2]
+        * qrcodeConfigId：二维码参数id
+        * wxAppinfoId：小程序参数id
+        *
+        * */
+
+        return qrCodeInfoService.createQrCodes(map);
+    }
 
 }

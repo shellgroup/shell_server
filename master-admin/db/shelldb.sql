@@ -5,17 +5,97 @@
  Source Server Type    : MySQL
  Source Server Version : 50722
  Source Host           : localhost:3306
- Source Schema         : master_admin
+ Source Schema         : shelldb
 
  Target Server Type    : MySQL
  Target Server Version : 50722
  File Encoding         : 65001
 
- Date: 15/02/2019 09:55:15
+ Date: 23/04/2019 17:57:25
 */
 
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
+
+-- ----------------------------
+-- Table structure for qrcode_config
+-- ----------------------------
+DROP TABLE IF EXISTS `qrcode_config`;
+CREATE TABLE `qrcode_config`  (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `qrcode_height` int(11) NOT NULL COMMENT '生成二维码高度',
+  `qrcode_width` int(11) NOT NULL COMMENT '生成二维码宽度',
+  `qrcode_font_size` int(11) NOT NULL COMMENT '文字大小',
+  `qrcode_font_height` int(11) NOT NULL COMMENT '文字高度',
+  `qrcode_index_url` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '扫描二维码待跳转页面',
+  `qrcode_path` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '二维码生成后存放的地址',
+  `is_del` int(10) NULL DEFAULT 0 COMMENT '是否删除：0=未删除，1=已经删除',
+  `qrcode_config_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '该二维码设置名称',
+  `remark` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '说明',
+  `qrcode_shape` int(10) NOT NULL COMMENT '码的形状，0=圆形码，1=方形码',
+  `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
+  `update_time` datetime(0) NULL DEFAULT NULL COMMENT '最后修改时间',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '二维码配置信息' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of qrcode_config
+-- ----------------------------
+INSERT INTO `qrcode_config` VALUES (1, 680, 680, 19, 90, 'pages/index/main', '/home/', 0, '测试位置码', '用于生成测试的位置码', 0, '2019-04-16 17:55:37', '2019-04-16 17:55:40');
+INSERT INTO `qrcode_config` VALUES (2, 430, 430, 19, 90, 'pages/index/main', '/home/', 0, '测试导购码', '用于生成测试的导购码', 0, '2019-04-16 17:55:37', '2019-04-16 17:55:40');
+
+-- ----------------------------
+-- Table structure for qrcode_info
+-- ----------------------------
+DROP TABLE IF EXISTS `qrcode_info`;
+CREATE TABLE `qrcode_info`  (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `mall_type` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '商店类型',
+  `mall_code` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '商店编码',
+  `mall_name` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '商店名称',
+  `dept_name` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '部门名称',
+  `user_id` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '用户id',
+  `user_name` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '用户名称',
+  `user_phone` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '用户手机号',
+  `img_path` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '图片路径',
+  `img_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '图片名称',
+  `img_time` datetime(0) NULL DEFAULT NULL COMMENT '生成日期',
+  `wx_appinfo_id` int(11) NULL DEFAULT NULL COMMENT '对应wx_appinfo的信息',
+  `qrcode_config_id` int(11) NULL DEFAULT NULL COMMENT '对应qrcode_config的信息',
+  `qrcode_type_id` int(11) NULL DEFAULT NULL COMMENT '二维码类型id',
+  `enterprise_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '企业名称',
+  `enterprise_id` int(10) NULL DEFAULT NULL COMMENT '对应企业id',
+  `dept_id` int(11) NULL DEFAULT NULL COMMENT '对应部门id',
+  `is_create_qrcode` int(10) NULL DEFAULT NULL COMMENT '是否已经创建过二维码；0=未创建，1=已创建',
+  `is_del` int(10) NULL DEFAULT NULL COMMENT '0=未删除，1=已经删除',
+  `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
+  `update_time` datetime(0) NULL DEFAULT NULL COMMENT '最后修改时间',
+  PRIMARY KEY (`id`) USING BTREE,
+  INDEX `dept_id_index`(`dept_id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '存放二维码信息' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of qrcode_info
+-- ----------------------------
+INSERT INTO `qrcode_info` VALUES (1, '便利店', '0115', '地质中学店', NULL, '0115_M0001', NULL, NULL, 'data0/uploads\\员工码\\地质中学店\\null\\0115_M0001.png', '0115_M0001.png', '2018-08-13 15:49:58', 3, 2, 1, NULL, NULL, NULL, 1, 0, '2019-04-18 15:00:53', '2019-04-18 15:00:58');
+INSERT INTO `qrcode_info` VALUES (2, '便利店1', '0116', '地质中学店', NULL, '0115_M0001', NULL, NULL, 'data0/uploads\\员工码\\地质中学店\\null\\0115_M0001.png', '0115_M0001.png', '2018-08-13 15:49:58', 3, 2, 1, NULL, NULL, NULL, 1, 0, '2019-04-18 15:00:56', '2019-04-18 15:01:04');
+
+-- ----------------------------
+-- Table structure for qrcode_type
+-- ----------------------------
+DROP TABLE IF EXISTS `qrcode_type`;
+CREATE TABLE `qrcode_type`  (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `qrcode_type_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '二维码类型名称',
+  `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
+  `update_time` datetime(0) NULL DEFAULT NULL COMMENT '最后修改时间',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '二维码类型' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of qrcode_type
+-- ----------------------------
+INSERT INTO `qrcode_type` VALUES (1, '导购码', '2019-04-18 15:00:13', '2019-04-18 15:00:15');
 
 -- ----------------------------
 -- Table structure for qrtz_blob_triggers
@@ -55,11 +135,6 @@ CREATE TABLE `qrtz_cron_triggers`  (
   PRIMARY KEY (`SCHED_NAME`, `TRIGGER_NAME`, `TRIGGER_GROUP`) USING BTREE,
   CONSTRAINT `qrtz_cron_triggers_ibfk_1` FOREIGN KEY (`SCHED_NAME`, `TRIGGER_NAME`, `TRIGGER_GROUP`) REFERENCES `qrtz_triggers` (`SCHED_NAME`, `TRIGGER_NAME`, `TRIGGER_GROUP`) ON DELETE RESTRICT ON UPDATE RESTRICT
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Records of qrtz_cron_triggers
--- ----------------------------
-INSERT INTO `qrtz_cron_triggers` VALUES ('MasterScheduler', 'TASK_4', 'DEFAULT', '0 0/30 * * * ?', 'Asia/Shanghai');
 
 -- ----------------------------
 -- Table structure for qrtz_fired_triggers
@@ -109,11 +184,6 @@ CREATE TABLE `qrtz_job_details`  (
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
--- Records of qrtz_job_details
--- ----------------------------
-INSERT INTO `qrtz_job_details` VALUES ('MasterScheduler', 'TASK_4', 'DEFAULT', NULL, 'com.winnerdt.modules.job.utils.ScheduleJob', '0', '0', '0', '0', 0xACED0005737200156F72672E71756172747A2E4A6F62446174614D61709FB083E8BFA9B0CB020000787200266F72672E71756172747A2E7574696C732E537472696E674B65794469727479466C61674D61708208E8C3FBC55D280200015A0013616C6C6F77735472616E7369656E74446174617872001D6F72672E71756172747A2E7574696C732E4469727479466C61674D617013E62EAD28760ACE0200025A000564697274794C00036D617074000F4C6A6176612F7574696C2F4D61703B787001737200116A6176612E7574696C2E486173684D61700507DAC1C31660D103000246000A6C6F6164466163746F724900097468726573686F6C6478703F4000000000000C7708000000100000000174000D4A4F425F504152414D5F4B455973720031636F6D2E77696E6E657264742E6D6F64756C65732E6A6F622E656E746974792E5363686564756C654A6F62456E7469747900000000000000010200084C00086265616E4E616D657400124C6A6176612F6C616E672F537472696E673B4C000A63726561746554696D657400104C6A6176612F7574696C2F446174653B4C000E63726F6E45787072657373696F6E71007E00094C00056A6F6249647400104C6A6176612F6C616E672F4C6F6E673B4C000A6D6574686F644E616D6571007E00094C0006706172616D7371007E00094C000672656D61726B71007E00094C00067374617475737400134C6A6176612F6C616E672F496E74656765723B7870740008746573745461736B7372000E6A6176612E7574696C2E44617465686A81014B59741903000078707708000001689DDA533C7874000E3020302F3330202A202A202A203F7372000E6A6176612E6C616E672E4C6F6E673B8BE490CC8F23DF0200014A000576616C7565787200106A6176612E6C616E672E4E756D62657286AC951D0B94E08B02000078700000000000000004740005746573743274000B7873786173786173787378740009647363736463736373737200116A6176612E6C616E672E496E746567657212E2A0A4F781873802000149000576616C75657871007E0013000000007800);
-
--- ----------------------------
 -- Table structure for qrtz_locks
 -- ----------------------------
 DROP TABLE IF EXISTS `qrtz_locks`;
@@ -154,7 +224,7 @@ CREATE TABLE `qrtz_scheduler_state`  (
 -- ----------------------------
 -- Records of qrtz_scheduler_state
 -- ----------------------------
-INSERT INTO `qrtz_scheduler_state` VALUES ('MasterScheduler', 'DESKTOP-CUD9MR51550195593938', 1550195703052, 15000);
+INSERT INTO `qrtz_scheduler_state` VALUES ('MasterScheduler', 'DESKTOP-CUD9MR51556011313685', 1556013432699, 15000);
 
 -- ----------------------------
 -- Table structure for qrtz_simple_triggers
@@ -232,11 +302,6 @@ CREATE TABLE `qrtz_triggers`  (
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
--- Records of qrtz_triggers
--- ----------------------------
-INSERT INTO `qrtz_triggers` VALUES ('MasterScheduler', 'TASK_4', 'DEFAULT', 'TASK_4', 'DEFAULT', NULL, 1550196000000, -1, 5, 'WAITING', 'CRON', 1548836557000, 0, NULL, 2, 0xACED0005737200156F72672E71756172747A2E4A6F62446174614D61709FB083E8BFA9B0CB020000787200266F72672E71756172747A2E7574696C732E537472696E674B65794469727479466C61674D61708208E8C3FBC55D280200015A0013616C6C6F77735472616E7369656E74446174617872001D6F72672E71756172747A2E7574696C732E4469727479466C61674D617013E62EAD28760ACE0200025A000564697274794C00036D617074000F4C6A6176612F7574696C2F4D61703B787001737200116A6176612E7574696C2E486173684D61700507DAC1C31660D103000246000A6C6F6164466163746F724900097468726573686F6C6478703F4000000000000C7708000000100000000174000D4A4F425F504152414D5F4B455973720031636F6D2E77696E6E657264742E6D6F64756C65732E6A6F622E656E746974792E5363686564756C654A6F62456E7469747900000000000000010200084C00086265616E4E616D657400124C6A6176612F6C616E672F537472696E673B4C000A63726561746554696D657400104C6A6176612F7574696C2F446174653B4C000E63726F6E45787072657373696F6E71007E00094C00056A6F6249647400104C6A6176612F6C616E672F4C6F6E673B4C000A6D6574686F644E616D6571007E00094C0006706172616D7371007E00094C000672656D61726B71007E00094C00067374617475737400134C6A6176612F6C616E672F496E74656765723B7870740008746573745461736B7372000E6A6176612E7574696C2E44617465686A81014B59741903000078707708000001689DDA54B07874000E3020302F3330202A202A202A203F7372000E6A6176612E6C616E672E4C6F6E673B8BE490CC8F23DF0200014A000576616C7565787200106A6176612E6C616E672E4E756D62657286AC951D0B94E08B02000078700000000000000004740005746573743274000B7873786173786173787378740009647363736463736373737200116A6176612E6C616E672E496E746567657212E2A0A4F781873802000149000576616C75657871007E0013000000007800);
-
--- ----------------------------
 -- Table structure for schedule_job
 -- ----------------------------
 DROP TABLE IF EXISTS `schedule_job`;
@@ -250,12 +315,7 @@ CREATE TABLE `schedule_job`  (
   `remark` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '备注',
   `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`job_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '定时任务' ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Records of schedule_job
--- ----------------------------
-INSERT INTO `schedule_job` VALUES (4, 'testTask', 'test2', 'xsxasxasxsx', '0 0/30 * * * ?', 0, 'dscsdcscs', '2019-01-30 16:22:38');
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '定时任务' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for schedule_job_log
@@ -273,7 +333,7 @@ CREATE TABLE `schedule_job_log`  (
   `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`log_id`) USING BTREE,
   INDEX `job_id`(`job_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1087620886778900653 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '定时任务日志' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1098462319601569855 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '定时任务日志' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of schedule_job_log
@@ -339,6 +399,103 @@ INSERT INTO `schedule_job_log` VALUES (1087620886778900649, 4, 'testTask', 'test
 INSERT INTO `schedule_job_log` VALUES (1087620886778900650, 4, 'testTask', 'test2', 'xsxasxasxsx', 1, 'java.lang.NoSuchMethodException: com.winnerdt.modules.job.task.TestTask.test2(java.lang.String)', 3, '2019-02-14 17:00:00');
 INSERT INTO `schedule_job_log` VALUES (1087620886778900651, 4, 'testTask', 'test2', 'xsxasxasxsx', 1, 'java.lang.NoSuchMethodException: com.winnerdt.modules.job.task.TestTask.test2(java.lang.String)', 22, '2019-02-14 17:30:00');
 INSERT INTO `schedule_job_log` VALUES (1087620886778900652, 4, 'testTask', 'test2', 'xsxasxasxsx', 1, 'java.lang.NoSuchMethodException: com.winnerdt.modules.job.task.TestTask.test2(java.lang.String)', 4, '2019-02-14 18:00:00');
+INSERT INTO `schedule_job_log` VALUES (1087620886778900653, 4, 'testTask', 'test2', 'xsxasxasxsx', 1, 'java.lang.NoSuchMethodException: com.winnerdt.modules.job.task.TestTask.test2(java.lang.String)', 6, '2019-02-15 10:00:00');
+INSERT INTO `schedule_job_log` VALUES (1087620886778900654, 4, 'testTask', 'test2', 'xsxasxasxsx', 1, 'java.lang.NoSuchMethodException: com.winnerdt.modules.job.task.TestTask.test2(java.lang.String)', 39, '2019-02-15 10:30:00');
+INSERT INTO `schedule_job_log` VALUES (1087620886778900655, 4, 'testTask', 'test2', 'xsxasxasxsx', 1, 'java.lang.NoSuchMethodException: com.winnerdt.modules.job.task.TestTask.test2(java.lang.String)', 1, '2019-02-15 11:00:00');
+INSERT INTO `schedule_job_log` VALUES (1087620886778900656, 4, 'testTask', 'test2', 'xsxasxasxsx', 1, 'java.lang.NoSuchMethodException: com.winnerdt.modules.job.task.TestTask.test2(java.lang.String)', 6, '2019-02-15 11:30:00');
+INSERT INTO `schedule_job_log` VALUES (1087620886778900657, 4, 'testTask', 'test2', 'xsxasxasxsx', 1, 'java.lang.NoSuchMethodException: com.winnerdt.modules.job.task.TestTask.test2(java.lang.String)', 2, '2019-02-15 12:00:00');
+INSERT INTO `schedule_job_log` VALUES (1087620886778900658, 4, 'testTask', 'test2', 'xsxasxasxsx', 1, 'java.lang.NoSuchMethodException: com.winnerdt.modules.job.task.TestTask.test2(java.lang.String)', 2, '2019-02-15 12:30:00');
+INSERT INTO `schedule_job_log` VALUES (1087620886778900659, 4, 'testTask', 'test2', 'xsxasxasxsx', 1, 'java.lang.NoSuchMethodException: com.winnerdt.modules.job.task.TestTask.test2(java.lang.String)', 2, '2019-02-15 13:00:00');
+INSERT INTO `schedule_job_log` VALUES (1087620886778900660, 4, 'testTask', 'test2', 'xsxasxasxsx', 1, 'java.lang.NoSuchMethodException: com.winnerdt.modules.job.task.TestTask.test2(java.lang.String)', 3, '2019-02-15 13:30:00');
+INSERT INTO `schedule_job_log` VALUES (1087620886778900661, 4, 'testTask', 'test2', 'xsxasxasxsx', 1, 'java.lang.NoSuchMethodException: com.winnerdt.modules.job.task.TestTask.test2(java.lang.String)', 2, '2019-02-15 14:00:00');
+INSERT INTO `schedule_job_log` VALUES (1087620886778900662, 4, 'testTask', 'test2', 'xsxasxasxsx', 1, 'java.lang.NoSuchMethodException: com.winnerdt.modules.job.task.TestTask.test2(java.lang.String)', 3, '2019-02-15 14:30:00');
+INSERT INTO `schedule_job_log` VALUES (1087620886778900663, 4, 'testTask', 'test2', 'xsxasxasxsx', 1, 'java.lang.NoSuchMethodException: com.winnerdt.modules.job.task.TestTask.test2(java.lang.String)', 6, '2019-02-15 15:00:00');
+INSERT INTO `schedule_job_log` VALUES (1087620886778900664, 4, 'testTask', 'test2', 'xsxasxasxsx', 1, 'java.lang.NoSuchMethodException: com.winnerdt.modules.job.task.TestTask.test2(java.lang.String)', 3, '2019-02-15 16:00:00');
+INSERT INTO `schedule_job_log` VALUES (1087620886778900665, 4, 'testTask', 'test2', 'xsxasxasxsx', 1, 'java.lang.NoSuchMethodException: com.winnerdt.modules.job.task.TestTask.test2(java.lang.String)', 1, '2019-02-15 16:30:00');
+INSERT INTO `schedule_job_log` VALUES (1087620886778900666, 4, 'testTask', 'test2', 'xsxasxasxsx', 1, 'java.lang.NoSuchMethodException: com.winnerdt.modules.job.task.TestTask.test2(java.lang.String)', 2, '2019-02-15 17:00:00');
+INSERT INTO `schedule_job_log` VALUES (1087620886778900667, 4, 'testTask', 'test2', 'xsxasxasxsx', 1, 'java.lang.NoSuchMethodException: com.winnerdt.modules.job.task.TestTask.test2(java.lang.String)', 2, '2019-02-15 17:30:00');
+INSERT INTO `schedule_job_log` VALUES (1087620886778900668, 4, 'testTask', 'test2', 'xsxasxasxsx', 1, 'java.lang.NoSuchMethodException: com.winnerdt.modules.job.task.TestTask.test2(java.lang.String)', 72, '2019-02-15 18:00:00');
+INSERT INTO `schedule_job_log` VALUES (1087620886778900669, 4, 'testTask', 'test2', 'xsxasxasxsx', 1, 'java.lang.NoSuchMethodException: com.winnerdt.modules.job.task.TestTask.test2(java.lang.String)', 3, '2019-02-15 18:30:00');
+INSERT INTO `schedule_job_log` VALUES (1087620886778900670, 4, 'testTask', 'test2', 'xsxasxasxsx', 1, 'java.lang.NoSuchMethodException: com.winnerdt.modules.job.task.TestTask.test2(java.lang.String)', 19, '2019-02-18 11:00:00');
+INSERT INTO `schedule_job_log` VALUES (1087620886778900671, 4, 'testTask', 'test2', 'xsxasxasxsx', 1, 'java.lang.NoSuchMethodException: com.winnerdt.modules.job.task.TestTask.test2(java.lang.String)', 30, '2019-02-18 11:30:00');
+INSERT INTO `schedule_job_log` VALUES (1087620886778900672, 4, 'testTask', 'test2', 'xsxasxasxsx', 1, 'java.lang.NoSuchMethodException: com.winnerdt.modules.job.task.TestTask.test2(java.lang.String)', 15, '2019-02-18 12:00:00');
+INSERT INTO `schedule_job_log` VALUES (1087620886778900673, 4, 'testTask', 'test2', 'xsxasxasxsx', 1, 'java.lang.NoSuchMethodException: com.winnerdt.modules.job.task.TestTask.test2(java.lang.String)', 6, '2019-02-18 12:30:00');
+INSERT INTO `schedule_job_log` VALUES (1087620886778900674, 4, 'testTask', 'test2', 'xsxasxasxsx', 1, 'java.lang.NoSuchMethodException: com.winnerdt.modules.job.task.TestTask.test2(java.lang.String)', 1, '2019-02-18 13:00:00');
+INSERT INTO `schedule_job_log` VALUES (1087620886778900675, 4, 'testTask', 'test2', 'xsxasxasxsx', 1, 'java.lang.NoSuchMethodException: com.winnerdt.modules.job.task.TestTask.test2(java.lang.String)', 2, '2019-02-18 13:30:00');
+INSERT INTO `schedule_job_log` VALUES (1087620886778900676, 4, 'testTask', 'test2', 'xsxasxasxsx', 1, 'java.lang.NoSuchMethodException: com.winnerdt.modules.job.task.TestTask.test2(java.lang.String)', 2, '2019-02-18 14:00:00');
+INSERT INTO `schedule_job_log` VALUES (1087620886778900677, 4, 'testTask', 'test2', 'xsxasxasxsx', 1, 'java.lang.NoSuchMethodException: com.winnerdt.modules.job.task.TestTask.test2(java.lang.String)', 4, '2019-02-18 15:00:00');
+INSERT INTO `schedule_job_log` VALUES (1087620886778900678, 4, 'testTask', 'test2', 'xsxasxasxsx', 1, 'java.lang.NoSuchMethodException: com.winnerdt.modules.job.task.TestTask.test2(java.lang.String)', 5, '2019-02-18 16:00:00');
+INSERT INTO `schedule_job_log` VALUES (1087620886778900679, 4, 'testTask', 'test2', 'xsxasxasxsx', 1, 'java.lang.NoSuchMethodException: com.winnerdt.modules.job.task.TestTask.test2(java.lang.String)', 25, '2019-02-18 16:30:00');
+INSERT INTO `schedule_job_log` VALUES (1097428004486828033, 4, 'testTask', 'test2', 'xsxasxasxsx', 1, 'java.lang.NoSuchMethodException: com.winnerdt.modules.job.task.TestTask.test2(java.lang.String)', 18, '2019-02-18 17:30:00');
+INSERT INTO `schedule_job_log` VALUES (1097435554171113473, 4, 'testTask', 'test2', 'xsxasxasxsx', 1, 'java.lang.NoSuchMethodException: com.winnerdt.modules.job.task.TestTask.test2(java.lang.String)', 1, '2019-02-18 18:00:00');
+INSERT INTO `schedule_job_log` VALUES (1097782843171418114, 4, 'testTask', 'test2', 'xsxasxasxsx', 1, 'java.lang.NoSuchMethodException: com.winnerdt.modules.job.task.TestTask.test2(java.lang.String)', 59, '2019-02-19 17:00:00');
+INSERT INTO `schedule_job_log` VALUES (1098152780935233537, 4, 'testTask', 'test2', 'xsxasxasxsx', 1, 'java.lang.NoSuchMethodException: com.winnerdt.modules.job.task.TestTask.test2(java.lang.String)', 9, '2019-02-20 17:30:00');
+INSERT INTO `schedule_job_log` VALUES (1098160329696849922, 4, 'testTask', 'test2', 'xsxasxasxsx', 1, 'java.lang.NoSuchMethodException: com.winnerdt.modules.job.task.TestTask.test2(java.lang.String)', 3, '2019-02-20 18:00:00');
+INSERT INTO `schedule_job_log` VALUES (1098409472142966785, 4, 'testTask', 'test2', 'xsxasxasxsx', 1, 'java.lang.NoSuchMethodException: com.winnerdt.modules.job.task.TestTask.test2(java.lang.String)', 25, '2019-02-21 10:30:00');
+INSERT INTO `schedule_job_log` VALUES (1098417021319761922, 4, 'testTask', 'test2', 'xsxasxasxsx', 1, 'java.lang.NoSuchMethodException: com.winnerdt.modules.job.task.TestTask.test2(java.lang.String)', 3, '2019-02-21 11:00:00');
+INSERT INTO `schedule_job_log` VALUES (1098424570764972033, 4, 'testTask', 'test2', 'xsxasxasxsx', 1, 'java.lang.NoSuchMethodException: com.winnerdt.modules.job.task.TestTask.test2(java.lang.String)', 2, '2019-02-21 11:30:00');
+INSERT INTO `schedule_job_log` VALUES (1098454771121049601, 4, 'testTask', 'test2', 'xsxasxasxsx', 1, 'java.lang.NoSuchMethodException: com.winnerdt.modules.job.task.TestTask.test2(java.lang.String)', 28, '2019-02-21 13:30:00');
+INSERT INTO `schedule_job_log` VALUES (1098462319601569794, 4, 'testTask', 'test2', 'xsxasxasxsx', 1, 'java.lang.NoSuchMethodException: com.winnerdt.modules.job.task.TestTask.test2(java.lang.String)', 1, '2019-02-21 14:00:00');
+INSERT INTO `schedule_job_log` VALUES (1098462319601569795, 4, 'testTask', 'test2', 'xsxasxasxsx', 1, 'java.lang.NoSuchMethodException: com.winnerdt.modules.job.task.TestTask.test2(java.lang.String)', 2, '2019-02-21 14:30:00');
+INSERT INTO `schedule_job_log` VALUES (1098462319601569796, 4, 'testTask', 'test2', 'xsxasxasxsx', 1, 'java.lang.NoSuchMethodException: com.winnerdt.modules.job.task.TestTask.test2(java.lang.String)', 6, '2019-02-21 15:00:00');
+INSERT INTO `schedule_job_log` VALUES (1098462319601569797, 4, 'testTask', 'test2', 'xsxasxasxsx', 1, 'java.lang.NoSuchMethodException: com.winnerdt.modules.job.task.TestTask.test2(java.lang.String)', 3, '2019-02-21 15:30:01');
+INSERT INTO `schedule_job_log` VALUES (1098462319601569798, 4, 'testTask', 'test2', 'xsxasxasxsx', 1, 'java.lang.NoSuchMethodException: com.winnerdt.modules.job.task.TestTask.test2(java.lang.String)', 23, '2019-02-21 17:30:00');
+INSERT INTO `schedule_job_log` VALUES (1098462319601569799, 4, 'testTask', 'test2', 'xsxasxasxsx', 1, 'java.lang.NoSuchMethodException: com.winnerdt.modules.job.task.TestTask.test2(java.lang.String)', 78, '2019-02-21 18:00:00');
+INSERT INTO `schedule_job_log` VALUES (1098462319601569800, 4, 'testTask', 'test2', 'xsxasxasxsx', 1, 'java.lang.NoSuchMethodException: com.winnerdt.modules.job.task.TestTask.test2(java.lang.String)', 39, '2019-03-20 11:00:00');
+INSERT INTO `schedule_job_log` VALUES (1098462319601569801, 4, 'testTask', 'test2', 'xsxasxasxsx', 1, 'java.lang.NoSuchMethodException: com.winnerdt.modules.job.task.TestTask.test2(java.lang.String)', 2, '2019-03-20 11:30:00');
+INSERT INTO `schedule_job_log` VALUES (1098462319601569802, 4, 'testTask', 'test2', 'xsxasxasxsx', 1, 'java.lang.NoSuchMethodException: com.winnerdt.modules.job.task.TestTask.test2(java.lang.String)', 36, '2019-03-20 12:00:00');
+INSERT INTO `schedule_job_log` VALUES (1098462319601569803, 4, 'testTask', 'test2', 'xsxasxasxsx', 1, 'java.lang.NoSuchMethodException: com.winnerdt.modules.job.task.TestTask.test2(java.lang.String)', 2, '2019-03-20 12:30:00');
+INSERT INTO `schedule_job_log` VALUES (1098462319601569804, 4, 'testTask', 'test2', 'xsxasxasxsx', 1, 'java.lang.NoSuchMethodException: com.winnerdt.modules.job.task.TestTask.test2(java.lang.String)', 1, '2019-03-20 13:00:00');
+INSERT INTO `schedule_job_log` VALUES (1098462319601569805, 4, 'testTask', 'test2', 'xsxasxasxsx', 1, 'java.lang.NoSuchMethodException: com.winnerdt.modules.job.task.TestTask.test2(java.lang.String)', 2, '2019-03-20 13:30:00');
+INSERT INTO `schedule_job_log` VALUES (1098462319601569806, 4, 'testTask', 'test2', 'xsxasxasxsx', 1, 'java.lang.NoSuchMethodException: com.winnerdt.modules.job.task.TestTask.test2(java.lang.String)', 3, '2019-03-20 15:00:01');
+INSERT INTO `schedule_job_log` VALUES (1098462319601569807, 4, 'testTask', 'test2', 'xsxasxasxsx', 1, 'java.lang.NoSuchMethodException: com.winnerdt.modules.job.task.TestTask.test2(java.lang.String)', 2, '2019-03-20 15:30:01');
+INSERT INTO `schedule_job_log` VALUES (1098462319601569808, 4, 'testTask', 'test2', 'xsxasxasxsx', 1, 'java.lang.NoSuchMethodException: com.winnerdt.modules.job.task.TestTask.test2(java.lang.String)', 7, '2019-04-15 14:30:00');
+INSERT INTO `schedule_job_log` VALUES (1098462319601569809, 4, 'testTask', 'test2', 'xsxasxasxsx', 1, 'java.lang.NoSuchMethodException: com.winnerdt.modules.job.task.TestTask.test2(java.lang.String)', 6, '2019-04-15 15:00:00');
+INSERT INTO `schedule_job_log` VALUES (1098462319601569810, 4, 'testTask', 'test2', 'xsxasxasxsx', 1, 'java.lang.NoSuchMethodException: com.winnerdt.modules.job.task.TestTask.test2(java.lang.String)', 1, '2019-04-15 15:30:00');
+INSERT INTO `schedule_job_log` VALUES (1098462319601569811, 4, 'testTask', 'test2', 'xsxasxasxsx', 1, 'java.lang.NoSuchMethodException: com.winnerdt.modules.job.task.TestTask.test2(java.lang.String)', 1, '2019-04-15 16:00:00');
+INSERT INTO `schedule_job_log` VALUES (1098462319601569812, 4, 'testTask', 'test2', 'xsxasxasxsx', 1, 'java.lang.NoSuchMethodException: com.winnerdt.modules.job.task.TestTask.test2(java.lang.String)', 2, '2019-04-15 16:30:00');
+INSERT INTO `schedule_job_log` VALUES (1098462319601569813, 4, 'testTask', 'test2', 'xsxasxasxsx', 1, 'java.lang.NoSuchMethodException: com.winnerdt.modules.job.task.TestTask.test2(java.lang.String)', 2, '2019-04-15 17:00:00');
+INSERT INTO `schedule_job_log` VALUES (1098462319601569814, 4, 'testTask', 'test2', 'xsxasxasxsx', 1, 'java.lang.NoSuchMethodException: com.winnerdt.modules.job.task.TestTask.test2(java.lang.String)', 1, '2019-04-15 17:30:00');
+INSERT INTO `schedule_job_log` VALUES (1098462319601569815, 4, 'testTask', 'test2', 'xsxasxasxsx', 1, 'java.lang.NoSuchMethodException: com.winnerdt.modules.job.task.TestTask.test2(java.lang.String)', 1, '2019-04-15 18:00:00');
+INSERT INTO `schedule_job_log` VALUES (1098462319601569816, 4, 'testTask', 'test2', 'xsxasxasxsx', 1, 'java.lang.NoSuchMethodException: com.winnerdt.modules.job.task.TestTask.test2(java.lang.String)', 6, '2019-04-15 18:30:00');
+INSERT INTO `schedule_job_log` VALUES (1098462319601569817, 4, 'testTask', 'test2', 'xsxasxasxsx', 1, 'java.lang.NoSuchMethodException: com.winnerdt.modules.job.task.TestTask.test2(java.lang.String)', 297, '2019-04-16 11:00:00');
+INSERT INTO `schedule_job_log` VALUES (1098462319601569818, 4, 'testTask', 'test2', 'xsxasxasxsx', 1, 'java.lang.NoSuchMethodException: com.winnerdt.modules.job.task.TestTask.test2(java.lang.String)', 2, '2019-04-16 11:30:00');
+INSERT INTO `schedule_job_log` VALUES (1098462319601569819, 4, 'testTask', 'test2', 'xsxasxasxsx', 1, 'java.lang.NoSuchMethodException: com.winnerdt.modules.job.task.TestTask.test2(java.lang.String)', 1, '2019-04-16 12:00:00');
+INSERT INTO `schedule_job_log` VALUES (1098462319601569820, 4, 'testTask', 'test2', 'xsxasxasxsx', 1, 'java.lang.NoSuchMethodException: com.winnerdt.modules.job.task.TestTask.test2(java.lang.String)', 1, '2019-04-16 12:30:00');
+INSERT INTO `schedule_job_log` VALUES (1098462319601569821, 4, 'testTask', 'test2', 'xsxasxasxsx', 1, 'java.lang.NoSuchMethodException: com.winnerdt.modules.job.task.TestTask.test2(java.lang.String)', 1, '2019-04-16 13:00:00');
+INSERT INTO `schedule_job_log` VALUES (1098462319601569822, 4, 'testTask', 'test2', 'xsxasxasxsx', 1, 'java.lang.NoSuchMethodException: com.winnerdt.modules.job.task.TestTask.test2(java.lang.String)', 2, '2019-04-16 13:30:00');
+INSERT INTO `schedule_job_log` VALUES (1098462319601569823, 4, 'testTask', 'test2', 'xsxasxasxsx', 1, 'java.lang.NoSuchMethodException: com.winnerdt.modules.job.task.TestTask.test2(java.lang.String)', 1, '2019-04-16 14:00:00');
+INSERT INTO `schedule_job_log` VALUES (1098462319601569824, 4, 'testTask', 'test2', 'xsxasxasxsx', 1, 'java.lang.NoSuchMethodException: com.winnerdt.modules.job.task.TestTask.test2(java.lang.String)', 1, '2019-04-16 14:30:00');
+INSERT INTO `schedule_job_log` VALUES (1098462319601569825, 4, 'testTask', 'test2', 'xsxasxasxsx', 1, 'java.lang.NoSuchMethodException: com.winnerdt.modules.job.task.TestTask.test2(java.lang.String)', 1, '2019-04-16 15:00:00');
+INSERT INTO `schedule_job_log` VALUES (1098462319601569826, 4, 'testTask', 'test2', 'xsxasxasxsx', 1, 'java.lang.NoSuchMethodException: com.winnerdt.modules.job.task.TestTask.test2(java.lang.String)', 1, '2019-04-16 15:30:00');
+INSERT INTO `schedule_job_log` VALUES (1098462319601569827, 4, 'testTask', 'test2', 'xsxasxasxsx', 1, 'java.lang.NoSuchMethodException: com.winnerdt.modules.job.task.TestTask.test2(java.lang.String)', 1, '2019-04-16 16:00:00');
+INSERT INTO `schedule_job_log` VALUES (1098462319601569828, 4, 'testTask', 'test2', 'xsxasxasxsx', 1, 'java.lang.NoSuchMethodException: com.winnerdt.modules.job.task.TestTask.test2(java.lang.String)', 1, '2019-04-16 16:30:00');
+INSERT INTO `schedule_job_log` VALUES (1098462319601569829, 4, 'testTask', 'test2', 'xsxasxasxsx', 1, 'java.lang.NoSuchMethodException: com.winnerdt.modules.job.task.TestTask.test2(java.lang.String)', 1, '2019-04-16 17:00:00');
+INSERT INTO `schedule_job_log` VALUES (1098462319601569830, 4, 'testTask', 'test2', 'xsxasxasxsx', 1, 'java.lang.NoSuchMethodException: com.winnerdt.modules.job.task.TestTask.test2(java.lang.String)', 1, '2019-04-16 17:30:00');
+INSERT INTO `schedule_job_log` VALUES (1098462319601569831, 4, 'testTask', 'test2', 'xsxasxasxsx', 1, 'java.lang.NoSuchMethodException: com.winnerdt.modules.job.task.TestTask.test2(java.lang.String)', 1, '2019-04-16 18:00:00');
+INSERT INTO `schedule_job_log` VALUES (1098462319601569832, 4, 'testTask', 'test2', 'xsxasxasxsx', 1, 'java.lang.NoSuchMethodException: com.winnerdt.modules.job.task.TestTask.test2(java.lang.String)', 5, '2019-04-17 10:30:00');
+INSERT INTO `schedule_job_log` VALUES (1098462319601569833, 4, 'testTask', 'test2', 'xsxasxasxsx', 1, 'java.lang.NoSuchMethodException: com.winnerdt.modules.job.task.TestTask.test2(java.lang.String)', 6, '2019-04-17 11:00:00');
+INSERT INTO `schedule_job_log` VALUES (1098462319601569834, 4, 'testTask', 'test2', 'xsxasxasxsx', 1, 'java.lang.NoSuchMethodException: com.winnerdt.modules.job.task.TestTask.test2(java.lang.String)', 1, '2019-04-17 11:30:00');
+INSERT INTO `schedule_job_log` VALUES (1098462319601569835, 4, 'testTask', 'test2', 'xsxasxasxsx', 1, 'java.lang.NoSuchMethodException: com.winnerdt.modules.job.task.TestTask.test2(java.lang.String)', 1, '2019-04-17 12:00:00');
+INSERT INTO `schedule_job_log` VALUES (1098462319601569836, 4, 'testTask', 'test2', 'xsxasxasxsx', 1, 'java.lang.NoSuchMethodException: com.winnerdt.modules.job.task.TestTask.test2(java.lang.String)', 1, '2019-04-17 12:30:00');
+INSERT INTO `schedule_job_log` VALUES (1098462319601569837, 4, 'testTask', 'test2', 'xsxasxasxsx', 1, 'java.lang.NoSuchMethodException: com.winnerdt.modules.job.task.TestTask.test2(java.lang.String)', 2, '2019-04-17 13:00:00');
+INSERT INTO `schedule_job_log` VALUES (1098462319601569838, 4, 'testTask', 'test2', 'xsxasxasxsx', 1, 'java.lang.NoSuchMethodException: com.winnerdt.modules.job.task.TestTask.test2(java.lang.String)', 2, '2019-04-17 13:30:00');
+INSERT INTO `schedule_job_log` VALUES (1098462319601569839, 4, 'testTask', 'test2', 'xsxasxasxsx', 1, 'java.lang.NoSuchMethodException: com.winnerdt.modules.job.task.TestTask.test2(java.lang.String)', 1, '2019-04-17 14:00:00');
+INSERT INTO `schedule_job_log` VALUES (1098462319601569840, 4, 'testTask', 'test2', 'xsxasxasxsx', 1, 'java.lang.NoSuchMethodException: com.winnerdt.modules.job.task.TestTask.test2(java.lang.String)', 3, '2019-04-17 14:30:00');
+INSERT INTO `schedule_job_log` VALUES (1098462319601569841, 4, 'testTask', 'test2', 'xsxasxasxsx', 1, 'java.lang.NoSuchMethodException: com.winnerdt.modules.job.task.TestTask.test2(java.lang.String)', 1, '2019-04-17 15:00:00');
+INSERT INTO `schedule_job_log` VALUES (1098462319601569842, 4, 'testTask', 'test2', 'xsxasxasxsx', 1, 'java.lang.NoSuchMethodException: com.winnerdt.modules.job.task.TestTask.test2(java.lang.String)', 1, '2019-04-17 15:30:00');
+INSERT INTO `schedule_job_log` VALUES (1098462319601569843, 4, 'testTask', 'test2', 'xsxasxasxsx', 1, 'java.lang.NoSuchMethodException: com.winnerdt.modules.job.task.TestTask.test2(java.lang.String)', 1, '2019-04-17 16:00:00');
+INSERT INTO `schedule_job_log` VALUES (1098462319601569844, 4, 'testTask', 'test2', 'xsxasxasxsx', 1, 'java.lang.NoSuchMethodException: com.winnerdt.modules.job.task.TestTask.test2(java.lang.String)', 209, '2019-04-17 17:00:01');
+INSERT INTO `schedule_job_log` VALUES (1098462319601569845, 4, 'testTask', 'test2', 'xsxasxasxsx', 1, 'java.lang.NoSuchMethodException: com.winnerdt.modules.job.task.TestTask.test2(java.lang.String)', 3, '2019-04-17 18:00:00');
+INSERT INTO `schedule_job_log` VALUES (1098462319601569846, 4, 'testTask', 'test2', 'xsxasxasxsx', 1, 'java.lang.NoSuchMethodException: com.winnerdt.modules.job.task.TestTask.test2(java.lang.String)', 1, '2019-04-17 18:30:00');
+INSERT INTO `schedule_job_log` VALUES (1098462319601569847, 4, 'testTask', 'test2', 'xsxasxasxsx', 1, 'java.lang.NoSuchMethodException: com.winnerdt.modules.job.task.TestTask.test2(java.lang.String)', 3, '2019-04-18 15:30:00');
+INSERT INTO `schedule_job_log` VALUES (1098462319601569848, 4, 'testTask', 'test2', 'xsxasxasxsx', 1, 'java.lang.NoSuchMethodException: com.winnerdt.modules.job.task.TestTask.test2(java.lang.String)', 5, '2019-04-18 16:00:00');
+INSERT INTO `schedule_job_log` VALUES (1098462319601569849, 4, 'testTask', 'test2', 'xsxasxasxsx', 1, 'java.lang.NoSuchMethodException: com.winnerdt.modules.job.task.TestTask.test2(java.lang.String)', 5, '2019-04-19 11:00:00');
+INSERT INTO `schedule_job_log` VALUES (1098462319601569850, 4, 'testTask', 'test2', 'xsxasxasxsx', 1, 'java.lang.NoSuchMethodException: com.winnerdt.modules.job.task.TestTask.test2(java.lang.String)', 1, '2019-04-19 11:30:00');
+INSERT INTO `schedule_job_log` VALUES (1098462319601569851, 4, 'testTask', 'test2', 'xsxasxasxsx', 1, 'java.lang.NoSuchMethodException: com.winnerdt.modules.job.task.TestTask.test2(java.lang.String)', 2, '2019-04-19 12:00:00');
+INSERT INTO `schedule_job_log` VALUES (1098462319601569852, 4, 'testTask', 'test2', 'xsxasxasxsx', 1, 'java.lang.NoSuchMethodException: com.winnerdt.modules.job.task.TestTask.test2(java.lang.String)', 1, '2019-04-19 12:30:00');
+INSERT INTO `schedule_job_log` VALUES (1098462319601569853, 4, 'testTask', 'test2', 'xsxasxasxsx', 1, 'java.lang.NoSuchMethodException: com.winnerdt.modules.job.task.TestTask.test2(java.lang.String)', 1, '2019-04-19 13:00:00');
+INSERT INTO `schedule_job_log` VALUES (1098462319601569854, 4, 'testTask', 'test2', 'xsxasxasxsx', 1, 'java.lang.NoSuchMethodException: com.winnerdt.modules.job.task.TestTask.test2(java.lang.String)', 3, '2019-04-19 13:30:00');
 
 -- ----------------------------
 -- Table structure for sys_config
@@ -369,18 +526,21 @@ CREATE TABLE `sys_dept`  (
   `parent_id` bigint(20) NULL DEFAULT NULL COMMENT '上级部门ID，一级部门为0',
   `name` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '部门名称',
   `order_num` int(11) NULL DEFAULT NULL COMMENT '排序',
+  `dept_code` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '推广码',
   `del_flag` tinyint(4) NULL DEFAULT 0 COMMENT '是否删除  -1：已删除  0：正常',
   PRIMARY KEY (`dept_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '部门管理' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 8 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '部门管理' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_dept
 -- ----------------------------
-INSERT INTO `sys_dept` VALUES (1, 0, '人人开源集团', 0, 0);
-INSERT INTO `sys_dept` VALUES (2, 1, '长沙分公司', 1, 0);
-INSERT INTO `sys_dept` VALUES (3, 1, '上海分公司', 2, 0);
-INSERT INTO `sys_dept` VALUES (4, 3, '技术部', 0, 0);
-INSERT INTO `sys_dept` VALUES (5, 3, '销售部', 1, 0);
+INSERT INTO `sys_dept` VALUES (1, 0, '人人开源集团', 0, NULL, 0);
+INSERT INTO `sys_dept` VALUES (2, 1, '长沙分公司', 1, NULL, 0);
+INSERT INTO `sys_dept` VALUES (3, 1, '上海分公司', 2, NULL, 0);
+INSERT INTO `sys_dept` VALUES (4, 3, '技术部', 0, NULL, 0);
+INSERT INTO `sys_dept` VALUES (5, 3, '销售部', 1, NULL, 0);
+INSERT INTO `sys_dept` VALUES (6, 1, '是否', 1, NULL, 0);
+INSERT INTO `sys_dept` VALUES (7, 1, 'haha', 8, NULL, 0);
 
 -- ----------------------------
 -- Table structure for sys_dict
@@ -734,7 +894,7 @@ CREATE TABLE `sys_log`  (
   `ip` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT 'IP地址',
   `create_date` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1087620602598027312 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '系统日志' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1098431558701871127 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '系统日志' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_log
@@ -864,6 +1024,57 @@ INSERT INTO `sys_log` VALUES (1087620602598027308, 'admin', '保存角色', 'com
 INSERT INTO `sys_log` VALUES (1087620602598027309, 'admin', '保存角色', 'com.winnerdt.modules.sys.controller.SysRoleController.save()', '{\"roleId\":1087620602119876616,\"roleName\":\"test\",\"deptId\":0,\"menuIdList\":[],\"deptIdList\":[],\"createTime\":\"Feb 14, 2019 1:42:36 PM\"}', 83, '192.168.199.192', '2019-02-14 13:42:36');
 INSERT INTO `sys_log` VALUES (1087620602598027310, 'admin', '保存角色', 'com.winnerdt.modules.sys.controller.SysRoleController.save()', '{\"roleId\":1087620602119876617,\"roleName\":\"ctest\",\"deptId\":0,\"menuIdList\":[],\"deptIdList\":[],\"createTime\":\"Feb 14, 2019 1:46:10 PM\"}', 56, '192.168.199.192', '2019-02-14 13:46:11');
 INSERT INTO `sys_log` VALUES (1087620602598027311, 'admin', '保存角色', 'com.winnerdt.modules.sys.controller.SysRoleController.save()', '{\"roleId\":1087620602119876618,\"roleName\":\"tests\",\"deptId\":0,\"menuIdList\":[],\"deptIdList\":[],\"createTime\":\"Feb 14, 2019 1:46:47 PM\"}', 117, '192.168.199.192', '2019-02-14 13:46:48');
+INSERT INTO `sys_log` VALUES (1087620602598027312, 'admin', '修改用户', 'com.winnerdt.modules.sys.controller.SysUserController.updateBasic()', '{\"userId\":1,\"nickName\":\"master11\",\"password\":\"111111\",\"email\":\"root@renren.io11\",\"mobile\":\"11111111111\",\"signature\":\"今天也是充满希望的一天11\"}', 21780, '192.168.199.192', '2019-02-15 13:28:41');
+INSERT INTO `sys_log` VALUES (1087620602598027313, 'admin', '修改用户', 'com.winnerdt.modules.sys.controller.SysUserController.updateBasic()', '{\"userId\":1,\"nickName\":\"\",\"email\":\"\",\"mobile\":\"\",\"signature\":\"\"}', 10353, '192.168.199.192', '2019-02-15 13:31:43');
+INSERT INTO `sys_log` VALUES (1087620602598027314, 'admin', '修改用户', 'com.winnerdt.modules.sys.controller.SysUserController.updateBasic()', '{\"userId\":1,\"nickName\":\"\",\"email\":\"\",\"mobile\":\"\",\"signature\":\"\"}', 21467, '192.168.199.192', '2019-02-15 13:40:36');
+INSERT INTO `sys_log` VALUES (1087620602598027315, 'admin', '修改用户', 'com.winnerdt.modules.sys.controller.SysUserController.updateBasic()', '{\"userId\":1,\"nickName\":\"\",\"email\":\"\",\"mobile\":\"\",\"signature\":\"\"}', 24470, '192.168.199.192', '2019-02-15 13:45:05');
+INSERT INTO `sys_log` VALUES (1087620602598027316, 'admin', '修改用户', 'com.winnerdt.modules.sys.controller.SysUserController.updateBasic()', '{\"userId\":1,\"nickName\":\"\",\"email\":\"\",\"mobile\":\"\",\"signature\":\"\"}', 17967, '192.168.199.192', '2019-02-15 13:47:31');
+INSERT INTO `sys_log` VALUES (1087620602598027317, 'admin', '修改用户', 'com.winnerdt.modules.sys.controller.SysUserController.updateBasic()', '{\"userId\":1,\"email\":\"\"}', 25340, '192.168.199.192', '2019-02-15 13:53:23');
+INSERT INTO `sys_log` VALUES (1087620602598027318, 'admin', '修改用户', 'com.winnerdt.modules.sys.controller.SysUserController.updateBasic()', '{\"userId\":1,\"nickName\":\"\",\"email\":\"\",\"mobile\":\"\",\"signature\":\"\"}', 22914, '192.168.199.192', '2019-02-15 14:04:10');
+INSERT INTO `sys_log` VALUES (1087620602598027319, 'admin', '修改用户', 'com.winnerdt.modules.sys.controller.SysUserController.updateBasic()', '{\"userId\":1,\"nickName\":\"\",\"email\":\"\",\"mobile\":\"\",\"signature\":\"\"}', 31633, '192.168.199.192', '2019-02-15 14:06:55');
+INSERT INTO `sys_log` VALUES (1087620602598027320, 'admin', '修改用户', 'com.winnerdt.modules.sys.controller.SysUserController.updateBasic()', '{\"userId\":1,\"nickName\":\"\",\"email\":\"\",\"mobile\":\"\",\"signature\":\"\"}', 42547, '0:0:0:0:0:0:0:1', '2019-02-15 14:42:59');
+INSERT INTO `sys_log` VALUES (1087620602598027321, 'admin', '修改用户', 'com.winnerdt.modules.sys.controller.SysUserController.updateBasic()', '{\"userId\":1,\"nickName\":\"\",\"email\":\"\",\"mobile\":\"\",\"signature\":\"\"}', 5670, '0:0:0:0:0:0:0:1', '2019-02-15 14:44:56');
+INSERT INTO `sys_log` VALUES (1087620602598027322, 'admin', '修改用户', 'com.winnerdt.modules.sys.controller.SysUserController.updateBasic()', '{\"userId\":1,\"nickName\":\"\",\"email\":\"\",\"mobile\":\"456456\",\"signature\":\"\"}', 61653, '0:0:0:0:0:0:0:1', '2019-02-15 15:03:15');
+INSERT INTO `sys_log` VALUES (1087620602598027323, 'admin', '修改用户', 'com.winnerdt.modules.sys.controller.SysUserController.updateBasic()', '{\"userId\":1,\"nickName\":\"\",\"mobile\":\"456456\"}', 5676, '0:0:0:0:0:0:0:1', '2019-02-15 15:31:29');
+INSERT INTO `sys_log` VALUES (1087620602598027324, 'admin', '修改用户', 'com.winnerdt.modules.sys.controller.SysUserController.updateBasic()', '{}', 7932, '0:0:0:0:0:0:0:1', '2019-02-15 15:32:01');
+INSERT INTO `sys_log` VALUES (1087620602598027325, 'admin', '修改用户', 'com.winnerdt.modules.sys.controller.SysUserController.updateBasic()', '{\"userId\":1,\"nickName\":\"\",\"email\":\"\",\"mobile\":\"\"}', 15674, '0:0:0:0:0:0:0:1', '2019-02-15 15:32:36');
+INSERT INTO `sys_log` VALUES (1087620602598027326, 'admin', '修改用户', 'com.winnerdt.modules.sys.controller.SysUserController.updateBasic()', '{\"userId\":1,\"nickName\":\"\",\"email\":\"\"}', 14040, '0:0:0:0:0:0:0:1', '2019-02-15 15:36:25');
+INSERT INTO `sys_log` VALUES (1087620602598027327, 'admin', '修改用户', 'com.winnerdt.modules.sys.controller.SysUserController.updateBasic()', '{\"userId\":1,\"email\":\"\",\"mobile\":\"\",\"signature\":\"\"}', 5890, '0:0:0:0:0:0:0:1', '2019-02-15 15:36:51');
+INSERT INTO `sys_log` VALUES (1087620602598027328, 'admin', '保存用户', 'com.winnerdt.modules.sys.controller.SysUserController.save()', '{\"userId\":2,\"username\":\"test\",\"password\":\"d0d0a12ffccaf9da372cb8f66663326f321d76f97da87e63119527483064ee8d\",\"salt\":\"64WvfJ58L2YYNhVrLOD5\",\"email\":\"q@q.com\",\"mobile\":\"11111111111\",\"status\":1,\"roleIdList\":[\"1\",\"1087620602119876614\"],\"createTime\":\"Feb 15, 2019 6:23:37 PM\",\"deptId\":1}', 248, '192.168.199.192', '2019-02-15 18:23:38');
+INSERT INTO `sys_log` VALUES (1087620602598027329, 'admin', '保存用户', 'com.winnerdt.modules.sys.controller.SysUserController.save()', '{\"userId\":3,\"username\":\"teywteyw\",\"password\":\"0a1ade81f7129dd4fa42ca8cd8adac668649cc88456d969b89de6601a1fa5f79\",\"salt\":\"QpW0JznfOZvuNG4hhB1W\",\"email\":\"q@q.com\",\"mobile\":\"11111111111\",\"status\":1,\"createTime\":\"Feb 15, 2019 6:26:07 PM\",\"deptId\":1}', 47, '192.168.199.192', '2019-02-15 18:26:08');
+INSERT INTO `sys_log` VALUES (1087620602598027330, 'admin', '保存用户', 'com.winnerdt.modules.sys.controller.SysUserController.save()', '{\"userId\":4,\"username\":\"122222\",\"password\":\"c1a3ff99551ae2add13af41cd11899b05fd6eb2fe1eba58fe9fb1066a7568d17\",\"salt\":\"h9sZtXAWbtrd3NXyo8PB\",\"email\":\"q@q.com\",\"mobile\":\"11111111111\",\"status\":1,\"roleIdList\":[\"1\",\"1087620602119876614\"],\"createTime\":\"Feb 15, 2019 6:26:49 PM\",\"deptId\":1}', 52, '192.168.199.192', '2019-02-15 18:26:49');
+INSERT INTO `sys_log` VALUES (1087620602598027331, 'admin', '修改用户', 'com.winnerdt.modules.sys.controller.SysUserController.update()', '{\"userId\":3,\"email\":\"q@q.com\",\"mobile\":\"11111111111\",\"status\":1,\"roleIdList\":[1,1087620602119876600],\"deptId\":1}', 54, '192.168.199.192', '2019-02-15 18:31:55');
+INSERT INTO `sys_log` VALUES (1087620602598027332, 'admin', '修改用户', 'com.winnerdt.modules.sys.controller.SysUserController.update()', '{\"userId\":3,\"email\":\"q@q.com\",\"mobile\":\"11111111111\",\"status\":1,\"roleIdList\":[\"1\",\"1087620602119876614\"],\"deptId\":1}', 189, '192.168.199.192', '2019-02-15 18:37:51');
+INSERT INTO `sys_log` VALUES (1087620602598027333, 'admin', '保存角色', 'com.winnerdt.modules.sys.controller.SysRoleController.save()', '{\"roleId\":1087620602119876619,\"roleName\":\"222\",\"remark\":\"12312\",\"deptId\":1,\"menuIdList\":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50],\"deptIdList\":[],\"createTime\":\"Feb 18, 2019 5:01:40 PM\"}', 376, '0:0:0:0:0:0:0:1', '2019-02-18 17:01:41');
+INSERT INTO `sys_log` VALUES (1097422153789251586, 'admin', '保存角色', 'com.winnerdt.modules.sys.controller.SysRoleController.save()', '{\"roleId\":1097422153298518018,\"roleName\":\"dddf\",\"remark\":\"dddd\",\"deptId\":1,\"menuIdList\":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50],\"deptIdList\":[],\"createTime\":\"Feb 18, 2019 5:06:44 PM\"}', 316, '0:0:0:0:0:0:0:1', '2019-02-18 17:06:45');
+INSERT INTO `sys_log` VALUES (1097426426174427138, 'admin', '保存角色', 'com.winnerdt.modules.sys.controller.SysRoleController.save()', '{\"roleId\":1097422153298518019,\"roleName\":\"333\",\"remark\":\"333\",\"deptId\":1,\"menuIdList\":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50],\"deptIdList\":[],\"createTime\":\"Feb 18, 2019 5:23:43 PM\"}', 381, '0:0:0:0:0:0:0:1', '2019-02-18 17:23:44');
+INSERT INTO `sys_log` VALUES (1097426478708084738, 'admin', '删除角色', 'com.winnerdt.modules.sys.controller.SysRoleController.delete()', '[1097422153298518019]', 132, '0:0:0:0:0:0:0:1', '2019-02-18 17:23:56');
+INSERT INTO `sys_log` VALUES (1097426504104595457, 'admin', '删除角色', 'com.winnerdt.modules.sys.controller.SysRoleController.delete()', '[1097422153298518018]', 59, '0:0:0:0:0:0:0:1', '2019-02-18 17:24:02');
+INSERT INTO `sys_log` VALUES (1097426521934581762, 'admin', '删除角色', 'com.winnerdt.modules.sys.controller.SysRoleController.delete()', '[1087620602119876619]', 38, '0:0:0:0:0:0:0:1', '2019-02-18 17:24:07');
+INSERT INTO `sys_log` VALUES (1097783262002032642, 'admin', '保存菜单', 'com.winnerdt.modules.sys.controller.SysMenuController.save()', '{\"menuId\":1097783261695848449,\"parentId\":1,\"name\":\"试试\",\"path\":\"/system-manager/admin-manager\",\"perms\":\"sys:test\",\"type\":1,\"icon\":\"backward\",\"orderNum\":1,\"locale\":\"menu.systemMmanager.adminMmanager\"}', 57, '0:0:0:0:0:0:0:1', '2019-02-19 17:01:40');
+INSERT INTO `sys_log` VALUES (1098154412725088258, 'admin', '保存角色', 'com.winnerdt.modules.sys.controller.SysRoleController.save()', '{\"roleId\":1098154412112719873,\"roleName\":\"12345\",\"remark\":\"3322\",\"deptId\":1,\"menuIdList\":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50],\"deptIdList\":[],\"createTime\":\"Feb 20, 2019 5:36:29 PM\"}', 342, '0:0:0:0:0:0:0:1', '2019-02-20 17:36:29');
+INSERT INTO `sys_log` VALUES (1098415757022318594, 'admin', '保存角色', 'com.winnerdt.modules.sys.controller.SysRoleController.save()', '{\"roleId\":1098415756145709058,\"roleName\":\"332344\",\"remark\":\"222334\",\"deptId\":1,\"menuIdList\":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50],\"deptIdList\":[],\"createTime\":\"Feb 21, 2019 10:54:58 AM\"}', 459, '0:0:0:0:0:0:0:1', '2019-02-21 10:54:59');
+INSERT INTO `sys_log` VALUES (1098431558701871106, 'admin', '保存角色', 'com.winnerdt.modules.sys.controller.SysRoleController.save()', '{\"roleId\":1098431558068531201,\"roleName\":\"1000\",\"remark\":\"1010\",\"deptId\":1,\"menuIdList\":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50],\"deptIdList\":[],\"createTime\":\"Feb 21, 2019 11:57:45 AM\"}', 351, '0:0:0:0:0:0:0:1', '2019-02-21 11:57:46');
+INSERT INTO `sys_log` VALUES (1098431558701871107, 'admin', '保存角色', 'com.winnerdt.modules.sys.controller.SysRoleController.save()', '{\"roleId\":1098431558068531202,\"roleName\":\"1002\",\"remark\":\"2220\",\"deptId\":1,\"menuIdList\":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50],\"deptIdList\":[],\"createTime\":\"Feb 21, 2019 2:24:02 PM\"}', 269, '0:0:0:0:0:0:0:1', '2019-02-21 14:24:03');
+INSERT INTO `sys_log` VALUES (1098431558701871108, 'admin', '保存角色', 'com.winnerdt.modules.sys.controller.SysRoleController.save()', '{\"roleId\":1098431558068531203,\"roleName\":\"112\",\"remark\":\"221\",\"deptId\":1,\"menuIdList\":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50],\"deptIdList\":[],\"createTime\":\"Feb 21, 2019 2:24:35 PM\"}', 96, '0:0:0:0:0:0:0:1', '2019-02-21 14:24:35');
+INSERT INTO `sys_log` VALUES (1098431558701871109, 'admin', '保存菜单', 'com.winnerdt.modules.sys.controller.SysMenuController.save()', '{\"menuId\":51,\"parentId\":1,\"name\":\"水电费\",\"path\":\"沙发\",\"perms\":\"阿阿斯顿\",\"type\":1,\"orderNum\":11,\"locale\":\"menu沙发\"}', 50, '0:0:0:0:0:0:0:1', '2019-02-21 14:25:51');
+INSERT INTO `sys_log` VALUES (1098431558701871110, 'admin', '保存用户', 'com.winnerdt.modules.sys.controller.SysUserController.save()', '{\"userId\":4,\"username\":\"12313\",\"password\":\"575abe148ca8cac7dc1f9f09f29d791fefe079995537b25ed1e2056952416621\",\"salt\":\"XX8X9T3hfhfPzyCGzJfR\",\"email\":\"643935700@qq.con\",\"mobile\":\"13245685210\",\"status\":1,\"roleIdList\":[\"1098431558068531203\"],\"createTime\":\"Feb 21, 2019 2:27:02 PM\",\"deptId\":1}', 93, '0:0:0:0:0:0:0:1', '2019-02-21 14:27:02');
+INSERT INTO `sys_log` VALUES (1098431558701871111, 'admin', '保存角色', 'com.winnerdt.modules.sys.controller.SysRoleController.save()', '{\"roleId\":1098431558068531204,\"roleName\":\"123123\",\"remark\":\"12122\",\"deptId\":1,\"menuIdList\":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51],\"deptIdList\":[],\"createTime\":\"Feb 21, 2019 2:27:55 PM\"}', 71, '0:0:0:0:0:0:0:1', '2019-02-21 14:27:56');
+INSERT INTO `sys_log` VALUES (1098431558701871112, 'admin', '保存角色', 'com.winnerdt.modules.sys.controller.SysRoleController.save()', '{\"roleId\":1098431558068531205,\"roleName\":\"打发\",\"remark\":\"是是是\",\"deptId\":1,\"menuIdList\":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51],\"deptIdList\":[],\"createTime\":\"Feb 21, 2019 2:28:41 PM\"}', 127, '0:0:0:0:0:0:0:1', '2019-02-21 14:28:41');
+INSERT INTO `sys_log` VALUES (1098431558701871113, 'admin', '保存角色', 'com.winnerdt.modules.sys.controller.SysRoleController.save()', '{\"roleId\":1,\"roleName\":\"请问\",\"remark\":\"啊啊啊\",\"deptId\":1,\"menuIdList\":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51],\"deptIdList\":[],\"createTime\":\"Feb 21, 2019 2:30:04 PM\"}', 89, '0:0:0:0:0:0:0:1', '2019-02-21 14:30:04');
+INSERT INTO `sys_log` VALUES (1098431558701871114, 'admin', '修改用户', 'com.winnerdt.modules.sys.controller.SysUserController.update()', '{\"userId\":3,\"email\":\"q@q.com\",\"mobile\":\"11111111111\",\"status\":1,\"roleIdList\":[],\"deptId\":1}', 136, '192.168.30.19', '2019-04-16 10:38:45');
+INSERT INTO `sys_log` VALUES (1098431558701871115, 'admin', '修改用户', 'com.winnerdt.modules.sys.controller.SysUserController.update()', '{\"userId\":1,\"email\":\"123145@qq.com\",\"mobile\":\"12345698711\",\"status\":1,\"roleIdList\":[],\"deptId\":4}', 211, '0:0:0:0:0:0:0:1', '2019-04-17 17:57:02');
+INSERT INTO `sys_log` VALUES (1098431558701871116, 'admin', '修改用户', 'com.winnerdt.modules.sys.controller.SysUserController.update()', '{\"userId\":3,\"email\":\"q@q.com\",\"mobile\":\"11111111111\",\"status\":1,\"roleIdList\":[\"1\"],\"deptId\":3}', 87, '0:0:0:0:0:0:0:1', '2019-04-17 18:01:07');
+INSERT INTO `sys_log` VALUES (1098431558701871117, 'admin', '保存用户', 'com.winnerdt.modules.sys.controller.SysUserController.save()', '{\"userId\":5,\"username\":\"test1\",\"password\":\"7be0f9939da642910b6889b1787eb20245b420370151769d60787ca3a5e4fc2c\",\"salt\":\"g6IW3Oc9pW6Z9KzfygXv\",\"email\":\"123@qqq.com\",\"mobile\":\"12345678977\",\"status\":1,\"roleIdList\":[\"1\"],\"createTime\":\"Apr 17, 2019 6:01:54 PM\",\"deptId\":3}', 46, '0:0:0:0:0:0:0:1', '2019-04-17 18:01:54');
+INSERT INTO `sys_log` VALUES (1098431558701871118, 'admin', '修改角色', 'com.winnerdt.modules.sys.controller.SysRoleController.update()', '{\"roleId\":1,\"roleName\":\"test1\",\"remark\":\"啊啊啊\",\"deptId\":4,\"menuIdList\":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51],\"deptIdList\":[4]}', 98, '0:0:0:0:0:0:0:1', '2019-04-17 18:02:27');
+INSERT INTO `sys_log` VALUES (1098431558701871119, 'admin', '保存菜单', 'com.winnerdt.modules.sys.controller.SysMenuController.save()', '{\"menuId\":51,\"parentId\":1,\"name\":\"测试\",\"path\":\"/admin-test/admin-test\",\"type\":1,\"icon\":\"calculator\",\"locale\":\"menu.adminTtest.adminTtest\"}', 154, '192.168.30.19', '2019-04-17 18:05:20');
+INSERT INTO `sys_log` VALUES (1098431558701871120, 'test1', '修改角色', 'com.winnerdt.modules.sys.controller.SysRoleController.update()', '{\"roleId\":1,\"roleName\":\"test1\",\"remark\":\"啊啊啊\",\"deptId\":4,\"menuIdList\":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51],\"deptIdList\":[4,6,7]}', 147, '0:0:0:0:0:0:0:1', '2019-04-17 18:05:58');
+INSERT INTO `sys_log` VALUES (1098431558701871121, 'admin', '修改角色', 'com.winnerdt.modules.sys.controller.SysRoleController.update()', '{\"roleId\":1,\"roleName\":\"test1\",\"remark\":\"啊啊啊\",\"deptId\":4,\"menuIdList\":[2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50],\"deptIdList\":[4]}', 102, '192.168.30.19', '2019-04-17 18:06:20');
+INSERT INTO `sys_log` VALUES (1098431558701871122, 'test1', '修改角色', 'com.winnerdt.modules.sys.controller.SysRoleController.update()', '{\"roleId\":1,\"roleName\":\"test1\",\"remark\":\"啊啊啊\",\"deptId\":4,\"menuIdList\":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51],\"deptIdList\":[4]}', 74, '0:0:0:0:0:0:0:1', '2019-04-17 18:07:09');
+INSERT INTO `sys_log` VALUES (1098431558701871123, 'test1', '修改角色', 'com.winnerdt.modules.sys.controller.SysRoleController.update()', '{\"roleId\":1,\"roleName\":\"test1\",\"remark\":\"啊啊啊\",\"deptId\":4,\"menuIdList\":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51],\"deptIdList\":[4,6]}', 58, '0:0:0:0:0:0:0:1', '2019-04-17 18:08:35');
+INSERT INTO `sys_log` VALUES (1098431558701871124, 'admin', '修改菜单', 'com.winnerdt.modules.sys.controller.SysMenuController.update()', '{\"menuId\":51,\"parentId\":1,\"name\":\"测试\",\"path\":\"/admin-test/admin-test\",\"type\":1,\"icon\":\"calculator\",\"orderNum\":1}', 45, '192.168.30.19', '2019-04-17 18:12:47');
+INSERT INTO `sys_log` VALUES (1098431558701871125, 'admin', '修改菜单', 'com.winnerdt.modules.sys.controller.SysMenuController.update()', '{\"menuId\":51,\"parentId\":1,\"name\":\"测试操作\",\"path\":\"/admin-test/admin-test\",\"type\":1,\"icon\":\"calculator\",\"orderNum\":1}', 40, '192.168.30.19', '2019-04-17 18:13:09');
+INSERT INTO `sys_log` VALUES (1098431558701871126, 'admin', '删除定时任务', 'com.winnerdt.modules.job.controller.ScheduleJobController.delete()', '[4]', 119, '0:0:0:0:0:0:0:1', '2019-04-19 14:13:52');
 
 -- ----------------------------
 -- Table structure for sys_menu
@@ -881,12 +1092,12 @@ CREATE TABLE `sys_menu`  (
   `locale` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '给前台使用的，具体作用不明',
   `exact` int(10) NULL DEFAULT 0 COMMENT '给前台使用的，具体作用不明,boolean类型',
   PRIMARY KEY (`menu_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 51 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '菜单管理' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 70 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '菜单管理' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_menu
 -- ----------------------------
-INSERT INTO `sys_menu` VALUES (1, 0, '系统管理', '/system-manager', NULL, 0, 'setting', 0, 'menu.systemManager', 1);
+INSERT INTO `sys_menu` VALUES (1, 0, '系统管理', '/system-manager', NULL, 0, 'setting', 3, 'menu.systemManager', 1);
 INSERT INTO `sys_menu` VALUES (2, 1, '管理员管理', '/system-manager/admin-manager', NULL, 1, 'user', 1, 'menu.systemManager.adminManager', 1);
 INSERT INTO `sys_menu` VALUES (3, 1, '角色管理', '/system-manager/role-manager', NULL, 1, 'tool', 2, 'menu.systemManager.roleManager', 1);
 INSERT INTO `sys_menu` VALUES (4, 1, '菜单管理', '/system-manager/menu-manager', NULL, 1, 'tool', 3, 'menu.systemManager.menuManager', 1);
@@ -915,7 +1126,7 @@ INSERT INTO `sys_menu` VALUES (26, 4, '删除', NULL, 'sys:menu:delete', 2, NULL
 INSERT INTO `sys_menu` VALUES (27, 1, '参数管理', '/system-manager/parameter-manager', 'sys:config:list,sys:config:info,sys:config:save,sys:config:update,sys:config:delete', 1, 'tool', 6, 'menu.systemManager.parameterManager', 1);
 INSERT INTO `sys_menu` VALUES (29, 1, '系统日志', '/system-manager/system-log', 'sys:log:list', 1, 'tool', 7, 'menu.systemManager.systemLog', 1);
 INSERT INTO `sys_menu` VALUES (30, 1, '文件上传', '/system-manager/file-upload', 'sys:oss:list', 1, 'tool', 6, 'menu.systemManager.fileUpload', 1);
-INSERT INTO `sys_menu` VALUES (31, 1, '部门管理', '/system-manager/department-manager', NULL, 1, 'tool', 1, 'menu.systemManager.departmentManager', 1);
+INSERT INTO `sys_menu` VALUES (31, 1, '服务商管理', '/system-manager/department-manager', NULL, 1, 'tool', 1, 'menu.systemManager.departmentManager', 1);
 INSERT INTO `sys_menu` VALUES (32, 31, '查看', NULL, 'sys:dept:list,sys:dept:info', 2, NULL, 0, NULL, 1);
 INSERT INTO `sys_menu` VALUES (33, 31, '新增', NULL, 'sys:dept:save,sys:dept:select', 2, NULL, 0, NULL, 1);
 INSERT INTO `sys_menu` VALUES (34, 31, '修改', NULL, 'sys:dept:update,sys:dept:select', 2, NULL, 0, NULL, 1);
@@ -935,6 +1146,25 @@ INSERT INTO `sys_menu` VALUES (47, 27, '删除', NULL, 'sys:config:delete', 2, N
 INSERT INTO `sys_menu` VALUES (48, 27, '修改', NULL, 'sys:config:update', 2, NULL, 1, NULL, 0);
 INSERT INTO `sys_menu` VALUES (49, 27, '添加', NULL, 'sys:config:save', 2, NULL, 1, NULL, 0);
 INSERT INTO `sys_menu` VALUES (50, 29, '查看', NULL, 'sys:log:list', 2, NULL, 1, NULL, 0);
+INSERT INTO `sys_menu` VALUES (51, 0, '二维码管理', '/qrcode-manager', NULL, 0, 'qrcode', 2, 'menu.qrcodeManager', 0);
+INSERT INTO `sys_menu` VALUES (52, 0, '会员管理', '/member-manager', NULL, 0, 'team', 1, 'menu.memberManager', 0);
+INSERT INTO `sys_menu` VALUES (53, 51, '二维码列表', '/qrcode-manager/qrcode-list', NULL, 1, 'bars', NULL, 'menu.qrcodeManager.qrcodeList', 0);
+INSERT INTO `sys_menu` VALUES (54, 52, '会员列表', '/member-manager/member-list', NULL, 1, 'bars', NULL, 'menu.memberManager.memberList', 0);
+INSERT INTO `sys_menu` VALUES (55, 51, '微信基本信息', '/qrcode-manager/qrcode-wx-info', NULL, 1, 'wechat', NULL, 'menu.qrcodeManager.qrcodeWxInfo', 0);
+INSERT INTO `sys_menu` VALUES (56, 51, '二维码参数配置', '/qrcode-manager/qrcode-config', NULL, 1, 'barcode', NULL, 'menu.qrcodeManager.qrcodeConfig', 0);
+INSERT INTO `sys_menu` VALUES (57, 55, '查看', NULL, 'sys:user:list,sys:user:info', 2, NULL, NULL, NULL, 0);
+INSERT INTO `sys_menu` VALUES (58, 55, '添加', NULL, 'sys:user:save,sys:role:select', 2, NULL, NULL, NULL, 0);
+INSERT INTO `sys_menu` VALUES (59, 55, '修改', NULL, 'sys:user:update,sys:role:select', 2, NULL, NULL, NULL, 0);
+INSERT INTO `sys_menu` VALUES (60, 55, '删除', NULL, 'sys:user:delete', 2, NULL, NULL, NULL, 0);
+INSERT INTO `sys_menu` VALUES (61, 56, '查看', NULL, 'sys:user:list,sys:user:info', 2, NULL, NULL, NULL, 0);
+INSERT INTO `sys_menu` VALUES (62, 56, '添加', NULL, 'sys:user:save,sys:role:select', 2, NULL, NULL, NULL, 0);
+INSERT INTO `sys_menu` VALUES (63, 56, '修改', NULL, 'sys:user:update,sys:role:select', 2, NULL, NULL, NULL, 0);
+INSERT INTO `sys_menu` VALUES (64, 56, '删除', NULL, 'sys:user:delete', 2, NULL, NULL, NULL, 0);
+INSERT INTO `sys_menu` VALUES (65, 53, '添加', NULL, 'sys:user:save,sys:role:select', 2, NULL, NULL, NULL, 0);
+INSERT INTO `sys_menu` VALUES (66, 53, '查看', NULL, 'sys:user:list,sys:user:info', 2, NULL, NULL, NULL, 0);
+INSERT INTO `sys_menu` VALUES (67, 53, '修改', NULL, 'sys:user:update,sys:role:select', 2, NULL, NULL, NULL, 0);
+INSERT INTO `sys_menu` VALUES (68, 53, '删除', NULL, 'sys:user:delete', 2, NULL, NULL, NULL, 0);
+INSERT INTO `sys_menu` VALUES (69, 0, '数据统计', '/dashboard/analysis', NULL, 0, 'dashboard', 0, 'menu.dashboard.analysis', 0);
 
 -- ----------------------------
 -- Table structure for sys_oss
@@ -1014,17 +1244,12 @@ CREATE TABLE `sys_role`  (
   `dept_id` bigint(20) NULL DEFAULT NULL COMMENT '部门ID',
   `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`role_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1087620602119876619 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '角色' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '角色' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_role
 -- ----------------------------
-INSERT INTO `sys_role` VALUES (1, 'test', '65656', 2, '2019-01-07 18:28:33');
-INSERT INTO `sys_role` VALUES (1087620602119876614, '65', '666', 1, '2019-01-28 15:14:46');
-INSERT INTO `sys_role` VALUES (1087620602119876615, 'test', NULL, 0, '2019-02-14 13:40:42');
-INSERT INTO `sys_role` VALUES (1087620602119876616, 'test', NULL, 0, '2019-02-14 13:42:36');
-INSERT INTO `sys_role` VALUES (1087620602119876617, 'ctest', NULL, 0, '2019-02-14 13:46:11');
-INSERT INTO `sys_role` VALUES (1087620602119876618, 'tests', NULL, 0, '2019-02-14 13:46:47');
+INSERT INTO `sys_role` VALUES (1, 'test1', '啊啊啊', 4, '2019-02-21 14:30:04');
 
 -- ----------------------------
 -- Table structure for sys_role_dept
@@ -1035,16 +1260,13 @@ CREATE TABLE `sys_role_dept`  (
   `role_id` bigint(20) NULL DEFAULT NULL COMMENT '角色ID',
   `dept_id` bigint(20) NULL DEFAULT NULL COMMENT '部门ID',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1087620602212151323 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '角色与部门对应关系' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1087620602212151331 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '角色与部门对应关系' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_role_dept
 -- ----------------------------
-INSERT INTO `sys_role_dept` VALUES (1087620602212151318, 1087620602119876614, 1);
-INSERT INTO `sys_role_dept` VALUES (1087620602212151319, 1087620602119876614, 2);
-INSERT INTO `sys_role_dept` VALUES (1087620602212151320, 1087620602119876614, 3);
-INSERT INTO `sys_role_dept` VALUES (1087620602212151321, 1087620602119876614, 4);
-INSERT INTO `sys_role_dept` VALUES (1087620602212151322, 1087620602119876614, 5);
+INSERT INTO `sys_role_dept` VALUES (1087620602212151329, 1, 4);
+INSERT INTO `sys_role_dept` VALUES (1087620602212151330, 1, 6);
 
 -- ----------------------------
 -- Table structure for sys_role_menu
@@ -1055,7 +1277,7 @@ CREATE TABLE `sys_role_menu`  (
   `role_id` bigint(20) NULL DEFAULT NULL COMMENT '角色ID',
   `menu_id` bigint(20) NULL DEFAULT NULL COMMENT '菜单ID',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1087609022518972740 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '角色与菜单对应关系' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1098431558227915266 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '角色与菜单对应关系' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_role_menu
@@ -1100,6 +1322,401 @@ INSERT INTO `sys_role_menu` VALUES (1087609022518972736, 1087620602119876614, 38
 INSERT INTO `sys_role_menu` VALUES (1087609022518972737, 1087620602119876614, 39);
 INSERT INTO `sys_role_menu` VALUES (1087609022518972738, 1087620602119876614, 40);
 INSERT INTO `sys_role_menu` VALUES (1087609022518972739, 1087620602119876614, 41);
+INSERT INTO `sys_role_menu` VALUES (1098154412188217346, 1098154412112719873, 1);
+INSERT INTO `sys_role_menu` VALUES (1098154412192411650, 1098154412112719873, 2);
+INSERT INTO `sys_role_menu` VALUES (1098154412192411651, 1098154412112719873, 3);
+INSERT INTO `sys_role_menu` VALUES (1098154412192411652, 1098154412112719873, 4);
+INSERT INTO `sys_role_menu` VALUES (1098154412192411653, 1098154412112719873, 5);
+INSERT INTO `sys_role_menu` VALUES (1098154412200800257, 1098154412112719873, 6);
+INSERT INTO `sys_role_menu` VALUES (1098154412200800258, 1098154412112719873, 7);
+INSERT INTO `sys_role_menu` VALUES (1098154412200800259, 1098154412112719873, 8);
+INSERT INTO `sys_role_menu` VALUES (1098154412204994562, 1098154412112719873, 9);
+INSERT INTO `sys_role_menu` VALUES (1098154412204994563, 1098154412112719873, 10);
+INSERT INTO `sys_role_menu` VALUES (1098154412204994564, 1098154412112719873, 11);
+INSERT INTO `sys_role_menu` VALUES (1098154412204994565, 1098154412112719873, 12);
+INSERT INTO `sys_role_menu` VALUES (1098154412204994566, 1098154412112719873, 13);
+INSERT INTO `sys_role_menu` VALUES (1098154412204994567, 1098154412112719873, 14);
+INSERT INTO `sys_role_menu` VALUES (1098154412204994568, 1098154412112719873, 15);
+INSERT INTO `sys_role_menu` VALUES (1098154412204994569, 1098154412112719873, 16);
+INSERT INTO `sys_role_menu` VALUES (1098154412213383170, 1098154412112719873, 17);
+INSERT INTO `sys_role_menu` VALUES (1098154412213383171, 1098154412112719873, 18);
+INSERT INTO `sys_role_menu` VALUES (1098154412213383172, 1098154412112719873, 19);
+INSERT INTO `sys_role_menu` VALUES (1098154412213383173, 1098154412112719873, 20);
+INSERT INTO `sys_role_menu` VALUES (1098154412221771778, 1098154412112719873, 21);
+INSERT INTO `sys_role_menu` VALUES (1098154412221771779, 1098154412112719873, 22);
+INSERT INTO `sys_role_menu` VALUES (1098154412221771780, 1098154412112719873, 23);
+INSERT INTO `sys_role_menu` VALUES (1098154412221771781, 1098154412112719873, 24);
+INSERT INTO `sys_role_menu` VALUES (1098154412221771782, 1098154412112719873, 25);
+INSERT INTO `sys_role_menu` VALUES (1098154412221771783, 1098154412112719873, 26);
+INSERT INTO `sys_role_menu` VALUES (1098154412221771784, 1098154412112719873, 27);
+INSERT INTO `sys_role_menu` VALUES (1098154412230160385, 1098154412112719873, 29);
+INSERT INTO `sys_role_menu` VALUES (1098154412230160386, 1098154412112719873, 30);
+INSERT INTO `sys_role_menu` VALUES (1098154412230160387, 1098154412112719873, 31);
+INSERT INTO `sys_role_menu` VALUES (1098154412230160388, 1098154412112719873, 32);
+INSERT INTO `sys_role_menu` VALUES (1098154412238548993, 1098154412112719873, 33);
+INSERT INTO `sys_role_menu` VALUES (1098154412238548994, 1098154412112719873, 34);
+INSERT INTO `sys_role_menu` VALUES (1098154412238548995, 1098154412112719873, 35);
+INSERT INTO `sys_role_menu` VALUES (1098154412238548996, 1098154412112719873, 36);
+INSERT INTO `sys_role_menu` VALUES (1098154412238548997, 1098154412112719873, 37);
+INSERT INTO `sys_role_menu` VALUES (1098154412238548998, 1098154412112719873, 38);
+INSERT INTO `sys_role_menu` VALUES (1098154412238548999, 1098154412112719873, 39);
+INSERT INTO `sys_role_menu` VALUES (1098154412238549000, 1098154412112719873, 40);
+INSERT INTO `sys_role_menu` VALUES (1098154412246937601, 1098154412112719873, 41);
+INSERT INTO `sys_role_menu` VALUES (1098154412246937602, 1098154412112719873, 42);
+INSERT INTO `sys_role_menu` VALUES (1098154412246937603, 1098154412112719873, 43);
+INSERT INTO `sys_role_menu` VALUES (1098154412246937604, 1098154412112719873, 44);
+INSERT INTO `sys_role_menu` VALUES (1098154412246937605, 1098154412112719873, 45);
+INSERT INTO `sys_role_menu` VALUES (1098154412246937606, 1098154412112719873, 46);
+INSERT INTO `sys_role_menu` VALUES (1098154412246937607, 1098154412112719873, 47);
+INSERT INTO `sys_role_menu` VALUES (1098154412246937608, 1098154412112719873, 48);
+INSERT INTO `sys_role_menu` VALUES (1098154412255326210, 1098154412112719873, 49);
+INSERT INTO `sys_role_menu` VALUES (1098154412255326211, 1098154412112719873, 50);
+INSERT INTO `sys_role_menu` VALUES (1098415756250566658, 1098415756145709058, 1);
+INSERT INTO `sys_role_menu` VALUES (1098415756300898306, 1098415756145709058, 2);
+INSERT INTO `sys_role_menu` VALUES (1098415756309286913, 1098415756145709058, 3);
+INSERT INTO `sys_role_menu` VALUES (1098415756309286914, 1098415756145709058, 4);
+INSERT INTO `sys_role_menu` VALUES (1098415756309286915, 1098415756145709058, 5);
+INSERT INTO `sys_role_menu` VALUES (1098415756309286916, 1098415756145709058, 6);
+INSERT INTO `sys_role_menu` VALUES (1098415756309286917, 1098415756145709058, 7);
+INSERT INTO `sys_role_menu` VALUES (1098415756309286918, 1098415756145709058, 8);
+INSERT INTO `sys_role_menu` VALUES (1098415756317675522, 1098415756145709058, 9);
+INSERT INTO `sys_role_menu` VALUES (1098415756317675523, 1098415756145709058, 10);
+INSERT INTO `sys_role_menu` VALUES (1098415756317675524, 1098415756145709058, 11);
+INSERT INTO `sys_role_menu` VALUES (1098415756317675525, 1098415756145709058, 12);
+INSERT INTO `sys_role_menu` VALUES (1098415756317675526, 1098415756145709058, 13);
+INSERT INTO `sys_role_menu` VALUES (1098415756317675527, 1098415756145709058, 14);
+INSERT INTO `sys_role_menu` VALUES (1098415756317675528, 1098415756145709058, 15);
+INSERT INTO `sys_role_menu` VALUES (1098415756317675529, 1098415756145709058, 16);
+INSERT INTO `sys_role_menu` VALUES (1098415756326064130, 1098415756145709058, 17);
+INSERT INTO `sys_role_menu` VALUES (1098415756326064131, 1098415756145709058, 18);
+INSERT INTO `sys_role_menu` VALUES (1098415756334452738, 1098415756145709058, 19);
+INSERT INTO `sys_role_menu` VALUES (1098415756334452739, 1098415756145709058, 20);
+INSERT INTO `sys_role_menu` VALUES (1098415756334452740, 1098415756145709058, 21);
+INSERT INTO `sys_role_menu` VALUES (1098415756334452741, 1098415756145709058, 22);
+INSERT INTO `sys_role_menu` VALUES (1098415756334452742, 1098415756145709058, 23);
+INSERT INTO `sys_role_menu` VALUES (1098415756334452743, 1098415756145709058, 24);
+INSERT INTO `sys_role_menu` VALUES (1098415756334452744, 1098415756145709058, 25);
+INSERT INTO `sys_role_menu` VALUES (1098415756342841346, 1098415756145709058, 26);
+INSERT INTO `sys_role_menu` VALUES (1098415756342841347, 1098415756145709058, 27);
+INSERT INTO `sys_role_menu` VALUES (1098415756342841348, 1098415756145709058, 29);
+INSERT INTO `sys_role_menu` VALUES (1098415756342841349, 1098415756145709058, 30);
+INSERT INTO `sys_role_menu` VALUES (1098415756342841350, 1098415756145709058, 31);
+INSERT INTO `sys_role_menu` VALUES (1098415756342841351, 1098415756145709058, 32);
+INSERT INTO `sys_role_menu` VALUES (1098415756342841352, 1098415756145709058, 33);
+INSERT INTO `sys_role_menu` VALUES (1098415756342841353, 1098415756145709058, 34);
+INSERT INTO `sys_role_menu` VALUES (1098415756342841354, 1098415756145709058, 35);
+INSERT INTO `sys_role_menu` VALUES (1098415756342841355, 1098415756145709058, 36);
+INSERT INTO `sys_role_menu` VALUES (1098415756342841356, 1098415756145709058, 37);
+INSERT INTO `sys_role_menu` VALUES (1098415756342841357, 1098415756145709058, 38);
+INSERT INTO `sys_role_menu` VALUES (1098415756342841358, 1098415756145709058, 39);
+INSERT INTO `sys_role_menu` VALUES (1098415756351229954, 1098415756145709058, 40);
+INSERT INTO `sys_role_menu` VALUES (1098415756351229955, 1098415756145709058, 41);
+INSERT INTO `sys_role_menu` VALUES (1098415756351229956, 1098415756145709058, 42);
+INSERT INTO `sys_role_menu` VALUES (1098415756351229957, 1098415756145709058, 43);
+INSERT INTO `sys_role_menu` VALUES (1098415756351229958, 1098415756145709058, 44);
+INSERT INTO `sys_role_menu` VALUES (1098415756351229959, 1098415756145709058, 45);
+INSERT INTO `sys_role_menu` VALUES (1098415756351229960, 1098415756145709058, 46);
+INSERT INTO `sys_role_menu` VALUES (1098415756359618561, 1098415756145709058, 47);
+INSERT INTO `sys_role_menu` VALUES (1098415756359618562, 1098415756145709058, 48);
+INSERT INTO `sys_role_menu` VALUES (1098415756359618563, 1098415756145709058, 49);
+INSERT INTO `sys_role_menu` VALUES (1098415756359618564, 1098415756145709058, 50);
+INSERT INTO `sys_role_menu` VALUES (1098431558173388801, 1098431558068531201, 1);
+INSERT INTO `sys_role_menu` VALUES (1098431558185971713, 1098431558068531201, 2);
+INSERT INTO `sys_role_menu` VALUES (1098431558185971714, 1098431558068531201, 3);
+INSERT INTO `sys_role_menu` VALUES (1098431558185971715, 1098431558068531201, 4);
+INSERT INTO `sys_role_menu` VALUES (1098431558185971716, 1098431558068531201, 5);
+INSERT INTO `sys_role_menu` VALUES (1098431558194360321, 1098431558068531201, 6);
+INSERT INTO `sys_role_menu` VALUES (1098431558194360322, 1098431558068531201, 7);
+INSERT INTO `sys_role_menu` VALUES (1098431558194360323, 1098431558068531201, 8);
+INSERT INTO `sys_role_menu` VALUES (1098431558194360324, 1098431558068531201, 9);
+INSERT INTO `sys_role_menu` VALUES (1098431558194360325, 1098431558068531201, 10);
+INSERT INTO `sys_role_menu` VALUES (1098431558202748929, 1098431558068531201, 11);
+INSERT INTO `sys_role_menu` VALUES (1098431558202748930, 1098431558068531201, 12);
+INSERT INTO `sys_role_menu` VALUES (1098431558202748931, 1098431558068531201, 13);
+INSERT INTO `sys_role_menu` VALUES (1098431558202748932, 1098431558068531201, 14);
+INSERT INTO `sys_role_menu` VALUES (1098431558202748933, 1098431558068531201, 15);
+INSERT INTO `sys_role_menu` VALUES (1098431558202748934, 1098431558068531201, 16);
+INSERT INTO `sys_role_menu` VALUES (1098431558211137538, 1098431558068531201, 17);
+INSERT INTO `sys_role_menu` VALUES (1098431558211137539, 1098431558068531201, 18);
+INSERT INTO `sys_role_menu` VALUES (1098431558211137540, 1098431558068531201, 19);
+INSERT INTO `sys_role_menu` VALUES (1098431558211137541, 1098431558068531201, 20);
+INSERT INTO `sys_role_menu` VALUES (1098431558211137542, 1098431558068531201, 21);
+INSERT INTO `sys_role_menu` VALUES (1098431558211137543, 1098431558068531201, 22);
+INSERT INTO `sys_role_menu` VALUES (1098431558211137544, 1098431558068531201, 23);
+INSERT INTO `sys_role_menu` VALUES (1098431558219526145, 1098431558068531201, 24);
+INSERT INTO `sys_role_menu` VALUES (1098431558219526146, 1098431558068531201, 25);
+INSERT INTO `sys_role_menu` VALUES (1098431558219526147, 1098431558068531201, 26);
+INSERT INTO `sys_role_menu` VALUES (1098431558219526148, 1098431558068531201, 27);
+INSERT INTO `sys_role_menu` VALUES (1098431558219526149, 1098431558068531201, 29);
+INSERT INTO `sys_role_menu` VALUES (1098431558219526150, 1098431558068531201, 30);
+INSERT INTO `sys_role_menu` VALUES (1098431558219526151, 1098431558068531201, 31);
+INSERT INTO `sys_role_menu` VALUES (1098431558219526152, 1098431558068531201, 32);
+INSERT INTO `sys_role_menu` VALUES (1098431558219526153, 1098431558068531201, 33);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914753, 1098431558068531201, 34);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914754, 1098431558068531201, 35);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914755, 1098431558068531201, 36);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914756, 1098431558068531201, 37);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914757, 1098431558068531201, 38);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914758, 1098431558068531201, 39);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914759, 1098431558068531201, 40);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914760, 1098431558068531201, 41);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914761, 1098431558068531201, 42);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914762, 1098431558068531201, 43);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914763, 1098431558068531201, 44);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914764, 1098431558068531201, 45);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914765, 1098431558068531201, 46);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914766, 1098431558068531201, 47);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914767, 1098431558068531201, 48);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914768, 1098431558068531201, 49);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914769, 1098431558068531201, 50);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914770, 1098431558068531202, 1);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914771, 1098431558068531202, 2);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914772, 1098431558068531202, 3);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914773, 1098431558068531202, 4);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914774, 1098431558068531202, 5);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914775, 1098431558068531202, 6);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914776, 1098431558068531202, 7);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914777, 1098431558068531202, 8);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914778, 1098431558068531202, 9);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914779, 1098431558068531202, 10);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914780, 1098431558068531202, 11);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914781, 1098431558068531202, 12);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914782, 1098431558068531202, 13);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914783, 1098431558068531202, 14);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914784, 1098431558068531202, 15);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914785, 1098431558068531202, 16);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914786, 1098431558068531202, 17);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914787, 1098431558068531202, 18);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914788, 1098431558068531202, 19);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914789, 1098431558068531202, 20);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914790, 1098431558068531202, 21);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914791, 1098431558068531202, 22);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914792, 1098431558068531202, 23);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914793, 1098431558068531202, 24);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914794, 1098431558068531202, 25);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914795, 1098431558068531202, 26);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914796, 1098431558068531202, 27);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914797, 1098431558068531202, 29);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914798, 1098431558068531202, 30);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914799, 1098431558068531202, 31);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914800, 1098431558068531202, 32);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914801, 1098431558068531202, 33);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914802, 1098431558068531202, 34);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914803, 1098431558068531202, 35);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914804, 1098431558068531202, 36);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914805, 1098431558068531202, 37);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914806, 1098431558068531202, 38);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914807, 1098431558068531202, 39);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914808, 1098431558068531202, 40);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914809, 1098431558068531202, 41);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914810, 1098431558068531202, 42);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914811, 1098431558068531202, 43);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914812, 1098431558068531202, 44);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914813, 1098431558068531202, 45);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914814, 1098431558068531202, 46);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914815, 1098431558068531202, 47);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914816, 1098431558068531202, 48);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914817, 1098431558068531202, 49);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914818, 1098431558068531202, 50);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914819, 1098431558068531203, 1);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914820, 1098431558068531203, 2);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914821, 1098431558068531203, 3);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914822, 1098431558068531203, 4);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914823, 1098431558068531203, 5);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914824, 1098431558068531203, 6);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914825, 1098431558068531203, 7);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914826, 1098431558068531203, 8);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914827, 1098431558068531203, 9);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914828, 1098431558068531203, 10);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914829, 1098431558068531203, 11);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914830, 1098431558068531203, 12);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914831, 1098431558068531203, 13);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914832, 1098431558068531203, 14);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914833, 1098431558068531203, 15);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914834, 1098431558068531203, 16);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914835, 1098431558068531203, 17);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914836, 1098431558068531203, 18);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914837, 1098431558068531203, 19);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914838, 1098431558068531203, 20);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914839, 1098431558068531203, 21);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914840, 1098431558068531203, 22);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914841, 1098431558068531203, 23);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914842, 1098431558068531203, 24);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914843, 1098431558068531203, 25);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914844, 1098431558068531203, 26);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914845, 1098431558068531203, 27);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914846, 1098431558068531203, 29);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914847, 1098431558068531203, 30);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914848, 1098431558068531203, 31);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914849, 1098431558068531203, 32);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914850, 1098431558068531203, 33);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914851, 1098431558068531203, 34);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914852, 1098431558068531203, 35);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914853, 1098431558068531203, 36);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914854, 1098431558068531203, 37);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914855, 1098431558068531203, 38);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914856, 1098431558068531203, 39);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914857, 1098431558068531203, 40);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914858, 1098431558068531203, 41);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914859, 1098431558068531203, 42);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914860, 1098431558068531203, 43);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914861, 1098431558068531203, 44);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914862, 1098431558068531203, 45);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914863, 1098431558068531203, 46);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914864, 1098431558068531203, 47);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914865, 1098431558068531203, 48);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914866, 1098431558068531203, 49);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914867, 1098431558068531203, 50);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914868, 1098431558068531204, 1);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914869, 1098431558068531204, 2);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914870, 1098431558068531204, 3);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914871, 1098431558068531204, 4);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914872, 1098431558068531204, 5);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914873, 1098431558068531204, 6);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914874, 1098431558068531204, 7);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914875, 1098431558068531204, 8);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914876, 1098431558068531204, 9);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914877, 1098431558068531204, 10);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914878, 1098431558068531204, 11);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914879, 1098431558068531204, 12);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914880, 1098431558068531204, 13);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914881, 1098431558068531204, 14);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914882, 1098431558068531204, 15);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914883, 1098431558068531204, 16);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914884, 1098431558068531204, 17);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914885, 1098431558068531204, 18);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914886, 1098431558068531204, 19);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914887, 1098431558068531204, 20);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914888, 1098431558068531204, 21);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914889, 1098431558068531204, 22);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914890, 1098431558068531204, 23);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914891, 1098431558068531204, 24);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914892, 1098431558068531204, 25);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914893, 1098431558068531204, 26);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914894, 1098431558068531204, 27);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914895, 1098431558068531204, 29);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914896, 1098431558068531204, 30);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914897, 1098431558068531204, 31);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914898, 1098431558068531204, 32);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914899, 1098431558068531204, 33);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914900, 1098431558068531204, 34);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914901, 1098431558068531204, 35);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914902, 1098431558068531204, 36);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914903, 1098431558068531204, 37);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914904, 1098431558068531204, 38);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914905, 1098431558068531204, 39);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914906, 1098431558068531204, 40);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914907, 1098431558068531204, 41);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914908, 1098431558068531204, 42);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914909, 1098431558068531204, 43);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914910, 1098431558068531204, 44);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914911, 1098431558068531204, 45);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914912, 1098431558068531204, 46);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914913, 1098431558068531204, 47);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914914, 1098431558068531204, 48);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914915, 1098431558068531204, 49);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914916, 1098431558068531204, 50);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914917, 1098431558068531204, 51);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914918, 1098431558068531205, 1);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914919, 1098431558068531205, 2);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914920, 1098431558068531205, 3);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914921, 1098431558068531205, 4);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914922, 1098431558068531205, 5);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914923, 1098431558068531205, 6);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914924, 1098431558068531205, 7);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914925, 1098431558068531205, 8);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914926, 1098431558068531205, 9);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914927, 1098431558068531205, 10);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914928, 1098431558068531205, 11);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914929, 1098431558068531205, 12);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914930, 1098431558068531205, 13);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914931, 1098431558068531205, 14);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914932, 1098431558068531205, 15);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914933, 1098431558068531205, 16);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914934, 1098431558068531205, 17);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914935, 1098431558068531205, 18);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914936, 1098431558068531205, 19);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914937, 1098431558068531205, 20);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914938, 1098431558068531205, 21);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914939, 1098431558068531205, 22);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914940, 1098431558068531205, 23);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914941, 1098431558068531205, 24);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914942, 1098431558068531205, 25);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914943, 1098431558068531205, 26);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914944, 1098431558068531205, 27);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914945, 1098431558068531205, 29);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914946, 1098431558068531205, 30);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914947, 1098431558068531205, 31);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914948, 1098431558068531205, 32);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914949, 1098431558068531205, 33);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914950, 1098431558068531205, 34);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914951, 1098431558068531205, 35);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914952, 1098431558068531205, 36);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914953, 1098431558068531205, 37);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914954, 1098431558068531205, 38);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914955, 1098431558068531205, 39);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914956, 1098431558068531205, 40);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914957, 1098431558068531205, 41);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914958, 1098431558068531205, 42);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914959, 1098431558068531205, 43);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914960, 1098431558068531205, 44);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914961, 1098431558068531205, 45);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914962, 1098431558068531205, 46);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914963, 1098431558068531205, 47);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914964, 1098431558068531205, 48);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914965, 1098431558068531205, 49);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914966, 1098431558068531205, 50);
+INSERT INTO `sys_role_menu` VALUES (1098431558227914967, 1098431558068531205, 51);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915216, 1, 1);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915217, 1, 2);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915218, 1, 3);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915219, 1, 4);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915220, 1, 5);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915221, 1, 6);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915222, 1, 7);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915223, 1, 8);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915224, 1, 9);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915225, 1, 10);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915226, 1, 11);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915227, 1, 12);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915228, 1, 13);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915229, 1, 14);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915230, 1, 15);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915231, 1, 16);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915232, 1, 17);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915233, 1, 18);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915234, 1, 19);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915235, 1, 20);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915236, 1, 21);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915237, 1, 22);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915238, 1, 23);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915239, 1, 24);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915240, 1, 25);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915241, 1, 26);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915242, 1, 27);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915243, 1, 29);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915244, 1, 30);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915245, 1, 31);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915246, 1, 32);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915247, 1, 33);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915248, 1, 34);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915249, 1, 35);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915250, 1, 36);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915251, 1, 37);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915252, 1, 38);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915253, 1, 39);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915254, 1, 40);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915255, 1, 41);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915256, 1, 42);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915257, 1, 43);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915258, 1, 44);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915259, 1, 45);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915260, 1, 46);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915261, 1, 47);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915262, 1, 48);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915263, 1, 49);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915264, 1, 50);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915265, 1, 51);
 
 -- ----------------------------
 -- Table structure for sys_user
@@ -1120,12 +1737,15 @@ CREATE TABLE `sys_user`  (
   `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`user_id`) USING BTREE,
   UNIQUE INDEX `username`(`username`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '系统用户' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '系统用户' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_user
 -- ----------------------------
-INSERT INTO `sys_user` VALUES (1, 'admin', 'master', 'e1153123d7d180ceeb820d577ff119876678732a68eef4e6ffc0b1f06a01f91b', 'YzcmCZNvbXocrsz9dm8e', 'root@renren.io', '13612345678', 1, 1, 'ef561538-5fc3-498f-aaf3-a1977a659db5.jpeg', '今天也是充满希望的一天', '2016-11-11 11:11:11');
+INSERT INTO `sys_user` VALUES (1, 'admin', '', 'e1153123d7d180ceeb820d577ff119876678732a68eef4e6ffc0b1f06a01f91b', 'YzcmCZNvbXocrsz9dm8e', '123145@qq.com', '12345698711', 1, 4, '02549f9c-3ae9-45db-b873-635f06e0df09.jpeg', '', '2016-11-11 11:11:11');
+INSERT INTO `sys_user` VALUES (3, 'teywteyw', NULL, '0a1ade81f7129dd4fa42ca8cd8adac668649cc88456d969b89de6601a1fa5f79', 'QpW0JznfOZvuNG4hhB1W', 'q@q.com', '11111111111', 1, 3, 'defaultAvatar.png', NULL, '2019-02-15 18:26:08');
+INSERT INTO `sys_user` VALUES (4, '12313', NULL, '575abe148ca8cac7dc1f9f09f29d791fefe079995537b25ed1e2056952416621', 'XX8X9T3hfhfPzyCGzJfR', '643935700@qq.con', '13245685210', 1, 1, 'defaultAvatar.png', NULL, '2019-02-21 14:27:02');
+INSERT INTO `sys_user` VALUES (5, 'test1', NULL, '7be0f9939da642910b6889b1787eb20245b420370151769d60787ca3a5e4fc2c', 'g6IW3Oc9pW6Z9KzfygXv', '123@qqq.com', '12345678977', 1, 3, 'defaultAvatar.png', NULL, '2019-04-17 18:01:54');
 
 -- ----------------------------
 -- Table structure for sys_user_role
@@ -1136,11 +1756,82 @@ CREATE TABLE `sys_user_role`  (
   `user_id` bigint(20) NULL DEFAULT NULL COMMENT '用户ID',
   `role_id` bigint(20) NULL DEFAULT NULL COMMENT '角色ID',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1087608018633302019 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '用户与角色对应关系' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1087608018633302024 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '用户与角色对应关系' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_user_role
 -- ----------------------------
 INSERT INTO `sys_user_role` VALUES (1087608018633302018, 1087608018549415938, 1);
+INSERT INTO `sys_user_role` VALUES (1087608018633302021, 4, 1098431558068531203);
+INSERT INTO `sys_user_role` VALUES (1087608018633302022, 3, 1);
+INSERT INTO `sys_user_role` VALUES (1087608018633302023, 5, 1);
+
+-- ----------------------------
+-- Table structure for wx_appinfo
+-- ----------------------------
+DROP TABLE IF EXISTS `wx_appinfo`;
+CREATE TABLE `wx_appinfo`  (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `appid` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '小程序ID',
+  `secret` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '小程序secret',
+  `name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '小程序名',
+  `token` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '消息token',
+  `aeskey` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '消息aeskey',
+  `access_token` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '微信访问token',
+  `last_token_time` datetime(0) NULL DEFAULT NULL COMMENT '上次生成accesstoken时间',
+  `expires_in` int(11) NULL DEFAULT 7200 COMMENT '微信token有效时间单位（秒）',
+  `remark` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '说明',
+  PRIMARY KEY (`id`) USING BTREE,
+  INDEX `appid_index`(`appid`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '小程序相关配置' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of wx_appinfo
+-- ----------------------------
+INSERT INTO `wx_appinfo` VALUES (1, 'wx91101e95149c98da', '1bab55240809c25e3757c4f65a79588e', '姗姗生产', NULL, NULL, NULL, NULL, 7200, NULL);
+INSERT INTO `wx_appinfo` VALUES (3, 'wx4ee818d7d071c361', '91fa95d13d3cba85ca1c57bc58d317ae', '姗姗测试', NULL, NULL, '15_Od9srvHayi7JhpvHD31EQOD3HcHTOpczFoFXiXoYLJIYpRGOHpiqtp6RNN6tC59S0vPqPknTPjBy--aQw9aatS6x54r2T9HoQLLoJqiDJA5_pdqCADe3LAElNGrGEGGIAV5qq9EJTe139ASzVWRdAIAGHC', '2018-10-26 14:38:40', 7200, NULL);
+
+-- ----------------------------
+-- Table structure for wx_user
+-- ----------------------------
+DROP TABLE IF EXISTS `wx_user`;
+CREATE TABLE `wx_user`  (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `open_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '微信openId',
+  `session_key` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL,
+  `qrcode_source` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '注册时记录用户扫码渠道，如朋友圈广告',
+  `register_ip` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '用户注册IP',
+  `union_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '微信unionId',
+  `password` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL,
+  `nick_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '用户昵称',
+  `gender` tinyint(4) NULL DEFAULT NULL COMMENT '用户头像地址',
+  `avatar_url` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '用户头像地址',
+  `city` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '用户所在城市',
+  `province` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '用户所在省份',
+  `language` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '用户所在语言',
+  `phone` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '用户绑定的手机号',
+  `pure_phone` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '用户没有区号的手机号',
+  `country_code` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '用户手机区号',
+  `is_new` tinyint(1) NULL DEFAULT NULL COMMENT '是否为商户侧的拉新用户',
+  `vip_no` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '会员id',
+  `member_phone` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '会员绑定手机号',
+  `id_card` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '用户身份证信息',
+  `name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '姓名',
+  `webid` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '华联与微众唯一key，默认第一次注册手机号',
+  `webank` tinyint(2) NULL DEFAULT NULL COMMENT '是否微众轻会员',
+  `scene` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '二维码',
+  `hdcard_member_id` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '线下会员号',
+  `share_id` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '如果是扫码进入，存放二维码id，记录二维码信息；如果是通过分享进入，记录分享人信息',
+  `dept_id` int(11) NULL DEFAULT NULL COMMENT '如果是扫码进来，可以存放所扫码所属部门',
+  `dept_code` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '部门推广码',
+  `ident_code` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '会员身份识别码',
+  `scene_address` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '渠道',
+  `create_date` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
+  `update_date` datetime(0) NULL DEFAULT NULL COMMENT '更新时间',
+  PRIMARY KEY (`id`) USING BTREE,
+  INDEX `open_id_index`(`open_id`) USING BTREE,
+  INDEX `dept_id_index`(`dept_id`) USING BTREE,
+  INDEX `share_id_index`(`share_id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '微信小程序用户信息' ROW_FORMAT = Dynamic;
 
 SET FOREIGN_KEY_CHECKS = 1;

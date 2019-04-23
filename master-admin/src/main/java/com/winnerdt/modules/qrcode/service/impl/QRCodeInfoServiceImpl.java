@@ -4,6 +4,7 @@ import cn.binarywang.wx.miniapp.api.WxMaService;
 import cn.binarywang.wx.miniapp.api.impl.WxMaServiceImpl;
 import cn.binarywang.wx.miniapp.bean.WxMaCodeLineColor;
 import cn.binarywang.wx.miniapp.config.WxMaInMemoryConfig;
+import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.winnerdt.common.utils.PageUtils;
@@ -26,9 +27,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
+import java.util.concurrent.Semaphore;
 
 /**
  * @author:zsk
@@ -37,6 +37,7 @@ import java.util.Map;
 @Service
 public class QRCodeInfoServiceImpl extends ServiceImpl<QRCodeInfoDao, QRCodeInfoEntity> implements QRCodeInfoService {
     private static final Logger logger = LoggerFactory.getLogger(QRCodeInfoServiceImpl.class);
+    private static Semaphore semaphore = new Semaphore(2);
     @Autowired
     private QRCodeInfoDao qrCodeDao;
     @Autowired
@@ -129,42 +130,141 @@ public class QRCodeInfoServiceImpl extends ServiceImpl<QRCodeInfoDao, QRCodeInfo
     }
 
     @Override
-    public R createShoppersCode(Integer id) {
-        QRCodeInfoEntity shoppersCodeEntity = qrCodeDao.selectById(id);
-        return createShoppersCodeUtil(shoppersCodeEntity);
+    public R createQrCode(Map map) {
+        if(map.get("qrcodeId") == null || ("").equals(map.get("qrcodeId"))){
+            return R.error("参数不完整");
+        }
+        if(map.get("qrcodeConfigId") == null || ("").equals(map.get("qrcodeConfigId"))){
+            return R.error("参数不完整");
+        }
+        if(map.get("wxAppinfoId") == null || ("").equals(map.get("wxappinfoId"))){
+            return R.error("参数不完整");
+        }
+        //获取小程序配置信息
+        WxAppinfoEntity appinfo = wxAppinfoService.getById(Integer.valueOf(map.get("wxAppinfoId").toString()));
+        if(null == appinfo){
+            return R.error("二维码配置信息为空");
+        }
+        //获取码的相关配置
+        QRCodeConfigEntity qrCodeConfigEntity = qrCodeConfigService.getById(Integer.valueOf(map.get("qrcodeConfigId").toString()));
+        if(qrCodeConfigEntity == null){
+            return R.error("请填写完整二维码的设置信息");
+        }
+        try {
+            createQrCodeUtil(map,qrCodeConfigEntity,appinfo);
+            return R.ok();
+        }catch (Exception e){
+            e.printStackTrace();
+            Date date = new Date();
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            String now = sdf.format(date);
+            logger.error("生成二维码异常，异常时间："+now+":::异常数据："+ JSONObject.toJSONString(map)+":::异常原因："+e.toString());
+            return R.error("网络错误，二维码生成失败");
+        }
+
     }
 
 
+    @Override
+    public R createQrCodes(Map map) {
+        if(!semaphore.tryAcquire(1)) {
+            return R.error("当前访问人数过多，请等待5分钟后重试");
+        }
 
-    public R createShoppersCodeUtil(QRCodeInfoEntity qrCodeInfoEntity) {
+        R r = new R();
+        try {
+            if(map.get("qrcodeIds") == null || ("").equals(map.get("qrcodeId"))){
+                return R.error("参数不完整");
+            }
+            if(map.get("qrcodeConfigId") == null || ("").equals(map.get("qrcodeConfigId"))){
+                return R.error("参数不完整");
+            }
+            if(map.get("wxAppinfoId") == null || ("").equals(map.get("wxappinfoId"))){
+                return R.error("参数不完整");
+            }
+            WxAppinfoEntity appinfo = wxAppinfoService.getById(Integer.valueOf(map.get("wxAppinfoId").toString()));
+            if(null == appinfo){
+                return R.error("二维码配置信息为空");
+            }
+            //获取码的相关配置
+            QRCodeConfigEntity qrCodeConfigEntity = qrCodeConfigService.getById(Integer.valueOf(map.get("qrcodeConfigId").toString()));
+            if(qrCodeConfigEntity == null){
+                return R.error("请填写完整二维码的设置信息");
+            }
+            /*
+             * 处理参数
+             * */
+            List<Integer> qrcodeIdList = (List) map.get("qrcodeIds");
+            int successNum = 0;
+            List<Integer> failQrcodeIdList = new ArrayList<>();
+            for(int i = 0;i < qrcodeIdList.size();i++){
+                Map map1 = new HashMap();
+                try{
+                    map1.put("qrcodeId",qrcodeIdList.get(i));
+                    map1.put("qrcodeConfigId",map.get("qrcodeConfigId"));
+                    map1.put("wxAppinfoId",map.get("wxappinfoId"));
+                    createQrCodeUtil(map,qrCodeConfigEntity,appinfo);
+                }catch (Exception e){
+                    failQrcodeIdList.add(qrcodeIdList.get(i));
+                    Date date = new Date();
+                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                    String now = sdf.format(date);
+                    logger.error("生成二维码异常，异常时间："+now+":::异常数据："+ JSONObject.toJSONString(map1)+":::异常原因："+e.toString());
+                    continue;
+                }
+
+            }
+            r.put("code","0");
+            r.put("msg","总共数量为："+qrcodeIdList.size()+"<br>成功生成数："
+                    +successNum+"<br>失败生成数："+failQrcodeIdList.size()
+                    +"<br>失败的二维码id为："+JSONObject.toJSONString(failQrcodeIdList).replace("[","").replace("]",""));
+
+            //执行完之后睡一会，防止一分钟访问次数过多
+            Thread.sleep(60000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+
+            return R.error("网络错误，二维码生成失败");
+        } finally {
+            semaphore.release();
+        }
+
+        return r;
+    }
+
+    public void createQrCodeUtil(Map map,QRCodeConfigEntity qrCodeConfigEntity,WxAppinfoEntity appinfo) {
         boolean autoColor = false;
         //底色是否透明 false=不透明
         boolean isHyaline = false;
         WxMaCodeLineColor color = new WxMaCodeLineColor("0", "0", "0");
-        // get app info
-        WxAppinfoEntity appinfo = wxAppinfoService.getById(qrCodeInfoEntity.getWxAppinfoId());
-        if(null == appinfo){
-            return R.error("请完善二维码配置信息");
-        }
-        String qrCode = qrCodeInfoEntity.getUserId();
 
+        /*
+        * 处理二维码携带的参数信息
+        * */
+        Integer qrCodeId = Integer.valueOf(map.get("qrcodeId").toString());
+        QRCodeInfoEntity qrCodeInfoEntity = qrCodeDao.selectById(qrCodeId);
+        String deptId = qrCodeInfoEntity.getDeptId();
+        QrcodeScene qrcodeScene = new QrcodeScene();
+        qrcodeScene.setQrCodeId(qrCodeId);
+        qrcodeScene.setDeptId(deptId);
+        String qrcodeSceneStr = JSONObject.toJSONString(qrcodeScene);
+
+        /*
+        * 二维码的小程序配置信息
+        * */
         WxMaInMemoryConfig config = new WxMaInMemoryConfig();
         config.setAppid(appinfo.getAppid());
         config.setSecret(appinfo.getSecret());
         WxMaService wxMaService = new WxMaServiceImpl();
         wxMaService.setWxMaConfig(config);
 
-        //获取码的相关配置
-        QRCodeConfigEntity qrCodeConfigEntity = qrCodeConfigService.getById(qrCodeInfoEntity.getQrcodeConfigId());
-        if(qrCodeConfigEntity == null){
-            return R.error("请填写完整二维码的设置信息");
-        }
+
 
         String destPath = qrCodeConfigEntity.getQrcodePath()
                 + File.separator + "员工码"
                 + File.separator + qrCodeInfoEntity.getMallName()
                 + File.separator + qrCodeInfoEntity.getDeptName()
-                + File.separator + qrCode + ".png";
+                + File.separator + qrCodeId + ".png";
 
         File dest = new File(destPath);
         File pDest = dest.getParentFile();
@@ -173,22 +273,45 @@ public class QRCodeInfoServiceImpl extends ServiceImpl<QRCodeInfoDao, QRCodeInfo
         }
         try {
             Date imgDate = new Date();
-            final File wxCode = wxMaService.getQrcodeService().createWxaCodeUnlimit(qrCode, qrCodeConfigEntity.getQrcodeIndexUrl(), qrCodeConfigEntity.getQrcodeWidth(), autoColor, color,isHyaline);
-            QRCodeUtils.graphicsGeneration(wxCode, dest, "No:" + qrCodeInfoEntity.getUserId(),qrCodeConfigEntity.getQrcodeFontHeight(),qrCodeConfigEntity.getQrcodeWidth(),qrCodeConfigEntity.getQrcodeHeight(),qrCodeConfigEntity.getQrcodeFontSize());
-            //wxCode.renameTo(dest);
+            final File wxCode = wxMaService.getQrcodeService().createWxaCodeUnlimit(qrcodeSceneStr, qrCodeConfigEntity.getQrcodeIndexUrl(), qrCodeConfigEntity.getQrcodeWidth(), autoColor, color,isHyaline);
+            if(qrCodeConfigEntity.getQrcodeShape().equals("1")){
+                QRCodeUtils.graphicsGeneration(wxCode, dest, "No:" + qrCodeInfoEntity.getUserId(),qrCodeConfigEntity.getQrcodeFontHeight(),qrCodeConfigEntity.getQrcodeWidth(),qrCodeConfigEntity.getQrcodeHeight(),qrCodeConfigEntity.getQrcodeFontSize());
+            }else {
+                wxCode.renameTo(dest);
+            }
             qrCodeInfoEntity.setImgTime(imgDate);
             qrCodeInfoEntity.setImgPath(destPath);
-            qrCodeInfoEntity.setImgName(qrCode+".png");
+            qrCodeInfoEntity.setImgName(qrCodeId+".png");
             qrCodeInfoEntity.setIsCreateQrcode(1);
             qrCodeDao.updateById(qrCodeInfoEntity);
-           return R.ok();
+
         } catch (WxErrorException e) {
             e.printStackTrace();
-            return R.error();
         } catch (Exception e) {
             e.printStackTrace();
-            return R.error();
         }
     }
+    /*
+     * 存放二维码参数
+     * */
+    class QrcodeScene{
+        Integer qrCodeId;
+        String deptId;
 
+        public Integer getQrCodeId() {
+            return qrCodeId;
+        }
+
+        public void setQrCodeId(Integer qrCodeId) {
+            this.qrCodeId = qrCodeId;
+        }
+
+        public String getDeptId() {
+            return deptId;
+        }
+
+        public void setDeptId(String deptId) {
+            this.deptId = deptId;
+        }
+    }
 }

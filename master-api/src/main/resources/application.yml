@@ -16,7 +16,7 @@ server:
     worker-threads: # Number of worker threads.
   port: 9002
   servlet:
-    context-path: /master-api
+    context-path: /shell-api
 
 # mysql
 spring:
@@ -46,6 +46,14 @@ master:
     open: false  # 是否开启redis缓存  true开启   false关闭
   shiro:
     redis: false # true表示shiro session存到redis里，需要开启redis，才会生效【分布式场景】
+
+wechat:
+  miniapp:
+    appid: wx4ee818d7d071c361     #pro: wx91101e95149c98da, test: wx4ee818d7d071c361
+    secret: 91fa95d13d3cba85ca1c57bc58d317ae      #pro: 1bab55240809c25e3757c4f65a79588e, test: 91fa95d13d3cba85ca1c57bc58d317ae
+    token: ssbl
+    aesKey: 0jBMjqEm6xTxRWvnr0hsHaCRPxioofKh1pMm2XDoTQv
+    msgDataFormat: XML
 
 #mybatis
 mybatis-plus:

@@ -31,5 +31,10 @@ public interface QRCodeInfoService extends IService<QRCodeInfoEntity> {
     /*
      * 生成单个二维码
      * */
-    R createShoppersCode(Integer id);
+    R createQrCode(Map map);
+
+    /*
+    * 生成多个二维码
+    * */
+    R createQrCodes(Map map);
 }

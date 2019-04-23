@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.winnerdt.dao.WxUserDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.winnerdt.entity.WxUserEntity" id="wxUserMap">
+        <result property="id" column="id"/>
+        <result property="openid" column="openId"/>
+        <result property="unionid" column="unionId"/>
+        <result property="nickname" column="nickName"/>
+        <result property="gender" column="gender"/>
+        <result property="avatarurl" column="avatarUrl"/>
+        <result property="phone" column="phone"/>
+        <result property="purephone" column="purePhone"/>
+        <result property="qrcodesource" column="qrcodeSource"/>
+        <result property="registerip" column="registerIp"/>
+        <result property="isnew" column="isNew"/>
+        <result property="vipno" column="vipNo"/>
+		<result property="identCode" column="ident_code"/>
+        <result property="city" column="city"/>
+        <result property="province" column="province"/>
+        <result property="language" column="language"/>
+        <result property="countrycode" column="countryCode"/>
+		<result property="seesionKey" column="session_key"/>
+        <result property="idcard" column="idCard"/>
+        <result property="name" column="name"/>
+        <result property="webid" column="webid"/>
+        <result property="webank" column="Webank"/>
+		<result property="password" column="password"/>
+        <result property="createDate" column="create_date"/>
+        <result property="updateDate" column="update_date"/>
+		<result property="scene" column="scene"/>
+		<result property="sceneAddress" column="scene_address"/>
+    </resultMap>
+
+
+	<select id="queryObjectByMobile" resultType="com.winnerdt.entity.WxUserEntity">
+		select * from wx_user where phone = #{mobile}
+	</select>
+
+	<select id="queryObjectbyOpenid" resultType="com.winnerdt.entity.WxUserEntity">
+		select * from wx_user where openId = #{value}
+	</select>
+
+    <select id="queryObjectbyHdcardMbrId" resultType="com.winnerdt.entity.WxUserEntity">
+		select * from wx_user where hdcard_member_id = #{value}
+	</select>
+
+	<select id="queryList" resultType="com.winnerdt.entity.WxUserEntity">
+		select * from wx_user
+        <choose>
+            <when test="sidx != null and sidx.trim() != ''">
+                order by ${sidx} ${order}
+            </when>
+			<otherwise>
+                order by id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+
+	<!--为后台列表查询需求增加的查询方法-->
+	<select id="findUserList" resultType="com.winnerdt.entity.WxUserEntity">
+		select * from wx_user
+
+		<where>
+			<if test="vipNo != null ">
+				and vipNo is not null
+			</if>
+			<if test="webank != null">
+				and webank = #{webank}
+			</if>
+			<if test="startdate != null and enddate != null">
+				and create_date between #{startdate} and #{enddate}
+			</if>
+		</where>
+		<choose>
+			<when test="sidx != null and sidx.trim() != ''">
+				order by ${sidx} ${order}
+			</when>
+		</choose>
+
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="queryTotal" resultType="int">
+		select count(*) from wx_user
+		<where>
+			<if test="vipNo != null">
+				and vipNo is not null
+			</if>
+			<if test="webank != null">
+				and webank = 1
+			</if>
+			<if test="startdate != null and enddate != null">
+				and create_date between #{startdate} and #{enddate}
+			</if>
+		</where>
+	</select>
+
+
+</mapper>

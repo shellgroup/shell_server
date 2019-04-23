@@ -1,6 +1,7 @@
 package com.winnerdt.modules.qrcode.entity;
 
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
 import java.util.Date;
@@ -10,6 +11,7 @@ import java.util.Date;
  * @CreateTime:2019-04-15 16:40
  */
 @Data
+@TableName("wx_appinfo")
 public class WxAppinfoEntity {
 
     @TableId

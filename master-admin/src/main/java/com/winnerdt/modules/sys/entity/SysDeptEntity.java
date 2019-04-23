@@ -36,6 +36,8 @@ public class SysDeptEntity implements Serializable {
 	private String parentName;
 	//排序
 	private Integer orderNum;
+	//部门推广码
+	private String deptCode;
 
 	@TableLogic
 	private Integer delFlag;
@@ -91,6 +93,14 @@ public class SysDeptEntity implements Serializable {
 	 */
 	public Integer getOrderNum() {
 		return orderNum;
+	}
+
+	public String getDeptCode() {
+		return deptCode;
+	}
+
+	public void setDeptCode(String deptCode) {
+		this.deptCode = deptCode;
 	}
 
 	public Integer getDelFlag() {

@@ -80,55 +80,55 @@ public class QRCodeUtils {
 
     }
 
-//    public static void graphicsGeneration2(File oldimg,File newimg,String pressText1, String pressText2) {
-//        int H_tip = QR_H_TIP2; // 文字的高度
-//        int imageWidth = QR_WIDTH; // 图片的宽度
-//        int imageHeight = QR_HIGHT + QR_H_TIP2; // 图片的高度
-//
-//        BufferedImage image = new BufferedImage(imageWidth, imageHeight, BufferedImage.TYPE_INT_RGB);
-//        // 设置图片的背景色
-//        Graphics2D main = image.createGraphics();
-//        main.setColor(Color.white);
-//        main.fillRect(0, 0, imageWidth, imageHeight);
-//
-//        Graphics mainPic = image.getGraphics();
-//        BufferedImage bimg = null;
-//        try {
-//            bimg = ImageIO.read(oldimg);
-//            if (bimg != null) {
-//                mainPic.drawImage(bimg, 0, 0, QR_WIDTH, QR_HIGHT, null);
-//                mainPic.dispose();
-//            }
-//
-//            Graphics2D tip = image.createGraphics();
-//            // 设置区域颜色
-//            tip.setColor(Color.white);
-//            // 填充区域并确定区域大小位置
-//            tip.fillRect(0, QR_HIGHT, QR_WIDTH, H_tip);
-//            // 设置字体颜色，先设置颜色，再填充内容
-//            tip.setColor(Color.black);
-//
-//            // 设置字体
-//            Font tipFont = new Font("粗体", Font.BOLD, QR_FONT_SIZE);
-//            tip.setFont(tipFont);
-//            FontRenderContext context = tip.getFontRenderContext();
-//            Rectangle2D bounds1 = tipFont.getStringBounds(pressText1, context);
-//            double x = (QR_WIDTH - bounds1.getWidth()) / 2;
-//            tip.drawString(pressText1, (int)x, QR_HIGHT + 50);
-//
-//            Rectangle2D bounds2 = tipFont.getStringBounds(pressText2, context);
-//            x = (QR_WIDTH - bounds2.getWidth()) / 2;
-//            tip.drawString(pressText2, (int)x, QR_HIGHT + 90);
-//            //FileOutputStream out = new FileOutputStream(newimg);
-//            ImageIO.write(image, "png", newimg);
-//            //JPEGImageEncoder encoder = JPEGCodec.createJPEGEncoder(out);
-//            //encoder.encode(image);
-//            //out.close();
-//
-//        }catch (Exception e) {
-//            e.printStackTrace();
-//            System.out.println(e);
-//        }
+    public static void graphicsGeneration2(File oldimg,File newimg,String pressText1, String pressText2,int QR_H_TIP,int QR_WIDTH,int QR_HIGHT,int QR_FONT_SIZE) {
+        int H_tip = QR_H_TIP; // 文字的高度
+        int imageWidth = QR_WIDTH; // 图片的宽度
+        int imageHeight = QR_HIGHT + QR_H_TIP; // 图片的高度
 
-//    }
+        BufferedImage image = new BufferedImage(imageWidth, imageHeight, BufferedImage.TYPE_INT_RGB);
+        // 设置图片的背景色
+        Graphics2D main = image.createGraphics();
+        main.setColor(Color.white);
+        main.fillRect(0, 0, imageWidth, imageHeight);
+
+        Graphics mainPic = image.getGraphics();
+        BufferedImage bimg = null;
+        try {
+            bimg = ImageIO.read(oldimg);
+            if (bimg != null) {
+                mainPic.drawImage(bimg, 0, 0, QR_WIDTH, QR_HIGHT, null);
+                mainPic.dispose();
+            }
+
+            Graphics2D tip = image.createGraphics();
+            // 设置区域颜色
+            tip.setColor(Color.white);
+            // 填充区域并确定区域大小位置
+            tip.fillRect(0, QR_HIGHT, QR_WIDTH, H_tip);
+            // 设置字体颜色，先设置颜色，再填充内容
+            tip.setColor(Color.black);
+
+            // 设置字体
+            Font tipFont = new Font("粗体", Font.BOLD, QR_FONT_SIZE);
+            tip.setFont(tipFont);
+            FontRenderContext context = tip.getFontRenderContext();
+            Rectangle2D bounds1 = tipFont.getStringBounds(pressText1, context);
+            double x = (QR_WIDTH - bounds1.getWidth()) / 2;
+            tip.drawString(pressText1, (int)x, QR_HIGHT + 50);
+
+            Rectangle2D bounds2 = tipFont.getStringBounds(pressText2, context);
+            x = (QR_WIDTH - bounds2.getWidth()) / 2;
+            tip.drawString(pressText2, (int)x, QR_HIGHT + 90);
+            //FileOutputStream out = new FileOutputStream(newimg);
+            ImageIO.write(image, "png", newimg);
+            //JPEGImageEncoder encoder = JPEGCodec.createJPEGEncoder(out);
+            //encoder.encode(image);
+            //out.close();
+
+        }catch (Exception e) {
+            e.printStackTrace();
+            System.out.println(e);
+        }
+
+    }
 }
