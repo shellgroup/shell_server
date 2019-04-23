@@ -94,8 +94,8 @@ public class QRCodeInfoController {
             Date date = new Date();
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             String now = sdf.format(date);
-            logger.error("更新导购码信息异常，异常时间："+now+":::异常数据："+qrCodeInfoEntity.toString()+":::异常原因："+e.toString());
-            return R.error("网络错误，导购码更新失败！");
+            logger.error("更新二维码信息异常，异常时间："+now+":::异常数据："+qrCodeInfoEntity.toString()+":::异常原因："+e.toString());
+            return R.error("网络错误，二维码更新失败！");
         }
 
     }

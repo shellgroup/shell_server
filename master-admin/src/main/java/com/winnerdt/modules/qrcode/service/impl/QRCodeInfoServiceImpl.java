@@ -114,19 +114,22 @@ public class QRCodeInfoServiceImpl extends ServiceImpl<QRCodeInfoDao, QRCodeInfo
     }
 
     @Override
-    public boolean save(QRCodeInfoEntity shoppersCodeEntity){
-        return false;
+    @Transactional(rollbackFor = Exception.class)
+    public boolean save(QRCodeInfoEntity qrCodeInfoEntity){
+        qrCodeDao.insert(qrCodeInfoEntity);
+        return true;
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void update(QRCodeInfoEntity shoppersCodeEntity) {
-
+    public void update(QRCodeInfoEntity qrCodeEntity) {
+        qrCodeDao.updateById(qrCodeEntity);
     }
 
     @Override
-    public void deleteBatch(Long[] shoppersCodeIds) {
-
+    @Transactional(rollbackFor = Exception.class)
+    public void deleteBatch(Long[] qrCodeIds) {
+        qrCodeDao.deleteBatchIds(Arrays.asList(qrCodeIds));
     }
 
     @Override
