@@ -219,8 +219,19 @@ public class QRCodeInfoServiceImpl extends ServiceImpl<QRCodeInfoDao, QRCodeInfo
                     +successNum+"<br>失败生成数："+failQrcodeIdList.size()
                     +"<br>失败的二维码id为："+JSONObject.toJSONString(failQrcodeIdList).replace("[","").replace("]",""));
 
-            //执行完之后睡一会，防止一分钟访问次数过多
-            Thread.sleep(60000);
+            //根据中数目，执行完之后睡一会，防止一分钟访问次数过多，微信接口一分钟5000次
+            if(qrcodeIdList.size() <= 50){
+                Thread.sleep(2000);
+            }else if(qrcodeIdList.size() <= 100){
+                Thread.sleep(10000);
+            }else if(qrcodeIdList.size() <= 300) {
+                Thread.sleep(20000);
+            }else if(qrcodeIdList.size() <= 500){
+                Thread.sleep(32000);
+            }else{
+                Thread.sleep(60000);
+            }
+
         } catch (InterruptedException e) {
             e.printStackTrace();
 
