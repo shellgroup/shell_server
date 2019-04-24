@@ -103,6 +103,9 @@ public class WxUserEntity implements Serializable {
 	// 渠道
 	private String sceneAddress;
 
+	//部门推广码
+	private String deptCode;
+
 
 	// 新增时间
 	private Date createDate;

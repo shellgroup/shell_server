@@ -3,8 +3,10 @@ package com.winnerdt.modules.qrcode.entity;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.winnerdt.common.validator.group.AddGroup;
 import lombok.Data;
 
+import javax.validation.constraints.NotBlank;
 import java.util.Date;
 
 /**
@@ -31,7 +33,8 @@ public class QRCodeInfoEntity {
     private String deptName;
 
     //部门id
-    private String deptId;
+    @NotBlank(message = "所属渠道不能为空",groups = {AddGroup.class})
+    private Integer deptId;
 
     //用户id
     private String userId;
@@ -74,6 +77,9 @@ public class QRCodeInfoEntity {
 
     //最后更新时间
     private Date UpdateTime;
+
+    //部门推广码
+    private String deptCode;
 
     //前台展示使用
     @TableField(exist = false)

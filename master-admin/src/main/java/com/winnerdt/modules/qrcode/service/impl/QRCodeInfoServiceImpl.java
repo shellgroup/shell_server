@@ -18,6 +18,8 @@ import com.winnerdt.modules.qrcode.service.QRCodeConfigService;
 import com.winnerdt.modules.qrcode.service.QRCodeInfoService;
 import com.winnerdt.modules.qrcode.service.WxAppinfoService;
 import com.winnerdt.modules.qrcode.utils.QRCodeUtils;
+import com.winnerdt.modules.sys.entity.SysDeptEntity;
+import com.winnerdt.modules.sys.service.SysDeptService;
 import me.chanjar.weixin.common.error.WxErrorException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -44,6 +46,8 @@ public class QRCodeInfoServiceImpl extends ServiceImpl<QRCodeInfoDao, QRCodeInfo
     private WxAppinfoService wxAppinfoService;
     @Autowired
     private QRCodeConfigService qrCodeConfigService;
+    @Autowired
+    private SysDeptService sysDeptService;
 
 
     @Override
@@ -116,6 +120,12 @@ public class QRCodeInfoServiceImpl extends ServiceImpl<QRCodeInfoDao, QRCodeInfo
     @Override
     @Transactional(rollbackFor = Exception.class)
     public boolean save(QRCodeInfoEntity qrCodeInfoEntity){
+        Integer deptId = qrCodeInfoEntity.getDeptId();
+        //查询部门的相关信息补充到二维码表中
+        SysDeptEntity sysDeptEntity = sysDeptService.getById(deptId);
+        qrCodeInfoEntity.setDeptName(sysDeptEntity.getName());
+        qrCodeInfoEntity.setDeptCode(sysDeptEntity.getDeptCode());
+
         qrCodeDao.insert(qrCodeInfoEntity);
         return true;
     }
@@ -125,6 +135,13 @@ public class QRCodeInfoServiceImpl extends ServiceImpl<QRCodeInfoDao, QRCodeInfo
     public void update(QRCodeInfoEntity qrCodeEntity) throws Exception {
         if(null == qrCodeEntity.getId()){
             throw new Exception("缺少参数");
+        }
+        //检查部门是否更改了，如果更改了还要更改有关部门的相关信息
+        if(null != qrCodeEntity.getDeptId()){
+            //查询部门的相关信息,更新二维码表中的部门信息
+            SysDeptEntity sysDeptEntity = sysDeptService.getById(qrCodeEntity.getDeptId());
+            qrCodeEntity.setDeptName(sysDeptEntity.getName());
+            qrCodeEntity.setDeptCode(sysDeptEntity.getDeptCode());
         }
         qrCodeDao.updateById(qrCodeEntity);
     }
@@ -259,11 +276,14 @@ public class QRCodeInfoServiceImpl extends ServiceImpl<QRCodeInfoDao, QRCodeInfo
         * 处理二维码携带的参数信息
         * */
         Integer qrCodeId = Integer.valueOf(map.get("qrcodeId").toString());
+
         QRCodeInfoEntity qrCodeInfoEntity = qrCodeDao.selectById(qrCodeId);
-        String deptId = qrCodeInfoEntity.getDeptId();
+        Integer deptId = qrCodeInfoEntity.getDeptId();
+        String deptCode = qrCodeInfoEntity.getDeptCode();
         QrcodeScene qrcodeScene = new QrcodeScene();
         qrcodeScene.setQrCodeId(qrCodeId);
         qrcodeScene.setDeptId(deptId);
+        qrcodeScene.setDeptCode(deptCode);
         String qrcodeSceneStr = JSONObject.toJSONString(qrcodeScene);
 
         /*
@@ -312,8 +332,12 @@ public class QRCodeInfoServiceImpl extends ServiceImpl<QRCodeInfoDao, QRCodeInfo
      * 存放二维码参数
      * */
     class QrcodeScene{
+        //二维码id（对应二维码信息表的id）
         Integer qrCodeId;
-        String deptId;
+        //部门id
+        Integer deptId;
+        //推广码
+        String deptCode;
 
         public Integer getQrCodeId() {
             return qrCodeId;
@@ -323,12 +347,20 @@ public class QRCodeInfoServiceImpl extends ServiceImpl<QRCodeInfoDao, QRCodeInfo
             this.qrCodeId = qrCodeId;
         }
 
-        public String getDeptId() {
+        public Integer getDeptId() {
             return deptId;
         }
 
-        public void setDeptId(String deptId) {
+        public void setDeptId(Integer deptId) {
             this.deptId = deptId;
+        }
+
+        public String getDeptCode() {
+            return deptCode;
+        }
+
+        public void setDeptCode(String deptCode) {
+            this.deptCode = deptCode;
         }
     }
 }

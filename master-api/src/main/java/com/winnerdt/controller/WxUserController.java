@@ -1,7 +1,6 @@
 package com.winnerdt.controller;
 
 import cn.binarywang.wx.miniapp.api.WxMaService;
-import cn.binarywang.wx.miniapp.api.impl.WxMaServiceImpl;
 import cn.binarywang.wx.miniapp.bean.WxMaJscode2SessionResult;
 import cn.binarywang.wx.miniapp.bean.WxMaPhoneNumberInfo;
 import cn.binarywang.wx.miniapp.bean.WxMaUserInfo;
@@ -83,9 +82,7 @@ public class WxUserController {
         String ipaddress = IPUtil.getIp(request);
 
         try {
-            WxMaService wxMaService = new WxMaServiceImpl();
-//            WxMaJscode2SessionResult session = this.wxService.getUserService().getSessionInfo(code);
-            WxMaJscode2SessionResult session = wxMaService.getUserService().getSessionInfo(code);
+            WxMaJscode2SessionResult session = this.wxService.getUserService().getSessionInfo(code);
             //获取会话密钥（session_key）
             session_key = session.getSessionKey();
             openId = session.getOpenid();
@@ -122,6 +119,7 @@ public class WxUserController {
                         Map sceneMap = (Map)JSONObject.parse(scene);
                         user.setShareId(sceneMap.get("qrCodeId").toString());
                         user.setDeptId(Integer.parseInt(sceneMap.get("deptId").toString()));
+                        user.setDeptCode(sceneMap.get("deptCode").toString());
                     }
 
                 }catch (Exception e){
@@ -129,6 +127,7 @@ public class WxUserController {
                     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                     String now = sdf.format(date);
                     logger.error("二维码携带参数解析异常，源数据为："+ JSONObject.toJSONString(scene)+"：：：：时间："+now);
+                    return R.error(e.toString());
                 }
 
                 user.setOpenid(openId);
