@@ -1,5 +1,6 @@
 package com.winnerdt.modules.qrcode.entity;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -54,5 +55,8 @@ public class QRCodeConfigEntity {
 
     //最后修改时间
     private Date updateTime;
+
+    @TableField(exist = false)
+    private String qrcodeTypeName;
 
 }

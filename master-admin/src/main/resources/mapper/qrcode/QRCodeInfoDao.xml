@@ -50,133 +50,133 @@
         </collection>
     </resultMap>
 
-    <select id="queryShoppersCodeListPage" resultMap="shoppersCodeMap">
-        SELECT sc1.*
+    <select id="queryQrCodeListPage" resultMap="shoppersCodeMap">
+        SELECT qi1.*
         ,qc.id qcId,qc.qrcode_height qcQrcodeHeight,qc.qrcode_width qcQrcodeWidth,qc.qrcode_font_size qcQrcodeFontSize,qc.qrcode_font_height qcQrcodeFontHeight,qc.qrcode_index_url qcQrcodeIndexUrl
         ,qc.qrcode_path qcQrcodePath,qc.is_del qcIsDel,qc.qrcode_config_name qcQrcodeConfigName,qc.remark qcRemark,qc.create_time qcCreateTime,qc.update_time qcUpdateTime
         ,wa.id waId,wa.appid waAppid,wa.secret waSecret,wa.name waName,wa.token waToken,wa.aeskey waAeskey,wa.access_token waAccessToken,wa.last_token_time waLastTokenTime,wa.expires_in waExpiresIn,wa.remark waRemark
         from (
-            SELECT * FROM `shoppers_code` sc
+            SELECT * FROM `qrcode_info` qi
             <where>
                 <if test="userName != null and userName != ''">
-                    and sc.user_name LIKE concat('%',#{userName},'%')
+                    and qi.user_name LIKE concat('%',#{userName},'%')
                 </if>
                 <if test="mallType != null and mallType != ''">
-                    and sc.mall_type LIKE concat('%',#{mallType},'%')
+                    and qi.mall_type LIKE concat('%',#{mallType},'%')
                 </if>
                 <if test="mallCode != null and mallCode != ''">
-                    and sc.mall_code like concat('%',#{mallCode},'%')
+                    and qi.mall_code like concat('%',#{mallCode},'%')
                 </if>
                 <if test="deptName != null and deptName != ''">
-                    and sc.dept_name like concat('%',#{deptName},'%')
+                    and qi.dept_name like concat('%',#{deptName},'%')
                 </if>
                 <if test="userId != null and userId != ''">
-                    and sc.user_id like concat('%',#{userId},'%')
+                    and qi.user_id like concat('%',#{userId},'%')
                 </if>
                 <if test="userName != null  and userName != ''">
-                    and sc.user_name like concat('%',#{userName},'%')
+                    and qi.user_name like concat('%',#{userName},'%')
                 </if>
                 <if test="userPhone != null and userPhone != ''">
-                    and sc.user_phone like concat('%',#{userPhone},'%')
+                    and qi.user_phone like concat('%',#{userPhone},'%')
                 </if>
                 <if test="imgBeginTime != null and imgBeginTime != '' and imgEndTime != null and imgEndTime != ''">
-                    and sc.img_time between #{imgBeginTime} and #{imgEndTime}
+                    and qi.img_time between #{imgBeginTime} and #{imgEndTime}
                 </if>
                 <if test="enterpriseName != null and enterpriseName != ''">
-                    and sc.enterprise_name like concat('%',#{enterpriseName},'%')
+                    and qi.enterprise_name like concat('%',#{enterpriseName},'%')
                 </if>
                 <if test="createBeginTime != null and createBeginTime != '' and createEndTime != null and createEndTime != ''">
-                    and sc.create_time between #{createBeginTime} and #{createEndTime}
+                    and qi.create_time between #{createBeginTime} and #{createEndTime}
                 </if>
-                and sc.is_del = 0
+                and qi.is_del = 0
             </where>
             <if test="pageSize != null and currRecord != null">
                 limit #{currRecord},#{pageSize}
             </if>
-        ) sc1
-        LEFT JOIN qrcode_config qc on qc.id = sc1.qrcode_config_id
-        left JOIN wx_appinfo wa ON wa.id = sc1.wx_appinfo_id
+        ) qi1
+        LEFT JOIN qrcode_config qc on qc.id = qi1.qrcode_config_id
+        left JOIN wx_appinfo wa ON wa.id = qi1.wx_appinfo_id
     </select>
 
-    <select id="queryShoppersCodeListPageTotal" resultType="java.lang.Long">
-        SELECT count(id) FROM `shoppers_code` sc
+    <select id="queryQrCodeListPageTotal" resultType="java.lang.Long">
+        SELECT count(id) FROM `qrcode_info` qi
         <where>
             <if test="userName != null and userName != ''">
-                and sc.user_name LIKE concat('%',#{userName},'%')
+                and qi.user_name LIKE concat('%',#{userName},'%')
             </if>
             <if test="mallType != null and mallType != ''">
-                and sc.mall_type LIKE concat('%',#{mallType},'%')
+                and qi.mall_type LIKE concat('%',#{mallType},'%')
             </if>
             <if test="mallCode != null and mallCode != ''">
-                and sc.mall_code like concat('%',#{mallCode},'%')
+                and qi.mall_code like concat('%',#{mallCode},'%')
             </if>
             <if test="deptName != null and deptName != ''">
-                and sc.dept_name like concat('%',#{deptName},'%')
+                and qi.dept_name like concat('%',#{deptName},'%')
             </if>
             <if test="userId != null and userId != ''">
-                and sc.user_id like concat('%',#{userId},'%')
+                and qi.user_id like concat('%',#{userId},'%')
             </if>
             <if test="userName != null  and userName != ''">
-                and sc.user_name like concat('%',#{userName},'%')
+                and qi.user_name like concat('%',#{userName},'%')
             </if>
             <if test="userPhone != null and userPhone != ''">
-                and sc.user_phone like concat('%',#{userPhone},'%')
+                and qi.user_phone like concat('%',#{userPhone},'%')
             </if>
             <if test="imgBeginTime != null and imgBeginTime != '' and imgEndTime != null and imgEndTime != ''">
-                and sc.img_time between #{imgBeginTime} and #{imgEndTime}
+                and qi.img_time between #{imgBeginTime} and #{imgEndTime}
             </if>
             <if test="enterpriseName != null and enterpriseName != ''">
-                and sc.enterprise_name like concat('%',#{enterpriseName},'%')
+                and qi.enterprise_name like concat('%',#{enterpriseName},'%')
             </if>
             <if test="createBeginTime != null and createBeginTime != '' and createEndTime != null and createEndTime != ''">
-                and sc.create_time between #{createBeginTime} and #{createEndTime}
+                and qi.create_time between #{createBeginTime} and #{createEndTime}
             </if>
-            and sc.is_del = 0
+            and qi.is_del = 0
         </where>
 
     </select>
-    <select id="queryShoppersCodeById" resultType="com.winnerdt.modules.qrcode.entity.QRCodeInfoEntity">
-        SELECT sc1.*
+    <select id="queryQrCodeById" resultType="com.winnerdt.modules.qrcode.entity.QRCodeInfoEntity">
+        SELECT qi1.*
         ,qc.id qcId,qc.qrcode_height qcQrcodeHeight,qc.qrcode_width qcQrcodeWidth,qc.qrcode_font_size qcQrcodeFontSize,qc.qrcode_font_height qcQrcodeFontHeight,qc.qrcode_index_url qcQrcodeIndexUrl
         ,qc.qrcode_path qcQrcodePath,qc.is_del qcIsDel,qc.qrcode_config_name qcQrcodeConfigName,qc.remark qcRemark,qc.create_time qcCreateTime,qc.update_time qcUpdateTime
         ,wa.id waId,wa.appid waAppid,wa.secret waSecret,wa.name waName,wa.token waToken,wa.aeskey waAeskey,wa.access_token waAccessToken,wa.last_token_time waLastTokenTime,wa.expires_in waExpiresIn,wa.remark waRemark
         from (
-        SELECT * FROM `shoppers_code` sc
+        SELECT * FROM `qrcode_info` qi
         <where>
             <if test="userName != null and userName != ''">
-                and sc.user_name LIKE concat('%',#{userName},'%')
+                and qi.user_name LIKE concat('%',#{userName},'%')
             </if>
             <if test="mallType != null and mallType != ''">
-                and sc.mall_type LIKE concat('%',#{mallType},'%')
+                and qi.mall_type LIKE concat('%',#{mallType},'%')
             </if>
             <if test="mallCode != null and mallCode != ''">
-                and sc.mall_code like concat('%',#{mallCode},'%')
+                and qi.mall_code like concat('%',#{mallCode},'%')
             </if>
             <if test="deptName != null and deptName != ''">
-                and sc.dept_name like concat('%',#{deptName},'%')
+                and qi.dept_name like concat('%',#{deptName},'%')
             </if>
             <if test="userId != null and userId != ''">
-                and sc.user_id like concat('%',#{userId},'%')
+                and qi.user_id like concat('%',#{userId},'%')
             </if>
             <if test="userName != null  and userName != ''">
-                and sc.user_name like concat('%',#{userName},'%')
+                and qi.user_name like concat('%',#{userName},'%')
             </if>
             <if test="userPhone != null and userPhone != ''">
-                and sc.user_phone like concat('%',#{userPhone},'%')
+                and qi.user_phone like concat('%',#{userPhone},'%')
             </if>
             <if test="imgBeginTime != null and imgBeginTime != '' and imgEndTime != null and imgEndTime != ''">
-                and sc.img_time between #{imgBeginTime} and #{imgEndTime}
+                and qi.img_time between #{imgBeginTime} and #{imgEndTime}
             </if>
             <if test="enterpriseName != null and enterpriseName != ''">
-                and sc.enterprise_name like concat('%',#{enterpriseName},'%')
+                and qi.enterprise_name like concat('%',#{enterpriseName},'%')
             </if>
             <if test="createBeginTime != null and createBeginTime != '' and createEndTime != null and createEndTime != ''">
-                and sc.create_time between #{createBeginTime} and #{createEndTime}
+                and qi.create_time between #{createBeginTime} and #{createEndTime}
             </if>
-            and sc.id = #{id}
+            and qi.id = #{id}
         </where>
-        ) sc1
-        LEFT JOIN qrcode_config qc on qc.id = sc1.qrcode_config_id
-        left JOIN wx_appinfo wa ON wa.id = sc1.wx_appinfo_id
+        ) qi1
+        LEFT JOIN qrcode_config qc on qc.id = qi1.qrcode_config_id
+        left JOIN wx_appinfo wa ON wa.id = qi1.wx_appinfo_id
     </select>
 </mapper>

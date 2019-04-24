@@ -47,10 +47,10 @@ public class QRCodeInfoController {
      * */
     @RequestMapping("/info/{qrCodeId}")
     @RequiresPermissions("qrcode:info:info")
-    public R info(@PathVariable("qrCodeId") Integer shoppersCodeId){
-        QRCodeInfoEntity qrCodeInfoEntity = qrCodeInfoService.queryQRCodeById(shoppersCodeId);
+    public R info(@PathVariable("qrCodeId") Integer qrCodeId){
+        QRCodeInfoEntity qrCodeInfoEntity = qrCodeInfoService.queryQRCodeById(qrCodeId);
 
-        return R.ok().put("userInfo",qrCodeInfoEntity);
+        return R.ok().put("qrCodeInfo",qrCodeInfoEntity);
     }
 
 

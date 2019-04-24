@@ -100,8 +100,8 @@ public class QRCodeInfoServiceImpl extends ServiceImpl<QRCodeInfoDao, QRCodeInfo
         /*
          * 使用自定义的sql
          * */
-        page.setRecords(qrCodeDao.queryShoppersCodeListPage(map));
-        page.setTotal(qrCodeDao.queryShoppersCodeListPageTotal(map));
+        page.setRecords(qrCodeDao.queryQrCodeListPage(map));
+        page.setTotal(qrCodeDao.queryQrCodeListPageTotal(map));
 
 
         return new PageUtils(page);
@@ -109,7 +109,7 @@ public class QRCodeInfoServiceImpl extends ServiceImpl<QRCodeInfoDao, QRCodeInfo
 
     @Override
     public QRCodeInfoEntity queryQRCodeById(Integer qrCodeId) {
-        QRCodeInfoEntity shoppersCodeEntity = qrCodeDao.queryShoppersCodeById(qrCodeId);
+        QRCodeInfoEntity shoppersCodeEntity = qrCodeDao.queryQrCodeById(qrCodeId);
         return shoppersCodeEntity;
     }
 
@@ -122,7 +122,10 @@ public class QRCodeInfoServiceImpl extends ServiceImpl<QRCodeInfoDao, QRCodeInfo
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void update(QRCodeInfoEntity qrCodeEntity) {
+    public void update(QRCodeInfoEntity qrCodeEntity) throws Exception {
+        if(null == qrCodeEntity.getId()){
+            throw new Exception("缺少参数");
+        }
         qrCodeDao.updateById(qrCodeEntity);
     }
 

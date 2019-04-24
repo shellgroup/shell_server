@@ -24,7 +24,7 @@ public interface QRCodeInfoService extends IService<QRCodeInfoEntity> {
     @Override
     boolean save(QRCodeInfoEntity qrCodeInfoEntity);
 
-    void update(QRCodeInfoEntity qrCodeInfoEntity);
+    void update(QRCodeInfoEntity qrCodeInfoEntity) throws Exception;
 
     void deleteBatch(Long[] qrCodeIds);
 

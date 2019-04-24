@@ -3,4 +3,47 @@
 <mapper namespace="com.winnerdt.modules.qrcode.dao.QRCodeConfigDao">
 
 
+    <select id="queryQrCodeConfigListPage" resultType="com.winnerdt.modules.qrcode.entity.QRCodeConfigEntity">
+        SELECT qc1.*,qt.qrcode_type_name from (
+            SELECT * FROM `qrcode_config` qc
+            <where>
+                <if test="qrcodeConfigName != null and qrcodeConfigName != '' ">
+                    and qc.qrcode_config_name like concat('%',#{qrcodeConfigName},'%')
+                </if>
+                <if test="qrcodeShape != null  and qrcodeShape != ''">
+                    and qc.qrcode_shape = #{qrcodeShape}
+                </if>
+                <if test="createBeginTime != null and createBeginTime != '' and createEndTime != null and createEndTime != ''">
+                    and sc.create_time between #{createBeginTime} and #{createEndTime}
+                </if>
+                and qc.is_del = 0
+            </where>
+
+            <if test="pageSize != null and currRecord != null">
+                limit #{currRecord},#{pageSize}
+            </if>
+        ) qc1
+        left JOIN qrcode_type qt ON qt.id = qc1.qrcode_type_id
+
+    </select>
+    <select id="queryQrCodeConfigListPageTotal" resultType="java.lang.Long">
+        SELECT count(*) FROM `qrcode_config` qc
+        <where>
+            <if test="qrcodeConfigName != null and qrcodeConfigName != '' ">
+                and qc.qrcode_config_name like concat('%',#{qrcodeConfigName},'%')
+            </if>
+            <if test="qrcodeShape != null  and qrcodeShape != ''">
+                and qc.qrcode_shape = #{qrcodeShape}
+            </if>
+            <if test="createBeginTime != null and createBeginTime != '' and createEndTime != null and createEndTime != ''">
+                and sc.create_time between #{createBeginTime} and #{createEndTime}
+            </if>
+            and qc.is_del = 0
+        </where>
+    </select>
+    <select id="queryQrCodeConfigById" resultType="com.winnerdt.modules.qrcode.entity.QRCodeConfigEntity">
+        SELECT qc.*,qt.qrcode_type_name from qrcode_config qc
+        left JOIN qrcode_type qt ON qt.id = qc.qrcode_type_id
+        WHERE qc.id = #{id}
+    </select>
 </mapper>
