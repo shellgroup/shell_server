@@ -11,7 +11,7 @@
  Target Server Version : 50722
  File Encoding         : 65001
 
- Date: 23/04/2019 17:57:25
+ Date: 24/04/2019 18:33:50
 */
 
 SET NAMES utf8mb4;
@@ -33,6 +33,7 @@ CREATE TABLE `qrcode_config`  (
   `qrcode_config_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '该二维码设置名称',
   `remark` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '说明',
   `qrcode_shape` int(10) NOT NULL COMMENT '码的形状，0=圆形码，1=方形码',
+  `qrcode_type_id` int(11) NULL DEFAULT NULL COMMENT '码类型id',
   `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
   `update_time` datetime(0) NULL DEFAULT NULL COMMENT '最后修改时间',
   PRIMARY KEY (`id`) USING BTREE
@@ -41,8 +42,8 @@ CREATE TABLE `qrcode_config`  (
 -- ----------------------------
 -- Records of qrcode_config
 -- ----------------------------
-INSERT INTO `qrcode_config` VALUES (1, 680, 680, 19, 90, 'pages/index/main', '/home/', 0, '测试位置码', '用于生成测试的位置码', 0, '2019-04-16 17:55:37', '2019-04-16 17:55:40');
-INSERT INTO `qrcode_config` VALUES (2, 430, 430, 19, 90, 'pages/index/main', '/home/', 0, '测试导购码', '用于生成测试的导购码', 0, '2019-04-16 17:55:37', '2019-04-16 17:55:40');
+INSERT INTO `qrcode_config` VALUES (1, 680, 680, 19, 90, 'pages/index/main', '/home/', 0, '测试位置码', '用于生成测试的位置码', 0, 1, '2019-04-16 17:55:37', '2019-04-16 17:55:40');
+INSERT INTO `qrcode_config` VALUES (2, 430, 430, 19, 90, 'pages/index/main', '/home/', 0, '测试导购码', '用于生成测试的导购码', 0, 1, '2019-04-16 17:55:37', '2019-04-16 17:55:40');
 
 -- ----------------------------
 -- Table structure for qrcode_info
@@ -54,18 +55,16 @@ CREATE TABLE `qrcode_info`  (
   `mall_code` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '商店编码',
   `mall_name` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '商店名称',
   `dept_name` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '部门名称',
+  `dept_id` int(11) NULL DEFAULT NULL COMMENT '对应部门id',
+  `dept_code` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '部门推广码',
   `user_id` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '用户id',
   `user_name` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '用户名称',
   `user_phone` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '用户手机号',
   `img_path` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '图片路径',
   `img_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '图片名称',
   `img_time` datetime(0) NULL DEFAULT NULL COMMENT '生成日期',
-  `wx_appinfo_id` int(11) NULL DEFAULT NULL COMMENT '对应wx_appinfo的信息',
-  `qrcode_config_id` int(11) NULL DEFAULT NULL COMMENT '对应qrcode_config的信息',
-  `qrcode_type_id` int(11) NULL DEFAULT NULL COMMENT '二维码类型id',
   `enterprise_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '企业名称',
   `enterprise_id` int(10) NULL DEFAULT NULL COMMENT '对应企业id',
-  `dept_id` int(11) NULL DEFAULT NULL COMMENT '对应部门id',
   `is_create_qrcode` int(10) NULL DEFAULT NULL COMMENT '是否已经创建过二维码；0=未创建，1=已创建',
   `is_del` int(10) NULL DEFAULT NULL COMMENT '0=未删除，1=已经删除',
   `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
@@ -77,8 +76,8 @@ CREATE TABLE `qrcode_info`  (
 -- ----------------------------
 -- Records of qrcode_info
 -- ----------------------------
-INSERT INTO `qrcode_info` VALUES (1, '便利店', '0115', '地质中学店', NULL, '0115_M0001', NULL, NULL, 'data0/uploads\\员工码\\地质中学店\\null\\0115_M0001.png', '0115_M0001.png', '2018-08-13 15:49:58', 3, 2, 1, NULL, NULL, NULL, 1, 0, '2019-04-18 15:00:53', '2019-04-18 15:00:58');
-INSERT INTO `qrcode_info` VALUES (2, '便利店1', '0116', '地质中学店', NULL, '0115_M0001', NULL, NULL, 'data0/uploads\\员工码\\地质中学店\\null\\0115_M0001.png', '0115_M0001.png', '2018-08-13 15:49:58', 3, 2, 1, NULL, NULL, NULL, 1, 0, '2019-04-18 15:00:56', '2019-04-18 15:01:04');
+INSERT INTO `qrcode_info` VALUES (1, '便利店', '0115', '地质中学店', NULL, NULL, NULL, '0115_M0001', NULL, NULL, 'data0/uploads\\员工码\\地质中学店\\null\\0115_M0001.png', '0115_M0001.png', '2018-08-13 15:49:58', NULL, NULL, 1, 0, '2019-04-18 15:00:53', '2019-04-18 15:00:58');
+INSERT INTO `qrcode_info` VALUES (2, '便利店1', '0116', '地质中学店', NULL, NULL, NULL, '0115_M0001', NULL, NULL, 'data0/uploads\\员工码\\地质中学店\\null\\0115_M0001.png', '0115_M0001.png', '2018-08-13 15:49:58', NULL, NULL, 1, 0, '2019-04-18 15:00:56', '2019-04-18 15:01:04');
 
 -- ----------------------------
 -- Table structure for qrcode_type
@@ -224,7 +223,7 @@ CREATE TABLE `qrtz_scheduler_state`  (
 -- ----------------------------
 -- Records of qrtz_scheduler_state
 -- ----------------------------
-INSERT INTO `qrtz_scheduler_state` VALUES ('MasterScheduler', 'DESKTOP-CUD9MR51556011313685', 1556013432699, 15000);
+INSERT INTO `qrtz_scheduler_state` VALUES ('MasterScheduler', 'DESKTOP-CUD9MR51556101909284', 1556102018361, 15000);
 
 -- ----------------------------
 -- Table structure for qrtz_simple_triggers
@@ -894,7 +893,7 @@ CREATE TABLE `sys_log`  (
   `ip` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT 'IP地址',
   `create_date` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1098431558701871127 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '系统日志' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1098431558701871128 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '系统日志' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_log
@@ -1075,6 +1074,7 @@ INSERT INTO `sys_log` VALUES (1098431558701871123, 'test1', '修改角色', 'com
 INSERT INTO `sys_log` VALUES (1098431558701871124, 'admin', '修改菜单', 'com.winnerdt.modules.sys.controller.SysMenuController.update()', '{\"menuId\":51,\"parentId\":1,\"name\":\"测试\",\"path\":\"/admin-test/admin-test\",\"type\":1,\"icon\":\"calculator\",\"orderNum\":1}', 45, '192.168.30.19', '2019-04-17 18:12:47');
 INSERT INTO `sys_log` VALUES (1098431558701871125, 'admin', '修改菜单', 'com.winnerdt.modules.sys.controller.SysMenuController.update()', '{\"menuId\":51,\"parentId\":1,\"name\":\"测试操作\",\"path\":\"/admin-test/admin-test\",\"type\":1,\"icon\":\"calculator\",\"orderNum\":1}', 40, '192.168.30.19', '2019-04-17 18:13:09');
 INSERT INTO `sys_log` VALUES (1098431558701871126, 'admin', '删除定时任务', 'com.winnerdt.modules.job.controller.ScheduleJobController.delete()', '[4]', 119, '0:0:0:0:0:0:0:1', '2019-04-19 14:13:52');
+INSERT INTO `sys_log` VALUES (1098431558701871127, 'admin', '修改用户', 'com.winnerdt.modules.sys.controller.SysUserController.update()', '{\"userId\":5,\"password\":\"7be0f9939da642910b6889b1787eb20245b420370151769d60787ca3a5e4fc2c\",\"email\":\"123@qqq.com\",\"mobile\":\"12345678977\",\"status\":1,\"roleIdList\":[\"1\"],\"deptId\":3}', 169, '0:0:0:0:0:0:0:1', '2019-04-24 15:34:15');
 
 -- ----------------------------
 -- Table structure for sys_menu
@@ -1092,13 +1092,13 @@ CREATE TABLE `sys_menu`  (
   `locale` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '给前台使用的，具体作用不明',
   `exact` int(10) NULL DEFAULT 0 COMMENT '给前台使用的，具体作用不明,boolean类型',
   PRIMARY KEY (`menu_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 70 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '菜单管理' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 76 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '菜单管理' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_menu
 -- ----------------------------
 INSERT INTO `sys_menu` VALUES (1, 0, '系统管理', '/system-manager', NULL, 0, 'setting', 3, 'menu.systemManager', 1);
-INSERT INTO `sys_menu` VALUES (2, 1, '管理员管理', '/system-manager/admin-manager', NULL, 1, 'user', 1, 'menu.systemManager.adminManager', 1);
+INSERT INTO `sys_menu` VALUES (2, 0, '用户管理', '/admin-manager', NULL, 0, 'user', 1, 'menu.adminManager', 1);
 INSERT INTO `sys_menu` VALUES (3, 1, '角色管理', '/system-manager/role-manager', NULL, 1, 'tool', 2, 'menu.systemManager.roleManager', 1);
 INSERT INTO `sys_menu` VALUES (4, 1, '菜单管理', '/system-manager/menu-manager', NULL, 1, 'tool', 3, 'menu.systemManager.menuManager', 1);
 INSERT INTO `sys_menu` VALUES (5, 1, 'SQL监控', '/system-manager/sql-manager', NULL, 1, 'tool', 4, 'menu.systemManager.sqlManager', 1);
@@ -1111,10 +1111,10 @@ INSERT INTO `sys_menu` VALUES (11, 6, '暂停', NULL, 'sys:schedule:pause', 2, N
 INSERT INTO `sys_menu` VALUES (12, 6, '恢复', NULL, 'sys:schedule:resume', 2, NULL, 0, NULL, 1);
 INSERT INTO `sys_menu` VALUES (13, 6, '立即执行', NULL, 'sys:schedule:run', 2, NULL, 0, NULL, 1);
 INSERT INTO `sys_menu` VALUES (14, 6, '日志列表', NULL, 'sys:schedule:log', 2, NULL, 0, NULL, 1);
-INSERT INTO `sys_menu` VALUES (15, 2, '查看', NULL, 'sys:user:list,sys:user:info', 2, NULL, 0, NULL, 1);
-INSERT INTO `sys_menu` VALUES (16, 2, '新增', NULL, 'sys:user:save,sys:role:select', 2, NULL, 0, NULL, 1);
-INSERT INTO `sys_menu` VALUES (17, 2, '修改', NULL, 'sys:user:update,sys:role:select', 2, NULL, 0, NULL, 1);
-INSERT INTO `sys_menu` VALUES (18, 2, '删除', NULL, 'sys:user:delete', 2, NULL, 0, NULL, 1);
+INSERT INTO `sys_menu` VALUES (15, 74, '查看', NULL, 'sys:user:list,sys:user:info', 2, NULL, 0, NULL, 1);
+INSERT INTO `sys_menu` VALUES (16, 74, '新增', NULL, 'sys:user:save,sys:role:select', 2, NULL, 0, NULL, 1);
+INSERT INTO `sys_menu` VALUES (17, 74, '修改', NULL, 'sys:user:update,sys:role:select', 2, NULL, 0, NULL, 1);
+INSERT INTO `sys_menu` VALUES (18, 74, '删除', NULL, 'sys:user:delete', 2, NULL, 0, NULL, 1);
 INSERT INTO `sys_menu` VALUES (19, 3, '查看', NULL, 'sys:role:list,sys:role:info', 2, NULL, 0, NULL, 1);
 INSERT INTO `sys_menu` VALUES (20, 3, '新增', NULL, 'sys:role:save,sys:menu:perms', 2, NULL, 0, NULL, 1);
 INSERT INTO `sys_menu` VALUES (21, 3, '修改', NULL, 'sys:role:update,sys:menu:perms', 2, NULL, 0, NULL, 1);
@@ -1126,11 +1126,11 @@ INSERT INTO `sys_menu` VALUES (26, 4, '删除', NULL, 'sys:menu:delete', 2, NULL
 INSERT INTO `sys_menu` VALUES (27, 1, '参数管理', '/system-manager/parameter-manager', 'sys:config:list,sys:config:info,sys:config:save,sys:config:update,sys:config:delete', 1, 'tool', 6, 'menu.systemManager.parameterManager', 1);
 INSERT INTO `sys_menu` VALUES (29, 1, '系统日志', '/system-manager/system-log', 'sys:log:list', 1, 'tool', 7, 'menu.systemManager.systemLog', 1);
 INSERT INTO `sys_menu` VALUES (30, 1, '文件上传', '/system-manager/file-upload', 'sys:oss:list', 1, 'tool', 6, 'menu.systemManager.fileUpload', 1);
-INSERT INTO `sys_menu` VALUES (31, 1, '服务商管理', '/system-manager/department-manager', NULL, 1, 'tool', 1, 'menu.systemManager.departmentManager', 1);
-INSERT INTO `sys_menu` VALUES (32, 31, '查看', NULL, 'sys:dept:list,sys:dept:info', 2, NULL, 0, NULL, 1);
-INSERT INTO `sys_menu` VALUES (33, 31, '新增', NULL, 'sys:dept:save,sys:dept:select', 2, NULL, 0, NULL, 1);
-INSERT INTO `sys_menu` VALUES (34, 31, '修改', NULL, 'sys:dept:update,sys:dept:select', 2, NULL, 0, NULL, 1);
-INSERT INTO `sys_menu` VALUES (35, 31, '删除', NULL, 'sys:dept:delete', 2, NULL, 0, NULL, 1);
+INSERT INTO `sys_menu` VALUES (31, 0, '渠道管理', '/department-manager', NULL, 0, 'tool', 1, 'menu.departmentManager', 1);
+INSERT INTO `sys_menu` VALUES (32, 75, '查看', NULL, 'sys:dept:list,sys:dept:info', 2, NULL, 0, NULL, 1);
+INSERT INTO `sys_menu` VALUES (33, 75, '新增', NULL, 'sys:dept:save,sys:dept:select', 2, NULL, 0, NULL, 1);
+INSERT INTO `sys_menu` VALUES (34, 75, '修改', NULL, 'sys:dept:update,sys:dept:select', 2, NULL, 0, NULL, 1);
+INSERT INTO `sys_menu` VALUES (35, 75, '删除', NULL, 'sys:dept:delete', 2, NULL, 0, NULL, 1);
 INSERT INTO `sys_menu` VALUES (36, 1, '字典管理', '/system-manager/dictionary-manager', NULL, 1, 'tool', 6, 'menu.systemManager.dictionaryManager', 1);
 INSERT INTO `sys_menu` VALUES (37, 36, '查看', NULL, 'sys:dict:list,sys:dict:info', 2, NULL, 6, NULL, 1);
 INSERT INTO `sys_menu` VALUES (38, 36, '新增', NULL, 'sys:dict:save', 2, NULL, 6, NULL, 1);
@@ -1165,6 +1165,12 @@ INSERT INTO `sys_menu` VALUES (66, 53, '查看', NULL, 'sys:user:list,sys:user:i
 INSERT INTO `sys_menu` VALUES (67, 53, '修改', NULL, 'sys:user:update,sys:role:select', 2, NULL, NULL, NULL, 0);
 INSERT INTO `sys_menu` VALUES (68, 53, '删除', NULL, 'sys:user:delete', 2, NULL, NULL, NULL, 0);
 INSERT INTO `sys_menu` VALUES (69, 0, '数据统计', '/dashboard/analysis', NULL, 0, 'dashboard', 0, 'menu.dashboard.analysis', 0);
+INSERT INTO `sys_menu` VALUES (70, 54, '添加', NULL, 'sys:user:save,sys:role:select', 2, NULL, NULL, NULL, 0);
+INSERT INTO `sys_menu` VALUES (71, 54, '查看', NULL, 'sys:user:list,sys:user:info', 2, NULL, NULL, NULL, 0);
+INSERT INTO `sys_menu` VALUES (72, 54, '修改', NULL, 'sys:user:update,sys:role:select', 2, NULL, NULL, NULL, 0);
+INSERT INTO `sys_menu` VALUES (73, 54, '删除', NULL, 'sys:user:delete', 2, NULL, NULL, NULL, 0);
+INSERT INTO `sys_menu` VALUES (74, 2, '用户列表', '/admin-manager/admin-list', NULL, 1, 'bars', NULL, 'menu.adminManager.adminManagerList', 0);
+INSERT INTO `sys_menu` VALUES (75, 31, '渠道列表', '/department-manager/department-list', NULL, 1, NULL, NULL, 'menu.departmentManager.departmentManagerList', 0);
 
 -- ----------------------------
 -- Table structure for sys_oss
@@ -1756,7 +1762,7 @@ CREATE TABLE `sys_user_role`  (
   `user_id` bigint(20) NULL DEFAULT NULL COMMENT '用户ID',
   `role_id` bigint(20) NULL DEFAULT NULL COMMENT '角色ID',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1087608018633302024 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '用户与角色对应关系' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1087608018633302025 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '用户与角色对应关系' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_user_role
@@ -1764,7 +1770,7 @@ CREATE TABLE `sys_user_role`  (
 INSERT INTO `sys_user_role` VALUES (1087608018633302018, 1087608018549415938, 1);
 INSERT INTO `sys_user_role` VALUES (1087608018633302021, 4, 1098431558068531203);
 INSERT INTO `sys_user_role` VALUES (1087608018633302022, 3, 1);
-INSERT INTO `sys_user_role` VALUES (1087608018633302023, 5, 1);
+INSERT INTO `sys_user_role` VALUES (1087608018633302024, 5, 1);
 
 -- ----------------------------
 -- Table structure for wx_appinfo
@@ -1815,15 +1821,15 @@ CREATE TABLE `wx_user`  (
   `is_new` tinyint(1) NULL DEFAULT NULL COMMENT '是否为商户侧的拉新用户',
   `vip_no` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '会员id',
   `member_phone` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '会员绑定手机号',
+  `share_id` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '如果是扫码进入，存放二维码id，记录二维码信息；如果是通过分享进入，记录分享人信息',
+  `dept_id` int(11) NULL DEFAULT NULL COMMENT '如果是扫码进来，可以存放所扫码所属部门',
+  `dept_code` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '部门推广码',
   `id_card` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '用户身份证信息',
   `name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '姓名',
   `webid` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '华联与微众唯一key，默认第一次注册手机号',
   `webank` tinyint(2) NULL DEFAULT NULL COMMENT '是否微众轻会员',
   `scene` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '二维码',
   `hdcard_member_id` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '线下会员号',
-  `share_id` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '如果是扫码进入，存放二维码id，记录二维码信息；如果是通过分享进入，记录分享人信息',
-  `dept_id` int(11) NULL DEFAULT NULL COMMENT '如果是扫码进来，可以存放所扫码所属部门',
-  `dept_code` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '部门推广码',
   `ident_code` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '会员身份识别码',
   `scene_address` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '渠道',
   `create_date` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
@@ -1832,6 +1838,6 @@ CREATE TABLE `wx_user`  (
   INDEX `open_id_index`(`open_id`) USING BTREE,
   INDEX `dept_id_index`(`dept_id`) USING BTREE,
   INDEX `share_id_index`(`share_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '微信小程序用户信息' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '微信小程序用户信息' ROW_FORMAT = Dynamic;
 
 SET FOREIGN_KEY_CHECKS = 1;

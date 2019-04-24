@@ -54,12 +54,6 @@ public class QRCodeInfoEntity {
     //最后生成导购码的时间
     private Date imgTime;
 
-    //对应小程序参数设置的信息
-    private Integer wxAppinfoId;
-
-    //对应二维码生成的相关设置
-    private Integer qrcodeConfigId;
-
     //是否已经生成二维码，0=未生成，1=已生成
     private Integer isCreateQrcode;
 

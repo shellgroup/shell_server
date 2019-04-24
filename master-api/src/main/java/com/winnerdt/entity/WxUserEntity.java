@@ -1,6 +1,7 @@
 package com.winnerdt.entity;
 
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -10,6 +11,7 @@ import java.util.Date;
 * 微信小程序实体类
 * */
 @Data
+@TableName("wx_user")
 public class WxUserEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
@@ -17,11 +19,9 @@ public class WxUserEntity implements Serializable {
 	private Integer id;
 
 	//微信openId
-	private String openid;
+	private String openId;
 
 	private String sessionKey;
-
-	private String qrcodeSource;
 
 	//用户注册IP
 	private String registerIp;
@@ -33,7 +33,7 @@ public class WxUserEntity implements Serializable {
 	private String password;
 
 	//用户昵称
-	private String nickname;
+	private String nickName;
 
 	//用户头像地址
 	private Integer gender;
@@ -66,13 +66,13 @@ public class WxUserEntity implements Serializable {
 	private String vipNo;
 
 	//注册时记录用户扫码渠道，如朋友圈广告
-	private String qrcodesource;
+	private String qrcodeSource;
 
 	//会员绑定的手机号
 	private String memberPhone;
 
 	//身份证号
-	private String idcard;
+	private String idCard;
 
 	//姓名
 	private String name;
