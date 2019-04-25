@@ -9,6 +9,7 @@ import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import lombok.ToString;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 
@@ -38,6 +39,8 @@ public class SysDeptEntity implements Serializable {
 	private Integer orderNum;
 	//部门推广码
 	private String deptCode;
+	//创建时间
+	private Date createTime;
 
 	@TableLogic
 	private Integer delFlag;
@@ -133,5 +136,13 @@ public class SysDeptEntity implements Serializable {
 
 	public void setChildren(List<SysDeptEntity> children) {
 		this.children = children;
+	}
+
+	public Date getCreateTime() {
+		return createTime;
+	}
+
+	public void setCreateTime(Date createTime) {
+		this.createTime = createTime;
 	}
 }

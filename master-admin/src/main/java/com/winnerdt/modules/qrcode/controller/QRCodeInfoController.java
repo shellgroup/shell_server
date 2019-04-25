@@ -11,10 +11,7 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -36,7 +33,7 @@ public class QRCodeInfoController {
      * */
     @RequestMapping("/list")
     @RequiresPermissions("qrcode:info:list")
-    public R list(@RequestBody Map<String, Object> params) {
+    public R list(@RequestParam Map<String, Object> params) {
         //查询分页信息
         PageUtils page = qrCodeInfoService.queryPage(params);
 

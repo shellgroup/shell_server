@@ -58,6 +58,7 @@ public class SysDeptController extends AbstractController {
 			root.setName("一级部门");
 			root.setParentId(-1L);
 			root.setOpen(true);
+			root.setCreateTime(new Date());
 			deptList.add(root);
 		}
 
@@ -109,6 +110,7 @@ public class SysDeptController extends AbstractController {
 	public R save(@RequestBody SysDeptEntity dept){
 
 		try{
+			dept.setCreateTime(new Date());
 			sysDeptService.save(dept);
 			return R.ok();
 		}catch (Exception e){

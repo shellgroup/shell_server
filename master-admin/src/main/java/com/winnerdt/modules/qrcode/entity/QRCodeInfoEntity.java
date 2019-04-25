@@ -1,6 +1,5 @@
 package com.winnerdt.modules.qrcode.entity;
 
-import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.winnerdt.common.validator.group.AddGroup;
@@ -75,11 +74,4 @@ public class QRCodeInfoEntity {
     //部门推广码
     private String deptCode;
 
-    //前台展示使用
-    @TableField(exist = false)
-    private WxAppinfoEntity wxAppinfoEntity;
-
-    //前台展示使用
-    @TableField(exist = false)
-    private QRCodeConfigEntity qrCodeConfigEntity;
 }
