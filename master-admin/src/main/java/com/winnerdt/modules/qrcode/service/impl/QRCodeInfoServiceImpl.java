@@ -19,7 +19,9 @@ import com.winnerdt.modules.qrcode.service.QRCodeInfoService;
 import com.winnerdt.modules.qrcode.service.WxAppinfoService;
 import com.winnerdt.modules.qrcode.utils.QRCodeUtils;
 import com.winnerdt.modules.sys.entity.SysDeptEntity;
+import com.winnerdt.modules.sys.entity.SysUserEntity;
 import com.winnerdt.modules.sys.service.SysDeptService;
+import com.winnerdt.modules.sys.shiro.ShiroUtils;
 import me.chanjar.weixin.common.error.WxErrorException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -120,11 +122,16 @@ public class QRCodeInfoServiceImpl extends ServiceImpl<QRCodeInfoDao, QRCodeInfo
     @Override
     @Transactional(rollbackFor = Exception.class)
     public boolean save(QRCodeInfoEntity qrCodeInfoEntity){
-        Integer deptId = qrCodeInfoEntity.getDeptId();
+        Long deptId = ShiroUtils.getUserEntity().getDeptId();
         //查询部门的相关信息补充到二维码表中
         SysDeptEntity sysDeptEntity = sysDeptService.getById(deptId);
+        qrCodeInfoEntity.setDeptId(Integer.valueOf(String.valueOf(deptId)));
         qrCodeInfoEntity.setDeptName(sysDeptEntity.getName());
         qrCodeInfoEntity.setDeptCode(sysDeptEntity.getDeptCode());
+        qrCodeInfoEntity.setIsDel(0);
+        qrCodeInfoEntity.setIsCreateQrcode(0);
+        qrCodeInfoEntity.setCreateTime(new Date());
+        qrCodeInfoEntity.setUpdateTime(new Date());
 
         qrCodeDao.insert(qrCodeInfoEntity);
         return true;
