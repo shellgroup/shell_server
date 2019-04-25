@@ -29,4 +29,5 @@ public interface WxUserDao extends BaseMapper<WxUserEntity> {
 	WxUserEntity queryObjectbyHdcardMbrId(String hdcardMbrId);
 
 	List<WxUserEntity> findUserList(Map<String, Object> map);
+
 }

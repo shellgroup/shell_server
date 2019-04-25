@@ -39,4 +39,6 @@ public interface WxUserService extends IService<WxUserEntity> {
 	WxUserEntity queryObjectbyHdcardMbrId(String hdcardMbrId);
 
 	List<WxUserEntity> findUserList(Map<String, Object> map);
+
+	void updateByOpenId(Map<String ,String > map);
 }

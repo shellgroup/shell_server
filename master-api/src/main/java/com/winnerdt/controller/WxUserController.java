@@ -11,7 +11,10 @@ import com.winnerdt.service.TokenService;
 import com.winnerdt.service.WxUserService;
 import com.winnerdt.utils.CreateRandomCharData;
 import com.winnerdt.utils.IPUtil;
+import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.Example;
+import io.swagger.annotations.ExampleProperty;
 import me.chanjar.weixin.common.error.WxErrorException;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -27,6 +30,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import javax.servlet.http.HttpServletRequest;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
@@ -64,11 +68,20 @@ public class WxUserController {
      */
     @PostMapping("/login")
     @ApiOperation(value="用户登录", notes="{\"code\":\"string\",\"scene\":\"string\",\"sceneAddress\":\"string\"}")
-    public R userLogin(@RequestBody Map<String, String> map) {
-        logger.debug(map.toString());
-        String code = map.get("code");
-        String scene = map.get("scene");
-        String sceneAddress = map.get("sceneAddress");
+    public R userLogin(@RequestBody Map<String, Object> map) {
+        logger.debug(JSONObject.toJSONString(map));
+        if(null == map.get("code")){
+            return R.error("code为空");
+        }
+        if(null == map.get("scene")){
+            return R.error("scene");
+        }
+        if(null == map.get("sceneAddress")){
+            return R.error("sceneAddress为空");
+        }
+        String code = map.get("code").toString();
+        String scene = map.get("scene").toString();
+        String sceneAddress = map.get("sceneAddress").toString();
         //登录凭证不能为空
         if (StringUtils.isBlank(code)) {
             return R.error(1, "code 不能为空");
@@ -115,9 +128,9 @@ public class WxUserController {
                 //这里处理二维码带的参数
                 try{
                     //扫码进入时处理逻辑
-                    if(null != scene && sceneAddress.equals(1011)){
-                        Map sceneMap = (Map)JSONObject.parse(scene);
-                        user.setShareId(sceneMap.get("qrCodeId").toString());
+                    if(null != scene && sceneAddress.equals("1011")){
+                        Map sceneMap = (LinkedHashMap) map.get("scene");
+                        user.setShareId(sceneMap.get("shareId").toString());
                         user.setDeptId(Integer.parseInt(sceneMap.get("deptId").toString()));
                         user.setDeptCode(sceneMap.get("deptCode").toString());
                     }
@@ -257,24 +270,6 @@ public class WxUserController {
                     r.put("msg","授权手机成功！");
                     r.put("phone",phoneNoInfo.getPhoneNumber());
 
-                    //如果是扫码进来的有scene值，反之没有
-//                    String scene = map.get("scene");
-//                    if(StringUtils.isBlank(scene)){
-//                        //这里处理二维码相关参数
-//                        r.put("storeId","false");
-//                    }else {
-//                        logger.debug("***************获取的scene值：：："+scene);
-//                        //通过scene查询门店号
-//                        WxQrcodeEntity wxQrcodeEntity = wxQrcodeDao.queryObjectbyCode(scene);
-//                        if(wxQrcodeEntity == null){
-//                            r.put("storeId","false");
-//                        }else {
-//                            r.put("storeId",wxQrcodeEntity.getMallCode());
-//                            r.put("storeName",wxQrcodeEntity.getMallName());
-//                        }
-//
-//                    }
-
                     return r;
 
                 } else {
@@ -290,113 +285,48 @@ public class WxUserController {
     }
 
 
-//    /*
-//     * 用户注册
-//     * */
-//    @ApiOperation(value = "用户注册")
-//    @PostMapping("/regist")@ApiImplicitParams({
-//            @ApiImplicitParam(name = "mobile",dataType="String", paramType = "query",value = "手机号",required = true),
-//            @ApiImplicitParam(name = "storeId",dataType="String", paramType = "query",value = "门店编码",required = true)
-//    })
-//    public R regist(String mobile ,String storeId){
-//        logger.info("*************接受到的手机号为："+mobile+"**************接受到的门店id"+storeId);
-//        R r = new R();
-//        WxUserEntity userEntity = wxUserService.queryObjectByMobile(mobile);
-//        if(userEntity == null){
-//            return R.error("用户信息丢失！注册失败");
-//        }else {
-//            try {
-//                //处理部分门店号获取为undefined的情况（只能处理有scenc的情况）
-//                if("undefined".equals(storeId)){
-//                    if(!( StringUtils.isBlank( userEntity.getScene() ) )){
-//                        logger.debug("**********需要处理门店号undefined情况的会员号："+userEntity.getVipno()+"**********用于截取门店号的scene值："+userEntity.getScene());
-//                        storeId = userEntity.getScene().substring(0,userEntity.getScene().indexOf("_"));
-//                    }
-//                }
-//            }catch (Exception e){
-//                logger.debug("**********需要处理门店号undefined情况的会员号："+userEntity.getVipno()+"**********scene值格式出现异常："+userEntity.getScene());
-//            }
-//
-//
-//            try {
-//                String hdcardMemberId;
-//                //通过手机号查询该用户是否已经注册姗姗会员，如果已经注册获取需要的注册信息，如果未查到信息，用户开始注册。
-//                String vipNo;
-//                try{
-//                    /*
-//                     * 查询该用户是否已经注册过了
-//                     * 实现逻辑：通过手机号查询该用户信息，如果返回结果有相应的值，取相应的值。
-//                     * 如果返回结果为空，取值的时候会出现异常，
-//                     * 将用户注册的逻辑写在catch块中，实现用户的注册。
-//                     *
-//                     * */
-//                    String identType = "mobile";
-//                    String identCode1 = mobile; // 当identType是mobile时，identCode的值和手机号相同，未防止错误，直接将手机号赋值给identCode
-//                    String url1="/crm/identservice/identify"+"?ident_type="+identType+"&ident_code="+identCode1;
-//                    String result2 = HTTPMethodUtil.httpGet(cp.getBaseurl()+cp.getTenantid()+url1,cp.getUserName(),cp.getUserPass());
-//                    JSONObject jsonObject1 = JSONObject.parseObject(result2);
-//                    vipNo = jsonObject1.getString("member_id");
-//                    JSONArray jsonArray = jsonObject1.getJSONArray("idents");
-//                    List<DLYIdent> dlyIdents = JSONObject.parseArray(jsonArray.toJSONString(), DLYIdent.class).stream().filter(m -> "hdcard_mbr_id".equals(m.getType())).collect(Collectors.toList());
-//                    hdcardMemberId = dlyIdents.get(0).getCode();
-//
-//                }catch (Exception e){
-//                    //如果该用户没有注册过，则开始注册会员
-//
-//                    String url="/crm/identservice/register";
-//                    //通过随机数生成线下会员号
-//                    hdcardMemberId = createHdcardMemberId();
-//
-//                    Map<String, Object> paramMap=new HashMap<>();
-//                    paramMap.put("hdcard_member_id",hdcardMemberId);
-//                    paramMap.put("mobile",mobile);
-//                    paramMap.put("store_id",storeId);
-//                    String result = HTTPMethodUtil.httpPost(cp.getBaseurl()+cp.getTenantid()+url,paramMap,cp.getUserName(),cp.getUserPass());
-//                    logger.debug("**********姗姗会员注册返回信息："+result);
-//                    JSONObject jsonObject = JSONObject.parseObject(result);
-//                    vipNo = jsonObject.get("id").toString();
-//                }
-//
-//                //将注册后的会员id，线下会员号以及注册门店编码保存到数据库中
-//                WxUserEntity user = new WxUserEntity();
-//                user.setId(userEntity.getId());
-//                user.setHdcardMemberId(hdcardMemberId);
-//                user.setVipno(vipNo);
-//                user.setStoreId(storeId);
-//                user.setWebid(mobile);
-//                wxUserService.update(user);
-//
-//                //通过会员id获取会员身份码
-//                String identType = "mobile";
-//                String identCode1 = mobile; // 当identType是mobile时，identCode的值和手机号相同，未防止错误，直接将手机号赋值给identCode
-//                String url1="/crm/identservice/identify"+"?ident_type="+identType+"&ident_code="+identCode1;
-//                String result1 = HTTPMethodUtil.httpGet(cp.getBaseurl()+cp.getTenantid()+url1,cp.getUserName(),cp.getUserPass());
-//                logger.debug("**********通过会员id获取会员身份码(会员识别）："+result1);
-//                JSONObject jsonObject1 = JSONObject.parseObject(result1);
-//                String identCode = jsonObject1.get("ident_code").toString();
-//                String memberId = jsonObject1.getString("member_id");
-//                WxUserEntity wxUserEntity = new WxUserEntity();
-//                wxUserEntity.setId(userEntity.getId());
-//                wxUserEntity.setIdentCode(identCode);
-//                wxUserService.update(wxUserEntity);
-//
-//                /*
-//                 * 前台中，memberId代表了会员号，memberCode代表了会员id
-//                 * 同时这里将identCode会员身份识别码作为了会员号
-//                 * */
-//                r.put("memberId",identCode);
-//                r.put("memberCode",memberId);
-//                r.put("msg","会员注册成功");
-//
-//
-//                return r;
-//            }catch (Exception e){
-//                this.logger.error(e.getMessage(), e);
-//                return R.error(e.toString());
-//            }
-//        }
+    /*
+     * 用户注册
+     * */
+    @ApiOperation(value = "用户注册",notes="openId:String,name:String,idCard:String,registPhone:String,useRegion:String,invoiceType:String")
+    @PostMapping("/regist")
+    @ApiImplicitParam(name = "map" , paramType = "body",
+            examples = @Example({
+                @ExampleProperty(value = "openId", mediaType = "application/json"),
+                @ExampleProperty(value = "{'name':'String'}", mediaType = "application/json")
+            })
+    )
+    public R regist(@RequestBody Map<String,String> map){
+        logger.info("用户注册接受数据："+JSONObject.toJSONString(map));
+        if(null == map.get("openId")){
+            return R.error("openId接受为空");
+        }
+        if(null == map.get("name")){
+            return R.error("name为空");
+        }
+        if(null == map.get("idCard")){
+            return R.error("idCard为空");
+        }
+        if(null == map.get("registPhone")){
+            return R.error("registPhone为空");
+        }
+        if(null == map.get("useRegion")){
+            return R.error("useRegion为空");
+        }
+        if(null == map.get("invoiceType")){
+            return R.error("invoiceType为空");
+        }
 
-//    }
+        try {
+            wxUserService.updateByOpenId(map);
+            return R.ok();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return R.error();
+        }
+
+
+    }
 
     /**
      * 判断是否是老用户
@@ -453,32 +383,15 @@ public class WxUserController {
                     logger.warn("是新用户，跳转到授权手机号页！");
                     return r;
                 }
-//                if (StringUtils.isBlank(user1.getVipNo())) {
-//                    r.put("type",28).put("code", 28);
-//                    r.put("msg", "是新用户，跳转到注册珊珊便利会员！");
-//                    logger.warn("是新用户，跳转到注册珊珊便利会员！");
-//                    return r;
-//                }
-//                if (!(user1.isWebank())) {
-//                    r.put("type", 27).put("code", 27);
-//                    r.put("msg", "未注册微众轻会员！");
-//                    logger.warn("未注册微众轻会员，请注册微众轻会员！");
-//                    return r;
-//                }
-
-                //获取用户注册门店信息，用于首页显示
-//                if("undefined".equals(user1.getStoreId()) || StringUtils.isBlank(user1.getStoreId())){
-//                    r.put("storeName","未授权地理位置");
-//                }else {
-//                    SSBLStore crmStore1 = new SSBLStore();
-//                    crmStore1.setStoreCode(user1.getStoreId());
-//                    SSBLStore crmStore =ssblStoreService.queryObject(crmStore1);
-//                    r.put("storeName",crmStore.getStoreName());
-//                    r.put("storeId",crmStore.getStoreCode());
-//                }
+                if( null == user1.getIsRegist() || user1.getIsRegist() == 0 || user1.getIsRegist().equals("0")){
+                    r.put("type", 28).put("code", 28);
+                    r.put("msg", "是新用户，跳转到注册页面！");
+                    logger.warn("是新用户，跳转到注册页面！");
+                    return r;
+                }
 
                 r.put("type",32).put("code", 32);
-                r.put("msg", "老用户");
+                r.put("msg", "老用户，进入首页");
                 return r;
 
             } else {

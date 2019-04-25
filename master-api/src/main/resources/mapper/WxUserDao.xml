@@ -6,24 +6,24 @@
 	<!-- 可根据自己的需求，是否要使用 -->
     <resultMap type="com.winnerdt.entity.WxUserEntity" id="wxUserMap">
         <result property="id" column="id"/>
-        <result property="openid" column="openId"/>
-        <result property="unionid" column="unionId"/>
-        <result property="nickname" column="nickName"/>
+        <result property="openId" column="openId"/>
+        <result property="unionId" column="unionId"/>
+        <result property="nickName" column="nickName"/>
         <result property="gender" column="gender"/>
-        <result property="avatarurl" column="avatarUrl"/>
+        <result property="avatarUrl" column="avatarUrl"/>
         <result property="phone" column="phone"/>
-        <result property="purephone" column="purePhone"/>
-        <result property="qrcodesource" column="qrcodeSource"/>
-        <result property="registerip" column="registerIp"/>
-        <result property="isnew" column="isNew"/>
-        <result property="vipno" column="vipNo"/>
+        <result property="purePhone" column="purePhone"/>
+        <result property="qrcodeSource" column="qrcodeSource"/>
+        <result property="registerIp" column="registerIp"/>
+        <result property="isNew" column="isNew"/>
+        <result property="vipNo" column="vipNo"/>
 		<result property="identCode" column="ident_code"/>
         <result property="city" column="city"/>
         <result property="province" column="province"/>
         <result property="language" column="language"/>
-        <result property="countrycode" column="countryCode"/>
-		<result property="seesionKey" column="session_key"/>
-        <result property="idcard" column="idCard"/>
+        <result property="countryCode" column="countryCode"/>
+		<result property="sessionKey" column="session_key"/>
+        <result property="idCard" column="idCard"/>
         <result property="name" column="name"/>
         <result property="webid" column="webid"/>
         <result property="webank" column="Webank"/>
@@ -40,7 +40,7 @@
 	</select>
 
 	<select id="queryObjectbyOpenid" resultType="com.winnerdt.entity.WxUserEntity">
-		select * from wx_user where openId = #{value}
+		select * from wx_user where open_id = #{value}
 	</select>
 
     <select id="queryObjectbyHdcardMbrId" resultType="com.winnerdt.entity.WxUserEntity">
@@ -92,7 +92,7 @@
 		select count(*) from wx_user
 		<where>
 			<if test="vipNo != null">
-				and vipNo is not null
+				and vip_no is not null
 			</if>
 			<if test="webank != null">
 				and webank = 1

@@ -106,6 +106,18 @@ public class WxUserEntity implements Serializable {
 	//部门推广码
 	private String deptCode;
 
+	//用户注册时填写的手机号
+	private String registPhone;
+
+	//用户注册时填写的使用区域
+	private String useRegion;
+
+	//用户注册时填写的开票类型
+	private String invoiceType;
+
+	//用户是否已经注册
+	private Integer isRegist;
+
 
 	// 新增时间
 	private Date createDate;

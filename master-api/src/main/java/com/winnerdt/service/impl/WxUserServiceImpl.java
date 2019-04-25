@@ -1,6 +1,7 @@
 package com.winnerdt.service.impl;
 
 
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.winnerdt.dao.WxUserDao;
 import com.winnerdt.entity.WxUserEntity;
@@ -98,6 +99,28 @@ public class WxUserServiceImpl extends ServiceImpl<WxUserDao,WxUserEntity> imple
 	@Override
 	public List<WxUserEntity> findUserList(Map<String, Object> map) {
 		return wxUserDao.findUserList(map);
+	}
+
+	@Override
+	public void updateByOpenId(Map<String,String> map) {
+
+		WxUserEntity wxUserEntity = new WxUserEntity();
+		wxUserEntity.setOpenId(map.get("openId"));
+		wxUserEntity.setName(map.get("name"));
+		wxUserEntity.setIdCard(map.get("idCard"));
+		wxUserEntity.setRegistPhone(map.get("registPhone"));
+		wxUserEntity.setUseRegion(map.get("useRegion"));
+		wxUserEntity.setInvoiceType(map.get("invoiceType"));
+		wxUserEntity.setUpdateDate(new Date());
+		wxUserDao.update(wxUserEntity,new UpdateWrapper<WxUserEntity>()
+				.set("name",wxUserEntity.getName())
+				.set("id_card",wxUserEntity.getIdCard())
+				.set("regist_phone",wxUserEntity.getRegistPhone())
+				.set("use_region",wxUserEntity.getUseRegion())
+				.set("invoice_type",wxUserEntity.getInvoiceType())
+				.set("is_regist",1)
+				.set("update_date",new Date())
+				.eq("open_id",wxUserEntity.getOpenId()));
 	}
 
 }
