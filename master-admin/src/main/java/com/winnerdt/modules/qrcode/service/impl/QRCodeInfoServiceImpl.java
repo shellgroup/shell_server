@@ -19,7 +19,6 @@ import com.winnerdt.modules.qrcode.service.QRCodeInfoService;
 import com.winnerdt.modules.qrcode.service.WxAppinfoService;
 import com.winnerdt.modules.qrcode.utils.QRCodeUtils;
 import com.winnerdt.modules.sys.entity.SysDeptEntity;
-import com.winnerdt.modules.sys.entity.SysUserEntity;
 import com.winnerdt.modules.sys.service.SysDeptService;
 import com.winnerdt.modules.sys.shiro.ShiroUtils;
 import me.chanjar.weixin.common.error.WxErrorException;
@@ -176,7 +175,7 @@ public class QRCodeInfoServiceImpl extends ServiceImpl<QRCodeInfoDao, QRCodeInfo
             return R.error("二维码配置信息为空");
         }
         //获取码的相关配置
-        QRCodeConfigEntity qrCodeConfigEntity = qrCodeConfigService.getById(Integer.valueOf(map.get("qrcodeConfigId").toString()));
+        QRCodeConfigEntity qrCodeConfigEntity = qrCodeConfigService.queryQRCodeConfigById(Integer.valueOf(map.get("qrcodeConfigId").toString()));
         if(qrCodeConfigEntity == null){
             return R.error("请填写完整二维码的设置信息");
         }
@@ -217,7 +216,7 @@ public class QRCodeInfoServiceImpl extends ServiceImpl<QRCodeInfoDao, QRCodeInfo
                 return R.error("二维码配置信息为空");
             }
             //获取码的相关配置
-            QRCodeConfigEntity qrCodeConfigEntity = qrCodeConfigService.getById(Integer.valueOf(map.get("qrcodeConfigId").toString()));
+            QRCodeConfigEntity qrCodeConfigEntity = qrCodeConfigService.queryQRCodeConfigById(Integer.valueOf(map.get("qrcodeConfigId").toString()));
             if(qrCodeConfigEntity == null){
                 return R.error("请填写完整二维码的设置信息");
             }
@@ -287,11 +286,9 @@ public class QRCodeInfoServiceImpl extends ServiceImpl<QRCodeInfoDao, QRCodeInfo
         QRCodeInfoEntity qrCodeInfoEntity = qrCodeDao.selectById(qrCodeId);
         Integer deptId = qrCodeInfoEntity.getDeptId();
         String deptCode = qrCodeInfoEntity.getDeptCode();
-        QrcodeScene qrcodeScene = new QrcodeScene();
-        qrcodeScene.setQrCodeId(qrCodeId);
-        qrcodeScene.setDeptId(deptId);
-        qrcodeScene.setDeptCode(deptCode);
-        String qrcodeSceneStr = JSONObject.toJSONString(qrcodeScene);
+
+        StringBuffer qrcodeSceneStr = new StringBuffer();
+        qrcodeSceneStr.append("qrCodeId="+qrCodeId+"&deptId="+deptId+"&deptCode="+deptCode);
 
         /*
         * 二维码的小程序配置信息
@@ -303,11 +300,22 @@ public class QRCodeInfoServiceImpl extends ServiceImpl<QRCodeInfoDao, QRCodeInfo
         wxMaService.setWxMaConfig(config);
 
 
+        Date date = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日");
+        String now = sdf.format(date);
+
+        String qrcodeShapeStr = null;
+        if(qrCodeConfigEntity.getQrcodeShape() .equals(new Integer(0))){
+            qrcodeShapeStr = "圆形码";
+        }else {
+            qrcodeShapeStr = "方形码";
+        }
 
         String destPath = qrCodeConfigEntity.getQrcodePath()
-                + File.separator + "员工码"
-                + File.separator + qrCodeInfoEntity.getMallName()
                 + File.separator + qrCodeInfoEntity.getDeptName()
+                + File.separator + qrCodeConfigEntity.getQrcodeTypeName()
+                + File.separator + now
+                + File.separator + qrcodeShapeStr
                 + File.separator + qrCodeId + ".png";
 
         File dest = new File(destPath);
@@ -317,7 +325,7 @@ public class QRCodeInfoServiceImpl extends ServiceImpl<QRCodeInfoDao, QRCodeInfo
         }
         try {
             Date imgDate = new Date();
-            final File wxCode = wxMaService.getQrcodeService().createWxaCodeUnlimit(qrcodeSceneStr, qrCodeConfigEntity.getQrcodeIndexUrl(), qrCodeConfigEntity.getQrcodeWidth(), autoColor, color,isHyaline);
+            final File wxCode = wxMaService.getQrcodeService().createWxaCodeUnlimit(qrcodeSceneStr.toString(), qrCodeConfigEntity.getQrcodeIndexUrl(), qrCodeConfigEntity.getQrcodeWidth(), autoColor, color,isHyaline);
             if(qrCodeConfigEntity.getQrcodeShape().equals("1")){
                 QRCodeUtils.graphicsGeneration(wxCode, dest, "No:" + qrCodeInfoEntity.getUserId(),qrCodeConfigEntity.getQrcodeFontHeight(),qrCodeConfigEntity.getQrcodeWidth(),qrCodeConfigEntity.getQrcodeHeight(),qrCodeConfigEntity.getQrcodeFontSize());
             }else {
@@ -333,41 +341,6 @@ public class QRCodeInfoServiceImpl extends ServiceImpl<QRCodeInfoDao, QRCodeInfo
             e.printStackTrace();
         } catch (Exception e) {
             e.printStackTrace();
-        }
-    }
-    /*
-     * 存放二维码参数
-     * */
-    class QrcodeScene{
-        //二维码id（对应二维码信息表的id）
-        Integer qrCodeId;
-        //部门id
-        Integer deptId;
-        //推广码
-        String deptCode;
-
-        public Integer getQrCodeId() {
-            return qrCodeId;
-        }
-
-        public void setQrCodeId(Integer qrCodeId) {
-            this.qrCodeId = qrCodeId;
-        }
-
-        public Integer getDeptId() {
-            return deptId;
-        }
-
-        public void setDeptId(Integer deptId) {
-            this.deptId = deptId;
-        }
-
-        public String getDeptCode() {
-            return deptCode;
-        }
-
-        public void setDeptCode(String deptCode) {
-            this.deptCode = deptCode;
         }
     }
 }

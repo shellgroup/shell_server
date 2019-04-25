@@ -70,6 +70,16 @@ public class QRCodeConfigServiceImpl extends ServiceImpl<QRCodeConfigDao, QRCode
     }
 
     @Override
+    public boolean save(QRCodeConfigEntity qrCodeConfigEntity) {
+        qrCodeConfigEntity.setCreateTime(new Date());
+        qrCodeConfigEntity.setUpdateTime(new Date());
+        qrCodeConfigEntity.setIsDel(0);
+        qrCodeConfigDao.updateById(qrCodeConfigEntity);
+        return true;
+    }
+
+
+    @Override
     public QRCodeConfigEntity queryQRCodeConfigById(Integer qrCodeConfigId) {
         return qrCodeConfigDao.queryQrCodeConfigById(qrCodeConfigId);
     }

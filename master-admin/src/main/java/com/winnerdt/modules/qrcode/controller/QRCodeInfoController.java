@@ -130,6 +130,7 @@ public class QRCodeInfoController {
         * qrcodeConfigId：二维码参数id
         * wxAppinfoId：小程序参数id
         * */
+        map.put("wxAppinfoId",1);
         return qrCodeInfoService.createQrCode(map);
     }
 
@@ -146,7 +147,7 @@ public class QRCodeInfoController {
         * wxAppinfoId：小程序参数id
         *
         * */
-
+        map.put("wxAppinfoId",1);
         return qrCodeInfoService.createQrCodes(map);
     }
 

@@ -4,8 +4,10 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.winnerdt.common.validator.group.AddGroup;
 import lombok.Data;
 
+import javax.validation.constraints.NotBlank;
 import java.util.Date;
 
 /**
@@ -48,6 +50,7 @@ public class QRCodeConfigEntity {
     private String remark;
 
     //二维码的形状：0=圆形，1=方形
+    @NotBlank(message = "二维码形状不能为空",groups = {AddGroup.class})
     private Integer qrcodeShape;
 
     //创建时间
