@@ -130,7 +130,7 @@ public class WxUserController {
                     return R.error(e.toString());
                 }
 
-                user.setOpenid(openId);
+                user.setOpenId(openId);
                 user.setSessionKey(session_key);
                 wxUserService.save(user);
             }
@@ -185,14 +185,14 @@ public class WxUserController {
                 if (userInfo != null) {
                     logger.debug(userInfo.toString());
                     user.setUnionId(userInfo.getUnionId());
-                    user.setNickname(userInfo.getNickName());
+                    user.setNickName(userInfo.getNickName());
                     user.setGender(Integer.parseInt(userInfo.getGender()));
                     user.setAvatarUrl(userInfo.getAvatarUrl());
                     user.setProvince(userInfo.getProvince());
                     user.setCity(userInfo.getCity());
                     user.setLanguage(userInfo.getLanguage());
                     wxUserService.update(user);
-                    r.put("openId", user.getOpenid());
+                    r.put("openId", user.getOpenId());
                     r.put("unionId", user.getUnionId());
                     r.put("msg", "获取用户信息成功！");
                     return r;
@@ -424,8 +424,8 @@ public class WxUserController {
                 // phone is null, 29,
                 // idcard,name is null, 30
                 // all have, 32
-                if(!StringUtils.isBlank(user1.getOpenid())){
-                    r.put("openId",user1.getOpenid());
+                if(!StringUtils.isBlank(user1.getOpenId())){
+                    r.put("openId",user1.getOpenId());
                 }
                 if (!StringUtils.isBlank(user1.getUnionId())) {
                     r.put("unionId", user1.getUnionId());
@@ -528,7 +528,7 @@ public class WxUserController {
         try {
             WxUserEntity user1 = wxUserService.queryObjectByOpenId(openId);
             if (user1 != null) {
-                r.put("openId", user1.getOpenid());
+                r.put("openId", user1.getOpenId());
                 r.put("unionId", user1.getUnionId());
                 r.put("phone", user1.getPhone());
                 r.put("memberId", user1.getWebid());
