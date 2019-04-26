@@ -1,6 +1,7 @@
 package com.winnerdt.modules.qrcode.entity;
 
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.winnerdt.common.validator.group.AddGroup;
 import lombok.Data;
@@ -63,6 +64,7 @@ public class QRCodeInfoEntity {
     private String enterpriseName;
 
     //0=未删除 , 1=已经删除
+    @TableLogic
     private Integer isDel;
 
     //创建时间

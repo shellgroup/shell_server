@@ -11,10 +11,7 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -25,7 +22,7 @@ import java.util.Map;
  * @author:zsk
  * @CreateTime:2019-04-16 15:23
  */
-@RequestMapping("qrcode/config")
+@RequestMapping("/qrcode/config")
 @RestController
 public class QRCodeConfigController {
     private static final Logger logger = LoggerFactory.getLogger(QRCodeInfoController.class);
@@ -37,7 +34,7 @@ public class QRCodeConfigController {
      * */
     @RequestMapping("/list")
     @RequiresPermissions("qrcode:config:list")
-    public R list(@RequestBody Map<String, Object> params) {
+    public R list(@RequestParam Map<String, Object> params) {
         //查询分页信息
         PageUtils page = qrCodeConfigService.queryPage(params);
 
@@ -46,7 +43,7 @@ public class QRCodeConfigController {
     /*
      * 查询单个码配置信息
      * */
-    @RequestMapping("/info/{qrCodeId}")
+    @RequestMapping("/info/{qrCodeConfigId}")
     @RequiresPermissions("qrcode:config:info")
     public R info(@PathVariable("qrCodeConfigId") Integer qrCodeConfigId){
         QRCodeConfigEntity qrCodeConfigEntity = qrCodeConfigService.queryQRCodeConfigById(qrCodeConfigId);

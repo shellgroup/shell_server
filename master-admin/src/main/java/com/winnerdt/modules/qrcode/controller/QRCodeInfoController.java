@@ -65,6 +65,7 @@ public class QRCodeInfoController {
             qrCodeInfoService.save(qrCodeInfoEntity);
             return R.ok();
         }catch (Exception e){
+            e.printStackTrace();
             Date date = new Date();
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             String now = sdf.format(date);

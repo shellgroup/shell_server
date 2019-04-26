@@ -231,9 +231,10 @@ public class QRCodeInfoServiceImpl extends ServiceImpl<QRCodeInfoDao, QRCodeInfo
                 try{
                     map1.put("qrcodeId",qrcodeIdList.get(i));
                     map1.put("qrcodeConfigId",map.get("qrcodeConfigId"));
-                    map1.put("wxAppinfoId",map.get("wxappinfoId"));
-                    createQrCodeUtil(map,qrCodeConfigEntity,appinfo);
+                    map1.put("wxAppinfoId",map.get("wxAppinfoId"));
+                    createQrCodeUtil(map1,qrCodeConfigEntity,appinfo);
                 }catch (Exception e){
+                    e.printStackTrace();
                     failQrcodeIdList.add(qrcodeIdList.get(i));
                     Date date = new Date();
                     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -326,7 +327,7 @@ public class QRCodeInfoServiceImpl extends ServiceImpl<QRCodeInfoDao, QRCodeInfo
         try {
             Date imgDate = new Date();
             final File wxCode = wxMaService.getQrcodeService().createWxaCodeUnlimit(qrcodeSceneStr.toString(), qrCodeConfigEntity.getQrcodeIndexUrl(), qrCodeConfigEntity.getQrcodeWidth(), autoColor, color,isHyaline);
-            if(qrCodeConfigEntity.getQrcodeShape().equals("1")){
+            if(qrCodeConfigEntity.getQrcodeShape().equals(new Integer(1))){
                 QRCodeUtils.graphicsGeneration(wxCode, dest, "No:" + qrCodeInfoEntity.getUserId(),qrCodeConfigEntity.getQrcodeFontHeight(),qrCodeConfigEntity.getQrcodeWidth(),qrCodeConfigEntity.getQrcodeHeight(),qrCodeConfigEntity.getQrcodeFontSize());
             }else {
                 wxCode.renameTo(dest);
