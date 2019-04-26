@@ -30,4 +30,10 @@ public interface QRCodeConfigService extends IService<QRCodeConfigEntity> {
     * 查询所有的码参数记录
     * */
     List<QRCodeConfigEntity> getQrcodeConfigList();
+
+    /*
+     *
+     * 检测二维码配置名称是否已经存在
+     * */
+    String isExitQrcodeConfig(String qrcodeConfigName);
 }

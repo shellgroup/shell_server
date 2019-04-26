@@ -107,4 +107,14 @@ public class QRCodeConfigServiceImpl extends ServiceImpl<QRCodeConfigDao, QRCode
         }
         return qrCodeConfigEntityList;
     }
+
+    @Override
+    public String isExitQrcodeConfig(String qrcodeConfigName) {
+        List<QRCodeConfigEntity> list = qrCodeConfigDao.selectList(new QueryWrapper<QRCodeConfigEntity>().eq("qrcode_config_name",qrcodeConfigName));
+        if(list.size() > 0){
+            return "exist";
+        }else {
+            return "noExist";
+        }
+    }
 }
