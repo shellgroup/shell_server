@@ -62,4 +62,16 @@ public class WxUserManageController {
         return R.ok().put("totle",wxUserTotle);
     }
 
+    /*
+    * 根据时间查询本部门近7天的拉新数量
+    * */
+    @RequestMapping("queryWxUserTotleLastWeek")
+    public R queryWxUserTotleLastWeek(){
+
+        HashMap map = new HashMap();
+        return wxUserManageService.queryWxUserTotleLastWeek(map);
+    }
+
+
+
 }

@@ -7,10 +7,12 @@ import com.winnerdt.common.annotation.DataFilter;
 import com.winnerdt.common.utils.Constant;
 import com.winnerdt.common.utils.PageUtils;
 import com.winnerdt.common.utils.Query;
+import com.winnerdt.common.utils.R;
 import com.winnerdt.modules.qrcode.dao.WxUserManageDao;
 import com.winnerdt.modules.qrcode.entity.WxUserManageEntity;
 import com.winnerdt.modules.qrcode.service.WxUserManageService;
 import com.winnerdt.modules.sys.service.SysDeptService;
+import com.winnerdt.modules.sys.shiro.ShiroUtils;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,6 +21,7 @@ import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @author:zsk
@@ -131,6 +134,41 @@ public class WxUserManageServiceImpl extends ServiceImpl<WxUserManageDao, WxUser
         return wxUserTotle;
     }
 
+    @Override
+    public R queryWxUserTotleLastWeek(Map map) {
+        //获取当前的deptid
+        Long deptId = ShiroUtils.getUserEntity().getDeptId();
+        //获取当前的时间
+        Date date = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String nowDateTemp = sdf.format(date);
+        //获取前七天的时间
+        String pastDateTemp = getPastDate(7);
+
+        /*
+        * 处理时间用于数据库查询
+        * */
+        String pastDate = pastDateTemp + " 00:00:00";
+        String nowDate = nowDateTemp + " 23:59:59";
+
+        //开始拼接sql查询
+        List<Map<String,Object>> resultList = wxUserManageDao.selectMaps(new QueryWrapper<WxUserManageEntity>()
+                .select("DATE_FORMAT(create_date,'%Y-%m-%d') as x,count(id) as y")
+                .apply(true, getSql(deptId,true,""))
+                .between("create_date",pastDate,nowDate)
+                .isNotNull("create_date")
+                .groupBy("DATE_FORMAT(create_date,'%Y-%m-%d')")
+        );
+
+        resultList.stream().map(map1 ->{
+            String dateTemp = map1.get("x").toString();
+            map1.put("x",dateTemp.substring(dateTemp.lastIndexOf("-")+1,dateTemp.length()));
+            return map1;
+        }).collect(Collectors.toList());
+
+        return R.ok().put("result",resultList);
+    }
+
     /*
     * 通过deptId，拼接查询sql
     * */
@@ -165,5 +203,17 @@ public class WxUserManageServiceImpl extends ServiceImpl<WxUserManageDao, WxUser
             return null;
         }
         return sqlFilter.toString();
+    }
+
+    /*
+    * 获取过去第几天的时间
+    * */
+    public static String getPastDate(int past) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.DAY_OF_YEAR, calendar.get(Calendar.DAY_OF_YEAR) - past);
+        Date today = calendar.getTime();
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        String result = format.format(today);
+        return result;
     }
 }
