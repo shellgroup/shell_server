@@ -96,7 +96,7 @@ public class WxUserManageServiceImpl extends ServiceImpl<WxUserManageDao, WxUser
 
 
     @Override
-    @DataFilter(subDept = false, user = false)
+    @DataFilter(subDept = true, user = false)
     public List<WxUserManageEntity> queryWxUserEntityListByDataFilter(Map map) {
         List<WxUserManageEntity> wxUserManageEntityList = wxUserManageDao.selectList(new QueryWrapper<WxUserManageEntity>()
                 .apply(map.get(Constant.SQL_FILTER) != null, (String)map.get(Constant.SQL_FILTER)));
@@ -104,7 +104,7 @@ public class WxUserManageServiceImpl extends ServiceImpl<WxUserManageDao, WxUser
     }
 
     @Override
-    @DataFilter(subDept = false, user = false)
+    @DataFilter(subDept = true, user = false)
     public Integer queryWxUserTotleByDataFilter(Map map) {
         Integer  wxUserTotle= wxUserManageDao.selectCount(new QueryWrapper<WxUserManageEntity>()
                 .apply(map.get(Constant.SQL_FILTER) != null, (String)map.get(Constant.SQL_FILTER)));
