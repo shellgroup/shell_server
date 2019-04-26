@@ -152,7 +152,7 @@ public class WxUserManageServiceImpl extends ServiceImpl<WxUserManageDao, WxUser
         String nowDate = nowDateTemp + " 23:59:59";
 
         //开始拼接sql查询
-        List<Map<String,Object>> resultList = wxUserManageDao.selectMaps(new QueryWrapper<WxUserManageEntity>()
+        List<Map<String,Object>> salesData = wxUserManageDao.selectMaps(new QueryWrapper<WxUserManageEntity>()
                 .select("DATE_FORMAT(create_date,'%Y-%m-%d') as x,count(id) as y")
                 .apply(true, getSql(deptId,true,""))
                 .between("create_date",pastDate,nowDate)
@@ -160,13 +160,13 @@ public class WxUserManageServiceImpl extends ServiceImpl<WxUserManageDao, WxUser
                 .groupBy("DATE_FORMAT(create_date,'%Y-%m-%d')")
         );
 
-        resultList.stream().map(map1 ->{
+        salesData.stream().map(map1 ->{
             String dateTemp = map1.get("x").toString();
             map1.put("x",dateTemp.substring(dateTemp.lastIndexOf("-")+1,dateTemp.length())+"日");
             return map1;
         }).collect(Collectors.toList());
 
-        return R.ok().put("result",resultList);
+        return R.ok().put("salesData",salesData);
     }
 
     @Override
