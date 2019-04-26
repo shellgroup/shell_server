@@ -3,4 +3,48 @@
 <mapper namespace="com.winnerdt.modules.qrcode.dao.WxUserManageDao">
 
 
+    <select id="queryWxUserListPage" resultType="com.winnerdt.modules.qrcode.entity.WxUserManageEntity">
+        SELECT wu1.*,sd.`name` deptName from(
+            SELECT * FROM `wx_user` wu
+            <where>
+                <if test="nickName != null and nickName != ''">
+                    and wu.nick_name like  concat('%',#{nickName},'%')
+                </if>
+                <if test="phone != null and phone != ''">
+                    and wu.phone like concat('%',#{phone},'%')
+                </if>
+
+                <if test="createBeginTime != null and createBeginTime != '' and createEndTime != null and createEndTime != ''">
+                    and sc.create_time between #{createBeginTime} and #{createEndTime}
+                </if>
+            </where>
+
+        <if test="pageSize != null and currRecord != null">
+            limit #{currRecord},#{pageSize}
+        </if>
+        ) wu1
+        left JOIN sys_dept sd ON sd.dept_id = wu1.dept_id
+
+    </select>
+    <select id="queryWxUserListPageTotal" resultType="java.lang.Long">
+        SELECT count(wu.id) FROM `wx_user` wu
+        <where>
+            <if test="nickName != null and nickName != ''">
+                and wu.nick_name like  concat('%',#{nickName},'%')
+            </if>
+            <if test="phone != null and phone != ''">
+                and wu.phone like concat('%',#{phone},'%')
+            </if>
+
+            <if test="createBeginTime != null and createBeginTime != '' and createEndTime != null and createEndTime != ''">
+                and sc.create_time between #{createBeginTime} and #{createEndTime}
+            </if>
+        </where>
+
+    </select>
+    <select id="queryWxUserById" resultType="com.winnerdt.modules.qrcode.entity.WxUserManageEntity">
+        SELECT wu.*,sd.`name` deptName FROM `wx_user` wu
+        left JOIN sys_dept sd ON sd.dept_id = wu.dept_id
+        where wu.id = #{wxUserId}
+    </select>
 </mapper>

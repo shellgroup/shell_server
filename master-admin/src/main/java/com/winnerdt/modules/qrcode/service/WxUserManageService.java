@@ -1,6 +1,7 @@
 package com.winnerdt.modules.qrcode.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.winnerdt.common.utils.PageUtils;
 import com.winnerdt.modules.qrcode.entity.WxUserManageEntity;
 
 import java.util.List;
@@ -11,6 +12,30 @@ import java.util.Map;
  * @CreateTime:2019-04-24 14:52
  */
 public interface WxUserManageService extends IService<WxUserManageEntity> {
+
+
+    PageUtils queryPage(Map<String, Object> params);
+
+    /*
+     * 查询单个记录
+     * */
+    WxUserManageEntity queryWxUserInfoById(Integer wxUserId);
+
+    @Override
+    boolean save(WxUserManageEntity wxUserManageEntity);
+
+    void update(WxUserManageEntity wxUserManageEntity) throws Exception;
+
+    void deleteBatch(Long[] wxUserIds);
+
+    /*
+     * 查询单个记录
+     * */
+    WxUserManageEntity queryWxUserById(Integer wxUserId);
+
+
+
+
 
     /*
     * 通过数据权限筛选，获取该部门下的微信小程序拉新人员信息（包括本部门）

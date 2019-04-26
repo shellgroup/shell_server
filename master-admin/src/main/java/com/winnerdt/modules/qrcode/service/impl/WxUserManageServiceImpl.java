@@ -1,21 +1,24 @@
 package com.winnerdt.modules.qrcode.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.winnerdt.common.annotation.DataFilter;
 import com.winnerdt.common.utils.Constant;
+import com.winnerdt.common.utils.PageUtils;
+import com.winnerdt.common.utils.Query;
 import com.winnerdt.modules.qrcode.dao.WxUserManageDao;
 import com.winnerdt.modules.qrcode.entity.WxUserManageEntity;
 import com.winnerdt.modules.qrcode.service.WxUserManageService;
 import com.winnerdt.modules.sys.service.SysDeptService;
 import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * @author:zsk
@@ -23,10 +26,71 @@ import java.util.Set;
  */
 @Service
 public class WxUserManageServiceImpl extends ServiceImpl<WxUserManageDao, WxUserManageEntity> implements WxUserManageService {
+    private static final Logger logger = LoggerFactory.getLogger(WxUserManageServiceImpl.class);
     @Autowired
     private WxUserManageDao wxUserManageDao;
     @Autowired
     private SysDeptService sysDeptService;
+
+    @Override
+    public PageUtils queryPage(Map<String, Object> params) {
+        Page<WxUserManageEntity> page = new Query<WxUserManageEntity>(params).getPage();
+        Map map = new HashMap();
+        //处理需要的参数
+        try{
+            if(null != params.get("nickName")){
+                map.put("nickName",params.get("nickName"));
+            }
+            if(null != params.get("phone")){
+                map.put("phone",params.get("phone"));
+            }
+            if(null != params.get("createBeginTime") && null != params.get("createEndTime")){
+                map.put("createBeginTime",params.get("createBeginTime"));
+                map.put("createEndTime",params.get("createEndTime"));
+            }
+
+            map.put("pageSize",page.getSize());
+            map.put("currRecord",(page.getCurrent()-1)*page.getSize());
+        }catch (Exception e){
+            e.printStackTrace();
+            Date date = new Date();
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            String now = sdf.format(date);
+            logger.error("微信小程序用户列表，处理参数异常，异常时间："+now+":::异常数据："+params.toString()+":::异常原因："+e.toString());
+
+        }
+
+
+        /*
+         * 使用自定义的sql
+         * */
+        page.setRecords(wxUserManageDao.queryWxUserListPage(map));
+        page.setTotal(wxUserManageDao.queryWxUserListPageTotal(map));
+
+
+        return new PageUtils(page);
+    }
+
+    @Override
+    public WxUserManageEntity queryWxUserInfoById(Integer wxUserId) {
+        return null;
+    }
+
+    @Override
+    public void update(WxUserManageEntity wxUserManageEntity) throws Exception {
+
+    }
+
+    @Override
+    public void deleteBatch(Long[] wxUserIds) {
+
+    }
+
+    @Override
+    public WxUserManageEntity queryWxUserById(Integer wxUserId) {
+        return wxUserManageDao.queryWxUserById(wxUserId);
+    }
+
 
     @Override
     @DataFilter(subDept = false, user = false)

@@ -1,5 +1,6 @@
 package com.winnerdt.modules.qrcode.entity;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
@@ -107,6 +108,18 @@ public class WxUserManageEntity {
     //部门推广码
     private String deptCode;
 
+    //用户注册时填写的手机号
+    private String registPhone;
+
+    //用户注册时填写的使用区域
+    private String useRegion;
+
+    //用户注册时填写的开票类型
+    private String invoiceType;
+
+    //用户是否已经注册
+    private Integer isRegist;
+
 
     // 新增时间
     private Date createDate;
@@ -114,5 +127,16 @@ public class WxUserManageEntity {
     // 更新时间
     private Date updateDate;
 
+    //开始时间(用于前端筛选使用)
+    @TableField(exist = false)
+    private String createBeginTime;
+
+    //结束时间（用于前端筛选使用）
+    @TableField(exist = false)
+    private String createEndTime;
+
+    //部门名称(前端展示使用)
+    @TableField(exist = false)
+    private String deptName;
 
 }
