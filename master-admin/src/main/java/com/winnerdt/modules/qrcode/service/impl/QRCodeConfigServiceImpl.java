@@ -72,7 +72,7 @@ public class QRCodeConfigServiceImpl extends ServiceImpl<QRCodeConfigDao, QRCode
         qrCodeConfigEntity.setCreateTime(new Date());
         qrCodeConfigEntity.setUpdateTime(new Date());
         qrCodeConfigEntity.setIsDel(0);
-        qrCodeConfigDao.updateById(qrCodeConfigEntity);
+        super.save(qrCodeConfigEntity);
         return true;
     }
 
