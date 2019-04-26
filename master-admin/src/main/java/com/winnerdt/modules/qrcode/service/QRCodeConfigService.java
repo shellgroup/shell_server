@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.winnerdt.common.utils.PageUtils;
 import com.winnerdt.modules.qrcode.entity.QRCodeConfigEntity;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -24,4 +25,9 @@ public interface QRCodeConfigService extends IService<QRCodeConfigEntity> {
     void update(QRCodeConfigEntity qrCodeConfigEntity) throws Exception;
 
     void deleteBatch(Long[] qrCodeConfigIds);
+
+    /*
+    * 查询所有的码参数记录
+    * */
+    List<QRCodeConfigEntity> getQrcodeConfigList();
 }

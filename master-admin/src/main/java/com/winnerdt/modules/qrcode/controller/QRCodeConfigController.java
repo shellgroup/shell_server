@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -120,6 +121,14 @@ public class QRCodeConfigController {
         }
     }
 
+    /*
+    * 获取码参数列表，前端生成二维码时选择码参数时使用
+    * */
+    @RequestMapping("getQrcodeConfigList")
+    public R getQrcodeConfigList(){
 
+        List<QRCodeConfigEntity> qrCodeConfigEntityList = qrCodeConfigService.getQrcodeConfigList();
+        return R.ok().put("qrcodeConfigList",qrCodeConfigEntityList);
+    }
 
 }

@@ -62,4 +62,7 @@ public class QRCodeConfigEntity {
     @TableField(exist = false)
     private String qrcodeTypeName;
 
+    @TableField(exist = false)
+    private String qrcodeShapeStr;
+
 }

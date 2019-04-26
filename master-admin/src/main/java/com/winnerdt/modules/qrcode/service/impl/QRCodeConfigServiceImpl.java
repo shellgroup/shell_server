@@ -1,5 +1,6 @@
 package com.winnerdt.modules.qrcode.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.winnerdt.common.utils.PageUtils;
@@ -13,10 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author:zsk
@@ -95,5 +93,18 @@ public class QRCodeConfigServiceImpl extends ServiceImpl<QRCodeConfigDao, QRCode
     @Override
     public void deleteBatch(Long[] qrCodeConfigIds) {
         qrCodeConfigDao.deleteBatchIds(Arrays.asList(qrCodeConfigIds));
+    }
+
+    @Override
+    public List<QRCodeConfigEntity> getQrcodeConfigList() {
+        List<QRCodeConfigEntity> qrCodeConfigEntityList = qrCodeConfigDao.selectList(new QueryWrapper<QRCodeConfigEntity>().eq("is_del",0));
+        for(QRCodeConfigEntity qrCodeConfigEntity:qrCodeConfigEntityList){
+            if(qrCodeConfigEntity.getQrcodeShape().equals(new Integer(0))){
+                qrCodeConfigEntity.setQrcodeShapeStr("圆形码");
+            }else {
+                qrCodeConfigEntity.setQrcodeShapeStr("方形码");
+            }
+        }
+        return qrCodeConfigEntityList;
     }
 }
