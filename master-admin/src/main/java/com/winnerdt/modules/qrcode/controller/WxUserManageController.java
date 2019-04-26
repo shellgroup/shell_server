@@ -6,10 +6,7 @@ import com.winnerdt.modules.qrcode.entity.WxUserManageEntity;
 import com.winnerdt.modules.qrcode.service.WxUserManageService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -70,6 +67,15 @@ public class WxUserManageController {
 
         HashMap map = new HashMap();
         return wxUserManageService.queryWxUserTotleLastWeek(map);
+    }
+
+    /*
+    * 拉取排名信息
+    * */
+    @RequestMapping("queryRankingMsg")
+    public R queryRankingMsg(@RequestBody Map map){
+
+        return R.error();
     }
 
 

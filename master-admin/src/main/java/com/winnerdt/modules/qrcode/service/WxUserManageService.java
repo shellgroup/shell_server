@@ -63,4 +63,9 @@ public interface WxUserManageService extends IService<WxUserManageEntity> {
     * 查询该部门近7天的拉新数量（包含本部门的拉新数量），按照日期号分开
     * */
     R queryWxUserTotleLastWeek(Map map);
+
+    /*
+    * 查询拉新数据
+    * */
+    R queryRankingMsg(Map map);
 }

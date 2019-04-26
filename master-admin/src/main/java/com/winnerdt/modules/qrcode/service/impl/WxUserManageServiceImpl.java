@@ -162,11 +162,18 @@ public class WxUserManageServiceImpl extends ServiceImpl<WxUserManageDao, WxUser
 
         resultList.stream().map(map1 ->{
             String dateTemp = map1.get("x").toString();
-            map1.put("x",dateTemp.substring(dateTemp.lastIndexOf("-")+1,dateTemp.length()));
+            map1.put("x",dateTemp.substring(dateTemp.lastIndexOf("-")+1,dateTemp.length())+"日");
             return map1;
         }).collect(Collectors.toList());
 
         return R.ok().put("result",resultList);
+    }
+
+    @Override
+    public R queryRankingMsg(Map map) {
+        
+
+        return null;
     }
 
     /*
