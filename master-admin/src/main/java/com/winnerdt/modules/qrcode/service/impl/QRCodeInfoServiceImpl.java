@@ -326,11 +326,16 @@ public class QRCodeInfoServiceImpl extends ServiceImpl<QRCodeInfoDao, QRCodeInfo
         }
         try {
             Date imgDate = new Date();
-            final File wxCode = wxMaService.getQrcodeService().createWxaCodeUnlimit(qrcodeSceneStr.toString(), qrCodeConfigEntity.getQrcodeIndexUrl(), qrCodeConfigEntity.getQrcodeWidth(), autoColor, color,isHyaline);
+
             if(qrCodeConfigEntity.getQrcodeShape().equals(new Integer(1))){
-                QRCodeUtils.graphicsGeneration(wxCode, dest, "No:" + qrCodeInfoEntity.getUserId(),qrCodeConfigEntity.getQrcodeFontHeight(),qrCodeConfigEntity.getQrcodeWidth(),qrCodeConfigEntity.getQrcodeHeight(),qrCodeConfigEntity.getQrcodeFontSize());
-            }else {
+                //方形码
+                String sceneStr = qrCodeConfigEntity.getQrcodeIndexUrl()+ "?scene="+qrcodeSceneStr.toString();
+                final File wxCode = wxMaService.getQrcodeService().createQrcode(sceneStr, qrCodeConfigEntity.getQrcodeWidth());
                 wxCode.renameTo(dest);
+            }else {
+                //圆形码
+                final File wxCode = wxMaService.getQrcodeService().createWxaCodeUnlimit(qrcodeSceneStr.toString(), qrCodeConfigEntity.getQrcodeIndexUrl(), qrCodeConfigEntity.getQrcodeWidth(), autoColor, color,isHyaline);
+                QRCodeUtils.graphicsGeneration(wxCode, dest, "No:" + qrCodeInfoEntity.getUserId(),qrCodeConfigEntity.getQrcodeFontHeight(),qrCodeConfigEntity.getQrcodeWidth(),qrCodeConfigEntity.getQrcodeHeight(),qrCodeConfigEntity.getQrcodeFontSize());
             }
             qrCodeInfoEntity.setImgTime(imgDate);
             qrCodeInfoEntity.setImgPath(destPath);
