@@ -5,6 +5,7 @@ import com.winnerdt.common.utils.PageUtils;
 import com.winnerdt.common.utils.R;
 import com.winnerdt.modules.qrcode.entity.WxUserManageEntity;
 
+import java.text.ParseException;
 import java.util.List;
 import java.util.Map;
 
@@ -68,4 +69,10 @@ public interface WxUserManageService extends IService<WxUserManageEntity> {
     * 查询拉新数据
     * */
     R queryRankingMsg(Map map);
+
+    /*
+    * 获取该渠道商下的总拉新数目,包括周同比，日同比和日拉新数量
+    * */
+
+    R WxUserInfoByDataFilter() throws ParseException;
 }

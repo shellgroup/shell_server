@@ -5,9 +5,14 @@ import com.winnerdt.common.utils.R;
 import com.winnerdt.modules.qrcode.entity.WxUserManageEntity;
 import com.winnerdt.modules.qrcode.service.WxUserManageService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -18,6 +23,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("wxUser/manage")
 public class WxUserManageController {
+    private static final Logger logger = LoggerFactory.getLogger(QRCodeInfoController.class);
     @Autowired
     private WxUserManageService wxUserManageService;
 
@@ -50,13 +56,23 @@ public class WxUserManageController {
 
 
     /*
-    * 获取该渠道商下的拉新数目
+    * 获取该渠道商下的总拉新数目,包括周同比，日同比和日拉新数量
     * */
-    @RequestMapping("WxUserTotleByDataFilter")
+    @RequestMapping("WxUserInfoByDataFilter")
     public R  WxUserTotleByDataFilter() {
-        HashMap map = new HashMap();
-        Integer wxUserTotle = wxUserManageService.queryWxUserTotleByDataFilter(map);
-        return R.ok().put("totle",wxUserTotle);
+        R r = new R();
+        try {
+            r = wxUserManageService.WxUserInfoByDataFilter();
+        } catch (ParseException e) {
+            e.printStackTrace();
+            Date date = new Date();
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            String now = sdf.format(date);
+            logger.error("获取该渠道商下的总拉新数目信息异常，异常时间："+now+":::异常数据："+":::异常原因："+e.toString());
+            return R.error("网络错误，获取该渠道商下的总拉新数目信息失败！");
+        }
+
+        return r;
     }
 
     /*
@@ -74,7 +90,7 @@ public class WxUserManageController {
     * */
     @RequestMapping("queryRankingMsg")
     public R queryRankingMsg(@RequestBody Map map){
-
+        wxUserManageService.queryRankingMsg(map);
         return R.error();
     }
 

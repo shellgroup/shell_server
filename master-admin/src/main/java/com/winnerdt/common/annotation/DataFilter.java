@@ -26,5 +26,10 @@ public @interface DataFilter {
 
     /**  用户ID */
     String userId() default "user_id";
+
+    /*
+    * 是否获取角色中的部门权限，true：拥有，false：不拥有
+    * */
+    boolean role() default true;
 }
 

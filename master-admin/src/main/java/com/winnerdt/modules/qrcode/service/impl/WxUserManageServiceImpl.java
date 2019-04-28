@@ -11,7 +11,10 @@ import com.winnerdt.common.utils.R;
 import com.winnerdt.modules.qrcode.dao.WxUserManageDao;
 import com.winnerdt.modules.qrcode.entity.WxUserManageEntity;
 import com.winnerdt.modules.qrcode.service.WxUserManageService;
+import com.winnerdt.modules.qrcode.utils.DateUtil;
 import com.winnerdt.modules.sys.service.SysDeptService;
+import com.winnerdt.modules.sys.service.SysRoleDeptService;
+import com.winnerdt.modules.sys.service.SysUserRoleService;
 import com.winnerdt.modules.sys.shiro.ShiroUtils;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -19,6 +22,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.DecimalFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -34,6 +39,10 @@ public class WxUserManageServiceImpl extends ServiceImpl<WxUserManageDao, WxUser
     private WxUserManageDao wxUserManageDao;
     @Autowired
     private SysDeptService sysDeptService;
+    @Autowired
+    private SysRoleDeptService sysRoleDeptService;
+    @Autowired
+    private SysUserRoleService sysUserRoleService;
 
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
@@ -118,7 +127,7 @@ public class WxUserManageServiceImpl extends ServiceImpl<WxUserManageDao, WxUser
         }
         Long deptId = Long.valueOf(map.get("deptId").toString());
         List<WxUserManageEntity> wxUserManageEntityList = wxUserManageDao.selectList(new QueryWrapper<WxUserManageEntity>()
-                .apply(true, getSql(deptId,true,""))
+                .apply(true, getSql(deptId,true,"",false,null))
         );
         return wxUserManageEntityList;
     }
@@ -130,7 +139,7 @@ public class WxUserManageServiceImpl extends ServiceImpl<WxUserManageDao, WxUser
         }
         Long deptId = Long.valueOf(map.get("deptId").toString());
         Integer  wxUserTotle= wxUserManageDao.selectCount(new QueryWrapper<WxUserManageEntity>()
-                .apply(true, getSql(deptId,true,"")));
+                .apply(true, getSql(deptId,true,"",false,null)));
         return wxUserTotle;
     }
 
@@ -138,12 +147,13 @@ public class WxUserManageServiceImpl extends ServiceImpl<WxUserManageDao, WxUser
     public R queryWxUserTotleLastWeek(Map map) {
         //获取当前的deptid
         Long deptId = ShiroUtils.getUserEntity().getDeptId();
+
         //获取当前的时间
         Date date = new Date();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         String nowDateTemp = sdf.format(date);
         //获取前七天的时间
-        String pastDateTemp = getPastDate(7);
+        String pastDateTemp = DateUtil.getPastDate(7);
 
         /*
         * 处理时间用于数据库查询
@@ -154,7 +164,7 @@ public class WxUserManageServiceImpl extends ServiceImpl<WxUserManageDao, WxUser
         //开始拼接sql查询
         List<Map<String,Object>> salesData = wxUserManageDao.selectMaps(new QueryWrapper<WxUserManageEntity>()
                 .select("DATE_FORMAT(create_date,'%Y-%m-%d') as x,count(id) as y")
-                .apply(true, getSql(deptId,true,""))
+                .apply(true, getSql(deptId,true,"",false,null))
                 .between("create_date",pastDate,nowDate)
                 .isNotNull("create_date")
                 .groupBy("DATE_FORMAT(create_date,'%Y-%m-%d')")
@@ -176,10 +186,88 @@ public class WxUserManageServiceImpl extends ServiceImpl<WxUserManageDao, WxUser
         return null;
     }
 
+    @Override
+    public R WxUserInfoByDataFilter() throws ParseException {
+
+        //总的拉新数目
+        Map map = new HashMap();
+        Integer totle = this.queryWxUserTotleByDataFilter(map);
+
+
+        //获取当前的deptid
+        Long deptId = ShiroUtils.getUserEntity().getDeptId();
+
+        Long userId = ShiroUtils.getUserId();
+
+
+        //今日拉新数量
+
+        Date date = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String nowDateTemp = sdf.format(date);
+        String nowDateStart = nowDateTemp + " 00:00:00";
+        String nowDateEnd = nowDateTemp + " 23:59:59";
+        Integer todayTotle = wxUserManageDao.selectCount(new QueryWrapper<WxUserManageEntity>()
+                .between("create_date",nowDateStart,nowDateEnd)
+                .apply(true, getSql(deptId,true,"",true,userId))
+        );
+
+        //昨天拉新数量
+        String yesterdayTemp = DateUtil.getPastDate(1);
+        String yesterdayStart = yesterdayTemp+" 00:00:00";
+        String yesterdayEnd = yesterdayTemp + " 23:59:59";
+        Integer yesterdayTotle = wxUserManageDao.selectCount(new QueryWrapper<WxUserManageEntity>()
+                .between("create_date",yesterdayStart,yesterdayEnd)
+                .apply(true, getSql(deptId,true,"",true,userId))
+        );
+
+        //日同比
+        String dayPercentage = null;
+        if(!(yesterdayTotle.equals(0))){
+            DecimalFormat df=new DecimalFormat("0.00");
+            dayPercentage = df.format((todayTotle-yesterdayTotle)/(float)yesterdayTotle);
+        }else {
+            dayPercentage = "无";
+        }
+
+
+        //本周数据
+        String nowWeekStart = DateUtil.getWeekStart(date);
+        String nowWeekEnd = DateUtil.getWeekEnd(date);
+        Integer nowWeekTotle = wxUserManageDao.selectCount(new QueryWrapper<WxUserManageEntity>()
+                .between("create_date",nowWeekStart,nowWeekEnd)
+                .apply(true, getSql(deptId,true,"",true,userId))
+        );
+        //上周数据
+        String lastWeekStart = DateUtil.getLastWeekStart();
+        String lastWeekEnd = DateUtil.getLastWeekEnd();
+        Integer lastWeekTotle = wxUserManageDao.selectCount(new QueryWrapper<WxUserManageEntity>()
+                .between("create_date",lastWeekStart,lastWeekEnd)
+                .apply(true, getSql(deptId,true,"",true,userId))
+        );
+
+        //周同比
+        String weekPercentage = null;
+        if(!(yesterdayTotle.equals(0))){
+            DecimalFormat df=new DecimalFormat("0.00");
+            weekPercentage = df.format((nowWeekTotle-lastWeekTotle)/(float)lastWeekTotle);
+        }else {
+            weekPercentage = "无";
+        }
+
+        Map resultMap = new HashMap();
+        resultMap.put("totle",totle);
+        resultMap.put("dayPercentage",dayPercentage);
+        resultMap.put("weekPercentage",weekPercentage);
+        resultMap.put("todayTotle",todayTotle);
+
+        return R.ok().put("resultMap",resultMap);
+    }
+
     /*
     * 通过deptId，拼接查询sql
     * */
-    private String getSql(Long deptId,boolean isContainMyDept,String tableAlias){
+    private String getSql(Long deptId,boolean isContainMyDept,String tableAlias,boolean isContainRole,Long userId){
 
         //获取表的别名
         if(StringUtils.isNotBlank(tableAlias)){
@@ -191,6 +279,15 @@ public class WxUserManageServiceImpl extends ServiceImpl<WxUserManageDao, WxUser
         if(isContainMyDept){
             deptIdList.add(deptId);
         }
+        //是否需要角色分配下的deptId
+        if(isContainRole){
+            List<Long> roleIdList = sysUserRoleService.queryRoleIdList(userId);
+            if(roleIdList.size() > 0){
+                List<Long> userDeptIdList = sysRoleDeptService.queryDeptIdList(roleIdList.toArray(new Long[roleIdList.size()]));
+                deptIdList.addAll(userDeptIdList);
+            }
+        }
+
 
         //子部门ID列表
         List<Long> subDeptIdList = sysDeptService.getSubDeptIdList(deptId);
@@ -212,15 +309,4 @@ public class WxUserManageServiceImpl extends ServiceImpl<WxUserManageDao, WxUser
         return sqlFilter.toString();
     }
 
-    /*
-    * 获取过去第几天的时间
-    * */
-    public static String getPastDate(int past) {
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.DAY_OF_YEAR, calendar.get(Calendar.DAY_OF_YEAR) - past);
-        Date today = calendar.getTime();
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-        String result = format.format(today);
-        return result;
-    }
 }
