@@ -233,6 +233,7 @@ public class QRCodeInfoServiceImpl extends ServiceImpl<QRCodeInfoDao, QRCodeInfo
                     map1.put("qrcodeConfigId",map.get("qrcodeConfigId"));
                     map1.put("wxAppinfoId",map.get("wxAppinfoId"));
                     createQrCodeUtil(map1,qrCodeConfigEntity,appinfo);
+                    successNum ++;
                 }catch (Exception e){
                     e.printStackTrace();
                     failQrcodeIdList.add(qrcodeIdList.get(i));
@@ -245,9 +246,15 @@ public class QRCodeInfoServiceImpl extends ServiceImpl<QRCodeInfoDao, QRCodeInfo
 
             }
             r.put("code","0");
-            r.put("msg","总共数量为："+qrcodeIdList.size()+"<br>成功生成数："
-                    +successNum+"<br>失败生成数："+failQrcodeIdList.size()
-                    +"<br>失败的二维码id为："+JSONObject.toJSONString(failQrcodeIdList).replace("[","").replace("]",""));
+            if(failQrcodeIdList.size() <= 0){
+                r.put("msg","总共数量为："+qrcodeIdList.size()+" 成功生成数："
+                        +successNum);
+            }else {
+                r.put("msg","总共数量为："+qrcodeIdList.size()+" 成功生成数："
+                        +successNum+" 失败生成数："+failQrcodeIdList.size()
+                        +" 失败的二维码id为："+JSONObject.toJSONString(failQrcodeIdList).replace("[","").replace("]"   ,""));
+            }
+
 
             //根据中数目，执行完之后睡一会，防止一分钟访问次数过多，微信接口一分钟5000次
             if(qrcodeIdList.size() <= 50){
@@ -335,7 +342,8 @@ public class QRCodeInfoServiceImpl extends ServiceImpl<QRCodeInfoDao, QRCodeInfo
             }else {
                 //圆形码
                 final File wxCode = wxMaService.getQrcodeService().createWxaCodeUnlimit(qrcodeSceneStr.toString(), qrCodeConfigEntity.getQrcodeIndexUrl(), qrCodeConfigEntity.getQrcodeWidth(), autoColor, color,isHyaline);
-                QRCodeUtils.graphicsGeneration(wxCode, dest, "No:" + qrCodeInfoEntity.getUserId(),qrCodeConfigEntity.getQrcodeFontHeight(),qrCodeConfigEntity.getQrcodeWidth(),qrCodeConfigEntity.getQrcodeHeight(),qrCodeConfigEntity.getQrcodeFontSize());
+                String str = "shell_"+String.format("%06d", qrCodeInfoEntity.getId());
+                QRCodeUtils.graphicsGeneration(wxCode, dest, "No:" + str,qrCodeConfigEntity.getQrcodeFontHeight(),qrCodeConfigEntity.getQrcodeWidth(),qrCodeConfigEntity.getQrcodeHeight(),qrCodeConfigEntity.getQrcodeFontSize());
             }
             qrCodeInfoEntity.setImgTime(imgDate);
             qrCodeInfoEntity.setImgPath(destPath);
