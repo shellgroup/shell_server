@@ -36,4 +36,9 @@ public interface QRCodeConfigService extends IService<QRCodeConfigEntity> {
      * 检测二维码配置名称是否已经存在
      * */
     String isExitQrcodeConfig(String qrcodeConfigName);
+
+    /*
+    * 更新时查询配置名称是否已经存在
+    * */
+    String isExitQrcodeConfigWhenUpdate(Map map);
 }

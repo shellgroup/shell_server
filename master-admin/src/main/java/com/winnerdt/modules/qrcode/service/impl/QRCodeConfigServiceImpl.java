@@ -117,4 +117,29 @@ public class QRCodeConfigServiceImpl extends ServiceImpl<QRCodeConfigDao, QRCode
             return "noExist";
         }
     }
+
+    @Override
+    public String isExitQrcodeConfigWhenUpdate(Map map) {
+        String qrcodeConfigName = null;
+        String qrcodeConfigId = null;
+        if(null != map.get("qrcodeConfigName")){
+            qrcodeConfigName = map.get("qrcodeConfigName").toString();
+        }
+        if(null != map.get("qrcodeConfigId")){
+            qrcodeConfigId = map.get("qrcodeConfigId").toString();
+        }
+
+        List<QRCodeConfigEntity> list = qrCodeConfigDao.selectList(new QueryWrapper<QRCodeConfigEntity>().eq("qrcode_config_name",qrcodeConfigName));
+
+        if(list.size() > 0){
+            for(QRCodeConfigEntity qrCodeConfigEntity:list){
+                if(!(qrCodeConfigEntity.getId().equals(Integer.valueOf(qrcodeConfigId)))){
+                    return "exist";
+                }
+            }
+            return "noExist";
+        }else {
+            return "noExist";
+        }
+    }
 }

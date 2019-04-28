@@ -129,11 +129,19 @@ public class QRCodeConfigController {
     }
 
     /*
-    * 检测码参数名称是否已经存在
+    *  添加时检测码参数名称是否已经存在
     * */
     @RequestMapping("isExitQrcodeConfig")
     public String isExitQrcodeConfig(@RequestBody Map<String,String> map){
         return JSONObject.toJSONString(qrCodeConfigService.isExitQrcodeConfig(map.get("qrcodeConfigName")));
+    }
+
+    /*
+    * 更新时查看参数名是否已经存在
+    * */
+    @RequestMapping("isExitQrcodeConfigWhenUpdate")
+    public String isExitQrcodeConfigWhenUpdate(@RequestBody Map<String,String> map){
+        return JSONObject.toJSONString(qrCodeConfigService.isExitQrcodeConfigWhenUpdate(map));
     }
 
 }
