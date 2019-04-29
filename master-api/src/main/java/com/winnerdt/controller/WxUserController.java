@@ -128,7 +128,8 @@ public class WxUserController {
                 //这里处理二维码带的参数
                 try{
                     //扫码进入时处理逻辑
-                    if(null != scene && sceneAddress.equals("1011")){
+                    if(sceneAddress.equals("1011") || sceneAddress.equals("1012") || sceneAddress.equals("1013") || sceneAddress.equals("1047") ||
+                        sceneAddress.equals("1048") || sceneAddress.equals("1049")){
                         Map sceneMap = (LinkedHashMap) map.get("scene");
                         user.setShareId(sceneMap.get("shareId").toString());
                         user.setDeptId(Integer.parseInt(sceneMap.get("deptId").toString()));
