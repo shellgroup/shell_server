@@ -301,7 +301,7 @@ public class WxUserManageServiceImpl extends ServiceImpl<WxUserManageDao, WxUser
 
         }
 
-        return R.ok().put("result",resultListTemp);
+        return R.ok().put("result",resultList);
     }
 
     @Override
