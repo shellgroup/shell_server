@@ -1,5 +1,7 @@
 package com.winnerdt.modules.qrcode.controller;
 
+import com.alibaba.fastjson.JSONObject;
+import com.winnerdt.common.annotation.SysLog;
 import com.winnerdt.common.utils.PageUtils;
 import com.winnerdt.common.utils.R;
 import com.winnerdt.modules.qrcode.entity.WxUserManageEntity;
@@ -10,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -102,6 +105,25 @@ public class WxUserManageController {
         }
 
     }
+
+    /*
+    * 导出会员信息
+    * */
+    @SysLog("下载会员信息")
+    @RequestMapping("/download")
+    @RequiresPermissions("wxUser:manage:download")
+    public void download (HttpServletResponse response, @RequestParam Map map) {
+        try {
+            wxUserManageService.download(response,map);
+        }catch (Exception e){
+            e.printStackTrace();
+            Date date = new Date();
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            String now = sdf.format(date);
+            logger.error("下载会员信息异常，异常时间："+now+":::异常数据："+ JSONObject.toJSONString(map)+":::异常原因："+e.toString());
+        }
+    }
+
 
 
 

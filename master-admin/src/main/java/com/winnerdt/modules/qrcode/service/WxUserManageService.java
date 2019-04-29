@@ -5,6 +5,7 @@ import com.winnerdt.common.utils.PageUtils;
 import com.winnerdt.common.utils.R;
 import com.winnerdt.modules.qrcode.entity.WxUserManageEntity;
 
+import javax.servlet.http.HttpServletResponse;
 import java.text.ParseException;
 import java.util.List;
 import java.util.Map;
@@ -75,4 +76,9 @@ public interface WxUserManageService extends IService<WxUserManageEntity> {
     * */
 
     R WxUserInfoByDataFilter() throws ParseException;
+
+    /*
+     * 下载会员信息excel
+     * */
+    void download(HttpServletResponse response, Map map) throws Exception;
 }

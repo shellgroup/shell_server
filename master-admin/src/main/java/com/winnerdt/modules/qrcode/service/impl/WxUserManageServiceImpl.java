@@ -12,17 +12,22 @@ import com.winnerdt.modules.qrcode.dao.WxUserManageDao;
 import com.winnerdt.modules.qrcode.entity.WxUserManageEntity;
 import com.winnerdt.modules.qrcode.service.WxUserManageService;
 import com.winnerdt.modules.qrcode.utils.DateUtil;
+import com.winnerdt.modules.qrcode.utils.ExcelUtil;
 import com.winnerdt.modules.sys.entity.SysDeptEntity;
 import com.winnerdt.modules.sys.service.SysDeptService;
 import com.winnerdt.modules.sys.service.SysRoleDeptService;
 import com.winnerdt.modules.sys.service.SysUserRoleService;
 import com.winnerdt.modules.sys.shiro.ShiroUtils;
+import org.apache.commons.collections4.map.LinkedMap;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -380,6 +385,50 @@ public class WxUserManageServiceImpl extends ServiceImpl<WxUserManageDao, WxUser
         resultMap.put("todayTotle",todayTotle);
 
         return R.ok().put("resultMap",resultMap);
+    }
+
+    @Override
+    public void download(HttpServletResponse response, Map map) throws Exception {
+
+        //开始查询
+        List<WxUserManageEntity> wxUserManageEntityList = wxUserManageDao.queryWxUserListPage(map);
+
+
+
+        //开始下载
+        Properties pro = System.getProperties();
+        String excelName = new String ("会员数据表".getBytes(),pro.getProperty("file.encoding"));
+
+        String fileName = "会员数据"+(System.currentTimeMillis())+".xls";
+
+        response.addHeader("Content-Disposition", "attachment;filename="  + new String(fileName.getBytes("GB2312"), "ISO_8859_1")     );
+        //response.setContentType("application/vnd.ms-excel;charset=utf-8");
+        OutputStream out = null;
+        try {
+            out = response.getOutputStream();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Map<String,String> fields = new LinkedMap<String,String>();
+        fields.put("openId","会员openId");
+        fields.put("name","姓名");
+        fields.put("registPhone","用户注册手机号");
+        fields.put("phone","微信绑定手机号");
+        fields.put("deptCode","推广码");
+        fields.put("idCard","身份证号码");
+        fields.put("useRegion","使用地区");
+        fields.put("invoiceType", "发票类型");
+        fields.put("nickName","会员昵称");
+        fields.put("deptName","拉新部门名称");
+        fields.put("createDate","注册时间");
+
+
+        try {
+            ExcelUtil.listToExcel(wxUserManageEntityList, out, fields,excelName);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new Exception(e);
+        }
     }
 
     /*
