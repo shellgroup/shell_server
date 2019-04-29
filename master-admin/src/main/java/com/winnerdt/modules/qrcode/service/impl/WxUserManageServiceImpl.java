@@ -12,6 +12,7 @@ import com.winnerdt.modules.qrcode.dao.WxUserManageDao;
 import com.winnerdt.modules.qrcode.entity.WxUserManageEntity;
 import com.winnerdt.modules.qrcode.service.WxUserManageService;
 import com.winnerdt.modules.qrcode.utils.DateUtil;
+import com.winnerdt.modules.sys.entity.SysDeptEntity;
 import com.winnerdt.modules.sys.service.SysDeptService;
 import com.winnerdt.modules.sys.service.SysRoleDeptService;
 import com.winnerdt.modules.sys.service.SysUserRoleService;
@@ -46,6 +47,11 @@ public class WxUserManageServiceImpl extends ServiceImpl<WxUserManageDao, WxUser
 
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
+        //获取当前的deptid
+        Long deptId = ShiroUtils.getUserEntity().getDeptId();
+
+        Long userId = ShiroUtils.getUserId();
+
         Page<WxUserManageEntity> page = new Query<WxUserManageEntity>(params).getPage();
         Map map = new HashMap();
         //处理需要的参数
@@ -60,6 +66,19 @@ public class WxUserManageServiceImpl extends ServiceImpl<WxUserManageDao, WxUser
                 map.put("createBeginTime",params.get("createBeginTime"));
                 map.put("createEndTime",params.get("createEndTime"));
             }
+            //查询拥有的部门id
+            //部门ID列表
+            Set<Long> deptIdList = new HashSet<>();
+            //是否需要角色分配下的deptId
+            List<Long> roleIdList = sysUserRoleService.queryRoleIdList(userId);
+            if(roleIdList.size() > 0){
+                List<Long> userDeptIdList = sysRoleDeptService.queryDeptIdList(roleIdList.toArray(new Long[roleIdList.size()]));
+                deptIdList.addAll(userDeptIdList);
+            }
+            //管理员子部门ID列表
+            List<Long> subDeptIdList = sysDeptService.getSubDeptIdList(deptId);
+            deptIdList.addAll(subDeptIdList);
+            map.put("deptIdList",deptIdList);
 
             map.put("pageSize",page.getSize());
             map.put("currRecord",(page.getCurrent()-1)*page.getSize());
@@ -179,11 +198,110 @@ public class WxUserManageServiceImpl extends ServiceImpl<WxUserManageDao, WxUser
         return R.ok().put("salesData",salesData);
     }
 
+    /*
+     * 角色的数据授权只会记录选择的最后的节点信息，用户所属部门可以选择不同的节点部门。
+     *
+     *一般情况下，用户所属部门不是最后的节点，查询部门拉新的时候只查询下个部门的拉新数量，将下下部门的拉新数归总到下个部门。
+     * 角色的数据授权只会记录最后节点的信息（就算你选的倒数第二个节点，数据库记录也会分别将倒数第二个节点下的最后的节点都记录上，没有有关倒数
+     * 第二个节点的信息）‘
+     *
+     * 所以统计拉新记录的时候，首先统计该用户部门下的各个下级部门的拉新情况，然后统计角色下的各个最后的节点的拉新数目。
+     *
+     * 先查询用户所属部门下的所有的子部门id，然后查询角色下的所有的部门id，对比一下，将角色里面有的，而用户所属部门没有的查询一下
+     */
     @Override
-    public R queryRankingMsg(Map map) {
-        
+    public R queryRankingMsg(Map<String,String> map) {
+        //获取当前的deptid
+        Long deptId = ShiroUtils.getUserEntity().getDeptId();
+        Long userId = ShiroUtils.getUserId();
 
-        return null;
+        //时间
+        String createBeginTime = null;
+        String createEndTime = null;
+        boolean createTimeBoolean = false;
+        if(null != map.get("createBeginTime") && null != map.get("createEndTime")){
+            createBeginTime = map.get("createBeginTime");
+            createEndTime = map.get("createEndTime");
+            createTimeBoolean = true;
+        }
+
+
+        LinkedList<LinkedHashMap<String,Object>> resultListTemp = new LinkedList();
+
+        //管理员子部门ID列表
+        //获取管理员子部门的直接下级部门id
+        List<Long> childrenDeptIdList = sysDeptService.queryDetpIdList(deptId);
+        for(Long deptIdTemp:childrenDeptIdList){
+            Integer  wxUserTotle= wxUserManageDao.selectCount(new QueryWrapper<WxUserManageEntity>()
+                    .between(createTimeBoolean,"create_date",createBeginTime,createEndTime)
+                    .apply(true, getSql(deptIdTemp,true,"",false,null)));
+            LinkedHashMap<String,Object> resultMapTemp = new LinkedHashMap();
+            resultMapTemp.put("deptId",deptIdTemp);
+            resultMapTemp.put("totle",wxUserTotle);
+            resultListTemp.add(resultMapTemp);
+        }
+
+        //对比角色中的部门id和管理员拥有的部门id
+        List<Long> adminDeptIdList = sysDeptService.getSubDeptIdList(deptId);
+        Set<Long> roleDeptIdList = new HashSet<>();
+        List<Long> roleIdList = sysUserRoleService.queryRoleIdList(userId);
+        if(roleIdList.size() > 0){
+            List<Long> userDeptIdList = sysRoleDeptService.queryDeptIdList(roleIdList.toArray(new Long[roleIdList.size()]));
+            roleDeptIdList.addAll(userDeptIdList);
+        }
+        List<Long> diffDeptIdList  = getDifferent(adminDeptIdList,roleIdList);
+        List<Long> finRoleDeptId = new ArrayList<>();
+        for (Long roleDeptId:roleDeptIdList){
+            if(diffDeptIdList.contains(roleDeptId)){
+                finRoleDeptId.add(roleDeptId);
+            }
+        }
+        for(Long deptIdTemp:finRoleDeptId){
+            Integer  wxUserTotle= wxUserManageDao.selectCount(new QueryWrapper<WxUserManageEntity>()
+                    .between(createTimeBoolean,"create_date",createBeginTime,createEndTime)
+                    .apply(true, getSql(deptIdTemp,true,"",false,null)));
+            LinkedHashMap<String,Object> resultMapTemp = new LinkedHashMap();
+            resultMapTemp.put("deptId",deptIdTemp);
+            resultMapTemp.put("totle",wxUserTotle);
+            resultListTemp.add(resultMapTemp);
+        }
+
+        //处理查询结果
+
+        /*
+        * 以防万一，去重一下
+        * */
+        HashSet h = new HashSet(resultListTemp);
+        resultListTemp.clear();
+        resultListTemp.addAll(h);
+
+        //排序
+        Collections.sort(resultListTemp, new Comparator<Map<String, Object>>() {
+            public int compare(Map<String, Object> o1, Map<String, Object> o2) {
+                Integer totle1 = Integer.valueOf(o1.get("totle").toString()) ;
+                Integer totle2 = Integer.valueOf(o2.get("totle").toString()) ;
+                return totle2.compareTo(totle1);
+            }
+        });
+
+        //存放最终的结果
+        List<LinkedHashMap<String,Object>> resultList = new ArrayList<>();
+
+        //控制排名展示的数量，同时查询部门名称添加进入
+        int num = 0;
+        for(LinkedHashMap map1:resultListTemp){
+            if(num < 100){
+                num++;
+                SysDeptEntity sysDeptEntity = sysDeptService.getById(Integer.valueOf(map1.get("deptId").toString()));
+                map1.put("deptName",sysDeptEntity.getName());
+                resultList.add(map1);
+            }else {
+                break;
+            }
+
+        }
+
+        return R.ok().put("result",resultListTemp);
     }
 
     @Override
@@ -248,7 +366,7 @@ public class WxUserManageServiceImpl extends ServiceImpl<WxUserManageDao, WxUser
 
         //周同比
         String weekPercentage = null;
-        if(!(yesterdayTotle.equals(0))){
+        if(!(lastWeekTotle.equals(0))){
             DecimalFormat df=new DecimalFormat("0.00");
             weekPercentage = df.format((nowWeekTotle-lastWeekTotle)/(float)lastWeekTotle);
         }else {
@@ -309,4 +427,34 @@ public class WxUserManageServiceImpl extends ServiceImpl<WxUserManageDao, WxUser
         return sqlFilter.toString();
     }
 
+    public static List<Long> getDifferent(List<Long> list1, List<Long> list2) {
+        Map<Long,Integer> map = new HashMap<Long,Integer>(list1.size()+list2.size());
+        List<Long> diff = new ArrayList<Long>();
+        List<Long> maxList = list1;
+        List<Long> minList = list2;
+        if(list2.size()>list1.size()) {
+            maxList = list2;
+            minList = list1;
+        }
+
+        for (Long string : maxList) {
+            map.put(string, 1);
+        }
+
+        for (Long string : minList) {
+            Integer cc = map.get(string);
+            if(cc!=null) {
+                map.put(string, ++cc);
+                continue;
+            }
+            map.put(string, 1);
+        }
+
+        for(Map.Entry<Long, Integer> entry:map.entrySet()) {
+            if(entry.getValue()==1) {
+                diff.add(entry.getKey());
+            }
+        }
+        return diff;
+    }
 }

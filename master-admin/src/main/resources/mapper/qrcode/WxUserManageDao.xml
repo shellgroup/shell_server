@@ -13,7 +13,12 @@
                 <if test="phone != null and phone != ''">
                     and wu.phone like concat('%',#{phone},'%')
                 </if>
-
+                <if test="deptIdList != null ">
+                    and dept_id in
+                    <foreach item="deptId" index="index" collection="deptIdList" open="(" separator="," close=")">
+                        #{deptId}
+                    </foreach>
+                </if>
                 <if test="createBeginTime != null and createBeginTime != '' and createEndTime != null and createEndTime != ''">
                     and sc.create_time between #{createBeginTime} and #{createEndTime}
                 </if>
@@ -46,5 +51,35 @@
         SELECT wu.*,sd.`name` deptName FROM `wx_user` wu
         left JOIN sys_dept sd ON sd.dept_id = wu.dept_id
         where wu.id = #{wxUserId}
+    </select>
+
+    <select id="queryRankingMsg" resultType="java.util.LinkedHashMap">
+
+        SELECT wu1.id, wu1.deptName, wu1.num,
+            CASE
+            WHEN @prevRank = wu1.num THEN @curRank
+            WHEN @prevRank := wu1.num THEN @curRank := @curRank + 1
+            END AS rank
+            FROM (
+                SELECT count(id) as num,wu.dept_id,wu.id,sd.name as deptName
+                 FROM wx_user wu
+                 LEFT JOIN sys_dept sd ON sd.dept_id = wu.dept_id
+                 <where>
+                     <if test="deptIdList != null ">
+                         and dept_id in
+                         <foreach item="deptId" index="index" collection="deptIdList" open="(" separator="," close=")">
+                         #{deptId}
+                        </foreach>
+                     </if>
+
+                     <if test="createBeginTime != null and createBeginTime != '' and createEndTime != null and createEndTime != ''">
+                         and sc.create_time between #{createBeginTime} and #{createEndTime}
+                     </if>
+                 </where>
+                 AND wu.create_date IS NOT NULL
+                 GROUP BY dept_id
+                 ) wu1,
+            (SELECT @curRank :=0, @prevRank := NULL) r
+        ORDER BY wu1.num desc
     </select>
 </mapper>

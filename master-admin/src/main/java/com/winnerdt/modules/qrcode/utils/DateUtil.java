@@ -23,6 +23,22 @@ public class DateUtil {
         return result;
     }
 
+
+    /*获取前七天的时间*/
+    public static  String [] getBeforeSevenDay(Date date){
+        String [] arr = new String[7];
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Calendar c = null;
+        for (int i=0;i<7;i++){
+            c=Calendar.getInstance();
+            c.setTime(date);
+            c.add(Calendar.DAY_OF_MONTH, - i-1);
+            arr[6-i] =sdf.format(c.getTime());
+
+        }
+        return arr;
+    }
+
     /*
      *
      * 通过输入日期获取所在周的开始日期
@@ -146,6 +162,5 @@ public class DateUtil {
         Date currYearLast = calendar.getTime();
         return new SimpleDateFormat("yyyy-MM-dd").format(currYearLast);
     }
-
 
 }

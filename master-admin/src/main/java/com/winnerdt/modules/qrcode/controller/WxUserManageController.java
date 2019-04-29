@@ -89,9 +89,18 @@ public class WxUserManageController {
     * 拉取排名信息
     * */
     @RequestMapping("queryRankingMsg")
-    public R queryRankingMsg(@RequestBody Map map){
-        wxUserManageService.queryRankingMsg(map);
-        return R.error();
+    public R queryRankingMsg(@RequestBody Map<String,String> map){
+        try {
+            return wxUserManageService.queryRankingMsg(map);
+        } catch (Exception e) {
+            e.printStackTrace();
+            Date date = new Date();
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            String now = sdf.format(date);
+            logger.error("获取该渠道商下的排名信息异常，异常时间："+now+":::异常数据："+":::异常原因："+e.toString());
+            return R.error("网络异常，获取该渠道商下的排名信息失败");
+        }
+
     }
 
 

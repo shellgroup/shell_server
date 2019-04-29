@@ -66,9 +66,9 @@ public interface WxUserManageService extends IService<WxUserManageEntity> {
     R queryWxUserTotleLastWeek(Map map);
 
     /*
-    * 查询拉新数据
+    * 查询拉新数据，会将本部门下的所有子部门都列出来（包含子部门的子部门····）
     * */
-    R queryRankingMsg(Map map);
+    R queryRankingMsg(Map<String,String> map) throws Exception;
 
     /*
     * 获取该渠道商下的总拉新数目,包括周同比，日同比和日拉新数量
