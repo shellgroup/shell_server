@@ -40,7 +40,12 @@
             <if test="phone != null and phone != ''">
                 and wu.phone like concat('%',#{phone},'%')
             </if>
-
+            <if test="deptIdList != null ">
+                and dept_id in
+                <foreach item="deptId" index="index" collection="deptIdList" open="(" separator="," close=")">
+                    #{deptId}
+                </foreach>
+            </if>
             <if test="createBeginTime != null and createBeginTime != '' and createEndTime != null and createEndTime != ''">
                 and sc.create_time between #{createBeginTime} and #{createEndTime}
             </if>

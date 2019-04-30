@@ -293,10 +293,9 @@ public class QRCodeInfoServiceImpl extends ServiceImpl<QRCodeInfoDao, QRCodeInfo
 
         QRCodeInfoEntity qrCodeInfoEntity = qrCodeDao.selectById(qrCodeId);
         Integer deptId = qrCodeInfoEntity.getDeptId();
-        String deptCode = qrCodeInfoEntity.getDeptCode();
 
         StringBuffer qrcodeSceneStr = new StringBuffer();
-        qrcodeSceneStr.append("qrCodeId="+qrCodeId+"&deptId="+deptId+"&deptCode="+deptCode);
+        qrcodeSceneStr.append("q="+qrCodeId+"&d="+deptId);
 
         /*
         * 二维码的小程序配置信息

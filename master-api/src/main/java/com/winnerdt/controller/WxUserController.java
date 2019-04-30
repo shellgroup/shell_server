@@ -6,7 +6,9 @@ import cn.binarywang.wx.miniapp.bean.WxMaPhoneNumberInfo;
 import cn.binarywang.wx.miniapp.bean.WxMaUserInfo;
 import com.alibaba.fastjson.JSONObject;
 import com.winnerdt.common.utils.R;
+import com.winnerdt.entity.QRCodeInfoEntity;
 import com.winnerdt.entity.WxUserEntity;
+import com.winnerdt.service.QRCodeInfoService;
 import com.winnerdt.service.TokenService;
 import com.winnerdt.service.WxUserService;
 import com.winnerdt.utils.CreateRandomCharData;
@@ -50,6 +52,9 @@ public class WxUserController {
 
     @Autowired
     private WxUserService wxUserService;
+
+    @Autowired
+    private QRCodeInfoService qrCodeInfoService;
 
 //    @Autowired
 //    private SSBLStoreService ssblStoreService;
@@ -133,10 +138,15 @@ public class WxUserController {
                         Map sceneMap = (LinkedHashMap) map.get("scene");
                         user.setShareId(sceneMap.get("shareId").toString());
                         user.setDeptId(Integer.parseInt(sceneMap.get("deptId").toString()));
-                        user.setDeptCode(sceneMap.get("deptCode").toString());
+
+                        QRCodeInfoEntity qrCodeInfoEntity = qrCodeInfoService.queryQRCodeById(Integer.parseInt(sceneMap.get("shareId").toString()));
+                        if(null != qrCodeInfoEntity){
+                            user.setDeptCode(qrCodeInfoEntity.getDeptCode());
+                        }
                     }
 
                 }catch (Exception e){
+                    e.printStackTrace();
                     Date date = new Date();
                     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                     String now = sdf.format(date);
