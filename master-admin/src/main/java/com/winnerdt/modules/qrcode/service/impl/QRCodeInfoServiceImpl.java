@@ -29,6 +29,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.Semaphore;
@@ -114,8 +117,21 @@ public class QRCodeInfoServiceImpl extends ServiceImpl<QRCodeInfoDao, QRCodeInfo
 
     @Override
     public QRCodeInfoEntity queryQRCodeById(Integer qrCodeId) {
-        QRCodeInfoEntity shoppersCodeEntity = qrCodeDao.queryQrCodeById(qrCodeId);
-        return shoppersCodeEntity;
+        QRCodeInfoEntity qrCodeInfoEntity = qrCodeDao.queryQrCodeById(qrCodeId);
+        String qrcodeImgPath = qrCodeInfoEntity.getImgPath();
+        try {
+            byte[] b = Files.readAllBytes(Paths.get(qrcodeImgPath));
+            qrCodeInfoEntity.setImgBase64("data:image/jpeg;base64,"+Base64.getEncoder().encodeToString(b));
+        } catch (IOException e) {
+            e.printStackTrace();
+            Date date = new Date();
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            String now = sdf.format(date);
+            logger.error("获取二维码图片base64异常，异常时间："+now+":::异常原因："+e.toString());
+            qrCodeInfoEntity.setImgBase64(null);
+        }
+
+        return qrCodeInfoEntity;
     }
 
     @Override

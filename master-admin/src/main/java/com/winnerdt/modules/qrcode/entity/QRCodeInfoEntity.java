@@ -76,4 +76,7 @@ public class QRCodeInfoEntity {
     //部门推广码
     private String deptCode;
 
+    //图片base64编码，用于前端会显
+    private String imgBase64;
+
 }
