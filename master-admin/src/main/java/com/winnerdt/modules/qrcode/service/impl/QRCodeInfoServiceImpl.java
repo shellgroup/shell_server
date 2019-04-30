@@ -280,7 +280,7 @@ public class QRCodeInfoServiceImpl extends ServiceImpl<QRCodeInfoDao, QRCodeInfo
         return r;
     }
 
-    public void createQrCodeUtil(Map map,QRCodeConfigEntity qrCodeConfigEntity,WxAppinfoEntity appinfo) {
+    public void createQrCodeUtil(Map map,QRCodeConfigEntity qrCodeConfigEntity,WxAppinfoEntity appinfo) throws Exception {
         boolean autoColor = false;
         //底色是否透明 false=不透明
         boolean isHyaline = false;
@@ -301,6 +301,7 @@ public class QRCodeInfoServiceImpl extends ServiceImpl<QRCodeInfoDao, QRCodeInfo
         /*
         * 二维码的小程序配置信息
         * */
+
         WxMaInMemoryConfig config = new WxMaInMemoryConfig();
         config.setAppid(appinfo.getAppid());
         config.setSecret(appinfo.getSecret());
@@ -333,7 +334,7 @@ public class QRCodeInfoServiceImpl extends ServiceImpl<QRCodeInfoDao, QRCodeInfo
         }
         try {
             Date imgDate = new Date();
-
+            logger.info("******************生成码时的时间"+new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(imgDate)+"码参数："+qrcodeSceneStr.toString());
             if(qrCodeConfigEntity.getQrcodeShape().equals(new Integer(1))){
                 //方形码
                 String sceneStr = qrCodeConfigEntity.getQrcodeIndexUrl()+ "?scene="+qrcodeSceneStr.toString();
@@ -351,10 +352,13 @@ public class QRCodeInfoServiceImpl extends ServiceImpl<QRCodeInfoDao, QRCodeInfo
             qrCodeInfoEntity.setIsCreateQrcode(1);
             qrCodeDao.updateById(qrCodeInfoEntity);
 
+
         } catch (WxErrorException e) {
             e.printStackTrace();
+            throw new Exception(e);
         } catch (Exception e) {
             e.printStackTrace();
+            throw new Exception(e);
         }
     }
 }

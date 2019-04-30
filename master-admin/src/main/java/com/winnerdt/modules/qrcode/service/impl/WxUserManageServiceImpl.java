@@ -248,13 +248,13 @@ public class WxUserManageServiceImpl extends ServiceImpl<WxUserManageDao, WxUser
 
         //对比角色中的部门id和管理员拥有的部门id
         List<Long> adminDeptIdList = sysDeptService.getSubDeptIdList(deptId);
-        Set<Long> roleDeptIdList = new HashSet<>();
+        List<Long> roleDeptIdList = new ArrayList<>();
         List<Long> roleIdList = sysUserRoleService.queryRoleIdList(userId);
         if(roleIdList.size() > 0){
             List<Long> userDeptIdList = sysRoleDeptService.queryDeptIdList(roleIdList.toArray(new Long[roleIdList.size()]));
             roleDeptIdList.addAll(userDeptIdList);
         }
-        List<Long> diffDeptIdList  = getDifferent(adminDeptIdList,roleIdList);
+        List<Long> diffDeptIdList  = getDifferent(adminDeptIdList,roleDeptIdList);
         List<Long> finRoleDeptId = new ArrayList<>();
         for (Long roleDeptId:roleDeptIdList){
             if(diffDeptIdList.contains(roleDeptId)){
