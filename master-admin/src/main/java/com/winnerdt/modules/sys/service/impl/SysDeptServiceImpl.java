@@ -12,7 +12,10 @@ import com.winnerdt.modules.sys.shiro.ShiroUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 
 @Service("sysDeptService")
@@ -115,7 +118,43 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptDao, SysDeptEntity> i
 		return getTreeTableList(sysDeptEntityList);
 	}
 
-	/*
+    @Override
+    public String isExitDeptNameWhenAdd(String deptName) {
+        List<SysDeptEntity> list = sysDeptDao.selectList(new QueryWrapper<SysDeptEntity>().eq("name",deptName));
+        if(list.size() > 0){
+            return "exist";
+        }else {
+            return "noExist";
+        }
+    }
+
+    @Override
+    public String isExitDeptNameWhenUpdate(Map map) {
+        String deptName = null;
+        String deptId = null;
+        if(null != map.get("deptName")){
+            deptName = map.get("deptName").toString();
+        }
+        if(null != map.get("deptId")){
+            deptId = map.get("deptId").toString();
+        }
+
+        List<SysDeptEntity> list = sysDeptDao.selectList(new QueryWrapper<SysDeptEntity>()
+                .eq("name",deptName));
+
+        if(list.size() > 0){
+            for(SysDeptEntity sysDeptEntity:list){
+                if(!(sysDeptEntity.getDeptId().equals(Integer.valueOf(deptId)))){
+                    return "exist";
+                }
+            }
+            return "noExist";
+        }else {
+            return "noExist";
+        }
+    }
+
+    /*
 	 * 递归装填所有的菜单
 	 * */
 	private List<SysDeptEntity> getTreeTableList(List<SysDeptEntity> sysDeptEntityList){

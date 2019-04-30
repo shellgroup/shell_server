@@ -16,6 +16,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -166,5 +167,19 @@ public class SysDeptController extends AbstractController {
 			return R.error("网络错误，部门删除失败！");
 		}
 	}
-	
+	/*
+	 *  添加时检测部门名称是否已经存在
+	 * */
+	@RequestMapping("isExitDeptNameWhenAdd")
+	public String isExitQrcodeConfig(@RequestBody Map<String,String> map){
+		return JSONObject.toJSONString(sysDeptService.isExitDeptNameWhenAdd(map.get("deptName")));
+	}
+
+	/*
+	 * 更新时检测部门名称是否已经存在
+	 * */
+	@RequestMapping("isExitDeptNameWhenUpdate")
+	public String isExitQrcodeConfigWhenUpdate(@RequestBody Map<String,String> map){
+		return JSONObject.toJSONString(sysDeptService.isExitDeptNameWhenUpdate(map));
+	}
 }

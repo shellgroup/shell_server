@@ -39,4 +39,15 @@ public interface SysDeptService extends IService<SysDeptEntity> {
 	* */
 	List<SysDeptEntity> treeTableShow();
 
+	/*
+	 *
+	 * 添加时检测部门名称是否已经存在
+	 * */
+	String isExitDeptNameWhenAdd(String deptName);
+
+	/*
+	 * 更新时查询部门名称是否已经存在
+	 * */
+	String isExitDeptNameWhenUpdate(Map map);
+
 }
