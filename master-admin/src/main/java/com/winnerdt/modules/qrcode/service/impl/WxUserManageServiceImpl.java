@@ -67,6 +67,27 @@ public class WxUserManageServiceImpl extends ServiceImpl<WxUserManageDao, WxUser
             if(null != params.get("phone")){
                 map.put("phone",params.get("phone"));
             }
+            if(null != params.get("name")){
+                map.put("name",params.get("name"));
+            }
+            if(null != params.get("deptId")){
+                map.put("deptId",params.get("deptId"));
+            }
+            if(null != params.get("idCard")){
+                map.put("idCard",params.get("idCard"));
+            }
+            //前端搜索框
+            if(null != params.get("deptName")){
+                List<SysDeptEntity> sysDeptEntityList = sysDeptService.list(new QueryWrapper<SysDeptEntity>()
+                        .like("name",params.get("deptName")));
+                if(sysDeptEntityList.size() > 0){
+                    List<Long> deptIds = new ArrayList<>();
+                    for(SysDeptEntity sysDeptEntity:sysDeptEntityList){
+                        deptIds.add(sysDeptEntity.getDeptId());
+                    }
+                    map.put("deptIds",deptIds);
+                }
+            }
             if(null != params.get("createBeginTime") && null != params.get("createEndTime")){
                 map.put("createBeginTime",params.get("createBeginTime"));
                 map.put("createEndTime",params.get("createEndTime"));
