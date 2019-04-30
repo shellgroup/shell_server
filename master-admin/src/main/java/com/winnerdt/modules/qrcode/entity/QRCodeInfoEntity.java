@@ -1,5 +1,6 @@
 package com.winnerdt.modules.qrcode.entity;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -76,7 +77,8 @@ public class QRCodeInfoEntity {
     //部门推广码
     private String deptCode;
 
-    //图片base64编码，用于前端会显
+    //图片base64编码，用于前端回显
+    @TableField(exist = false)
     private String imgBase64;
 
 }
