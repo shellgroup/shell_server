@@ -144,7 +144,7 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptDao, SysDeptEntity> i
 
         if(list.size() > 0){
             for(SysDeptEntity sysDeptEntity:list){
-                if(!(sysDeptEntity.getDeptId().equals(Integer.valueOf(deptId)))){
+                if(!(sysDeptEntity.getDeptId().equals(Long.valueOf(deptId)))){
                     return "exist";
                 }
             }
