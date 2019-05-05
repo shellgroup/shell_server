@@ -49,6 +49,8 @@ public class WxUserManageServiceImpl extends ServiceImpl<WxUserManageDao, WxUser
     private SysRoleDeptService sysRoleDeptService;
     @Autowired
     private SysUserRoleService sysUserRoleService;
+    @Autowired
+    private WxUserManageService wxUserManageService;
 
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
@@ -314,6 +316,10 @@ public class WxUserManageServiceImpl extends ServiceImpl<WxUserManageDao, WxUser
                 finRoleDeptId.add(roleDeptId);
             }
         }
+        //去掉角色数据授权中本渠道的id
+        if(finRoleDeptId.contains(deptId)){
+            finRoleDeptId.remove(deptId);
+        }
         for(Long deptIdTemp:finRoleDeptId){
             Integer  wxUserTotle= wxUserManageDao.selectCount(new QueryWrapper<WxUserManageEntity>()
                     .between(createTimeBoolean,"create_date",createBeginTime,createEndTime)
@@ -367,7 +373,7 @@ public class WxUserManageServiceImpl extends ServiceImpl<WxUserManageDao, WxUser
 
         //总的拉新数目
         Map map = new HashMap();
-        Integer totle = this.queryWxUserTotleByDataFilter(map);
+        Integer totle = wxUserManageService.queryWxUserTotleByDataFilter(map);
 
 
         //获取当前的deptid
