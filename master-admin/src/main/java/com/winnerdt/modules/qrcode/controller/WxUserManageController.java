@@ -83,9 +83,17 @@ public class WxUserManageController {
     * */
     @RequestMapping("queryWxUserTotleLastWeek")
     public R queryWxUserTotleLastWeek(){
-
-        HashMap map = new HashMap();
-        return wxUserManageService.queryWxUserTotleLastWeek(map);
+        try {
+            HashMap map = new HashMap();
+            return wxUserManageService.queryWxUserTotleLastWeek(map);
+        } catch (Exception e) {
+            e.printStackTrace();
+            Date date = new Date();
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            String now = sdf.format(date);
+            logger.error("查询本部门近7天的拉新数量异常，异常时间："+now+":::异常数据："+":::异常原因："+e.toString());
+            return R.error("网络异常，查询本部门近7天的拉新数量失败");
+        }
     }
 
     /*

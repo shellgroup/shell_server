@@ -189,7 +189,7 @@ public class WxUserManageServiceImpl extends ServiceImpl<WxUserManageDao, WxUser
     }
 
     @Override
-    public R queryWxUserTotleLastWeek(Map map) {
+    public R queryWxUserTotleLastWeek(Map map) throws ParseException {
         //获取当前的deptid
         Long deptId = ShiroUtils.getUserEntity().getDeptId();
 
@@ -198,7 +198,7 @@ public class WxUserManageServiceImpl extends ServiceImpl<WxUserManageDao, WxUser
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         String nowDateTemp = sdf.format(date);
         //获取前七天的时间
-        String pastDateTemp = DateUtil.getPastDate(7);
+        String pastDateTemp = DateUtil.getPastDate(6);
 
         /*
         * 处理时间用于数据库查询
@@ -214,6 +214,38 @@ public class WxUserManageServiceImpl extends ServiceImpl<WxUserManageDao, WxUser
                 .isNotNull("create_date")
                 .groupBy("DATE_FORMAT(create_date,'%Y-%m-%d')")
         );
+
+
+
+        /*
+        * 判断查询的记录是不是有七天的，如果没有七天的数据，就拼接上一些数据让前端展示
+        * */
+        if(salesData.size() < 7){
+            //获取前七天的日期（包含今天）
+            String []  beforeDayStr = DateUtil.getBeforeSevenDay(sdf.parse(DateUtil.getPastDate(-1)));
+            List<String> beforeDayList = new ArrayList<>(Arrays.asList(beforeDayStr));
+
+            Map<String,Object> mapTemp1 = new HashMap<>();
+            /*
+            * 将salesData的数据取出来，放在一个临时的map中，并赋一个标识值：isExit，用于下面的取值对比
+            * */
+            for(Map map1:salesData){
+                mapTemp1.put(map1.get("x").toString(),"isExit");
+            }
+            /*
+            * 获取七天的日期，然后和salesData取出的临时map对比，
+            * 如果能取出来值即赋的标识值isExit，说明该日期在salaData中是存在值的，反之每值放入一个0作为值
+            * */
+            for(String str:beforeDayList){
+                if(null == mapTemp1.get(str)){
+                    Map<String,Object> mapTemp = new HashMap<>();
+                    mapTemp.put("x",str);
+                    mapTemp.put("y",0);
+                    salesData.add(mapTemp);
+                }
+            }
+        }
+
 
         salesData.stream().map(map1 ->{
             String dateTemp = map1.get("x").toString();
