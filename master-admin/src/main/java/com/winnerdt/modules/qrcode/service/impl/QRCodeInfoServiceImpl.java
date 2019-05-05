@@ -20,6 +20,8 @@ import com.winnerdt.modules.qrcode.service.WxAppinfoService;
 import com.winnerdt.modules.qrcode.utils.QRCodeUtils;
 import com.winnerdt.modules.sys.entity.SysDeptEntity;
 import com.winnerdt.modules.sys.service.SysDeptService;
+import com.winnerdt.modules.sys.service.SysRoleDeptService;
+import com.winnerdt.modules.sys.service.SysUserRoleService;
 import com.winnerdt.modules.sys.shiro.ShiroUtils;
 import me.chanjar.weixin.common.error.WxErrorException;
 import org.slf4j.Logger;
@@ -52,10 +54,19 @@ public class QRCodeInfoServiceImpl extends ServiceImpl<QRCodeInfoDao, QRCodeInfo
     private QRCodeConfigService qrCodeConfigService;
     @Autowired
     private SysDeptService sysDeptService;
+    @Autowired
+    private SysRoleDeptService sysRoleDeptService;
+    @Autowired
+    private SysUserRoleService sysUserRoleService;
 
 
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
+        //获取当前的deptid
+        Long deptId = ShiroUtils.getUserEntity().getDeptId();
+
+        Long userId = ShiroUtils.getUserId();
+
         Page<QRCodeInfoEntity> page = new Query<QRCodeInfoEntity>(params).getPage();
         Map map = new HashMap();
         //处理需要的参数
@@ -92,6 +103,20 @@ public class QRCodeInfoServiceImpl extends ServiceImpl<QRCodeInfoDao, QRCodeInfo
                 map.put("createBeginTime",params.get("createBeginTime"));
                 map.put("createEndTime",params.get("createEndTime"));
             }
+
+            //查询拥有的部门id
+            //部门ID列表
+            Set<Long> deptIdList = new HashSet<>();
+            //是否需要角色分配下的deptId
+            List<Long> roleIdList = sysUserRoleService.queryRoleIdList(userId);
+            if(roleIdList.size() > 0){
+                List<Long> userDeptIdList = sysRoleDeptService.queryDeptIdList(roleIdList.toArray(new Long[roleIdList.size()]));
+                deptIdList.addAll(userDeptIdList);
+            }
+            //管理员子部门ID列表
+            List<Long> subDeptIdList = sysDeptService.getSubDeptIdList(deptId);
+            deptIdList.addAll(subDeptIdList);
+            map.put("deptIdList",deptIdList);
 
             map.put("pageSize",page.getSize());
             map.put("currRecord",(page.getCurrent()-1)*page.getSize());
