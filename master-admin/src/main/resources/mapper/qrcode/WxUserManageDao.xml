@@ -15,25 +15,25 @@
                     and wu.phone like concat('%',#{phone},'%')
                 </if>
                 <if test="dpetId != null">
-                    and dpet_id = #{deptId}
+                    and wu.dept_id = #{deptId}
                 </if>
                 <if test="createBeginTime != null and createBeginTime != '' and createEndTime != null and createEndTime != ''">
-                    and sc.create_time between #{createBeginTime} and #{createEndTime}
+                    and wu.create_time between #{createBeginTime} and #{createEndTime}
                 </if>
                 <if test="name != null and name != ''">
-                    and sc.name like concat('%',#{name},'%')
+                    and wu.name like concat('%',#{name},'%')
                 </if>
                 <if test="idCard != null and idCard != ''">
-                    and id_card like concat('%',#{idCard},'%')
+                    and wu.id_card like concat('%',#{idCard},'%')
                 </if>
                 <if test="deptIdList != null ">
-                    and dept_id in
+                    and wu.dept_id in
                     <foreach item="deptId" index="index" collection="deptIdList" open="(" separator="," close=")">
                         #{deptId}
                     </foreach>
                 </if>
                 <if test="deptIds != null ">
-                    and dept_id in
+                    and wu.dept_id in
                     <foreach item="deptId" index="index" collection="deptIds" open="(" separator="," close=")">
                         #{deptId}
                     </foreach>
@@ -56,14 +56,29 @@
             <if test="phone != null and phone != ''">
                 and wu.phone like concat('%',#{phone},'%')
             </if>
+            <if test="dpetId != null">
+                and wu.dept_id = #{deptId}
+            </if>
+            <if test="createBeginTime != null and createBeginTime != '' and createEndTime != null and createEndTime != ''">
+                and wu.create_time between #{createBeginTime} and #{createEndTime}
+            </if>
+            <if test="name != null and name != ''">
+                and wu.name like concat('%',#{name},'%')
+            </if>
+            <if test="idCard != null and idCard != ''">
+                and wu.id_card like concat('%',#{idCard},'%')
+            </if>
             <if test="deptIdList != null ">
-                and dept_id in
+                and wu.dept_id in
                 <foreach item="deptId" index="index" collection="deptIdList" open="(" separator="," close=")">
                     #{deptId}
                 </foreach>
             </if>
-            <if test="createBeginTime != null and createBeginTime != '' and createEndTime != null and createEndTime != ''">
-                and sc.create_time between #{createBeginTime} and #{createEndTime}
+            <if test="deptIds != null ">
+                and wu.dept_id in
+                <foreach item="deptId" index="index" collection="deptIds" open="(" separator="," close=")">
+                    #{deptId}
+                </foreach>
             </if>
         </where>
 
