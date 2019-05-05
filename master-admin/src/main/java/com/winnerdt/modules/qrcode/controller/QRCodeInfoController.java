@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
@@ -150,6 +151,24 @@ public class QRCodeInfoController {
         * */
         map.put("wxAppinfoId",1);
         return qrCodeInfoService.createQrCodes(map);
+    }
+
+    /*
+    * 单个二维码下载
+    * */
+    @SysLog("下载单个二维码信息")
+    @RequestMapping("/download")
+    @RequiresPermissions("qrcode:info:download")
+    public void download (HttpServletResponse response, @RequestParam Map map) {
+        try {
+            qrCodeInfoService.download(response,map);
+        }catch (Exception e){
+            e.printStackTrace();
+            Date date = new Date();
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            String now = sdf.format(date);
+            logger.error("下载单个二维码信息异常，异常时间："+now+":::异常数据："+ JSONObject.toJSONString(map)+":::异常原因："+e.toString());
+        }
     }
 
 }

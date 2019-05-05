@@ -5,6 +5,7 @@ import com.winnerdt.common.utils.PageUtils;
 import com.winnerdt.common.utils.R;
 import com.winnerdt.modules.qrcode.entity.QRCodeInfoEntity;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.Map;
 
 /**
@@ -37,4 +38,9 @@ public interface QRCodeInfoService extends IService<QRCodeInfoEntity> {
     * 生成多个二维码
     * */
     R createQrCodes(Map map);
+
+    /*
+    * 单个图片下载
+    * */
+    void download(HttpServletResponse response, Map map) throws Exception;
 }

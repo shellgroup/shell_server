@@ -30,8 +30,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
@@ -321,6 +323,33 @@ public class QRCodeInfoServiceImpl extends ServiceImpl<QRCodeInfoDao, QRCodeInfo
         return r;
     }
 
+    @Override
+    public void download(HttpServletResponse response, Map map) throws Exception {
+        if(null == map.get("qrcodeId")){
+            return;
+        }
+        QRCodeInfoEntity qrCodeInfoEntity = qrCodeDao.selectById(map.get("qrcodeId").toString());
+        if(null == qrCodeInfoEntity){
+            return;
+        }
+
+        //开始下载
+        String fileName = qrCodeInfoEntity.getDeptName()+"_"+qrCodeInfoEntity.getId()+".png";
+
+        response.addHeader("Content-Disposition", "attachment;filename="  + new String(fileName.getBytes("GB2312"), "ISO_8859_1")     );
+        OutputStream out = null;
+        try {
+            out = response.getOutputStream();
+            String qrcodeImgPath = qrCodeInfoEntity.getImgPath();
+            byte[] b = Files.readAllBytes(Paths.get(qrcodeImgPath));
+            out.write(b);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }finally {
+            out.close();
+        }
+    }
+
     public void createQrCodeUtil(Map map,QRCodeConfigEntity qrCodeConfigEntity,WxAppinfoEntity appinfo) throws Exception {
         boolean autoColor = false;
         //底色是否透明 false=不透明
@@ -363,9 +392,9 @@ public class QRCodeInfoServiceImpl extends ServiceImpl<QRCodeInfoDao, QRCodeInfo
         String destPath = qrCodeConfigEntity.getQrcodePath()
                 + File.separator + qrCodeInfoEntity.getDeptName()
                 + File.separator + qrCodeConfigEntity.getQrcodeTypeName()
-                + File.separator + now
-                + File.separator + qrcodeShapeStr
-                + File.separator + qrCodeId + ".png";
+//                + File.separator + now
+//                + File.separator + qrcodeShapeStr
+                + File.separator + qrCodeInfoEntity.getDeptName()+"_"+qrCodeId + ".png";
 
         File dest = new File(destPath);
         File pDest = dest.getParentFile();
@@ -388,7 +417,7 @@ public class QRCodeInfoServiceImpl extends ServiceImpl<QRCodeInfoDao, QRCodeInfo
             }
             qrCodeInfoEntity.setImgTime(imgDate);
             qrCodeInfoEntity.setImgPath(destPath);
-            qrCodeInfoEntity.setImgName(qrCodeId+".png");
+            qrCodeInfoEntity.setImgName(qrCodeInfoEntity.getDeptName()+"_"+qrCodeId+".png");
             qrCodeInfoEntity.setIsCreateQrcode(1);
             qrCodeDao.updateById(qrCodeInfoEntity);
 
