@@ -109,6 +109,8 @@ public class QRCodeInfoServiceImpl extends ServiceImpl<QRCodeInfoDao, QRCodeInfo
             //查询拥有的部门id
             //部门ID列表
             Set<Long> deptIdList = new HashSet<>();
+            //增加本部门id
+            deptIdList.add(deptId);
             //是否需要角色分配下的deptId
             List<Long> roleIdList = sysUserRoleService.queryRoleIdList(userId);
             if(roleIdList.size() > 0){
