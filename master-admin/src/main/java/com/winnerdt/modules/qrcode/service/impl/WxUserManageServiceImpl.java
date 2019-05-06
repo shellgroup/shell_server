@@ -370,19 +370,25 @@ public class WxUserManageServiceImpl extends ServiceImpl<WxUserManageDao, WxUser
 
     @Override
     public R WxUserInfoByDataFilter() throws ParseException {
-
-        //总的拉新数目
-        Map map = new HashMap();
-        Integer totle = wxUserManageService.queryWxUserTotleByDataFilter(map);
-
-
         //获取当前的deptid
         Long deptId = ShiroUtils.getUserEntity().getDeptId();
 
         Long userId = ShiroUtils.getUserId();
 
+        //总的拉新数目（包含本部门和下级部门总拉新数）
+        Map map = new HashMap();
+        Integer totle = wxUserManageService.queryWxUserTotleByDataFilter(map);
 
-        //今日拉新数量
+        //本部门拉新数量总数
+        Integer myselfTotle = wxUserManageDao.selectCount(new QueryWrapper<WxUserManageEntity>()
+                .eq("dept_id",deptId)
+        );
+
+        //下级部门拉新数量
+        Integer childrenTotle = totle - myselfTotle;
+
+
+        //今日拉新数量（包含本部门和下级部门总拉新数）
 
         Date date = new Date();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -394,6 +400,15 @@ public class WxUserManageServiceImpl extends ServiceImpl<WxUserManageDao, WxUser
                 .apply(true, getSql(deptId,true,"",true,userId))
         );
 
+        //本部门今日拉新数量
+        Integer myselfTodayTotle = wxUserManageDao.selectCount(new QueryWrapper<WxUserManageEntity>()
+                .between("create_date",nowDateStart,nowDateEnd)
+                .eq("dept_id",deptId)
+        );
+
+        //子部门今日拉新数
+        Integer childrenTodayTotle = todayTotle - myselfTodayTotle;
+
         //昨天拉新数量
         String yesterdayTemp = DateUtil.getPastDate(1);
         String yesterdayStart = yesterdayTemp+" 00:00:00";
@@ -403,23 +418,53 @@ public class WxUserManageServiceImpl extends ServiceImpl<WxUserManageDao, WxUser
                 .apply(true, getSql(deptId,true,"",true,userId))
         );
 
-        //日同比
-        String dayPercentage = null;
-        if(!(yesterdayTotle.equals(0))){
+        //本部门昨天拉新数
+        Integer myselfYesterdayTotle = wxUserManageDao.selectCount(new QueryWrapper<WxUserManageEntity>()
+                .between("create_date",yesterdayStart,yesterdayEnd)
+                .eq("dept_id",deptId)
+        );
+        //子部门昨天拉新数
+        Integer childrenYesterdayTotle = yesterdayTotle - myselfYesterdayTotle;
+
+
+
+        //本部门日同比
+        String myselfDayPercentage = null;
+        if(!(myselfYesterdayTotle.equals(0))){
             DecimalFormat df=new DecimalFormat("0.00");
-            dayPercentage = df.format((todayTotle-yesterdayTotle)/(float)yesterdayTotle);
+            myselfDayPercentage = df.format((myselfTodayTotle-myselfYesterdayTotle)/(float)myselfYesterdayTotle);
         }else {
-            dayPercentage = "无";
+            myselfDayPercentage = "无";
+        }
+
+        //子部门周同比
+        String childrenDayPercentage = null;
+        if(!(childrenYesterdayTotle.equals(0))){
+            DecimalFormat df=new DecimalFormat("0.00");
+            childrenDayPercentage = df.format((childrenTodayTotle-childrenYesterdayTotle)/(float)childrenYesterdayTotle);
+        }else {
+            childrenDayPercentage = "无";
         }
 
 
-        //本周数据
+        //本周数据(包含本部门和子部门总数)
         String nowWeekStart = DateUtil.getWeekStart(date);
         String nowWeekEnd = DateUtil.getWeekEnd(date);
         Integer nowWeekTotle = wxUserManageDao.selectCount(new QueryWrapper<WxUserManageEntity>()
                 .between("create_date",nowWeekStart,nowWeekEnd)
                 .apply(true, getSql(deptId,true,"",true,userId))
         );
+
+        //本部门本周数据
+        Integer myselfNowWeekTotle = wxUserManageDao.selectCount(new QueryWrapper<WxUserManageEntity>()
+                .between("create_date",nowWeekStart,nowWeekEnd)
+                .eq("dept_id",deptId)
+        );
+
+        //子部门本周数据
+        Integer childrenNowWeekTotle = nowWeekTotle - myselfNowWeekTotle;
+
+
         //上周数据
         String lastWeekStart = DateUtil.getLastWeekStart();
         String lastWeekEnd = DateUtil.getLastWeekEnd();
@@ -428,20 +473,46 @@ public class WxUserManageServiceImpl extends ServiceImpl<WxUserManageDao, WxUser
                 .apply(true, getSql(deptId,true,"",true,userId))
         );
 
-        //周同比
-        String weekPercentage = null;
-        if(!(lastWeekTotle.equals(0))){
+        //本部门上周数据
+        Integer myselfLastWeekTotle = wxUserManageDao.selectCount(new QueryWrapper<WxUserManageEntity>()
+                .between("create_date",lastWeekStart,lastWeekEnd)
+                .eq("dept_id",deptId)
+        );
+
+        //子部门上周数据
+        Integer childrenLastWeekTotle = lastWeekTotle - myselfLastWeekTotle;
+
+        //本部门周同比
+        String myselfWeekPercentage = null;
+        if(!(myselfLastWeekTotle.equals(0))){
             DecimalFormat df=new DecimalFormat("0.00");
-            weekPercentage = df.format((nowWeekTotle-lastWeekTotle)/(float)lastWeekTotle);
+            myselfWeekPercentage = df.format((myselfNowWeekTotle-myselfLastWeekTotle)/(float)myselfLastWeekTotle);
         }else {
-            weekPercentage = "无";
+            myselfWeekPercentage = "无";
+        }
+
+        //子部门周同比
+        String childrenWeekPercentage = null;
+        if(!(childrenLastWeekTotle.equals(0))){
+            DecimalFormat df=new DecimalFormat("0.00");
+            childrenWeekPercentage = df.format((childrenNowWeekTotle-childrenLastWeekTotle)/(float)childrenLastWeekTotle);
+        }else {
+            childrenWeekPercentage = "无";
         }
 
         Map resultMap = new HashMap();
-        resultMap.put("totle",totle);
-        resultMap.put("dayPercentage",dayPercentage);
-        resultMap.put("weekPercentage",weekPercentage);
-        resultMap.put("todayTotle",todayTotle);
+        //装填有关本部门的数据
+        resultMap.put("myselfTotle",myselfTotle);
+        resultMap.put("myselfDayPercentage",myselfDayPercentage);
+        resultMap.put("myselfWeekPercentage",myselfWeekPercentage);
+        resultMap.put("myselfTodayTotle",myselfTodayTotle);
+
+        //装填子部门的数据
+        resultMap.put("childrenTotle",childrenTotle);
+        resultMap.put("childrenDayPercentage",childrenDayPercentage);
+        resultMap.put("childrenWeekPercentage",childrenWeekPercentage);
+        resultMap.put("childrenTodayTotle",childrenTodayTotle);
+
 
         return R.ok().put("resultMap",resultMap);
     }
