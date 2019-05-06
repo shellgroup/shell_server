@@ -18,6 +18,7 @@ import com.winnerdt.modules.qrcode.service.QRCodeConfigService;
 import com.winnerdt.modules.qrcode.service.QRCodeInfoService;
 import com.winnerdt.modules.qrcode.service.WxAppinfoService;
 import com.winnerdt.modules.qrcode.utils.QRCodeUtils;
+import com.winnerdt.modules.qrcode.utils.ZipUtils;
 import com.winnerdt.modules.sys.entity.SysDeptEntity;
 import com.winnerdt.modules.sys.service.SysDeptService;
 import com.winnerdt.modules.sys.service.SysRoleDeptService;
@@ -39,6 +40,7 @@ import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.Semaphore;
+import java.util.zip.ZipOutputStream;
 
 /**
  * @author:zsk
@@ -352,6 +354,30 @@ public class QRCodeInfoServiceImpl extends ServiceImpl<QRCodeInfoDao, QRCodeInfo
         }
     }
 
+    @Override
+    public void batchDownload(HttpServletResponse response, Map<String, Object> map) throws Exception {
+        List qrcodeIdList = (List) map.get("qrcodeIdList");
+
+        String zipName = "二维码图片";
+
+        List<QRCodeInfoEntity> qrCodeInfoEntityList = qrCodeDao.selectBatchIds(qrcodeIdList);//查询数据库中记录
+        response.setContentType("APPLICATION/OCTET-STREAM");
+        response.addHeader("Content-Disposition", "attachment;filename="  + new String((zipName+".zip").getBytes("GB2312"), "ISO_8859_1"));
+        ZipOutputStream out = new ZipOutputStream(response.getOutputStream());
+        try {
+            for(Iterator<QRCodeInfoEntity> it = qrCodeInfoEntityList.iterator();it.hasNext();){
+                QRCodeInfoEntity file = it.next();
+                ZipUtils.doCompress(new File(file.getImgPath()), out,zipName+file.getImgPathSub());
+                response.flushBuffer();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new Exception(e);
+        }finally{
+            out.close();
+        }
+    }
+
     public void createQrCodeUtil(Map map,QRCodeConfigEntity qrCodeConfigEntity,WxAppinfoEntity appinfo) throws Exception {
         boolean autoColor = false;
         //底色是否透明 false=不透明
@@ -391,12 +417,23 @@ public class QRCodeInfoServiceImpl extends ServiceImpl<QRCodeInfoDao, QRCodeInfo
             qrcodeShapeStr = "方形码";
         }
 
+        /*
+        * 二维码的全路径
+        * */
         String destPath = qrCodeConfigEntity.getQrcodePath()
                 + File.separator + qrCodeInfoEntity.getDeptName()
                 + File.separator + qrCodeConfigEntity.getQrcodeTypeName()
 //                + File.separator + now
 //                + File.separator + qrcodeShapeStr
                 + File.separator + qrCodeInfoEntity.getDeptName()+"_"+qrCodeId + ".png";
+        /*
+        * 生成二维码的部分目录，可以用于批量压缩下载时生成目录结构
+        * */
+        String imgPathSub = File.separator + qrCodeInfoEntity.getDeptName()
+                + File.separator + qrCodeConfigEntity.getQrcodeTypeName()
+//                + File.separator + now
+//                + File.separator + qrcodeShapeStr
+                ;
 
         File dest = new File(destPath);
         File pDest = dest.getParentFile();
@@ -419,6 +456,7 @@ public class QRCodeInfoServiceImpl extends ServiceImpl<QRCodeInfoDao, QRCodeInfo
             }
             qrCodeInfoEntity.setImgTime(imgDate);
             qrCodeInfoEntity.setImgPath(destPath);
+            qrCodeInfoEntity.setImgPathSub(imgPathSub);
             qrCodeInfoEntity.setImgName(qrCodeInfoEntity.getDeptName()+"_"+qrCodeId+".png");
             qrCodeInfoEntity.setIsCreateQrcode(1);
             qrCodeDao.updateById(qrCodeInfoEntity);

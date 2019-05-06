@@ -43,4 +43,9 @@ public interface QRCodeInfoService extends IService<QRCodeInfoEntity> {
     * 单个图片下载
     * */
     void download(HttpServletResponse response, Map map) throws Exception;
+
+    /*
+    * 多个图片下载
+    * */
+    void batchDownload(HttpServletResponse response,Map<String,Object> map) throws Exception;
 }

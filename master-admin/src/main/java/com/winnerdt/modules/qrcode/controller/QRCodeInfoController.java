@@ -171,4 +171,22 @@ public class QRCodeInfoController {
         }
     }
 
+    /*
+    * 二维码批量下载
+    * */
+    @SysLog("下载多个二维码信息")
+    @RequestMapping("/batchDownload")
+    @RequiresPermissions("qrcode:info:batchDownLoad")
+    public void batchDownload(HttpServletResponse response,@RequestParam Map<String,Object> map){
+        try {
+            qrCodeInfoService.batchDownload(response,map);
+        }catch (Exception e){
+            e.printStackTrace();
+            Date date = new Date();
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            String now = sdf.format(date);
+            logger.error("批量下载二维码信息异常，异常时间："+now+":::异常数据："+ JSONObject.toJSONString(map)+":::异常原因："+e.toString());
+        }
+    }
+
 }

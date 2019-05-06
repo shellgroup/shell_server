@@ -46,8 +46,11 @@ public class QRCodeInfoEntity {
     //用户手机号
     private String userPhone;
 
-    //生成的导购码存放位置
+    //图片路径（二维码配置中的路径+二维码生成时根据需求等情况拼接路径+二维码名称）
     private String imgPath;
+
+    //图片部分路径（二维码生成时根据需求拼接的地址）
+    private String imgPathSub;
 
     //导购码图片的名称
     private String imgName;
