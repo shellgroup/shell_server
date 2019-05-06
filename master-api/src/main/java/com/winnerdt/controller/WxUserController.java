@@ -153,7 +153,7 @@ public class WxUserController {
                     Date date = new Date();
                     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                     String now = sdf.format(date);
-                    logger.error("二维码携带参数解析异常，源数据为："+ JSONObject.toJSONString(scene)+"：：：：时间："+now);
+                    logger.error("二维码携带参数解析异常，scene源数据为："+ JSONObject.toJSONString(scene)+"***接受到的数据："+JSONObject.toJSONString(map)+"：：：：时间："+now);
                     return R.error(e.toString());
                 }
 
@@ -227,7 +227,11 @@ public class WxUserController {
                     return R.error(22, "解密失败");
                 }
             } catch (Exception e) {
-                logger.error(e.getMessage(), e);
+                e.printStackTrace();
+                Date date = new Date();
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                String now = sdf.format(date);
+                logger.error("获取用户的昵称等信息异常，异常时间："+now+":::异常数据："+JSONObject.toJSONString(map)+":::异常原因："+e.toString());
                 return R.error(e.toString());
             }
         } else {
@@ -290,7 +294,11 @@ public class WxUserController {
                     return R.error(22, "解密失败");
                 }
             } catch (Exception e) {
-                logger.error(e.getMessage(), e);
+                e.printStackTrace();
+                Date date = new Date();
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                String now = sdf.format(date);
+                logger.error("授权后获取用户的手机号等信息异常，异常时间："+now+":::异常数据："+JSONObject.toJSONString(map)+":::异常原因："+e.toString());
                 return R.error(e.toString());
             }
         } else {
@@ -336,6 +344,10 @@ public class WxUserController {
             return R.ok();
         } catch (Exception e) {
             e.printStackTrace();
+            Date date = new Date();
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            String now = sdf.format(date);
+            logger.error("用户注册异常，异常时间："+now+":::异常数据："+JSONObject.toJSONString(map)+":::异常原因："+e.toString());
             return R.error();
         }
 
@@ -415,7 +427,11 @@ public class WxUserController {
                 return r;
             }
         } catch (Exception e) {
-            logger.error(e.getMessage(), e);
+            e.printStackTrace();
+            Date date = new Date();
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            String now = sdf.format(date);
+            logger.error("判断是否是老用户，异常时间："+now+":::异常数据："+JSONObject.toJSONString(map)+":::异常原因："+e.toString());
             return R.error(e.toString());
         }
 
