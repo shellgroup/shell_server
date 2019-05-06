@@ -78,14 +78,17 @@ public class WxUserController {
         if(null == map.get("code")){
             return R.error("code为空");
         }
-        if(null == map.get("scene")){
-            return R.error("scene");
-        }
+//        if(null == map.get("scene")){
+//            return R.error("scene");
+//        }
         if(null == map.get("sceneAddress")){
             return R.error("sceneAddress为空");
         }
         String code = map.get("code").toString();
-        String scene = map.get("scene").toString();
+        String scene = null;
+        if(null != map.get("scene")){
+            scene = map.get("scene").toString();
+        }
         String sceneAddress = map.get("sceneAddress").toString();
         //登录凭证不能为空
         if (StringUtils.isBlank(code)) {
@@ -119,7 +122,7 @@ public class WxUserController {
             } else {
                 WxUserEntity user = new WxUserEntity();
                 user.setRegisterIp(ipaddress);
-                if (user.getScene() == null){
+                if (user.getScene() == null && null != scene){
                     user.setScene(scene);
                 }
                 if (user.getSceneAddress() == null){
