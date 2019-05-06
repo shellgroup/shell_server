@@ -1,17 +1,17 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : zsk
+ Source Server         : shelldb
  Source Server Type    : MySQL
- Source Server Version : 50722
- Source Host           : localhost:3306
+ Source Server Version : 50638
+ Source Host           : 101.201.82.63:3306
  Source Schema         : shelldb
 
  Target Server Type    : MySQL
- Target Server Version : 50722
+ Target Server Version : 50638
  File Encoding         : 65001
 
- Date: 24/04/2019 18:33:50
+ Date: 06/05/2019 17:17:12
 */
 
 SET NAMES utf8mb4;
@@ -37,13 +37,13 @@ CREATE TABLE `qrcode_config`  (
   `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
   `update_time` datetime(0) NULL DEFAULT NULL COMMENT '最后修改时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '二维码配置信息' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '二维码配置信息' ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Records of qrcode_config
 -- ----------------------------
-INSERT INTO `qrcode_config` VALUES (1, 680, 680, 19, 90, 'pages/index/main', '/home/', 0, '测试位置码', '用于生成测试的位置码', 0, 1, '2019-04-16 17:55:37', '2019-04-16 17:55:40');
-INSERT INTO `qrcode_config` VALUES (2, 430, 430, 19, 90, 'pages/index/main', '/home/', 0, '测试导购码', '用于生成测试的导购码', 0, 1, '2019-04-16 17:55:37', '2019-04-16 17:55:40');
+INSERT INTO `qrcode_config` VALUES (1, 680, 680, 19, 90, 'pages/index/index', '/home/cp_beijing/data/shell_qrcode/', 0, '测试位置码', '用于生成测试的位置码', 1, 1, '2019-04-16 17:55:37', '2019-04-16 17:55:40');
+INSERT INTO `qrcode_config` VALUES (2, 430, 430, 19, 90, 'pages/index/index', '/home/cp_beijing/data/shell_qrcode/', 0, '汇纳科技测试', '用于生成测试的导购码', 0, 1, '2019-04-16 17:55:37', '2019-04-16 17:55:40');
 
 -- ----------------------------
 -- Table structure for qrcode_info
@@ -60,7 +60,8 @@ CREATE TABLE `qrcode_info`  (
   `user_id` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '用户id',
   `user_name` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '用户名称',
   `user_phone` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '用户手机号',
-  `img_path` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '图片路径',
+  `img_path` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '图片路径（二维码配置中的路径+二维码生成时根据需求等情况拼接路径+二维码名称）',
+  `img_path_sub` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '图片部分路径（二维码生成时根据需求拼接的地址）',
   `img_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '图片名称',
   `img_time` datetime(0) NULL DEFAULT NULL COMMENT '生成日期',
   `enterprise_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '企业名称',
@@ -71,13 +72,13 @@ CREATE TABLE `qrcode_info`  (
   `update_time` datetime(0) NULL DEFAULT NULL COMMENT '最后修改时间',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `dept_id_index`(`dept_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '存放二维码信息' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '存放二维码信息' ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Records of qrcode_info
 -- ----------------------------
-INSERT INTO `qrcode_info` VALUES (1, '便利店', '0115', '地质中学店', NULL, NULL, NULL, '0115_M0001', NULL, NULL, 'data0/uploads\\员工码\\地质中学店\\null\\0115_M0001.png', '0115_M0001.png', '2018-08-13 15:49:58', NULL, NULL, 1, 0, '2019-04-18 15:00:53', '2019-04-18 15:00:58');
-INSERT INTO `qrcode_info` VALUES (2, '便利店1', '0116', '地质中学店', NULL, NULL, NULL, '0115_M0001', NULL, NULL, 'data0/uploads\\员工码\\地质中学店\\null\\0115_M0001.png', '0115_M0001.png', '2018-08-13 15:49:58', NULL, NULL, 1, 0, '2019-04-18 15:00:56', '2019-04-18 15:01:04');
+INSERT INTO `qrcode_info` VALUES (2, NULL, NULL, NULL, '总渠道管理', 1, 'ZHONG', NULL, NULL, NULL, '/home/cp_beijing/data/shell_qrcode//总渠道管理/导购码/总渠道管理_2.png', NULL, '总渠道管理_2.png', '2019-05-05 16:56:58', NULL, NULL, 1, 0, '2019-04-30 15:39:05', '2019-04-30 15:39:05');
+INSERT INTO `qrcode_info` VALUES (3, NULL, NULL, NULL, '总渠道管理', 1, 'ZHONG', NULL, NULL, NULL, '/home/cp_beijing/data/shell_qrcode//总渠道管理/导购码/2019年05月05日/圆形码/3.png', NULL, '3.png', '2019-05-05 08:55:16', NULL, NULL, 1, 0, '2019-05-05 08:54:54', '2019-05-05 08:54:54');
 
 -- ----------------------------
 -- Table structure for qrcode_type
@@ -89,7 +90,7 @@ CREATE TABLE `qrcode_type`  (
   `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
   `update_time` datetime(0) NULL DEFAULT NULL COMMENT '最后修改时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '二维码类型' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '二维码类型' ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Records of qrcode_type
@@ -108,7 +109,7 @@ CREATE TABLE `qrtz_blob_triggers`  (
   PRIMARY KEY (`SCHED_NAME`, `TRIGGER_NAME`, `TRIGGER_GROUP`) USING BTREE,
   INDEX `SCHED_NAME`(`SCHED_NAME`, `TRIGGER_NAME`, `TRIGGER_GROUP`) USING BTREE,
   CONSTRAINT `qrtz_blob_triggers_ibfk_1` FOREIGN KEY (`SCHED_NAME`, `TRIGGER_NAME`, `TRIGGER_GROUP`) REFERENCES `qrtz_triggers` (`SCHED_NAME`, `TRIGGER_NAME`, `TRIGGER_GROUP`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Table structure for qrtz_calendars
@@ -119,7 +120,7 @@ CREATE TABLE `qrtz_calendars`  (
   `CALENDAR_NAME` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `CALENDAR` blob NOT NULL,
   PRIMARY KEY (`SCHED_NAME`, `CALENDAR_NAME`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Table structure for qrtz_cron_triggers
@@ -133,7 +134,7 @@ CREATE TABLE `qrtz_cron_triggers`  (
   `TIME_ZONE_ID` varchar(80) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`SCHED_NAME`, `TRIGGER_NAME`, `TRIGGER_GROUP`) USING BTREE,
   CONSTRAINT `qrtz_cron_triggers_ibfk_1` FOREIGN KEY (`SCHED_NAME`, `TRIGGER_NAME`, `TRIGGER_GROUP`) REFERENCES `qrtz_triggers` (`SCHED_NAME`, `TRIGGER_NAME`, `TRIGGER_GROUP`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Table structure for qrtz_fired_triggers
@@ -160,7 +161,7 @@ CREATE TABLE `qrtz_fired_triggers`  (
   INDEX `IDX_QRTZ_FT_JG`(`SCHED_NAME`, `JOB_GROUP`) USING BTREE,
   INDEX `IDX_QRTZ_FT_T_G`(`SCHED_NAME`, `TRIGGER_NAME`, `TRIGGER_GROUP`) USING BTREE,
   INDEX `IDX_QRTZ_FT_TG`(`SCHED_NAME`, `TRIGGER_GROUP`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Table structure for qrtz_job_details
@@ -180,7 +181,7 @@ CREATE TABLE `qrtz_job_details`  (
   PRIMARY KEY (`SCHED_NAME`, `JOB_NAME`, `JOB_GROUP`) USING BTREE,
   INDEX `IDX_QRTZ_J_REQ_RECOVERY`(`SCHED_NAME`, `REQUESTS_RECOVERY`) USING BTREE,
   INDEX `IDX_QRTZ_J_GRP`(`SCHED_NAME`, `JOB_GROUP`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Table structure for qrtz_locks
@@ -190,7 +191,7 @@ CREATE TABLE `qrtz_locks`  (
   `SCHED_NAME` varchar(120) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `LOCK_NAME` varchar(40) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   PRIMARY KEY (`SCHED_NAME`, `LOCK_NAME`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Records of qrtz_locks
@@ -206,7 +207,7 @@ CREATE TABLE `qrtz_paused_trigger_grps`  (
   `SCHED_NAME` varchar(120) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `TRIGGER_GROUP` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   PRIMARY KEY (`SCHED_NAME`, `TRIGGER_GROUP`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Table structure for qrtz_scheduler_state
@@ -218,12 +219,12 @@ CREATE TABLE `qrtz_scheduler_state`  (
   `LAST_CHECKIN_TIME` bigint(13) NOT NULL,
   `CHECKIN_INTERVAL` bigint(13) NOT NULL,
   PRIMARY KEY (`SCHED_NAME`, `INSTANCE_NAME`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Records of qrtz_scheduler_state
 -- ----------------------------
-INSERT INTO `qrtz_scheduler_state` VALUES ('MasterScheduler', 'DESKTOP-CUD9MR51556101909284', 1556102018361, 15000);
+INSERT INTO `qrtz_scheduler_state` VALUES ('MasterScheduler', 'iZ25coppp8tZ1557132378065', 1557134229646, 15000);
 
 -- ----------------------------
 -- Table structure for qrtz_simple_triggers
@@ -238,7 +239,7 @@ CREATE TABLE `qrtz_simple_triggers`  (
   `TIMES_TRIGGERED` bigint(10) NOT NULL,
   PRIMARY KEY (`SCHED_NAME`, `TRIGGER_NAME`, `TRIGGER_GROUP`) USING BTREE,
   CONSTRAINT `qrtz_simple_triggers_ibfk_1` FOREIGN KEY (`SCHED_NAME`, `TRIGGER_NAME`, `TRIGGER_GROUP`) REFERENCES `qrtz_triggers` (`SCHED_NAME`, `TRIGGER_NAME`, `TRIGGER_GROUP`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Table structure for qrtz_simprop_triggers
@@ -261,7 +262,7 @@ CREATE TABLE `qrtz_simprop_triggers`  (
   `BOOL_PROP_2` varchar(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`SCHED_NAME`, `TRIGGER_NAME`, `TRIGGER_GROUP`) USING BTREE,
   CONSTRAINT `qrtz_simprop_triggers_ibfk_1` FOREIGN KEY (`SCHED_NAME`, `TRIGGER_NAME`, `TRIGGER_GROUP`) REFERENCES `qrtz_triggers` (`SCHED_NAME`, `TRIGGER_NAME`, `TRIGGER_GROUP`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Table structure for qrtz_triggers
@@ -298,7 +299,7 @@ CREATE TABLE `qrtz_triggers`  (
   INDEX `IDX_QRTZ_T_NFT_ST_MISFIRE`(`SCHED_NAME`, `MISFIRE_INSTR`, `NEXT_FIRE_TIME`, `TRIGGER_STATE`) USING BTREE,
   INDEX `IDX_QRTZ_T_NFT_ST_MISFIRE_GRP`(`SCHED_NAME`, `MISFIRE_INSTR`, `NEXT_FIRE_TIME`, `TRIGGER_GROUP`, `TRIGGER_STATE`) USING BTREE,
   CONSTRAINT `qrtz_triggers_ibfk_1` FOREIGN KEY (`SCHED_NAME`, `JOB_NAME`, `JOB_GROUP`) REFERENCES `qrtz_job_details` (`SCHED_NAME`, `JOB_NAME`, `JOB_GROUP`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Table structure for schedule_job
@@ -314,7 +315,7 @@ CREATE TABLE `schedule_job`  (
   `remark` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '备注',
   `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`job_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '定时任务' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '定时任务' ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Table structure for schedule_job_log
@@ -332,7 +333,7 @@ CREATE TABLE `schedule_job_log`  (
   `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`log_id`) USING BTREE,
   INDEX `job_id`(`job_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1098462319601569855 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '定时任务日志' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1098462319601569855 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '定时任务日志' ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Records of schedule_job_log
@@ -508,13 +509,12 @@ CREATE TABLE `sys_config`  (
   `remark` varchar(500) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '备注',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `param_key`(`param_key`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '系统配置信息表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '系统配置信息表' ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Records of sys_config
 -- ----------------------------
 INSERT INTO `sys_config` VALUES (1, 'CLOUD_STORAGE_CONFIG_KEY', '{\"type\":0,\"qiniuDomain\":\"http://pm2vkbv1m.bkt.clouddn.com\",\"qiniuPrefix\":\"upload\",\"qiniuAccessKey\":\"qg1BFsLRVadWHtyGYW2yVzz0ZVJGzLFmwTqhi0ZU\",\"qiniuSecretKey\":\"LGyVEEN_DL1M_NIydnCZlXXifPlE2Ng1RuEvsxkg\",\"qiniuBucketName\":\"master-test\"}', 0, '云存储配置信息');
-INSERT INTO `sys_config` VALUES (3, '323233', '33333232', 1, '323');
 
 -- ----------------------------
 -- Table structure for sys_dept
@@ -527,19 +527,23 @@ CREATE TABLE `sys_dept`  (
   `order_num` int(11) NULL DEFAULT NULL COMMENT '排序',
   `dept_code` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '推广码',
   `del_flag` tinyint(4) NULL DEFAULT 0 COMMENT '是否删除  -1：已删除  0：正常',
+  `status` int(10) NULL DEFAULT 0 COMMENT '0：正常，1：停用',
+  `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`dept_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 8 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '部门管理' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 11 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '部门管理' ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Records of sys_dept
 -- ----------------------------
-INSERT INTO `sys_dept` VALUES (1, 0, '人人开源集团', 0, NULL, 0);
-INSERT INTO `sys_dept` VALUES (2, 1, '长沙分公司', 1, NULL, 0);
-INSERT INTO `sys_dept` VALUES (3, 1, '上海分公司', 2, NULL, 0);
-INSERT INTO `sys_dept` VALUES (4, 3, '技术部', 0, NULL, 0);
-INSERT INTO `sys_dept` VALUES (5, 3, '销售部', 1, NULL, 0);
-INSERT INTO `sys_dept` VALUES (6, 1, '是否', 1, NULL, 0);
-INSERT INTO `sys_dept` VALUES (7, 1, 'haha', 8, NULL, 0);
+INSERT INTO `sys_dept` VALUES (1, 0, '总渠道管理', 0, 'ZHONG', 0, 0, '2019-04-29 11:19:42');
+INSERT INTO `sys_dept` VALUES (2, 1, '汇纳科技渠道', 1, 'HUINAKEJI', 0, 0, '2019-04-29 11:19:44');
+INSERT INTO `sys_dept` VALUES (3, 1, '汇纳远景渠道', 2, 'HUINAYUANJING', 0, 0, '2019-04-29 11:19:47');
+INSERT INTO `sys_dept` VALUES (4, 3, '一级代理商1', 0, 'yijidailishang1', 0, 0, '2019-04-29 11:19:49');
+INSERT INTO `sys_dept` VALUES (5, 3, '一级代理商2', 1, 'yijidailishang2', 0, 0, '2019-04-29 11:19:52');
+INSERT INTO `sys_dept` VALUES (6, 1, '汇纳数据渠道', 1, 'HUINASHUJI', 0, 0, '2019-04-29 11:19:54');
+INSERT INTO `sys_dept` VALUES (8, 4, '二级代理商1', 0, '二级dailishang1', 0, 0, '2019-04-29 11:19:10');
+INSERT INTO `sys_dept` VALUES (9, 2, '一级代理商11', NULL, 'AT', 0, 0, '2019-04-30 15:34:51');
+INSERT INTO `sys_dept` VALUES (10, 6, '一级代理商111', NULL, 'AT2', 0, 0, '2019-04-30 15:35:38');
 
 -- ----------------------------
 -- Table structure for sys_dict
@@ -556,7 +560,7 @@ CREATE TABLE `sys_dict`  (
   `del_flag` tinyint(4) NULL DEFAULT 0 COMMENT '删除标记  -1：已删除  0：正常',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `type`(`type`, `code`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '数据字典表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '数据字典表' ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Records of sys_dict
@@ -575,7 +579,7 @@ CREATE TABLE `sys_icon`  (
   `type` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '图标类型',
   `status` int(10) NULL DEFAULT NULL COMMENT '0：不启用，1：启用',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 299 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 299 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Records of sys_icon
@@ -893,7 +897,7 @@ CREATE TABLE `sys_log`  (
   `ip` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT 'IP地址',
   `create_date` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1098431558701871128 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '系统日志' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1098431558701871175 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '系统日志' ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Records of sys_log
@@ -1075,6 +1079,53 @@ INSERT INTO `sys_log` VALUES (1098431558701871124, 'admin', '修改菜单', 'com
 INSERT INTO `sys_log` VALUES (1098431558701871125, 'admin', '修改菜单', 'com.winnerdt.modules.sys.controller.SysMenuController.update()', '{\"menuId\":51,\"parentId\":1,\"name\":\"测试操作\",\"path\":\"/admin-test/admin-test\",\"type\":1,\"icon\":\"calculator\",\"orderNum\":1}', 40, '192.168.30.19', '2019-04-17 18:13:09');
 INSERT INTO `sys_log` VALUES (1098431558701871126, 'admin', '删除定时任务', 'com.winnerdt.modules.job.controller.ScheduleJobController.delete()', '[4]', 119, '0:0:0:0:0:0:0:1', '2019-04-19 14:13:52');
 INSERT INTO `sys_log` VALUES (1098431558701871127, 'admin', '修改用户', 'com.winnerdt.modules.sys.controller.SysUserController.update()', '{\"userId\":5,\"password\":\"7be0f9939da642910b6889b1787eb20245b420370151769d60787ca3a5e4fc2c\",\"email\":\"123@qqq.com\",\"mobile\":\"12345678977\",\"status\":1,\"roleIdList\":[\"1\"],\"deptId\":3}', 169, '0:0:0:0:0:0:0:1', '2019-04-24 15:34:15');
+INSERT INTO `sys_log` VALUES (1098431558701871128, 'admin', '删除用户', 'com.winnerdt.modules.sys.controller.SysUserController.delete()', '[4]', 13, '127.0.0.1', '2019-04-29 11:20:33');
+INSERT INTO `sys_log` VALUES (1098431558701871129, 'admin', '删除用户', 'com.winnerdt.modules.sys.controller.SysUserController.delete()', '[3]', 56, '127.0.0.1', '2019-04-29 11:20:36');
+INSERT INTO `sys_log` VALUES (1098431558701871130, 'admin', '修改角色', 'com.winnerdt.modules.sys.controller.SysRoleController.update()', '{\"roleId\":1,\"roleName\":\"test1\",\"remark\":\"数据授权，代表拥有本角色的用户拥有哪些数据查看权限\",\"deptId\":4,\"menuIdList\":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51],\"deptIdList\":[4,6]}', 172, '127.0.0.1', '2019-04-29 11:22:46');
+INSERT INTO `sys_log` VALUES (1098431558701871131, 'admin', '修改用户', 'com.winnerdt.modules.sys.controller.SysUserController.update()', '{\"userId\":1,\"email\":\"123145@qq.com\",\"mobile\":\"12345698711\",\"status\":1,\"roleIdList\":[],\"deptId\":1}', 53, '127.0.0.1', '2019-04-29 11:23:51');
+INSERT INTO `sys_log` VALUES (1098431558701871132, 'admin', '保存用户', 'com.winnerdt.modules.sys.controller.SysUserController.save()', '{\"userId\":6,\"username\":\"曹利争\",\"password\":\"40255b3a3597d5a120e4e8cbcb3657a220f226de0c4a7d7baf8963a839081a43\",\"salt\":\"HzO7eghIa7sgupfwTgh7\",\"email\":\"15130719914@163.com\",\"mobile\":\"15130719914\",\"status\":1,\"createTime\":\"Apr 29, 2019 11:32:30 AM\",\"deptId\":5}', 13, '127.0.0.1', '2019-04-29 11:32:30');
+INSERT INTO `sys_log` VALUES (1098431558701871133, 'test1', '修改角色', 'com.winnerdt.modules.sys.controller.SysRoleController.update()', '{\"roleId\":1,\"roleName\":\"test1\",\"remark\":\"数据授权，代表拥有本角色的用户拥有哪些数据查看权限\",\"deptId\":4,\"menuIdList\":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,56,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77],\"deptIdList\":[4,6]}', 38, '127.0.0.1', '2019-04-29 11:33:59');
+INSERT INTO `sys_log` VALUES (1098431558701871134, 'test1', '修改角色', 'com.winnerdt.modules.sys.controller.SysRoleController.update()', '{\"roleId\":1,\"roleName\":\"test1\",\"remark\":\"数据授权，代表拥有本角色的用户拥有哪些数据查看权限\",\"deptId\":4,\"menuIdList\":[2,15,16,17,18,31,32,33,34,35,51,52,53,54,56,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77],\"deptIdList\":[4,6]}', 33, '127.0.0.1', '2019-04-29 11:34:15');
+INSERT INTO `sys_log` VALUES (1098431558701871135, 'admin', '修改角色', 'com.winnerdt.modules.sys.controller.SysRoleController.update()', '{\"roleId\":1,\"roleName\":\"test1\",\"remark\":\"数据授权，代表拥有本角色的用户拥有哪些数据查看权限\",\"deptId\":4,\"menuIdList\":[2,15,16,17,18,31,32,33,34,35,51,52,53,54,56,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77],\"deptIdList\":[4,8]}', 42, '127.0.0.1', '2019-04-29 11:35:55');
+INSERT INTO `sys_log` VALUES (1098431558701871136, 'admin', '下载会员信息', 'com.winnerdt.modules.qrcode.controller.WxUserManageController.download()', NULL, 5901, '0:0:0:0:0:0:0:1', '2019-04-29 18:15:40');
+INSERT INTO `sys_log` VALUES (1098431558701871137, 'admin', '下载会员信息', 'com.winnerdt.modules.qrcode.controller.WxUserManageController.download()', NULL, 3532, '0:0:0:0:0:0:0:1', '2019-04-29 18:16:15');
+INSERT INTO `sys_log` VALUES (1098431558701871138, 'admin', '下载会员信息', 'com.winnerdt.modules.qrcode.controller.WxUserManageController.download()', NULL, 164, '0:0:0:0:0:0:0:1', '2019-04-29 18:18:12');
+INSERT INTO `sys_log` VALUES (1098431558701871139, 'admin', '保存菜单', 'com.winnerdt.modules.sys.controller.SysMenuController.save()', '{\"menuId\":78,\"parentId\":54,\"name\":\"导出\",\"perms\":\"wxUser:manage:download\",\"type\":2}', 13, '0:0:0:0:0:0:0:1', '2019-04-30 11:42:17');
+INSERT INTO `sys_log` VALUES (1098431558701871140, 'admin', '下载会员信息', 'com.winnerdt.modules.qrcode.controller.WxUserManageController.download()', NULL, 129, '0:0:0:0:0:0:0:1', '2019-04-30 11:43:28');
+INSERT INTO `sys_log` VALUES (1098431558701871141, 'admin', '下载会员信息', 'com.winnerdt.modules.qrcode.controller.WxUserManageController.download()', NULL, 14, '0:0:0:0:0:0:0:1', '2019-04-30 11:44:20');
+INSERT INTO `sys_log` VALUES (1098431558701871142, 'admin', '下载会员信息', 'com.winnerdt.modules.qrcode.controller.WxUserManageController.download()', NULL, 10, '0:0:0:0:0:0:0:1', '2019-04-30 11:44:54');
+INSERT INTO `sys_log` VALUES (1098431558701871143, 'admin', '修改二维码信息', 'com.winnerdt.modules.qrcode.controller.QRCodeConfigController.update()', '{\"id\":1,\"qrcodeHeight\":680,\"qrcodeWidth\":680,\"qrcodeFontSize\":19,\"qrcodeFontHeight\":90,\"qrcodeIndexUrl\":\"pages/index/index\",\"qrcodePath\":\"/home/cp_beijing/data/shell_qrcode/\",\"qrcodeConfigName\":\"测试位置码\",\"remark\":\"用于生成测试的位置码\",\"qrcodeShape\":0}', 30, '127.0.0.1', '2019-04-30 15:09:00');
+INSERT INTO `sys_log` VALUES (1098431558701871144, 'admin', '修改二维码信息', 'com.winnerdt.modules.qrcode.controller.QRCodeConfigController.update()', '{\"id\":2,\"qrcodeHeight\":430,\"qrcodeWidth\":430,\"qrcodeFontSize\":19,\"qrcodeFontHeight\":90,\"qrcodeIndexUrl\":\"pages/index/index\",\"qrcodePath\":\"/home/cp_beijing/data/shell_qrcode/\",\"qrcodeConfigName\":\"汇纳科技测试\",\"remark\":\"用于生成测试的导购码\",\"qrcodeShape\":0}', 4, '127.0.0.1', '2019-04-30 15:09:07');
+INSERT INTO `sys_log` VALUES (1098431558701871145, 'admin', '删除二维码信息', 'com.winnerdt.modules.qrcode.controller.QRCodeInfoController.delete()', '[1]', 23, '127.0.0.1', '2019-04-30 15:36:52');
+INSERT INTO `sys_log` VALUES (1098431558701871146, 'admin', '删除角色', 'com.winnerdt.modules.sys.controller.SysRoleController.delete()', '[1]', 27, '127.0.0.1', '2019-04-30 15:37:13');
+INSERT INTO `sys_log` VALUES (1098431558701871147, 'admin', '保存二维码', 'com.winnerdt.modules.qrcode.controller.QRCodeInfoController.save()', '{\"id\":2,\"deptName\":\"总渠道管理\",\"deptId\":1,\"isCreateQrcode\":0,\"isDel\":0,\"createTime\":\"Apr 30, 2019 3:39:04 PM\",\"UpdateTime\":\"Apr 30, 2019 3:39:04 PM\",\"deptCode\":\"ZHONG\"}', 152, '127.0.0.1', '2019-04-30 15:39:05');
+INSERT INTO `sys_log` VALUES (1098431558701871148, 'admin', '修改二维码信息', 'com.winnerdt.modules.qrcode.controller.QRCodeConfigController.update()', '{\"id\":1,\"qrcodeHeight\":680,\"qrcodeWidth\":680,\"qrcodeFontSize\":19,\"qrcodeFontHeight\":90,\"qrcodeIndexUrl\":\"pages/index/index\",\"qrcodePath\":\"/home/cp_beijing/data/shell_qrcode/\",\"qrcodeConfigName\":\"测试位置码\",\"remark\":\"用于生成测试的位置码\",\"qrcodeShape\":1}', 128, '127.0.0.1', '2019-04-30 17:51:52');
+INSERT INTO `sys_log` VALUES (1098431558701871149, 'admin', '保存二维码', 'com.winnerdt.modules.qrcode.controller.QRCodeInfoController.save()', '{\"id\":3,\"deptName\":\"总渠道管理\",\"deptId\":1,\"isCreateQrcode\":0,\"isDel\":0,\"createTime\":\"May 5, 2019 8:54:53 AM\",\"UpdateTime\":\"May 5, 2019 8:54:53 AM\",\"deptCode\":\"ZHONG\"}', 189, '127.0.0.1', '2019-05-05 08:54:54');
+INSERT INTO `sys_log` VALUES (1098431558701871150, 'admin', '保存角色', 'com.winnerdt.modules.sys.controller.SysRoleController.save()', '{\"roleId\":2,\"roleName\":\"汇纳远景渠道商\",\"deptId\":1,\"menuIdList\":[3,15,16,17,19,20,21,22,29,32,33,34,50,51,53,56,61,62,63,64,65,66,67,68,70,71,72,76,77,78],\"deptIdList\":[3,4,5,8],\"createTime\":\"May 5, 2019 9:02:51 AM\"}', 84, '127.0.0.1', '2019-05-05 09:02:52');
+INSERT INTO `sys_log` VALUES (1098431558701871151, 'admin', '删除用户', 'com.winnerdt.modules.sys.controller.SysUserController.delete()', '[5]', 30, '127.0.0.1', '2019-05-05 09:03:20');
+INSERT INTO `sys_log` VALUES (1098431558701871152, 'admin', '修改用户', 'com.winnerdt.modules.sys.controller.SysUserController.update()', '{\"userId\":6,\"email\":\"15130719914@163.com\",\"mobile\":\"15130719914\",\"status\":1,\"roleIdList\":[\"2\"],\"deptId\":1}', 40, '127.0.0.1', '2019-05-05 09:04:15');
+INSERT INTO `sys_log` VALUES (1098431558701871153, 'admin', '下载会员信息', 'com.winnerdt.modules.qrcode.controller.WxUserManageController.download()', NULL, 300, '127.0.0.1', '2019-05-05 09:30:00');
+INSERT INTO `sys_log` VALUES (1098431558701871154, 'admin', '下载会员信息', 'com.winnerdt.modules.qrcode.controller.WxUserManageController.download()', NULL, 32, '127.0.0.1', '2019-05-05 09:40:58');
+INSERT INTO `sys_log` VALUES (1098431558701871155, 'admin', '下载会员信息', 'com.winnerdt.modules.qrcode.controller.WxUserManageController.download()', NULL, 8, '127.0.0.1', '2019-05-05 09:42:04');
+INSERT INTO `sys_log` VALUES (1098431558701871156, 'admin', '下载会员信息', 'com.winnerdt.modules.qrcode.controller.WxUserManageController.download()', NULL, 5, '127.0.0.1', '2019-05-05 09:44:42');
+INSERT INTO `sys_log` VALUES (1098431558701871157, 'admin', '下载会员信息', 'com.winnerdt.modules.qrcode.controller.WxUserManageController.download()', NULL, 6, '127.0.0.1', '2019-05-05 09:46:47');
+INSERT INTO `sys_log` VALUES (1098431558701871158, 'admin', '修改角色', 'com.winnerdt.modules.sys.controller.SysRoleController.update()', '{\"roleId\":2,\"roleName\":\"汇纳远景渠道商\",\"deptId\":1,\"menuIdList\":[3,15,16,17,19,20,21,22,29,32,33,34,50,51,53,56,61,62,63,64,65,66,67,68,69,70,71,72,76,77,78],\"deptIdList\":[3,4,5,8]}', 41, '127.0.0.1', '2019-05-05 10:14:07');
+INSERT INTO `sys_log` VALUES (1098431558701871159, 'admin', '修改角色', 'com.winnerdt.modules.sys.controller.SysRoleController.update()', '{\"roleId\":2,\"roleName\":\"汇纳远景渠道商\",\"deptId\":1,\"menuIdList\":[15,52,54,70,71,72,73,78],\"deptIdList\":[3,4,5,8]}', 29, '127.0.0.1', '2019-05-05 10:15:17');
+INSERT INTO `sys_log` VALUES (1098431558701871160, 'admin', '修改用户', 'com.winnerdt.modules.sys.controller.SysUserController.updateBasic()', '{\"userId\":1,\"nickName\":\"admin\",\"email\":\"123145@qq.com\",\"mobile\":\"12345698711\",\"signature\":\"一个文艺小青年\"}', 16, '127.0.0.1', '2019-05-05 13:45:55');
+INSERT INTO `sys_log` VALUES (1098431558701871161, 'admin', '修改角色', 'com.winnerdt.modules.sys.controller.SysRoleController.update()', '{\"roleId\":2,\"roleName\":\"汇纳远景渠道商\",\"deptId\":1,\"menuIdList\":[1,2,3,4,15,16,17,18,19,20,21,22,23,24,25,26,29,31,32,33,34,35,50,51,52,53,54,56,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78],\"deptIdList\":[3,4,5,8]}', 211, '127.0.0.1', '2019-05-05 13:56:56');
+INSERT INTO `sys_log` VALUES (1098431558701871162, 'admin', '保存用户', 'com.winnerdt.modules.sys.controller.SysUserController.save()', '{\"userId\":7,\"username\":\"帅康\",\"password\":\"2e3fade53208fd98442ecc5943c630ef911203e98cd0cbefe6b4db011db9a5bf\",\"salt\":\"aaRPxHzTMyJUncxefz6J\",\"email\":\"123@qq.com\",\"mobile\":\"11111111111\",\"status\":1,\"roleIdList\":[\"2\"],\"createTime\":\"May 5, 2019 2:20:17 PM\",\"deptId\":2}', 51, '127.0.0.1', '2019-05-05 14:20:17');
+INSERT INTO `sys_log` VALUES (1098431558701871163, 'admin', '修改用户', 'com.winnerdt.modules.sys.controller.SysUserController.update()', '{\"userId\":6,\"email\":\"15130719914@163.com\",\"mobile\":\"15130719914\",\"status\":1,\"roleIdList\":[\"2\"],\"deptId\":3}', 10, '127.0.0.1', '2019-05-05 14:20:32');
+INSERT INTO `sys_log` VALUES (1098431558701871164, 'admin', '保存角色', 'com.winnerdt.modules.sys.controller.SysRoleController.save()', '{\"roleId\":3,\"roleName\":\"汇纳科技渠道商\",\"deptId\":2,\"menuIdList\":[1,2,3,4,15,16,17,18,19,20,21,22,23,24,25,26,29,31,32,33,34,35,50,51,52,53,54,56,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78],\"deptIdList\":[2,9],\"createTime\":\"May 5, 2019 2:29:35 PM\"}', 50, '127.0.0.1', '2019-05-05 14:29:35');
+INSERT INTO `sys_log` VALUES (1098431558701871165, 'admin', '修改角色', 'com.winnerdt.modules.sys.controller.SysRoleController.update()', '{\"roleId\":2,\"roleName\":\"汇纳远景渠道商\",\"deptId\":3,\"menuIdList\":[1,2,3,4,15,16,17,18,19,20,21,22,23,24,25,26,29,31,32,33,34,35,50,51,52,53,54,56,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78],\"deptIdList\":[3,4,5,8]}', 29, '127.0.0.1', '2019-05-05 14:29:49');
+INSERT INTO `sys_log` VALUES (1098431558701871166, 'admin', '修改用户', 'com.winnerdt.modules.sys.controller.SysUserController.update()', '{\"userId\":7,\"email\":\"123@qq.com\",\"mobile\":\"11111111111\",\"status\":1,\"roleIdList\":[\"3\"],\"deptId\":2}', 16, '127.0.0.1', '2019-05-05 14:30:12');
+INSERT INTO `sys_log` VALUES (1098431558701871167, 'admin', '修改角色', 'com.winnerdt.modules.sys.controller.SysRoleController.update()', '{\"roleId\":2,\"roleName\":\"汇纳远景渠道商\",\"deptId\":3,\"menuIdList\":[1,2,3,4,15,16,17,18,19,20,21,22,23,24,25,26,29,31,32,33,34,35,50,51,52,53,54,56,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78],\"deptIdList\":[3,4,5,8]}', 40, '127.0.0.1', '2019-05-05 14:41:41');
+INSERT INTO `sys_log` VALUES (1098431558701871168, 'admin', '保存角色', 'com.winnerdt.modules.sys.controller.SysRoleController.save()', '{\"roleId\":4,\"roleName\":\"汇纳数据渠道商\",\"deptId\":6,\"menuIdList\":[1,2,3,4,15,16,17,18,19,20,21,22,23,24,25,26,29,31,32,33,34,35,50,51,52,53,54,56,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78],\"deptIdList\":[6,10],\"createTime\":\"May 5, 2019 2:42:23 PM\"}', 36, '127.0.0.1', '2019-05-05 14:42:23');
+INSERT INTO `sys_log` VALUES (1098431558701871169, 'admin', '保存用户', 'com.winnerdt.modules.sys.controller.SysUserController.save()', '{\"userId\":8,\"username\":\"张文斌\",\"password\":\"a74724d739e30d9767c932fa7affa0f872b406e4ff3d8cbdcf94f3fbef8a7769\",\"salt\":\"A38Orf6HxfgJpG76mTUs\",\"email\":\"123@qq.com\",\"mobile\":\"12311111111\",\"status\":1,\"roleIdList\":[\"4\"],\"createTime\":\"May 5, 2019 2:43:13 PM\",\"deptId\":6}', 17, '127.0.0.1', '2019-05-05 14:43:13');
+INSERT INTO `sys_log` VALUES (1098431558701871170, 'admin', '修改角色', 'com.winnerdt.modules.sys.controller.SysRoleController.update()', '{\"roleId\":2,\"roleName\":\"汇纳远景渠道商\",\"deptId\":3,\"menuIdList\":[1,2,3,4,15,16,17,18,19,20,21,22,23,24,25,26,29,31,32,33,34,35,50,51,52,53,54,56,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78],\"deptIdList\":[2,3,4,5,8,9]}', 55, '127.0.0.1', '2019-05-05 15:09:51');
+INSERT INTO `sys_log` VALUES (1098431558701871171, 'admin', '下载会员信息', 'com.winnerdt.modules.qrcode.controller.WxUserManageController.download()', NULL, 311, '127.0.0.1', '2019-05-05 15:13:51');
+INSERT INTO `sys_log` VALUES (1098431558701871172, 'admin', '修改角色', 'com.winnerdt.modules.sys.controller.SysRoleController.update()', '{\"roleId\":2,\"roleName\":\"汇纳远景渠道商\",\"deptId\":3,\"menuIdList\":[1,2,3,4,15,16,17,18,19,20,21,22,23,24,25,26,29,31,32,33,34,35,50,51,52,53,54,56,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78],\"deptIdList\":[3,4,5,8]}', 218, '127.0.0.1', '2019-05-05 16:13:45');
+INSERT INTO `sys_log` VALUES (1098431558701871173, 'admin', '修改角色', 'com.winnerdt.modules.sys.controller.SysRoleController.update()', '{\"roleId\":2,\"roleName\":\"汇纳远景渠道商\",\"deptId\":3,\"menuIdList\":[1,2,3,4,15,16,17,18,19,20,21,22,23,24,25,26,29,31,32,33,34,35,50,51,52,53,54,56,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78],\"deptIdList\":[2,3,4,5,8,9]}', 44, '127.0.0.1', '2019-05-05 16:16:09');
+INSERT INTO `sys_log` VALUES (1098431558701871174, 'admin', '修改角色', 'com.winnerdt.modules.sys.controller.SysRoleController.update()', '{\"roleId\":2,\"roleName\":\"汇纳远景渠道商\",\"deptId\":3,\"menuIdList\":[1,2,3,4,15,16,17,18,19,20,21,22,23,24,25,26,29,31,32,33,34,35,50,51,52,53,54,56,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78],\"deptIdList\":[3,4,5,8]}', 32, '127.0.0.1', '2019-05-05 16:20:50');
 
 -- ----------------------------
 -- Table structure for sys_menu
@@ -1092,7 +1143,7 @@ CREATE TABLE `sys_menu`  (
   `locale` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '给前台使用的，具体作用不明',
   `exact` int(10) NULL DEFAULT 0 COMMENT '给前台使用的，具体作用不明,boolean类型',
   PRIMARY KEY (`menu_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 76 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '菜单管理' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 79 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '菜单管理' ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Records of sys_menu
@@ -1101,8 +1152,6 @@ INSERT INTO `sys_menu` VALUES (1, 0, '系统管理', '/system-manager', NULL, 0,
 INSERT INTO `sys_menu` VALUES (2, 0, '用户管理', '/admin-manager', NULL, 0, 'user', 1, 'menu.adminManager', 1);
 INSERT INTO `sys_menu` VALUES (3, 1, '角色管理', '/system-manager/role-manager', NULL, 1, 'tool', 2, 'menu.systemManager.roleManager', 1);
 INSERT INTO `sys_menu` VALUES (4, 1, '菜单管理', '/system-manager/menu-manager', NULL, 1, 'tool', 3, 'menu.systemManager.menuManager', 1);
-INSERT INTO `sys_menu` VALUES (5, 1, 'SQL监控', '/system-manager/sql-manager', NULL, 1, 'tool', 4, 'menu.systemManager.sqlManager', 1);
-INSERT INTO `sys_menu` VALUES (6, 1, '定时任务', '/system-manager/timing-manager', NULL, 1, 'tool', 5, 'menu.systemManager.timingManager', 1);
 INSERT INTO `sys_menu` VALUES (7, 6, '查看', NULL, 'sys:schedule:list,sys:schedule:info', 2, NULL, 0, NULL, 1);
 INSERT INTO `sys_menu` VALUES (8, 6, '新增', NULL, 'sys:schedule:save', 2, NULL, 0, NULL, 1);
 INSERT INTO `sys_menu` VALUES (9, 6, '修改', NULL, 'sys:schedule:update', 2, NULL, 0, NULL, 1);
@@ -1123,20 +1172,16 @@ INSERT INTO `sys_menu` VALUES (23, 4, '查看', NULL, 'sys:menu:list,sys:menu:in
 INSERT INTO `sys_menu` VALUES (24, 4, '新增', NULL, 'sys:menu:save,sys:menu:select', 2, NULL, 0, NULL, 1);
 INSERT INTO `sys_menu` VALUES (25, 4, '修改', NULL, 'sys:menu:update,sys:menu:select', 2, NULL, 0, NULL, 1);
 INSERT INTO `sys_menu` VALUES (26, 4, '删除', NULL, 'sys:menu:delete', 2, NULL, 0, NULL, 1);
-INSERT INTO `sys_menu` VALUES (27, 1, '参数管理', '/system-manager/parameter-manager', 'sys:config:list,sys:config:info,sys:config:save,sys:config:update,sys:config:delete', 1, 'tool', 6, 'menu.systemManager.parameterManager', 1);
 INSERT INTO `sys_menu` VALUES (29, 1, '系统日志', '/system-manager/system-log', 'sys:log:list', 1, 'tool', 7, 'menu.systemManager.systemLog', 1);
-INSERT INTO `sys_menu` VALUES (30, 1, '文件上传', '/system-manager/file-upload', 'sys:oss:list', 1, 'tool', 6, 'menu.systemManager.fileUpload', 1);
 INSERT INTO `sys_menu` VALUES (31, 0, '渠道管理', '/department-manager', NULL, 0, 'tool', 1, 'menu.departmentManager', 1);
 INSERT INTO `sys_menu` VALUES (32, 75, '查看', NULL, 'sys:dept:list,sys:dept:info', 2, NULL, 0, NULL, 1);
 INSERT INTO `sys_menu` VALUES (33, 75, '新增', NULL, 'sys:dept:save,sys:dept:select', 2, NULL, 0, NULL, 1);
 INSERT INTO `sys_menu` VALUES (34, 75, '修改', NULL, 'sys:dept:update,sys:dept:select', 2, NULL, 0, NULL, 1);
 INSERT INTO `sys_menu` VALUES (35, 75, '删除', NULL, 'sys:dept:delete', 2, NULL, 0, NULL, 1);
-INSERT INTO `sys_menu` VALUES (36, 1, '字典管理', '/system-manager/dictionary-manager', NULL, 1, 'tool', 6, 'menu.systemManager.dictionaryManager', 1);
 INSERT INTO `sys_menu` VALUES (37, 36, '查看', NULL, 'sys:dict:list,sys:dict:info', 2, NULL, 6, NULL, 1);
 INSERT INTO `sys_menu` VALUES (38, 36, '新增', NULL, 'sys:dict:save', 2, NULL, 6, NULL, 1);
 INSERT INTO `sys_menu` VALUES (39, 36, '修改', NULL, 'sys:dict:update', 2, NULL, 6, NULL, 1);
 INSERT INTO `sys_menu` VALUES (40, 36, '删除', NULL, 'sys:dict:delete', 2, NULL, 6, NULL, 1);
-INSERT INTO `sys_menu` VALUES (41, 1, '测试页面', '/system-manager/system-test', NULL, 1, 'tool', 1, 'menu.systemManager.testPage', 1);
 INSERT INTO `sys_menu` VALUES (42, 30, '查看', NULL, 'sys:oss:list', 2, NULL, 1, NULL, 0);
 INSERT INTO `sys_menu` VALUES (43, 30, '新增', NULL, 'sys:oss:save', 2, NULL, 2, NULL, 0);
 INSERT INTO `sys_menu` VALUES (44, 30, '上传', NULL, 'sys:oss:upload', 2, NULL, 3, NULL, 0);
@@ -1150,27 +1195,25 @@ INSERT INTO `sys_menu` VALUES (51, 0, '二维码管理', '/qrcode-manager', NULL
 INSERT INTO `sys_menu` VALUES (52, 0, '会员管理', '/member-manager', NULL, 0, 'team', 1, 'menu.memberManager', 0);
 INSERT INTO `sys_menu` VALUES (53, 51, '二维码列表', '/qrcode-manager/qrcode-list', NULL, 1, 'bars', NULL, 'menu.qrcodeManager.qrcodeList', 0);
 INSERT INTO `sys_menu` VALUES (54, 52, '会员列表', '/member-manager/member-list', NULL, 1, 'bars', NULL, 'menu.memberManager.memberList', 0);
-INSERT INTO `sys_menu` VALUES (55, 51, '微信基本信息', '/qrcode-manager/qrcode-wx-info', NULL, 1, 'wechat', NULL, 'menu.qrcodeManager.qrcodeWxInfo', 0);
 INSERT INTO `sys_menu` VALUES (56, 51, '二维码参数配置', '/qrcode-manager/qrcode-config', NULL, 1, 'barcode', NULL, 'menu.qrcodeManager.qrcodeConfig', 0);
-INSERT INTO `sys_menu` VALUES (57, 55, '查看', NULL, 'sys:user:list,sys:user:info', 2, NULL, NULL, NULL, 0);
-INSERT INTO `sys_menu` VALUES (58, 55, '添加', NULL, 'sys:user:save,sys:role:select', 2, NULL, NULL, NULL, 0);
-INSERT INTO `sys_menu` VALUES (59, 55, '修改', NULL, 'sys:user:update,sys:role:select', 2, NULL, NULL, NULL, 0);
-INSERT INTO `sys_menu` VALUES (60, 55, '删除', NULL, 'sys:user:delete', 2, NULL, NULL, NULL, 0);
-INSERT INTO `sys_menu` VALUES (61, 56, '查看', NULL, 'sys:user:list,sys:user:info', 2, NULL, NULL, NULL, 0);
-INSERT INTO `sys_menu` VALUES (62, 56, '添加', NULL, 'sys:user:save,sys:role:select', 2, NULL, NULL, NULL, 0);
-INSERT INTO `sys_menu` VALUES (63, 56, '修改', NULL, 'sys:user:update,sys:role:select', 2, NULL, NULL, NULL, 0);
-INSERT INTO `sys_menu` VALUES (64, 56, '删除', NULL, 'sys:user:delete', 2, NULL, NULL, NULL, 0);
-INSERT INTO `sys_menu` VALUES (65, 53, '添加', NULL, 'sys:user:save,sys:role:select', 2, NULL, NULL, NULL, 0);
-INSERT INTO `sys_menu` VALUES (66, 53, '查看', NULL, 'sys:user:list,sys:user:info', 2, NULL, NULL, NULL, 0);
-INSERT INTO `sys_menu` VALUES (67, 53, '修改', NULL, 'sys:user:update,sys:role:select', 2, NULL, NULL, NULL, 0);
-INSERT INTO `sys_menu` VALUES (68, 53, '删除', NULL, 'sys:user:delete', 2, NULL, NULL, NULL, 0);
+INSERT INTO `sys_menu` VALUES (61, 56, '查看', NULL, 'qrcode:config:list,qrcode:config:info', 2, NULL, NULL, NULL, 0);
+INSERT INTO `sys_menu` VALUES (62, 56, '添加', NULL, 'qrcode:config:save,qrcode:config:select', 2, NULL, NULL, NULL, 0);
+INSERT INTO `sys_menu` VALUES (63, 56, '修改', NULL, 'qrcode:config:update,qrcode:config:select', 2, NULL, NULL, NULL, 0);
+INSERT INTO `sys_menu` VALUES (64, 56, '删除', NULL, 'qrcode:config:delete', 2, NULL, NULL, NULL, 0);
+INSERT INTO `sys_menu` VALUES (65, 53, '添加', NULL, 'qrcode:info:save,qrcode:info:select', 2, NULL, NULL, NULL, 0);
+INSERT INTO `sys_menu` VALUES (66, 53, '查看', NULL, 'qrcode:info:list,qrcode:info:info', 2, NULL, NULL, NULL, 0);
+INSERT INTO `sys_menu` VALUES (67, 53, '修改', NULL, 'qrcode:info:update,qrcode:info:select', 2, NULL, NULL, NULL, 0);
+INSERT INTO `sys_menu` VALUES (68, 53, '删除', NULL, 'qrcode:info:delete', 2, NULL, NULL, NULL, 0);
 INSERT INTO `sys_menu` VALUES (69, 0, '数据统计', '/dashboard/analysis', NULL, 0, 'dashboard', 0, 'menu.dashboard.analysis', 0);
 INSERT INTO `sys_menu` VALUES (70, 54, '添加', NULL, 'sys:user:save,sys:role:select', 2, NULL, NULL, NULL, 0);
-INSERT INTO `sys_menu` VALUES (71, 54, '查看', NULL, 'sys:user:list,sys:user:info', 2, NULL, NULL, NULL, 0);
+INSERT INTO `sys_menu` VALUES (71, 54, '查看', NULL, 'wxUser:manage:list,wxUser:manage:info', 2, NULL, NULL, NULL, 0);
 INSERT INTO `sys_menu` VALUES (72, 54, '修改', NULL, 'sys:user:update,sys:role:select', 2, NULL, NULL, NULL, 0);
 INSERT INTO `sys_menu` VALUES (73, 54, '删除', NULL, 'sys:user:delete', 2, NULL, NULL, NULL, 0);
 INSERT INTO `sys_menu` VALUES (74, 2, '用户列表', '/admin-manager/admin-list', NULL, 1, 'bars', NULL, 'menu.adminManager.adminManagerList', 0);
 INSERT INTO `sys_menu` VALUES (75, 31, '渠道列表', '/department-manager/department-list', NULL, 1, NULL, NULL, 'menu.departmentManager.departmentManagerList', 0);
+INSERT INTO `sys_menu` VALUES (76, 53, '二维码生成', NULL, 'qrcode:info:createqrCode', 2, NULL, NULL, NULL, 0);
+INSERT INTO `sys_menu` VALUES (77, 53, '二维码批量生成', NULL, 'qrcode:info:createqrCodes', 2, NULL, NULL, NULL, 0);
+INSERT INTO `sys_menu` VALUES (78, 54, '导出', NULL, 'wxUser:manage:download', 2, NULL, NULL, NULL, 0);
 
 -- ----------------------------
 -- Table structure for sys_oss
@@ -1183,7 +1226,7 @@ CREATE TABLE `sys_oss`  (
   `file_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '文件名',
   `create_date` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 129 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '文件上传' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 129 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '文件上传' ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Records of sys_oss
@@ -1250,12 +1293,14 @@ CREATE TABLE `sys_role`  (
   `dept_id` bigint(20) NULL DEFAULT NULL COMMENT '部门ID',
   `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`role_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '角色' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '角色' ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Records of sys_role
 -- ----------------------------
-INSERT INTO `sys_role` VALUES (1, 'test1', '啊啊啊', 4, '2019-02-21 14:30:04');
+INSERT INTO `sys_role` VALUES (2, '汇纳远景渠道商', NULL, 3, '2019-05-05 09:02:52');
+INSERT INTO `sys_role` VALUES (3, '汇纳科技渠道商', NULL, 2, '2019-05-05 14:29:35');
+INSERT INTO `sys_role` VALUES (4, '汇纳数据渠道商', NULL, 6, '2019-05-05 14:42:23');
 
 -- ----------------------------
 -- Table structure for sys_role_dept
@@ -1266,13 +1311,19 @@ CREATE TABLE `sys_role_dept`  (
   `role_id` bigint(20) NULL DEFAULT NULL COMMENT '角色ID',
   `dept_id` bigint(20) NULL DEFAULT NULL COMMENT '部门ID',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1087620602212151331 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '角色与部门对应关系' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1087620602212151387 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '角色与部门对应关系' ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Records of sys_role_dept
 -- ----------------------------
-INSERT INTO `sys_role_dept` VALUES (1087620602212151329, 1, 4);
-INSERT INTO `sys_role_dept` VALUES (1087620602212151330, 1, 6);
+INSERT INTO `sys_role_dept` VALUES (1087620602212151355, 3, 2);
+INSERT INTO `sys_role_dept` VALUES (1087620602212151356, 3, 9);
+INSERT INTO `sys_role_dept` VALUES (1087620602212151365, 4, 6);
+INSERT INTO `sys_role_dept` VALUES (1087620602212151366, 4, 10);
+INSERT INTO `sys_role_dept` VALUES (1087620602212151383, 2, 3);
+INSERT INTO `sys_role_dept` VALUES (1087620602212151384, 2, 4);
+INSERT INTO `sys_role_dept` VALUES (1087620602212151385, 2, 5);
+INSERT INTO `sys_role_dept` VALUES (1087620602212151386, 2, 8);
 
 -- ----------------------------
 -- Table structure for sys_role_menu
@@ -1283,7 +1334,7 @@ CREATE TABLE `sys_role_menu`  (
   `role_id` bigint(20) NULL DEFAULT NULL COMMENT '角色ID',
   `menu_id` bigint(20) NULL DEFAULT NULL COMMENT '菜单ID',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1098431558227915266 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '角色与菜单对应关系' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1098431558227915934 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '角色与菜单对应关系' ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Records of sys_role_menu
@@ -1673,56 +1724,144 @@ INSERT INTO `sys_role_menu` VALUES (1098431558227914964, 1098431558068531205, 48
 INSERT INTO `sys_role_menu` VALUES (1098431558227914965, 1098431558068531205, 49);
 INSERT INTO `sys_role_menu` VALUES (1098431558227914966, 1098431558068531205, 50);
 INSERT INTO `sys_role_menu` VALUES (1098431558227914967, 1098431558068531205, 51);
-INSERT INTO `sys_role_menu` VALUES (1098431558227915216, 1, 1);
-INSERT INTO `sys_role_menu` VALUES (1098431558227915217, 1, 2);
-INSERT INTO `sys_role_menu` VALUES (1098431558227915218, 1, 3);
-INSERT INTO `sys_role_menu` VALUES (1098431558227915219, 1, 4);
-INSERT INTO `sys_role_menu` VALUES (1098431558227915220, 1, 5);
-INSERT INTO `sys_role_menu` VALUES (1098431558227915221, 1, 6);
-INSERT INTO `sys_role_menu` VALUES (1098431558227915222, 1, 7);
-INSERT INTO `sys_role_menu` VALUES (1098431558227915223, 1, 8);
-INSERT INTO `sys_role_menu` VALUES (1098431558227915224, 1, 9);
-INSERT INTO `sys_role_menu` VALUES (1098431558227915225, 1, 10);
-INSERT INTO `sys_role_menu` VALUES (1098431558227915226, 1, 11);
-INSERT INTO `sys_role_menu` VALUES (1098431558227915227, 1, 12);
-INSERT INTO `sys_role_menu` VALUES (1098431558227915228, 1, 13);
-INSERT INTO `sys_role_menu` VALUES (1098431558227915229, 1, 14);
-INSERT INTO `sys_role_menu` VALUES (1098431558227915230, 1, 15);
-INSERT INTO `sys_role_menu` VALUES (1098431558227915231, 1, 16);
-INSERT INTO `sys_role_menu` VALUES (1098431558227915232, 1, 17);
-INSERT INTO `sys_role_menu` VALUES (1098431558227915233, 1, 18);
-INSERT INTO `sys_role_menu` VALUES (1098431558227915234, 1, 19);
-INSERT INTO `sys_role_menu` VALUES (1098431558227915235, 1, 20);
-INSERT INTO `sys_role_menu` VALUES (1098431558227915236, 1, 21);
-INSERT INTO `sys_role_menu` VALUES (1098431558227915237, 1, 22);
-INSERT INTO `sys_role_menu` VALUES (1098431558227915238, 1, 23);
-INSERT INTO `sys_role_menu` VALUES (1098431558227915239, 1, 24);
-INSERT INTO `sys_role_menu` VALUES (1098431558227915240, 1, 25);
-INSERT INTO `sys_role_menu` VALUES (1098431558227915241, 1, 26);
-INSERT INTO `sys_role_menu` VALUES (1098431558227915242, 1, 27);
-INSERT INTO `sys_role_menu` VALUES (1098431558227915243, 1, 29);
-INSERT INTO `sys_role_menu` VALUES (1098431558227915244, 1, 30);
-INSERT INTO `sys_role_menu` VALUES (1098431558227915245, 1, 31);
-INSERT INTO `sys_role_menu` VALUES (1098431558227915246, 1, 32);
-INSERT INTO `sys_role_menu` VALUES (1098431558227915247, 1, 33);
-INSERT INTO `sys_role_menu` VALUES (1098431558227915248, 1, 34);
-INSERT INTO `sys_role_menu` VALUES (1098431558227915249, 1, 35);
-INSERT INTO `sys_role_menu` VALUES (1098431558227915250, 1, 36);
-INSERT INTO `sys_role_menu` VALUES (1098431558227915251, 1, 37);
-INSERT INTO `sys_role_menu` VALUES (1098431558227915252, 1, 38);
-INSERT INTO `sys_role_menu` VALUES (1098431558227915253, 1, 39);
-INSERT INTO `sys_role_menu` VALUES (1098431558227915254, 1, 40);
-INSERT INTO `sys_role_menu` VALUES (1098431558227915255, 1, 41);
-INSERT INTO `sys_role_menu` VALUES (1098431558227915256, 1, 42);
-INSERT INTO `sys_role_menu` VALUES (1098431558227915257, 1, 43);
-INSERT INTO `sys_role_menu` VALUES (1098431558227915258, 1, 44);
-INSERT INTO `sys_role_menu` VALUES (1098431558227915259, 1, 45);
-INSERT INTO `sys_role_menu` VALUES (1098431558227915260, 1, 46);
-INSERT INTO `sys_role_menu` VALUES (1098431558227915261, 1, 47);
-INSERT INTO `sys_role_menu` VALUES (1098431558227915262, 1, 48);
-INSERT INTO `sys_role_menu` VALUES (1098431558227915263, 1, 49);
-INSERT INTO `sys_role_menu` VALUES (1098431558227915264, 1, 50);
-INSERT INTO `sys_role_menu` VALUES (1098431558227915265, 1, 51);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915566, 3, 1);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915567, 3, 2);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915568, 3, 3);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915569, 3, 4);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915570, 3, 15);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915571, 3, 16);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915572, 3, 17);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915573, 3, 18);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915574, 3, 19);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915575, 3, 20);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915576, 3, 21);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915577, 3, 22);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915578, 3, 23);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915579, 3, 24);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915580, 3, 25);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915581, 3, 26);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915582, 3, 29);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915583, 3, 31);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915584, 3, 32);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915585, 3, 33);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915586, 3, 34);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915587, 3, 35);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915588, 3, 50);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915589, 3, 51);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915590, 3, 52);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915591, 3, 53);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915592, 3, 54);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915593, 3, 56);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915594, 3, 61);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915595, 3, 62);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915596, 3, 63);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915597, 3, 64);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915598, 3, 65);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915599, 3, 66);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915600, 3, 67);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915601, 3, 68);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915602, 3, 69);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915603, 3, 70);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915604, 3, 71);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915605, 3, 72);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915606, 3, 73);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915607, 3, 74);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915608, 3, 75);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915609, 3, 76);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915610, 3, 77);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915611, 3, 78);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915704, 4, 1);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915705, 4, 2);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915706, 4, 3);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915707, 4, 4);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915708, 4, 15);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915709, 4, 16);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915710, 4, 17);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915711, 4, 18);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915712, 4, 19);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915713, 4, 20);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915714, 4, 21);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915715, 4, 22);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915716, 4, 23);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915717, 4, 24);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915718, 4, 25);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915719, 4, 26);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915720, 4, 29);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915721, 4, 31);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915722, 4, 32);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915723, 4, 33);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915724, 4, 34);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915725, 4, 35);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915726, 4, 50);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915727, 4, 51);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915728, 4, 52);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915729, 4, 53);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915730, 4, 54);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915731, 4, 56);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915732, 4, 61);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915733, 4, 62);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915734, 4, 63);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915735, 4, 64);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915736, 4, 65);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915737, 4, 66);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915738, 4, 67);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915739, 4, 68);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915740, 4, 69);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915741, 4, 70);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915742, 4, 71);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915743, 4, 72);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915744, 4, 73);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915745, 4, 74);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915746, 4, 75);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915747, 4, 76);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915748, 4, 77);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915749, 4, 78);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915888, 2, 1);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915889, 2, 2);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915890, 2, 3);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915891, 2, 4);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915892, 2, 15);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915893, 2, 16);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915894, 2, 17);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915895, 2, 18);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915896, 2, 19);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915897, 2, 20);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915898, 2, 21);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915899, 2, 22);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915900, 2, 23);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915901, 2, 24);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915902, 2, 25);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915903, 2, 26);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915904, 2, 29);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915905, 2, 31);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915906, 2, 32);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915907, 2, 33);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915908, 2, 34);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915909, 2, 35);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915910, 2, 50);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915911, 2, 51);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915912, 2, 52);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915913, 2, 53);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915914, 2, 54);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915915, 2, 56);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915916, 2, 61);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915917, 2, 62);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915918, 2, 63);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915919, 2, 64);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915920, 2, 65);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915921, 2, 66);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915922, 2, 67);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915923, 2, 68);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915924, 2, 69);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915925, 2, 70);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915926, 2, 71);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915927, 2, 72);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915928, 2, 73);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915929, 2, 74);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915930, 2, 75);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915931, 2, 76);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915932, 2, 77);
+INSERT INTO `sys_role_menu` VALUES (1098431558227915933, 2, 78);
 
 -- ----------------------------
 -- Table structure for sys_user
@@ -1743,15 +1882,15 @@ CREATE TABLE `sys_user`  (
   `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`user_id`) USING BTREE,
   UNIQUE INDEX `username`(`username`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '系统用户' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 9 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '系统用户' ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Records of sys_user
 -- ----------------------------
-INSERT INTO `sys_user` VALUES (1, 'admin', '', 'e1153123d7d180ceeb820d577ff119876678732a68eef4e6ffc0b1f06a01f91b', 'YzcmCZNvbXocrsz9dm8e', '123145@qq.com', '12345698711', 1, 4, '02549f9c-3ae9-45db-b873-635f06e0df09.jpeg', '', '2016-11-11 11:11:11');
-INSERT INTO `sys_user` VALUES (3, 'teywteyw', NULL, '0a1ade81f7129dd4fa42ca8cd8adac668649cc88456d969b89de6601a1fa5f79', 'QpW0JznfOZvuNG4hhB1W', 'q@q.com', '11111111111', 1, 3, 'defaultAvatar.png', NULL, '2019-02-15 18:26:08');
-INSERT INTO `sys_user` VALUES (4, '12313', NULL, '575abe148ca8cac7dc1f9f09f29d791fefe079995537b25ed1e2056952416621', 'XX8X9T3hfhfPzyCGzJfR', '643935700@qq.con', '13245685210', 1, 1, 'defaultAvatar.png', NULL, '2019-02-21 14:27:02');
-INSERT INTO `sys_user` VALUES (5, 'test1', NULL, '7be0f9939da642910b6889b1787eb20245b420370151769d60787ca3a5e4fc2c', 'g6IW3Oc9pW6Z9KzfygXv', '123@qqq.com', '12345678977', 1, 3, 'defaultAvatar.png', NULL, '2019-04-17 18:01:54');
+INSERT INTO `sys_user` VALUES (1, 'admin', 'admin', 'e1153123d7d180ceeb820d577ff119876678732a68eef4e6ffc0b1f06a01f91b', 'YzcmCZNvbXocrsz9dm8e', '123145@qq.com', '12345698711', 1, 1, '2d7fbb44-c266-4664-ac7c-af0e68e0b0f7.jpeg', '一个文艺小青年', '2016-11-11 11:11:11');
+INSERT INTO `sys_user` VALUES (6, '曹利争', NULL, '40255b3a3597d5a120e4e8cbcb3657a220f226de0c4a7d7baf8963a839081a43', 'HzO7eghIa7sgupfwTgh7', '15130719914@163.com', '15130719914', 1, 3, 'defaultAvatar.png', NULL, '2019-04-29 11:32:30');
+INSERT INTO `sys_user` VALUES (7, '帅康', NULL, '2e3fade53208fd98442ecc5943c630ef911203e98cd0cbefe6b4db011db9a5bf', 'aaRPxHzTMyJUncxefz6J', '123@qq.com', '11111111111', 1, 2, 'defaultAvatar.png', NULL, '2019-05-05 14:20:17');
+INSERT INTO `sys_user` VALUES (8, '张文斌', NULL, 'a74724d739e30d9767c932fa7affa0f872b406e4ff3d8cbdcf94f3fbef8a7769', 'A38Orf6HxfgJpG76mTUs', '123@qq.com', '12311111111', 1, 6, 'defaultAvatar.png', NULL, '2019-05-05 14:43:13');
 
 -- ----------------------------
 -- Table structure for sys_user_role
@@ -1762,15 +1901,15 @@ CREATE TABLE `sys_user_role`  (
   `user_id` bigint(20) NULL DEFAULT NULL COMMENT '用户ID',
   `role_id` bigint(20) NULL DEFAULT NULL COMMENT '角色ID',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1087608018633302025 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '用户与角色对应关系' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1087608018633302030 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '用户与角色对应关系' ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Records of sys_user_role
 -- ----------------------------
-INSERT INTO `sys_user_role` VALUES (1087608018633302018, 1087608018549415938, 1);
 INSERT INTO `sys_user_role` VALUES (1087608018633302021, 4, 1098431558068531203);
-INSERT INTO `sys_user_role` VALUES (1087608018633302022, 3, 1);
-INSERT INTO `sys_user_role` VALUES (1087608018633302024, 5, 1);
+INSERT INTO `sys_user_role` VALUES (1087608018633302027, 6, 2);
+INSERT INTO `sys_user_role` VALUES (1087608018633302028, 7, 3);
+INSERT INTO `sys_user_role` VALUES (1087608018633302029, 8, 4);
 
 -- ----------------------------
 -- Table structure for wx_appinfo
@@ -1789,13 +1928,12 @@ CREATE TABLE `wx_appinfo`  (
   `remark` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '说明',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `appid_index`(`appid`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '小程序相关配置' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '小程序相关配置' ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Records of wx_appinfo
 -- ----------------------------
-INSERT INTO `wx_appinfo` VALUES (1, 'wx91101e95149c98da', '1bab55240809c25e3757c4f65a79588e', '姗姗生产', NULL, NULL, NULL, NULL, 7200, NULL);
-INSERT INTO `wx_appinfo` VALUES (3, 'wx4ee818d7d071c361', '91fa95d13d3cba85ca1c57bc58d317ae', '姗姗测试', NULL, NULL, '15_Od9srvHayi7JhpvHD31EQOD3HcHTOpczFoFXiXoYLJIYpRGOHpiqtp6RNN6tC59S0vPqPknTPjBy--aQw9aatS6x54r2T9HoQLLoJqiDJA5_pdqCADe3LAElNGrGEGGIAV5qq9EJTe139ASzVWRdAIAGHC', '2018-10-26 14:38:40', 7200, NULL);
+INSERT INTO `wx_appinfo` VALUES (1, 'wxcd96c481e27db8bd', '8e9c97e1fe9abaf9aef17f7bd88c77d8', '壳牌生产', NULL, NULL, NULL, NULL, 7200, NULL);
 
 -- ----------------------------
 -- Table structure for wx_user
@@ -1826,18 +1964,33 @@ CREATE TABLE `wx_user`  (
   `dept_code` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '部门推广码',
   `id_card` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '用户身份证信息',
   `name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '姓名',
+  `regist_phone` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '用户注册时填写手机号',
+  `use_region` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '用户注册时使用地区',
+  `invoice_type` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '用户注册开票类型',
+  `is_regist` int(10) NULL DEFAULT 0 COMMENT '0=未注册，1=已经注册',
   `webid` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '华联与微众唯一key，默认第一次注册手机号',
   `webank` tinyint(2) NULL DEFAULT NULL COMMENT '是否微众轻会员',
-  `scene` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '二维码',
+  `scene` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '二维码',
   `hdcard_member_id` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '线下会员号',
   `ident_code` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '会员身份识别码',
   `scene_address` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '渠道',
   `create_date` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
   `update_date` datetime(0) NULL DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE,
-  INDEX `open_id_index`(`open_id`) USING BTREE,
+  INDEX `open_id_index`(`open_id`(191)) USING BTREE,
   INDEX `dept_id_index`(`dept_id`) USING BTREE,
   INDEX `share_id_index`(`share_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '微信小程序用户信息' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 31 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '微信小程序用户信息' ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Records of wx_user
+-- ----------------------------
+INSERT INTO `wx_user` VALUES (15, 'okrZJ5Nj2dbymgQBfRge-FGLCQWM', 'lS9f4V67+avRyfHdZYZ+VA==', '{shareId=1, deptId=1, deptCode=zsk}', '10.161.31.225', 'ox0d3wyqnRoJGipuDGAglIwtPKJI', NULL, 'Richard', 1, 'https://wx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTI16ruuuGmgUGXwoLjXRmbPTTVTOZD9HmfQpnw7jSrBp2KDubj77DMlaVUiaDRbmBeAo7VpoJUy2mA/132', 'Chaoyang', 'Beijing', 'zh_CN', '18810317855', '18810317855', '86', NULL, NULL, NULL, '3', 3, 'zsk', '412326199002043355', '张伟乾', '18810317855', '北京', '充值开票', 1, NULL, 0, '{shareId=1, deptId=1, deptCode=zsk}', NULL, NULL, '1047', '2019-04-28 18:26:06', '2019-05-05 15:08:19');
+INSERT INTO `wx_user` VALUES (16, 'okrZJ5IbllaoN-Iol4VuCci-FPl0', 'NaRE/1cWloFDuboGYyqYSw==', '{shareId=1, deptId=1, deptCode=zsk}', '10.161.31.225', 'ox0d3wy7bP6WyHvL3112kOumMCmM', NULL, '蒋丽娥 Katrina', 2, 'https://wx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTLXC0cN0sTDlMa6gb1lm1TJZH3xsariaJajcyRmpYBKT2IS7x5Ln5uIPflcD5IOFLS62Pem9GiaQw0Q/132', 'Xuhui', 'Shanghai', 'zh_CN', '15900534905', '15900534905', '86', NULL, NULL, NULL, '3', 3, 'zsk', NULL, NULL, NULL, NULL, NULL, 0, NULL, 0, '{shareId=1, deptId=1, deptCode=zsk}', NULL, NULL, '1048', '2019-04-29 11:26:49', '2019-04-29 11:26:56');
+INSERT INTO `wx_user` VALUES (24, 'okrZJ5F9oYZs3GlG-uprF9l1Wb4I', 'YrhGXaaaFenflXN4igDrmw==', '{shareId=2, deptId=1}', '10.161.31.225', 'ox0d3wzmeshaqtKAVEE6UI1eLrcM', NULL, '余空、鱼白', 1, 'https://wx.qlogo.cn/mmopen/vi_32/JvvCBqoV1r82aYnWx5nUeQm6BoY4JJasQxzPP3rAicnhCboHer9o6XhJMGbf3ibichicmKZNbwyHTMm19xNm0XDAgA/132', '', '', 'zh_CN', '18838987007', '18838987007', '86', NULL, NULL, NULL, '2', 1, 'ZHONG', '41142219960103271X', '张帅康', '18838987007', '北京', '充值开票', 1, NULL, 0, '{shareId=2, deptId=1}', NULL, NULL, '1047', '2019-04-30 16:24:47', '2019-04-30 16:25:06');
+INSERT INTO `wx_user` VALUES (26, 'okrZJ5D407nCorFxFQ-xyln24Dhg', 'edj48wwCwAeqo2wWCzKs8g==', '{shareId=3, deptId=1}', '10.161.31.225', 'ox0d3w3jf7P-tbtDA6_nGEs4ulR8', NULL, '抹忆归尘', 1, 'https://wx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTI2libXDbCJhiceplseiaWeOQEQKGVAPgQgtTkOG9rZmTGdBxblGic6kef0SQ220ZPBBNe7OOJGUT3XvA/132', 'Chaoyang', 'Beijing', 'zh_CN', '15130719914', '15130719914', '86', NULL, NULL, NULL, '3', 1, 'ZHONG', '130434199501045211', '曹利争', '15130719914', '青岛', '消费开票', 1, NULL, 0, '{shareId=3, deptId=1}', NULL, NULL, '1047', '2019-05-05 09:15:27', '2019-05-06 15:01:45');
+INSERT INTO `wx_user` VALUES (27, 'okrZJ5N-1BUc5A934dkozA2--Pxk', 'rkU9/+cBZGThZpvHjxaTFw==', '{shareId=1, deptId=1}', '10.161.31.225', 'ox0d3w7uCnftMx5iYV67idcVbe5E', NULL, '樊雨洁', 2, 'https://wx.qlogo.cn/mmopen/vi_32/xvUCjicLmRzDN3pqvJWoZgdc3WtXmH4ic9ic3wP0QHOj8oI1fNZ12LOGtlaNYseAn5nmsl7HfcS8oaNS8g002S7Gg/132', 'Pudong New District', 'Shanghai', 'zh_CN', '18677951854', '18677951854', '86', NULL, NULL, NULL, '1', 1, 'zsk', NULL, NULL, NULL, NULL, NULL, 0, NULL, 0, '{shareId=1, deptId=1}', NULL, NULL, '1048', '2019-05-05 15:17:20', '2019-05-05 15:17:27');
+INSERT INTO `wx_user` VALUES (28, 'okrZJ5EtnHGvE_RDBmr1KbC6Owvg', 'xUASvzIavjZ/AH0SDwnSRw==', '{shareId=1, deptId=1}', '10.161.31.225', 'ox0d3ww8oJB3J1Dk6iQ-RZnUIEJM', NULL, '王晓坤', 2, 'https://wx.qlogo.cn/mmopen/vi_32/DYAIOgq83epfZu0BJ7YGcQ9YqR5S19qcXMv1KFZ849IVHU1w22zG57y4GZMGwrrKpy9caP7k4bribY5aCibygWZw/132', 'Warman', 'Saskatchewan', 'zh_CN', '13516192696', '13516192696', '86', NULL, NULL, NULL, '1', 1, 'zsk', '120105198011034822', '王晓坤', '13516192696', '天津', '消费开票', 1, NULL, 0, '{shareId=1, deptId=1}', NULL, NULL, '1047', '2019-05-05 15:19:52', '2019-05-05 15:21:31');
+INSERT INTO `wx_user` VALUES (30, 'okrZJ5Kj4OBgZbGpbQ2SZCgr27ps', 'Vs3dFgZn0O2UTdDJlL3uXA==', '{shareId=undefined, deptId=}', '10.161.31.225', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, 0, '{shareId=undefined, deptId=}', NULL, NULL, '1001', '2019-05-05 18:07:35', '2019-05-05 18:07:37');
 
 SET FOREIGN_KEY_CHECKS = 1;
