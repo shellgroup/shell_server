@@ -356,7 +356,14 @@ public class QRCodeInfoServiceImpl extends ServiceImpl<QRCodeInfoDao, QRCodeInfo
 
     @Override
     public void batchDownload(HttpServletResponse response, Map<String, Object> map) throws Exception {
-        List qrcodeIdList = (List) map.get("qrcodeIdList");
+
+        //配合前端，处理数据
+        List qrcodeIdList = new ArrayList();
+        if(null != map.get("qrcodeIdListStr")){
+            String qrcodeIdListStr = map.get("qrcodeIdListStr").toString();
+            qrcodeIdList = new ArrayList(Arrays.asList(qrcodeIdListStr.split(",")));
+        }
+
 
         String zipName = "二维码图片";
 
