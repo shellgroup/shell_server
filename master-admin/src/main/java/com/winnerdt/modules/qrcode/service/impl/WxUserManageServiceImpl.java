@@ -97,6 +97,8 @@ public class WxUserManageServiceImpl extends ServiceImpl<WxUserManageDao, WxUser
             //查询拥有的部门id
             //部门ID列表
             Set<Long> deptIdList = new HashSet<>();
+            //添加上自己的部门id
+            deptIdList.add(deptId);
             //是否需要角色分配下的deptId
             List<Long> roleIdList = sysUserRoleService.queryRoleIdList(userId);
             if(roleIdList.size() > 0){
@@ -155,6 +157,7 @@ public class WxUserManageServiceImpl extends ServiceImpl<WxUserManageDao, WxUser
     @DataFilter(subDept = true, user = false)
     public List<WxUserManageEntity> queryWxUserEntityListByDataFilter(Map map) {
         List<WxUserManageEntity> wxUserManageEntityList = wxUserManageDao.selectList(new QueryWrapper<WxUserManageEntity>()
+                .eq("is_regist",1)
                 .apply(map.get(Constant.SQL_FILTER) != null, (String)map.get(Constant.SQL_FILTER)));
         return wxUserManageEntityList;
     }
@@ -163,6 +166,7 @@ public class WxUserManageServiceImpl extends ServiceImpl<WxUserManageDao, WxUser
     @DataFilter(subDept = true, user = false)
     public Integer queryWxUserTotleByDataFilter(Map map) {
         Integer  wxUserTotle= wxUserManageDao.selectCount(new QueryWrapper<WxUserManageEntity>()
+                .eq("is_regist",1)
                 .apply(map.get(Constant.SQL_FILTER) != null, (String)map.get(Constant.SQL_FILTER)));
         return wxUserTotle;
     }
@@ -174,6 +178,7 @@ public class WxUserManageServiceImpl extends ServiceImpl<WxUserManageDao, WxUser
         }
         Long deptId = Long.valueOf(map.get("deptId").toString());
         List<WxUserManageEntity> wxUserManageEntityList = wxUserManageDao.selectList(new QueryWrapper<WxUserManageEntity>()
+                .eq("is_regist",1)
                 .apply(true, getSql(deptId,true,"",false,null))
         );
         return wxUserManageEntityList;
@@ -186,6 +191,7 @@ public class WxUserManageServiceImpl extends ServiceImpl<WxUserManageDao, WxUser
         }
         Long deptId = Long.valueOf(map.get("deptId").toString());
         Integer  wxUserTotle= wxUserManageDao.selectCount(new QueryWrapper<WxUserManageEntity>()
+                .eq("is_regist",1)
                 .apply(true, getSql(deptId,true,"",false,null)));
         return wxUserTotle;
     }
@@ -213,6 +219,7 @@ public class WxUserManageServiceImpl extends ServiceImpl<WxUserManageDao, WxUser
                 .select("DATE_FORMAT(create_date,'%Y-%m-%d') as x,count(id) as y")
                 .apply(true, getSql(deptId,true,"",false,null))
                 .between("create_date",pastDate,nowDate)
+                .eq("is_regist",1)
                 .isNotNull("create_date")
                 .groupBy("DATE_FORMAT(create_date,'%Y-%m-%d')")
         );
@@ -247,7 +254,14 @@ public class WxUserManageServiceImpl extends ServiceImpl<WxUserManageDao, WxUser
                 }
             }
         }
-
+        //首先根据日期排序
+        Collections.sort(salesData, new Comparator<Map<String, Object>>() {
+            public int compare(Map<String, Object> o1, Map<String, Object> o2) {
+                String date1 = o1.get("x").toString() ;
+                String date2 = o2.get("x").toString() ;
+                return date1.compareTo(date2);
+            }
+        });
 
         salesData.stream().map(map1 ->{
             String dateTemp = map1.get("x").toString();
@@ -294,6 +308,7 @@ public class WxUserManageServiceImpl extends ServiceImpl<WxUserManageDao, WxUser
         for(Long deptIdTemp:childrenDeptIdList){
             Integer  wxUserTotle= wxUserManageDao.selectCount(new QueryWrapper<WxUserManageEntity>()
                     .between(createTimeBoolean,"create_date",createBeginTime,createEndTime)
+                    .eq("is_regist",1)
                     .apply(true, getSql(deptIdTemp,true,"",false,null)));
             LinkedHashMap<String,Object> resultMapTemp = new LinkedHashMap();
             resultMapTemp.put("deptId",deptIdTemp);
@@ -323,6 +338,7 @@ public class WxUserManageServiceImpl extends ServiceImpl<WxUserManageDao, WxUser
         for(Long deptIdTemp:finRoleDeptId){
             Integer  wxUserTotle= wxUserManageDao.selectCount(new QueryWrapper<WxUserManageEntity>()
                     .between(createTimeBoolean,"create_date",createBeginTime,createEndTime)
+                    .eq("is_regist",1)
                     .apply(true, getSql(deptIdTemp,true,"",false,null)));
             LinkedHashMap<String,Object> resultMapTemp = new LinkedHashMap();
             resultMapTemp.put("deptId",deptIdTemp);
@@ -382,6 +398,7 @@ public class WxUserManageServiceImpl extends ServiceImpl<WxUserManageDao, WxUser
         //本部门拉新数量总数
         Integer myselfTotle = wxUserManageDao.selectCount(new QueryWrapper<WxUserManageEntity>()
                 .eq("dept_id",deptId)
+                .eq("is_regist",1)
         );
 
         //下级部门拉新数量
@@ -397,12 +414,14 @@ public class WxUserManageServiceImpl extends ServiceImpl<WxUserManageDao, WxUser
         String nowDateEnd = nowDateTemp + " 23:59:59";
         Integer todayTotle = wxUserManageDao.selectCount(new QueryWrapper<WxUserManageEntity>()
                 .between("create_date",nowDateStart,nowDateEnd)
+                .eq("is_regist",1)
                 .apply(true, getSql(deptId,true,"",true,userId))
         );
 
         //本部门今日拉新数量
         Integer myselfTodayTotle = wxUserManageDao.selectCount(new QueryWrapper<WxUserManageEntity>()
                 .between("create_date",nowDateStart,nowDateEnd)
+                .eq("is_regist",1)
                 .eq("dept_id",deptId)
         );
 
@@ -415,12 +434,14 @@ public class WxUserManageServiceImpl extends ServiceImpl<WxUserManageDao, WxUser
         String yesterdayEnd = yesterdayTemp + " 23:59:59";
         Integer yesterdayTotle = wxUserManageDao.selectCount(new QueryWrapper<WxUserManageEntity>()
                 .between("create_date",yesterdayStart,yesterdayEnd)
+                .eq("is_regist",1)
                 .apply(true, getSql(deptId,true,"",true,userId))
         );
 
         //本部门昨天拉新数
         Integer myselfYesterdayTotle = wxUserManageDao.selectCount(new QueryWrapper<WxUserManageEntity>()
                 .between("create_date",yesterdayStart,yesterdayEnd)
+                .eq("is_regist",1)
                 .eq("dept_id",deptId)
         );
         //子部门昨天拉新数
@@ -452,6 +473,7 @@ public class WxUserManageServiceImpl extends ServiceImpl<WxUserManageDao, WxUser
         String nowWeekEnd = DateUtil.getWeekEnd(date);
         Integer nowWeekTotle = wxUserManageDao.selectCount(new QueryWrapper<WxUserManageEntity>()
                 .between("create_date",nowWeekStart,nowWeekEnd)
+                .eq("is_regist",1)
                 .apply(true, getSql(deptId,true,"",true,userId))
         );
 
@@ -459,6 +481,7 @@ public class WxUserManageServiceImpl extends ServiceImpl<WxUserManageDao, WxUser
         Integer myselfNowWeekTotle = wxUserManageDao.selectCount(new QueryWrapper<WxUserManageEntity>()
                 .between("create_date",nowWeekStart,nowWeekEnd)
                 .eq("dept_id",deptId)
+                .eq("is_regist",1)
         );
 
         //子部门本周数据
@@ -470,6 +493,7 @@ public class WxUserManageServiceImpl extends ServiceImpl<WxUserManageDao, WxUser
         String lastWeekEnd = DateUtil.getLastWeekEnd();
         Integer lastWeekTotle = wxUserManageDao.selectCount(new QueryWrapper<WxUserManageEntity>()
                 .between("create_date",lastWeekStart,lastWeekEnd)
+                .eq("is_regist",1)
                 .apply(true, getSql(deptId,true,"",true,userId))
         );
 
@@ -477,6 +501,7 @@ public class WxUserManageServiceImpl extends ServiceImpl<WxUserManageDao, WxUser
         Integer myselfLastWeekTotle = wxUserManageDao.selectCount(new QueryWrapper<WxUserManageEntity>()
                 .between("create_date",lastWeekStart,lastWeekEnd)
                 .eq("dept_id",deptId)
+                .eq("is_regist",1)
         );
 
         //子部门上周数据

@@ -38,6 +38,7 @@
                         #{deptId}
                     </foreach>
                 </if>
+                and wu.is_regist = 1
             </where>
 
         <if test="pageSize != null and currRecord != null">
@@ -80,6 +81,7 @@
                     #{deptId}
                 </foreach>
             </if>
+            and wu.is_regist = 1
         </where>
 
     </select>
@@ -109,8 +111,9 @@
                      </if>
 
                      <if test="createBeginTime != null and createBeginTime != '' and createEndTime != null and createEndTime != ''">
-                         and sc.create_time between #{createBeginTime} and #{createEndTime}
+                         and wu.create_time between #{createBeginTime} and #{createEndTime}
                      </if>
+                     and wu.is_regist = 1
                  </where>
                  AND wu.create_date IS NOT NULL
                  GROUP BY dept_id
