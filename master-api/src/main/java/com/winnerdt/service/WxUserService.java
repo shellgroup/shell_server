@@ -41,4 +41,10 @@ public interface WxUserService extends IService<WxUserEntity> {
 	List<WxUserEntity> findUserList(Map<String, Object> map);
 
 	void updateByOpenId(Map<String ,String > map);
+
+	//检测注册手机号是否已经存在
+	boolean isExitRegistPhone(String registPhone);
+
+	//检测注册身份证号是否已经存在
+	boolean isExitRegistIdCard(String idCard);
 }

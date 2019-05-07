@@ -1,6 +1,7 @@
 package com.winnerdt.service.impl;
 
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.winnerdt.dao.WxUserDao;
@@ -121,6 +122,26 @@ public class WxUserServiceImpl extends ServiceImpl<WxUserDao,WxUserEntity> imple
 				.set("is_regist",1)
 				.set("update_date",new Date())
 				.eq("open_id",wxUserEntity.getOpenId()));
+	}
+
+	@Override
+	public boolean isExitRegistPhone(String registPhone) {
+		List<WxUserEntity> wxUserEntityList = wxUserDao.selectList(new QueryWrapper<WxUserEntity>()
+				.eq("regist_phone",registPhone));
+		if(wxUserEntityList.size() > 0){
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public boolean isExitRegistIdCard(String idCard) {
+		List<WxUserEntity> wxUserEntityList = wxUserDao.selectList(new QueryWrapper<WxUserEntity>()
+				.eq("id_card",idCard));
+		if(wxUserEntityList.size() > 0){
+			return true;
+		}
+		return false;
 	}
 
 }

@@ -374,8 +374,15 @@ public class QRCodeInfoServiceImpl extends ServiceImpl<QRCodeInfoDao, QRCodeInfo
         try {
             for(Iterator<QRCodeInfoEntity> it = qrCodeInfoEntityList.iterator();it.hasNext();){
                 QRCodeInfoEntity file = it.next();
-                ZipUtils.doCompress(new File(file.getImgPath()), out,zipName+file.getImgPathSub());
-                response.flushBuffer();
+                //如果未生成二维码就跳过
+                if(null == file.getImgPath() || "" .equals(file.getImgPath()) || file.getIsCreateQrcode().equals(0)){
+                    continue;
+                }else {
+                    ZipUtils.doCompress(new File(file.getImgPath()), out,zipName+file.getImgPathSub());
+                    response.flushBuffer();
+                }
+
+
             }
         } catch (Exception e) {
             e.printStackTrace();

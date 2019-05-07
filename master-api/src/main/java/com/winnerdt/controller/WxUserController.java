@@ -339,6 +339,16 @@ public class WxUserController {
             return R.error("invoiceType为空");
         }
 
+        //检测是否已经存在注册的身份证号
+        if(wxUserService.isExitRegistIdCard(map.get("idCard"))){
+            return R.error(2,"该身份号已经注册过了");
+        }
+
+        //检测是否已经存在注册的手机号
+        if(wxUserService.isExitRegistPhone(map.get("registPhone"))){
+            return R.error(1,"该手机号已经注册过了");
+        }
+
         try {
             wxUserService.updateByOpenId(map);
             return R.ok();
