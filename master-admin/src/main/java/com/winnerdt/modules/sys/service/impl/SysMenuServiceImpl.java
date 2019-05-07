@@ -1,14 +1,18 @@
 package com.winnerdt.modules.sys.service.impl;
 
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.winnerdt.common.utils.Constant;
 import com.winnerdt.common.utils.MapUtils;
 import com.winnerdt.modules.sys.dao.SysMenuDao;
 import com.winnerdt.modules.sys.entity.SysMenuEntity;
+import com.winnerdt.modules.sys.entity.SysRoleMenuEntity;
 import com.winnerdt.modules.sys.service.SysMenuService;
 import com.winnerdt.modules.sys.service.SysRoleMenuService;
+import com.winnerdt.modules.sys.service.SysUserRoleService;
 import com.winnerdt.modules.sys.service.SysUserService;
+import com.winnerdt.modules.sys.shiro.ShiroUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +27,8 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuDao, SysMenuEntity> i
 	private SysUserService sysUserService;
 	@Autowired
 	private SysRoleMenuService sysRoleMenuService;
+	@Autowired
+	private SysUserRoleService sysUserRoleService;
 
 
 	@Override
@@ -184,6 +190,36 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuDao, SysMenuEntity> i
 		 * */
 		List<SysMenuEntity> menuList = queryListParentId((long) Constant.MenuType.CATALOG.getValue());
 		return getTreeTableList(menuList);
+	}
+
+	@Override
+	public List<SysMenuEntity> menuAuthorization() {
+		//获取当前的用户id
+		Long userId = ShiroUtils.getUserId();
+		//如果是超级管理员默认获取所有的菜单授权
+		if(userId == Constant.SUPER_ADMIN ){
+			List<SysMenuEntity> menuList = queryListParentId((long) Constant.MenuType.CATALOG.getValue());
+			return getTreeTableList(menuList);
+		}else {
+			//普通用户通过角色来判断有哪些菜单授权
+
+			//查询当前用户的角色信息
+			List<Long> sysUserRoleIdList = sysUserRoleService.queryRoleIdList(userId);
+			//通过角色id，查询拥有的菜单id
+			List<SysRoleMenuEntity> sysRoleMenuEntityList = sysRoleMenuService.list(new QueryWrapper<SysRoleMenuEntity>()
+					.in("role_id",sysUserRoleIdList)
+			);
+
+			List<Long> menuIdList = new ArrayList<>();
+			for(SysRoleMenuEntity sysRoleMenuEntity:sysRoleMenuEntityList){
+				menuIdList.add(sysRoleMenuEntity.getMenuId());
+			}
+
+			//拼装菜单授权
+			List<SysMenuEntity> menuList = queryListParentId(0L, menuIdList);
+			return getMenuTreeList(menuList, menuIdList);
+		}
+
 	}
 
 	/*

@@ -1,6 +1,5 @@
 package com.winnerdt.modules.sys.controller;
 
-import com.alibaba.fastjson.JSONObject;
 import com.winnerdt.common.annotation.SysLog;
 import com.winnerdt.common.exception.RRException;
 import com.winnerdt.common.utils.Constant;
@@ -56,9 +55,17 @@ public class SysMenuController extends AbstractController {
 //		}
 //
 //		return menuList;
-		System.out.println("开始拼装*****************************");
 		List<SysMenuEntity> menuList = sysMenuService.treeTableShow();
-		System.out.println(JSONObject.toJSONString(menuList));
+		return  R.ok().put("list",menuList);
+	}
+
+	/*
+	* 根据自己的权限情况，获取菜单信息，可以用于菜单授权
+	* */
+	@RequestMapping("/menuAuthorization")
+	public R menuAuthorization(){
+
+		List<SysMenuEntity> menuList = sysMenuService.menuAuthorization();
 		return  R.ok().put("list",menuList);
 	}
 

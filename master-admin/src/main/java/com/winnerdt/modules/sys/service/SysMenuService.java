@@ -48,4 +48,9 @@ public interface SysMenuService extends IService<SysMenuEntity> {
 	* 获取菜单页中的，treeTable
 	* */
 	List<SysMenuEntity> treeTableShow();
+
+	/*
+	* 根据自己权限情况，获取菜单授权信息
+	* */
+	List<SysMenuEntity> menuAuthorization();
 }
