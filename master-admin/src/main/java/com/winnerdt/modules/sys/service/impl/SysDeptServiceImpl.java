@@ -113,6 +113,7 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptDao, SysDeptEntity> i
 				.eq("del_flag",0)
 				.eq("status",0)
 				.in("dept_id",finDeptId)
+				.orderByAsc("order_num")
 		);
 
 		return getTreeTableList(sysDeptEntityList);

@@ -79,36 +79,43 @@ public class WxUserManageServiceImpl extends ServiceImpl<WxUserManageDao, WxUser
                 map.put("idCard",params.get("idCard"));
             }
             //前端搜索框
-            if(null != params.get("deptName")){
-                List<SysDeptEntity> sysDeptEntityList = sysDeptService.list(new QueryWrapper<SysDeptEntity>()
-                        .like("name",params.get("deptName")));
-                if(sysDeptEntityList.size() > 0){
-                    List<Long> deptIds = new ArrayList<>();
-                    for(SysDeptEntity sysDeptEntity:sysDeptEntityList){
-                        deptIds.add(sysDeptEntity.getDeptId());
-                    }
-                    map.put("deptIds",deptIds);
-                }
-            }
+//            if(null != params.get("deptName")){
+//                List<SysDeptEntity> sysDeptEntityList = sysDeptService.list(new QueryWrapper<SysDeptEntity>()
+//                        .like("name",params.get("deptName")));
+//                if(sysDeptEntityList.size() > 0){
+//                    List<Long> deptIds = new ArrayList<>();
+//                    for(SysDeptEntity sysDeptEntity:sysDeptEntityList){
+//                        deptIds.add(sysDeptEntity.getDeptId());
+//                    }
+//                    map.put("deptIds",deptIds);
+//                }
+//            }
             if(null != params.get("createBeginTime") && null != params.get("createEndTime")){
                 map.put("createBeginTime",params.get("createBeginTime"));
                 map.put("createEndTime",params.get("createEndTime"));
             }
+
             //查询拥有的部门id
             //部门ID列表
             Set<Long> deptIdList = new HashSet<>();
             //添加上自己的部门id
             deptIdList.add(deptId);
-            //是否需要角色分配下的deptId
-            List<Long> roleIdList = sysUserRoleService.queryRoleIdList(userId);
-            if(roleIdList.size() > 0){
-                List<Long> userDeptIdList = sysRoleDeptService.queryDeptIdList(roleIdList.toArray(new Long[roleIdList.size()]));
-                deptIdList.addAll(userDeptIdList);
-            }
-            //管理员子部门ID列表
-            List<Long> subDeptIdList = sysDeptService.getSubDeptIdList(deptId);
-            deptIdList.addAll(subDeptIdList);
+
+            /*
+             * 现在的需求是只展示当前部门的拉新用户，如果想恢复展示本部门以及以下的子部门的拉新用户，放开上面的注释就行
+             * */
+
+//            //是否需要角色分配下的deptId
+//            List<Long> roleIdList = sysUserRoleService.queryRoleIdList(userId);
+//            if(roleIdList.size() > 0){
+//                List<Long> userDeptIdList = sysRoleDeptService.queryDeptIdList(roleIdList.toArray(new Long[roleIdList.size()]));
+//                deptIdList.addAll(userDeptIdList);
+//            }
+//            //管理员子部门ID列表
+//            List<Long> subDeptIdList = sysDeptService.getSubDeptIdList(deptId);
+//            deptIdList.addAll(subDeptIdList);
             map.put("deptIdList",deptIdList);
+
 
             map.put("pageSize",page.getSize());
             map.put("currRecord",(page.getCurrent()-1)*page.getSize());
