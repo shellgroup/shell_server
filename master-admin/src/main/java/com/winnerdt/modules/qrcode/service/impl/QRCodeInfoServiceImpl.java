@@ -151,9 +151,14 @@ public class QRCodeInfoServiceImpl extends ServiceImpl<QRCodeInfoDao, QRCodeInfo
         QRCodeInfoEntity qrCodeInfoEntity = qrCodeDao.queryQrCodeById(qrCodeId);
         String qrcodeImgPath = qrCodeInfoEntity.getImgPath();
         try {
-            byte[] b = Files.readAllBytes(Paths.get(qrcodeImgPath));
-            qrCodeInfoEntity.setImgBase64("data:image/jpeg;base64,"+Base64.getEncoder().encodeToString(b));
-        } catch (IOException e) {
+            if(null == qrcodeImgPath){
+                qrCodeInfoEntity.setImgBase64(null);
+            }else {
+                byte[] b = Files.readAllBytes(Paths.get(qrcodeImgPath));
+                qrCodeInfoEntity.setImgBase64("data:image/jpeg;base64,"+Base64.getEncoder().encodeToString(b));
+            }
+
+        } catch (Exception e) {
             e.printStackTrace();
             Date date = new Date();
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");

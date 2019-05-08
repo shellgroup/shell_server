@@ -105,7 +105,8 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuDao, SysMenuEntity> i
 	}
 
 	/**
-	 * 递归
+	 * 用于左边导航栏的装填，所以只需要装填到菜单级别
+	 * 递归（主要按钮权限的装填）
 	 */
 	private List<SysMenuEntity> getMenuTreeList(List<SysMenuEntity> menuList, List<Long> menuIdList){
 		/*
@@ -217,9 +218,64 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuDao, SysMenuEntity> i
 
 			//拼装菜单授权
 			List<SysMenuEntity> menuList = queryListParentId(0L, menuIdList);
-			return getMenuTreeList(menuList, menuIdList);
+			return getMenuTreeListButton(menuList, menuIdList);
 		}
 
+	}
+	/**
+	 *
+	 * 菜单授权的装填，所以需要装填到按钮的级别
+	 * 递归(主要完成按钮权限信息的装填和菜单中按钮的装填)
+	 */
+	private List<SysMenuEntity> getMenuTreeListButton(List<SysMenuEntity> menuList, List<Long> menuIdList){
+		/*
+		 * menuList：根目录
+		 * menuIdList:查询的该用户所有的菜单
+		 * */
+		List<SysMenuEntity> subMenuList = new ArrayList<SysMenuEntity>();
+
+		for(SysMenuEntity entity : menuList){
+			/*
+			 * 当menuList是目录时
+			 */
+			if(entity.getType() == Constant.MenuType.CATALOG.getValue()){
+				entity.setChildren(getMenuTreeListButton(queryListParentId(entity.getMenuId(), menuIdList), menuIdList));
+			}
+
+
+			if(entity.getType() == Constant.MenuType.MENU.getValue()){
+				//用来存放该菜单拥有的按钮信息
+				List<SysMenuEntity> buttonEntityList = new ArrayList<>();
+				//用来存放所有的按钮信息
+				List<SysMenuEntity> sysMenuEntityList;
+				Map map = new HashMap();
+				map.put("superAdmin",Constant.SUPER_ADMIN);
+				Long userId = getUserId();
+				/*
+				 * 超级管理员拥有所有的按钮
+				 * */
+				if(userId == Constant.SUPER_ADMIN){
+					map.put("userId",Constant.SUPER_ADMIN);
+					map.put("menuType",Constant.MenuType.BUTTON.getValue());
+					sysMenuEntityList = sysUserService.queryAllButton(map);
+				}else {
+					map.put("userId",getUserId());
+					map.put("menuType",Constant.MenuType.BUTTON.getValue());
+					sysMenuEntityList = sysUserService.queryAllButton(map);
+				}
+
+				for (SysMenuEntity sysMenuEntity:sysMenuEntityList){
+					if(sysMenuEntity.getParentId().equals(entity.getMenuId())){
+						//说明这个按钮是这个菜单下的
+						buttonEntityList.add(sysMenuEntity);
+					}
+				}
+				entity.setChildren(buttonEntityList);
+			}
+			subMenuList.add(entity);
+		}
+
+		return subMenuList;
 	}
 
 	/*
