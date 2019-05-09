@@ -81,11 +81,6 @@ public class DynamicDataSourceConfig {
         dbConfig.setDbType(DbType.MYSQL);
         globalConfig.setDbConfig(dbConfig);
 
-        // 如果是dev环境,则使用 reload xml的功能,方便调试
-        if(operatingEnvironment.equals("dev")){
-            globalConfig.setRefresh(true);
-        }
-
         // 逻辑删除注入器
         LogicSqlInjector injector = new LogicSqlInjector();
         globalConfig.setSqlInjector(injector);
