@@ -132,7 +132,23 @@ public class WxUserManageController {
         }
     }
 
-
+    /*
+    * 导出会员信息，用于表单自动填充
+    * */
+    @SysLog("下载会员信息（表单自动填充）")
+    @RequestMapping("/downloadForForm")
+    @RequiresPermissions("wxUser:manage:downloadForForm")
+    public void downloadForForm(HttpServletResponse response,@RequestParam Map map){
+        try {
+            wxUserManageService.downloadForForm(response,map);
+        }catch (Exception e){
+            e.printStackTrace();
+            Date date = new Date();
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            String now = sdf.format(date);
+            logger.error("下载会员信息（表单自动填充）异常，异常时间："+now+":::异常数据："+ JSONObject.toJSONString(map)+":::异常原因："+e.toString());
+        }
+    }
 
 
 }

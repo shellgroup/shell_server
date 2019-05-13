@@ -9,9 +9,12 @@ import com.winnerdt.common.utils.PageUtils;
 import com.winnerdt.common.utils.Query;
 import com.winnerdt.common.utils.R;
 import com.winnerdt.modules.qrcode.dao.WxUserManageDao;
+import com.winnerdt.modules.qrcode.entity.AutofillRulesEntity;
+import com.winnerdt.modules.qrcode.entity.ProfilesEntity;
 import com.winnerdt.modules.qrcode.entity.WxUserManageEntity;
 import com.winnerdt.modules.qrcode.service.WxUserManageService;
 import com.winnerdt.modules.qrcode.utils.DateUtil;
+import com.winnerdt.modules.qrcode.utils.ExcelForFormUtil;
 import com.winnerdt.modules.qrcode.utils.ExcelUtil;
 import com.winnerdt.modules.sys.entity.SysDeptEntity;
 import com.winnerdt.modules.sys.service.SysDeptService;
@@ -587,6 +590,79 @@ public class WxUserManageServiceImpl extends ServiceImpl<WxUserManageDao, WxUser
 
         try {
             ExcelUtil.listToExcel(wxUserManageEntityList, out, fields,excelName);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new Exception(e);
+        }
+    }
+
+    @Override
+    public void downloadForForm(HttpServletResponse response, Map map) throws Exception {
+        //开始查询
+        List<WxUserManageEntity> wxUserManageEntityList = wxUserManageDao.queryWxUserListPage(map);
+
+
+        List<ProfilesEntity> profilesEntityList = new ArrayList<>();
+        List<AutofillRulesEntity> autofillRulesEntityList = new ArrayList<>();
+        for(int i = 0 ; i < wxUserManageEntityList.size();i++){
+            ProfilesEntity profilesEntity = new ProfilesEntity();
+            profilesEntity.setProfileID("c"+(i+1));
+            profilesEntity.setName(wxUserManageEntityList.get(i).getName());
+            profilesEntity.setOverwrite("1");
+            profilesEntityList.add(profilesEntity);
+
+            AutofillRulesEntity autofillRulesEntity1 = new AutofillRulesEntity();
+            autofillRulesEntity1.setType("0");
+            autofillRulesEntity1.setName("^name$");
+            autofillRulesEntity1.setValue(wxUserManageEntityList.get(i).getName());
+            autofillRulesEntity1.setSite("reg.mail.163.com");
+            autofillRulesEntity1.setProfile("c"+(i+1));
+            autofillRulesEntityList.add(autofillRulesEntity1);
+
+            AutofillRulesEntity autofillRulesEntity2 = new AutofillRulesEntity();
+            autofillRulesEntity2.setType("0");
+            autofillRulesEntity2.setName("^idCard$");
+            autofillRulesEntity2.setValue(wxUserManageEntityList.get(i).getIdCard());
+            autofillRulesEntity2.setSite("reg.mail.163.com");
+            autofillRulesEntity2.setProfile("c"+(i+1));
+            autofillRulesEntityList.add(autofillRulesEntity2);
+
+        }
+
+
+
+
+        //开始下载
+        Properties pro = System.getProperties();
+        String excelName1 = new String ("### PROFILES ###");
+        String excelName2 = new String("### AUTOFILL RULES ###");
+
+        String fileName = "会员数据"+(System.currentTimeMillis())+".xls";
+
+        response.addHeader("Content-Disposition", "attachment;filename="  + new String(fileName.getBytes("GB2312"), "ISO_8859_1")     );
+        //response.setContentType("application/vnd.ms-excel;charset=utf-8");
+        OutputStream out = null;
+        try {
+            out = response.getOutputStream();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Map<String,String> fields1 = new LinkedMap<String,String>();
+        fields1.put("ProfileID","ProfileID");
+        fields1.put("Name","Name");
+        fields1.put("Site","Site");
+        fields1.put("Overwrite","Overwrite");
+
+        Map<String,String> fields2 = new LinkedMap<String,String>();
+        fields2.put("Type","Type");
+        fields2.put("Name","Name");
+        fields2.put("Value","Value");
+        fields2.put("Site","Site");
+        fields2.put("Profile","Profile");
+
+
+        try {
+            ExcelForFormUtil.listToExcel(profilesEntityList,autofillRulesEntityList, out, fields1,fields2,excelName1,excelName2);
         } catch (Exception e) {
             e.printStackTrace();
             throw new Exception(e);

@@ -81,4 +81,9 @@ public interface WxUserManageService extends IService<WxUserManageEntity> {
      * 下载会员信息excel
      * */
     void download(HttpServletResponse response, Map map) throws Exception;
+
+    /*
+    * 下载会员信息，用户表单自动填充
+    * */
+    void downloadForForm(HttpServletResponse response,Map map) throws Exception;
 }
