@@ -56,14 +56,6 @@ public class WxUserController {
     @Autowired
     private QRCodeInfoService qrCodeInfoService;
 
-//    @Autowired
-//    private SSBLStoreService ssblStoreService;
-//
-//    @Autowired
-//    private CRMProperties cp;
-//
-//    @Autowired
-//    private WxQrcodeDao wxQrcodeDao;
 
 
     /**
@@ -399,14 +391,7 @@ public class WxUserController {
                 if (!StringUtils.isBlank(user1.getPhone())) {
                     r.put("phone", user1.getPhone());
                 }
-//                //将姗姗会员id返回到前端
-//                if (!StringUtils.isBlank(user1.getVipNo())){
-//                    r.put("memberCode",user1.getVipNo());
-//                }
-//                //将identCode作为memberid
-//                if (!StringUtils.isBlank(user1.getVipNo())) {
-//                    r.put("memberId", user1.getIdentCode());
-//                }
+
                 if (StringUtils.isBlank(user1.getUnionId())) {
                     r.put("type", 31).put("code", 31);
                     r.put("msg", "是新用户，请跳转到用户授权页！");
