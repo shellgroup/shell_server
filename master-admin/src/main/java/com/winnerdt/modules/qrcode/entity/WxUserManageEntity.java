@@ -139,4 +139,10 @@ public class WxUserManageEntity {
     @TableField(exist = false)
     private String deptName;
 
+    /*
+    * 导出时用到了
+    * */
+    @TableField(exist = false)
+    private String createTimeStr;
+
 }

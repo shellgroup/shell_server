@@ -52,8 +52,8 @@ public class WxUserManageServiceImpl extends ServiceImpl<WxUserManageDao, WxUser
     private SysRoleDeptService sysRoleDeptService;
     @Autowired
     private SysUserRoleService sysUserRoleService;
-    @Autowired
-    private WxUserManageService wxUserManageService;
+//    @Autowired
+//    private WxUserManageService wxUserManageService;
 
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
@@ -82,17 +82,17 @@ public class WxUserManageServiceImpl extends ServiceImpl<WxUserManageDao, WxUser
                 map.put("idCard",params.get("idCard"));
             }
             //前端搜索框
-//            if(null != params.get("deptName")){
-//                List<SysDeptEntity> sysDeptEntityList = sysDeptService.list(new QueryWrapper<SysDeptEntity>()
-//                        .like("name",params.get("deptName")));
-//                if(sysDeptEntityList.size() > 0){
-//                    List<Long> deptIds = new ArrayList<>();
-//                    for(SysDeptEntity sysDeptEntity:sysDeptEntityList){
-//                        deptIds.add(sysDeptEntity.getDeptId());
-//                    }
-//                    map.put("deptIds",deptIds);
-//                }
-//            }
+            if(null != params.get("deptName")){
+                List<SysDeptEntity> sysDeptEntityList = sysDeptService.list(new QueryWrapper<SysDeptEntity>()
+                        .like("name",params.get("deptName")));
+                if(sysDeptEntityList.size() > 0){
+                    List<Long> deptIds = new ArrayList<>();
+                    for(SysDeptEntity sysDeptEntity:sysDeptEntityList){
+                        deptIds.add(sysDeptEntity.getDeptId());
+                    }
+                    map.put("deptIds",deptIds);
+                }
+            }
             if(null != params.get("createBeginTime") && null != params.get("createEndTime")){
                 map.put("createBeginTime",params.get("createBeginTime"));
                 map.put("createEndTime",params.get("createEndTime"));
@@ -104,19 +104,15 @@ public class WxUserManageServiceImpl extends ServiceImpl<WxUserManageDao, WxUser
             //添加上自己的部门id
             deptIdList.add(deptId);
 
-            /*
-             * 现在的需求是只展示当前部门的拉新用户，如果想恢复展示本部门以及以下的子部门的拉新用户，放开上面的注释就行
-             * */
-
-//            //是否需要角色分配下的deptId
-//            List<Long> roleIdList = sysUserRoleService.queryRoleIdList(userId);
-//            if(roleIdList.size() > 0){
-//                List<Long> userDeptIdList = sysRoleDeptService.queryDeptIdList(roleIdList.toArray(new Long[roleIdList.size()]));
-//                deptIdList.addAll(userDeptIdList);
-//            }
-//            //管理员子部门ID列表
-//            List<Long> subDeptIdList = sysDeptService.getSubDeptIdList(deptId);
-//            deptIdList.addAll(subDeptIdList);
+            //是否需要角色分配下的deptId
+            List<Long> roleIdList = sysUserRoleService.queryRoleIdList(userId);
+            if(roleIdList.size() > 0){
+                List<Long> userDeptIdList = sysRoleDeptService.queryDeptIdList(roleIdList.toArray(new Long[roleIdList.size()]));
+                deptIdList.addAll(userDeptIdList);
+            }
+            //管理员子部门ID列表
+            List<Long> subDeptIdList = sysDeptService.getSubDeptIdList(deptId);
+            deptIdList.addAll(subDeptIdList);
             map.put("deptIdList",deptIdList);
 
 
@@ -402,8 +398,10 @@ public class WxUserManageServiceImpl extends ServiceImpl<WxUserManageDao, WxUser
         Long userId = ShiroUtils.getUserId();
 
         //总的拉新数目（包含本部门和下级部门总拉新数）
-        Map map = new HashMap();
-        Integer totle = wxUserManageService.queryWxUserTotleByDataFilter(map);
+        Integer totle = wxUserManageDao.selectCount(new QueryWrapper<WxUserManageEntity>()
+                .eq("is_regist",1)
+                .apply(true, getSql(deptId,true,"",true,userId)));
+
 
         //本部门拉新数量总数
         Integer myselfTotle = wxUserManageDao.selectCount(new QueryWrapper<WxUserManageEntity>()
@@ -555,10 +553,75 @@ public class WxUserManageServiceImpl extends ServiceImpl<WxUserManageDao, WxUser
     @Override
     public void download(HttpServletResponse response, Map map) throws Exception {
 
+        //获取当前的deptid
+        Long deptId = ShiroUtils.getUserEntity().getDeptId();
+
+        Long userId = ShiroUtils.getUserId();
+
+        //前端搜索框
+        if(null != map.get("deptName")){
+            List<SysDeptEntity> sysDeptEntityList = sysDeptService.list(new QueryWrapper<SysDeptEntity>()
+                    .like("name",map.get("deptName")));
+            if(sysDeptEntityList.size() > 0){
+                List<Long> deptIds = new ArrayList<>();
+                for(SysDeptEntity sysDeptEntity:sysDeptEntityList){
+                    deptIds.add(sysDeptEntity.getDeptId());
+                }
+                map.put("deptIds",deptIds);
+            }
+        }
+
+        //查询拥有的部门id
+        //部门ID列表
+        Set<Long> deptIdList = new HashSet<>();
+        //添加上自己的部门id
+        deptIdList.add(deptId);
+
+        //是否需要角色分配下的deptId
+        List<Long> roleIdList = sysUserRoleService.queryRoleIdList(userId);
+        if(roleIdList.size() > 0){
+            List<Long> userDeptIdList = sysRoleDeptService.queryDeptIdList(roleIdList.toArray(new Long[roleIdList.size()]));
+            deptIdList.addAll(userDeptIdList);
+        }
+        //管理员子部门ID列表
+        List<Long> subDeptIdList = sysDeptService.getSubDeptIdList(deptId);
+        deptIdList.addAll(subDeptIdList);
+        map.put("deptIdList",deptIdList);
+
         //开始查询
         List<WxUserManageEntity> wxUserManageEntityList = wxUserManageDao.queryWxUserListPage(map);
 
+        /*
+        * 处理一下数据形式
+        * */
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:ss:mm");
+        for(WxUserManageEntity wxUserManageEntity:wxUserManageEntityList){
+            wxUserManageEntity.setCreateTimeStr(sdf.format(wxUserManageEntity.getCreateDate()));
+        }
 
+
+        //总共的登录数(包含手机授权和注册的)
+        Integer wxLoginTotle = wxUserManageDao.selectCount(new QueryWrapper<WxUserManageEntity>()
+                .apply(true, getSql(deptId,true,"",true,userId)));
+
+        //总共的手机授权数
+        Integer wxPhoneTotle = wxUserManageDao.selectCount(new QueryWrapper<WxUserManageEntity>()
+                .isNotNull("phone")
+                .apply(true, getSql(deptId,true,"",true,userId)));
+
+        //总共的注册数
+        Integer wxRegistTotle = wxUserManageDao.selectCount(new QueryWrapper<WxUserManageEntity>()
+                .isNotNull("phone")
+                .eq("is_regist",1)
+                .apply(true, getSql(deptId,true,"",true,userId)));
+
+        List otherData = new ArrayList();
+        otherData.add("微信登录数");
+        otherData.add(wxLoginTotle);
+        otherData.add("微信手机授权数");
+        otherData.add(wxPhoneTotle);
+        otherData.add("完成注册数");
+        otherData.add(wxRegistTotle);
 
         //开始下载
         Properties pro = System.getProperties();
@@ -585,11 +648,11 @@ public class WxUserManageServiceImpl extends ServiceImpl<WxUserManageDao, WxUser
         fields.put("invoiceType", "发票类型");
         fields.put("nickName","会员昵称");
         fields.put("deptName","拉新部门名称");
-        fields.put("createDate","注册时间");
+        fields.put("createTimeStr","注册时间");
 
 
         try {
-            ExcelUtil.listToExcel(wxUserManageEntityList, out, fields,excelName);
+            ExcelUtil.listToExcel(wxUserManageEntityList, out, fields,excelName,otherData);
         } catch (Exception e) {
             e.printStackTrace();
             throw new Exception(e);
@@ -599,6 +662,41 @@ public class WxUserManageServiceImpl extends ServiceImpl<WxUserManageDao, WxUser
     @Override
     public void downloadForForm(HttpServletResponse response, Map map) throws Exception {
         //开始查询
+        //获取当前的deptid
+        Long deptId = ShiroUtils.getUserEntity().getDeptId();
+
+        Long userId = ShiroUtils.getUserId();
+
+        //前端搜索框
+        if(null != map.get("deptName")){
+            List<SysDeptEntity> sysDeptEntityList = sysDeptService.list(new QueryWrapper<SysDeptEntity>()
+                    .like("name",map.get("deptName")));
+            if(sysDeptEntityList.size() > 0){
+                List<Long> deptIds = new ArrayList<>();
+                for(SysDeptEntity sysDeptEntity:sysDeptEntityList){
+                    deptIds.add(sysDeptEntity.getDeptId());
+                }
+                map.put("deptIds",deptIds);
+            }
+        }
+
+        //查询拥有的部门id
+        //部门ID列表
+        Set<Long> deptIdList = new HashSet<>();
+        //添加上自己的部门id
+        deptIdList.add(deptId);
+
+        //是否需要角色分配下的deptId
+        List<Long> roleIdList = sysUserRoleService.queryRoleIdList(userId);
+        if(roleIdList.size() > 0){
+            List<Long> userDeptIdList = sysRoleDeptService.queryDeptIdList(roleIdList.toArray(new Long[roleIdList.size()]));
+            deptIdList.addAll(userDeptIdList);
+        }
+        //管理员子部门ID列表
+        List<Long> subDeptIdList = sysDeptService.getSubDeptIdList(deptId);
+        deptIdList.addAll(subDeptIdList);
+        map.put("deptIdList",deptIdList);
+
         List<WxUserManageEntity> wxUserManageEntityList = wxUserManageDao.queryWxUserListPage(map);
 
 

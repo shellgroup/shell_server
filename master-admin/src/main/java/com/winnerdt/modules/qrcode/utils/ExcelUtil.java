@@ -19,7 +19,7 @@ public class ExcelUtil {
 	//xsl格式的excel不能存取太多的数据，不能超过65536
 	private static int sheetSize=65000; //单个sheet储存的大小
 	@SuppressWarnings({ "resource", "deprecation" })
-	public static<T> void listToExcel(List<T> data,OutputStream out,Map<String,String> fields,String excelName) throws Exception {
+	public static<T> void listToExcel(List<T> data,OutputStream out,Map<String,String> fields,String excelName,List otherData) throws Exception {
 
 		//判断传入的数据源是否有数据
 		if(data==null||data.size()==0) {
@@ -100,7 +100,19 @@ public class ExcelUtil {
 //                cell.getCellStyle().setAlignment(HorizontalAlignment.CENTER);
 //            }
 //            rowCount++;
-			
+
+
+			/*
+			* 将额外的一些数据放到了第一行
+			* */
+			row = sheet.createRow(rowCount);
+			for(int q = 0;q < otherData.size(); q++){
+				HSSFCell cell = row.createCell(q);
+				cell.setCellValue(otherData.get(q).toString());
+			}
+			rowCount= rowCount + 2;
+
+
 			//标题行 第一行
 			row = sheet.createRow(rowCount);
 			row.setHeight((short)500);
