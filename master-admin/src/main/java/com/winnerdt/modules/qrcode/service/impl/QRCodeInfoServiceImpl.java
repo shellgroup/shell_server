@@ -173,7 +173,13 @@ public class QRCodeInfoServiceImpl extends ServiceImpl<QRCodeInfoDao, QRCodeInfo
     @Override
     @Transactional(rollbackFor = Exception.class)
     public boolean save(QRCodeInfoEntity qrCodeInfoEntity){
-        Long deptId = ShiroUtils.getUserEntity().getDeptId();
+        Integer deptId = null;
+        if(null != qrCodeInfoEntity.getDeptId()){
+            deptId = qrCodeInfoEntity.getDeptId();
+        }else {
+            deptId = Integer.valueOf(ShiroUtils.getUserEntity().getDeptId().toString());
+        }
+
         //查询部门的相关信息补充到二维码表中
         SysDeptEntity sysDeptEntity = sysDeptService.getById(deptId);
         qrCodeInfoEntity.setDeptId(Integer.valueOf(String.valueOf(deptId)));
