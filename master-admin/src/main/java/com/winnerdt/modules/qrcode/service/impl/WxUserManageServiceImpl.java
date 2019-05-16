@@ -81,6 +81,10 @@ public class WxUserManageServiceImpl extends ServiceImpl<WxUserManageDao, WxUser
             if(null != params.get("idCard")){
                 map.put("idCard",params.get("idCard"));
             }
+            if(null != params.get("createBeginTime") && null != params.get("createEndTime")){
+                map.put("createBeginTime",params.get("createBeginTime"));
+                map.put("createEndTime",params.get("createEndTime"));
+            }
             //前端搜索框
             if(null != params.get("deptName")){
                 List<SysDeptEntity> sysDeptEntityList = sysDeptService.list(new QueryWrapper<SysDeptEntity>()
@@ -92,28 +96,56 @@ public class WxUserManageServiceImpl extends ServiceImpl<WxUserManageDao, WxUser
                     }
                     map.put("deptIds",deptIds);
                 }
-            }
-            if(null != params.get("createBeginTime") && null != params.get("createEndTime")){
-                map.put("createBeginTime",params.get("createBeginTime"));
-                map.put("createEndTime",params.get("createEndTime"));
+                /*
+                * 如果通过前端搜索框搜索的不为空，则进一步加载拥有权限的部门id，否则就不加载拥有权限的部门，使前端搜索结果为空
+                * */
+                if(null != map.get("deptIds")){
+                    //查询拥有的部门id
+                    //部门ID列表
+                    Set<Long> deptIdList = new HashSet<>();
+                    //添加上自己的部门id
+                    deptIdList.add(deptId);
+
+                    //是否需要角色分配下的deptId
+                    List<Long> roleIdList = sysUserRoleService.queryRoleIdList(userId);
+                    if(roleIdList.size() > 0){
+                        List<Long> userDeptIdList = sysRoleDeptService.queryDeptIdList(roleIdList.toArray(new Long[roleIdList.size()]));
+                        deptIdList.addAll(userDeptIdList);
+                    }
+                    //管理员子部门ID列表
+                    List<Long> subDeptIdList = sysDeptService.getSubDeptIdList(deptId);
+                    deptIdList.addAll(subDeptIdList);
+                    map.put("deptIdList",deptIdList);
+                }else {
+                    /*
+                    * 如果通过前端搜索框搜索的部门id为空，说明该部门不存在，进一步说明会员信息应该查询为空。这里就直接返回空信息了
+                    * */
+                    page.setRecords(null);
+                    page.setTotal(0);
+                    return new PageUtils(page);
+                }
+
+            }else {
+
+                //查询拥有的部门id
+                //部门ID列表
+                Set<Long> deptIdList = new HashSet<>();
+                //添加上自己的部门id
+                deptIdList.add(deptId);
+
+                //是否需要角色分配下的deptId
+                List<Long> roleIdList = sysUserRoleService.queryRoleIdList(userId);
+                if(roleIdList.size() > 0){
+                    List<Long> userDeptIdList = sysRoleDeptService.queryDeptIdList(roleIdList.toArray(new Long[roleIdList.size()]));
+                    deptIdList.addAll(userDeptIdList);
+                }
+                //管理员子部门ID列表
+                List<Long> subDeptIdList = sysDeptService.getSubDeptIdList(deptId);
+                deptIdList.addAll(subDeptIdList);
+                map.put("deptIdList",deptIdList);
             }
 
-            //查询拥有的部门id
-            //部门ID列表
-            Set<Long> deptIdList = new HashSet<>();
-            //添加上自己的部门id
-            deptIdList.add(deptId);
 
-            //是否需要角色分配下的deptId
-            List<Long> roleIdList = sysUserRoleService.queryRoleIdList(userId);
-            if(roleIdList.size() > 0){
-                List<Long> userDeptIdList = sysRoleDeptService.queryDeptIdList(roleIdList.toArray(new Long[roleIdList.size()]));
-                deptIdList.addAll(userDeptIdList);
-            }
-            //管理员子部门ID列表
-            List<Long> subDeptIdList = sysDeptService.getSubDeptIdList(deptId);
-            deptIdList.addAll(subDeptIdList);
-            map.put("deptIdList",deptIdList);
 
 
             map.put("pageSize",page.getSize());
