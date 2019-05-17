@@ -294,6 +294,7 @@ public class WxUserManageServiceImpl extends ServiceImpl<WxUserManageDao, WxUser
         }
         //首先根据日期排序
         Collections.sort(salesData, new Comparator<Map<String, Object>>() {
+            @Override
             public int compare(Map<String, Object> o1, Map<String, Object> o2) {
                 String date1 = o1.get("x").toString() ;
                 String date2 = o2.get("x").toString() ;
