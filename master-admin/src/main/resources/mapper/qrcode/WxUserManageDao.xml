@@ -18,7 +18,7 @@
                     and wu.dept_id = #{deptId}
                 </if>
                 <if test="createBeginTime != null and createBeginTime != '' and createEndTime != null and createEndTime != ''">
-                    and wu.create_time between #{createBeginTime} and #{createEndTime}
+                    and wu.create_date between #{createBeginTime} and #{createEndTime}
                 </if>
                 <if test="name != null and name != ''">
                     and wu.name like concat('%',#{name},'%')
@@ -61,7 +61,7 @@
                 and wu.dept_id = #{deptId}
             </if>
             <if test="createBeginTime != null and createBeginTime != '' and createEndTime != null and createEndTime != ''">
-                and wu.create_time between #{createBeginTime} and #{createEndTime}
+                and wu.create_date between #{createBeginTime} and #{createEndTime}
             </if>
             <if test="name != null and name != ''">
                 and wu.name like concat('%',#{name},'%')
@@ -111,7 +111,7 @@
                      </if>
 
                      <if test="createBeginTime != null and createBeginTime != '' and createEndTime != null and createEndTime != ''">
-                         and wu.create_time between #{createBeginTime} and #{createEndTime}
+                         and wu.create_date between #{createBeginTime} and #{createEndTime}
                      </if>
                      and wu.is_regist = 1
                  </where>
