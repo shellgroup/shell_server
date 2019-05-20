@@ -683,11 +683,11 @@ public class WxUserManageServiceImpl extends ServiceImpl<WxUserManageDao, WxUser
                 .apply(true, getSql(deptId,true,"",true,userId)));
 
         List otherData = new ArrayList();
-        otherData.add("微信登录数");
+        otherData.add("扫码数量");
         otherData.add(wxLoginTotle);
-        otherData.add("微信手机授权数");
+        otherData.add("微信手机号授权数量");
         otherData.add(wxPhoneTotle);
-        otherData.add("完成注册数");
+        otherData.add("完成注册数量");
         otherData.add(wxRegistTotle);
 
         //开始下载
@@ -713,8 +713,8 @@ public class WxUserManageServiceImpl extends ServiceImpl<WxUserManageDao, WxUser
         fields.put("idCard","身份证号码");
         fields.put("useRegion","使用地区");
         fields.put("invoiceType", "发票类型");
-        fields.put("nickName","会员昵称");
         fields.put("deptName","拉新部门名称");
+        fields.put("nickName","会员昵称");
         fields.put("createTimeStr","注册时间");
 
 
