@@ -37,10 +37,11 @@
                     <foreach item="deptId" index="index" collection="deptIds" open="(" separator="," close=")">
                         #{deptId}
                     </foreach>
+
                 </if>
                 and wu.is_regist = 1
             </where>
-
+            order by wu.create_date desc,wu.`id` desc
         <if test="pageSize != null and currRecord != null">
             limit #{currRecord},#{pageSize}
         </if>

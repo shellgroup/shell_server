@@ -18,7 +18,7 @@
                 </if>
                 and qc.is_del = 0
             </where>
-
+            order by qc.create_time desc,qc.`id` desc
             <if test="pageSize != null and currRecord != null">
                 limit #{currRecord},#{pageSize}
             </if>

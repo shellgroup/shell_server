@@ -63,6 +63,7 @@
             </if>
             and qi.is_del = 0
         </where>
+        order by qi.create_time desc,qi.`id` desc
         <if test="pageSize != null and currRecord != null">
             limit #{currRecord},#{pageSize}
         </if>
