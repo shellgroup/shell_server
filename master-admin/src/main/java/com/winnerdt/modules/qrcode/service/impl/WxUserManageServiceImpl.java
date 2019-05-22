@@ -81,10 +81,26 @@ public class WxUserManageServiceImpl extends ServiceImpl<WxUserManageDao, WxUser
             if(null != params.get("idCard")){
                 map.put("idCard",params.get("idCard"));
             }
+            if(null != params.get("memberType")){
+                String memberType = params.get("memberType").toString();
+                //memberType，0：全部，1：游客，2：会员，3：开卡会员
+                if("0".equals(memberType)){
+
+                }else if("1".equals(memberType)){
+                    map.put("isRegist","noRegist");
+                }else if("2".equals(memberType)){
+                    map.put("isRegist","regist");
+                }else if("3".equals(memberType)){
+                    map.put("isOpenCard","1");
+                }
+
+            }
             if(null != params.get("createBeginTime") && null != params.get("createEndTime")){
                 map.put("createBeginTime",params.get("createBeginTime"));
                 map.put("createEndTime",params.get("createEndTime"));
             }
+
+
             //前端搜索框
             if(null != params.get("deptName")){
                 List<SysDeptEntity> sysDeptEntityList = sysDeptService.list(new QueryWrapper<SysDeptEntity>()
@@ -593,6 +609,21 @@ public class WxUserManageServiceImpl extends ServiceImpl<WxUserManageDao, WxUser
 
         List<WxUserManageEntity> wxUserManageEntityList = new ArrayList<>();
 
+        if(null != map.get("memberType")){
+            String memberType = map.get("memberType").toString();
+            //memberType，0：全部，1：游客，2：会员，3：开卡会员
+            if("0".equals(memberType)){
+
+            }else if("1".equals(memberType)){
+                map.put("isRegist","noRegist");
+            }else if("2".equals(memberType)){
+                map.put("isRegist","regist");
+            }else if("3".equals(memberType)){
+                map.put("isOpenCard","1");
+            }
+
+        }
+
         //前端搜索框
         if(null != map.get("deptName")){
             List<SysDeptEntity> sysDeptEntityList = sysDeptService.list(new QueryWrapper<SysDeptEntity>()
@@ -735,6 +766,21 @@ public class WxUserManageServiceImpl extends ServiceImpl<WxUserManageDao, WxUser
         Long userId = ShiroUtils.getUserId();
 
         List<WxUserManageEntity> wxUserManageEntityList = new ArrayList<>();
+
+        if(null != map.get("memberType")){
+            String memberType = map.get("memberType").toString();
+            //memberType，0：全部，1：游客，2：会员，3：开卡会员
+            if("0".equals(memberType)){
+
+            }else if("1".equals(memberType)){
+                map.put("isRegist","noRegist");
+            }else if("2".equals(memberType)){
+                map.put("isRegist","regist");
+            }else if("3".equals(memberType)){
+                map.put("isOpenCard","1");
+            }
+
+        }
 
         //前端搜索框
         if(null != map.get("deptName")){

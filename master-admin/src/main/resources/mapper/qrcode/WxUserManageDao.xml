@@ -39,7 +39,16 @@
                     </foreach>
 
                 </if>
-                and wu.is_regist = 1
+                <if test="isRegist == 'noRegist'">
+                    and wu.is_regist = 0
+                </if>
+                <if test="isRegist == 'regist'">
+                    and wu.is_regist = 1
+                </if>
+                <if test="isOpenCard != null and isOpenCard != ''">
+                    and wu.is_open_card = 1
+                </if>
+
             </where>
             order by wu.create_date desc,wu.`id` desc
         <if test="pageSize != null and currRecord != null">
@@ -82,7 +91,17 @@
                     #{deptId}
                 </foreach>
             </if>
-            and wu.is_regist = 1
+
+            <if test="isRegist == 'noRegist'">
+                and wu.is_regist = 0
+            </if>
+            <if test="isRegist == 'regist'">
+                and wu.is_regist = 1
+            </if>
+            <if test="isOpenCard != null and isOpenCard != ''">
+                and wu.is_open_card = 1
+            </if>
+
         </where>
 
     </select>

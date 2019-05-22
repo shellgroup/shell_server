@@ -120,6 +120,9 @@ public class WxUserManageEntity {
     //用户是否已经注册
     private Integer isRegist;
 
+    //用户是否已经注册
+    private Integer isOpenCard;
+
 
     // 新增时间
     private Date createDate;
