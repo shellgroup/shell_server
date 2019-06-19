@@ -1,17 +1,17 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : shelldb
+ Source Server         : zsk
  Source Server Type    : MySQL
- Source Server Version : 50638
- Source Host           : 101.201.82.63:3306
+ Source Server Version : 50722
+ Source Host           : localhost:3306
  Source Schema         : shelldb
 
  Target Server Type    : MySQL
- Target Server Version : 50638
+ Target Server Version : 50722
  File Encoding         : 65001
 
- Date: 06/05/2019 17:17:12
+ Date: 19/06/2019 17:55:47
 */
 
 SET NAMES utf8mb4;
@@ -37,13 +37,13 @@ CREATE TABLE `qrcode_config`  (
   `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
   `update_time` datetime(0) NULL DEFAULT NULL COMMENT '最后修改时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '二维码配置信息' ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '二维码配置信息' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of qrcode_config
 -- ----------------------------
-INSERT INTO `qrcode_config` VALUES (1, 680, 680, 19, 90, 'pages/index/index', '/home/cp_beijing/data/shell_qrcode/', 0, '测试位置码', '用于生成测试的位置码', 1, 1, '2019-04-16 17:55:37', '2019-04-16 17:55:40');
-INSERT INTO `qrcode_config` VALUES (2, 430, 430, 19, 90, 'pages/index/index', '/home/cp_beijing/data/shell_qrcode/', 0, '汇纳科技测试', '用于生成测试的导购码', 0, 1, '2019-04-16 17:55:37', '2019-04-16 17:55:40');
+INSERT INTO `qrcode_config` VALUES (1, 680, 680, 19, 90, 'pages/index/index', 'C:\\Users\\user\\Desktop\\test', 0, '测试位置码', '用于生成测试的位置码', 1, 1, '2019-04-16 17:55:37', '2019-04-16 17:55:40');
+INSERT INTO `qrcode_config` VALUES (2, 430, 430, 19, 90, 'pages/index/index', 'C:\\Users\\user\\Desktop\\test', 0, '汇纳科技测试', '用于生成测试的导购码', 0, 1, '2019-04-16 17:55:37', '2019-04-16 17:55:40');
 
 -- ----------------------------
 -- Table structure for qrcode_info
@@ -72,13 +72,13 @@ CREATE TABLE `qrcode_info`  (
   `update_time` datetime(0) NULL DEFAULT NULL COMMENT '最后修改时间',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `dept_id_index`(`dept_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '存放二维码信息' ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '存放二维码信息' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of qrcode_info
 -- ----------------------------
-INSERT INTO `qrcode_info` VALUES (2, NULL, NULL, NULL, '总渠道管理', 1, 'ZHONG', NULL, NULL, NULL, '/home/cp_beijing/data/shell_qrcode//总渠道管理/导购码/总渠道管理_2.png', NULL, '总渠道管理_2.png', '2019-05-05 16:56:58', NULL, NULL, 1, 0, '2019-04-30 15:39:05', '2019-04-30 15:39:05');
-INSERT INTO `qrcode_info` VALUES (3, NULL, NULL, NULL, '总渠道管理', 1, 'ZHONG', NULL, NULL, NULL, '/home/cp_beijing/data/shell_qrcode//总渠道管理/导购码/2019年05月05日/圆形码/3.png', NULL, '3.png', '2019-05-05 08:55:16', NULL, NULL, 1, 0, '2019-05-05 08:54:54', '2019-05-05 08:54:54');
+INSERT INTO `qrcode_info` VALUES (2, NULL, NULL, NULL, '总渠道管理', 1, 'ZHONG', NULL, NULL, NULL, 'C:\\Users\\user\\Desktop\\test\\总渠道管理\\导购码\\总渠道管理_2.png', '\\总渠道管理\\导购码', '总渠道管理_2.png', '2019-05-07 15:23:21', NULL, NULL, 1, 0, '2019-04-30 15:39:05', '2019-04-30 15:39:05');
+INSERT INTO `qrcode_info` VALUES (3, NULL, NULL, NULL, '总渠道管理', 1, 'ZHONG', NULL, NULL, NULL, '', '', '', NULL, NULL, NULL, 0, 0, '2019-05-05 08:54:54', '2019-05-05 08:54:54');
 
 -- ----------------------------
 -- Table structure for qrcode_type
@@ -90,7 +90,7 @@ CREATE TABLE `qrcode_type`  (
   `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
   `update_time` datetime(0) NULL DEFAULT NULL COMMENT '最后修改时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '二维码类型' ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '二维码类型' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of qrcode_type
@@ -109,7 +109,7 @@ CREATE TABLE `qrtz_blob_triggers`  (
   PRIMARY KEY (`SCHED_NAME`, `TRIGGER_NAME`, `TRIGGER_GROUP`) USING BTREE,
   INDEX `SCHED_NAME`(`SCHED_NAME`, `TRIGGER_NAME`, `TRIGGER_GROUP`) USING BTREE,
   CONSTRAINT `qrtz_blob_triggers_ibfk_1` FOREIGN KEY (`SCHED_NAME`, `TRIGGER_NAME`, `TRIGGER_GROUP`) REFERENCES `qrtz_triggers` (`SCHED_NAME`, `TRIGGER_NAME`, `TRIGGER_GROUP`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for qrtz_calendars
@@ -120,7 +120,7 @@ CREATE TABLE `qrtz_calendars`  (
   `CALENDAR_NAME` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `CALENDAR` blob NOT NULL,
   PRIMARY KEY (`SCHED_NAME`, `CALENDAR_NAME`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for qrtz_cron_triggers
@@ -134,7 +134,7 @@ CREATE TABLE `qrtz_cron_triggers`  (
   `TIME_ZONE_ID` varchar(80) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`SCHED_NAME`, `TRIGGER_NAME`, `TRIGGER_GROUP`) USING BTREE,
   CONSTRAINT `qrtz_cron_triggers_ibfk_1` FOREIGN KEY (`SCHED_NAME`, `TRIGGER_NAME`, `TRIGGER_GROUP`) REFERENCES `qrtz_triggers` (`SCHED_NAME`, `TRIGGER_NAME`, `TRIGGER_GROUP`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for qrtz_fired_triggers
@@ -161,7 +161,7 @@ CREATE TABLE `qrtz_fired_triggers`  (
   INDEX `IDX_QRTZ_FT_JG`(`SCHED_NAME`, `JOB_GROUP`) USING BTREE,
   INDEX `IDX_QRTZ_FT_T_G`(`SCHED_NAME`, `TRIGGER_NAME`, `TRIGGER_GROUP`) USING BTREE,
   INDEX `IDX_QRTZ_FT_TG`(`SCHED_NAME`, `TRIGGER_GROUP`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for qrtz_job_details
@@ -181,7 +181,7 @@ CREATE TABLE `qrtz_job_details`  (
   PRIMARY KEY (`SCHED_NAME`, `JOB_NAME`, `JOB_GROUP`) USING BTREE,
   INDEX `IDX_QRTZ_J_REQ_RECOVERY`(`SCHED_NAME`, `REQUESTS_RECOVERY`) USING BTREE,
   INDEX `IDX_QRTZ_J_GRP`(`SCHED_NAME`, `JOB_GROUP`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for qrtz_locks
@@ -191,7 +191,7 @@ CREATE TABLE `qrtz_locks`  (
   `SCHED_NAME` varchar(120) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `LOCK_NAME` varchar(40) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   PRIMARY KEY (`SCHED_NAME`, `LOCK_NAME`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of qrtz_locks
@@ -207,7 +207,7 @@ CREATE TABLE `qrtz_paused_trigger_grps`  (
   `SCHED_NAME` varchar(120) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `TRIGGER_GROUP` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   PRIMARY KEY (`SCHED_NAME`, `TRIGGER_GROUP`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for qrtz_scheduler_state
@@ -219,12 +219,12 @@ CREATE TABLE `qrtz_scheduler_state`  (
   `LAST_CHECKIN_TIME` bigint(13) NOT NULL,
   `CHECKIN_INTERVAL` bigint(13) NOT NULL,
   PRIMARY KEY (`SCHED_NAME`, `INSTANCE_NAME`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of qrtz_scheduler_state
 -- ----------------------------
-INSERT INTO `qrtz_scheduler_state` VALUES ('MasterScheduler', 'iZ25coppp8tZ1557132378065', 1557134229646, 15000);
+INSERT INTO `qrtz_scheduler_state` VALUES ('MasterScheduler', 'DESKTOP-CUD9MR51559613427911', 1559648398313, 15000);
 
 -- ----------------------------
 -- Table structure for qrtz_simple_triggers
@@ -239,7 +239,7 @@ CREATE TABLE `qrtz_simple_triggers`  (
   `TIMES_TRIGGERED` bigint(10) NOT NULL,
   PRIMARY KEY (`SCHED_NAME`, `TRIGGER_NAME`, `TRIGGER_GROUP`) USING BTREE,
   CONSTRAINT `qrtz_simple_triggers_ibfk_1` FOREIGN KEY (`SCHED_NAME`, `TRIGGER_NAME`, `TRIGGER_GROUP`) REFERENCES `qrtz_triggers` (`SCHED_NAME`, `TRIGGER_NAME`, `TRIGGER_GROUP`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for qrtz_simprop_triggers
@@ -262,7 +262,7 @@ CREATE TABLE `qrtz_simprop_triggers`  (
   `BOOL_PROP_2` varchar(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`SCHED_NAME`, `TRIGGER_NAME`, `TRIGGER_GROUP`) USING BTREE,
   CONSTRAINT `qrtz_simprop_triggers_ibfk_1` FOREIGN KEY (`SCHED_NAME`, `TRIGGER_NAME`, `TRIGGER_GROUP`) REFERENCES `qrtz_triggers` (`SCHED_NAME`, `TRIGGER_NAME`, `TRIGGER_GROUP`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for qrtz_triggers
@@ -299,7 +299,7 @@ CREATE TABLE `qrtz_triggers`  (
   INDEX `IDX_QRTZ_T_NFT_ST_MISFIRE`(`SCHED_NAME`, `MISFIRE_INSTR`, `NEXT_FIRE_TIME`, `TRIGGER_STATE`) USING BTREE,
   INDEX `IDX_QRTZ_T_NFT_ST_MISFIRE_GRP`(`SCHED_NAME`, `MISFIRE_INSTR`, `NEXT_FIRE_TIME`, `TRIGGER_GROUP`, `TRIGGER_STATE`) USING BTREE,
   CONSTRAINT `qrtz_triggers_ibfk_1` FOREIGN KEY (`SCHED_NAME`, `JOB_NAME`, `JOB_GROUP`) REFERENCES `qrtz_job_details` (`SCHED_NAME`, `JOB_NAME`, `JOB_GROUP`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for schedule_job
@@ -315,7 +315,7 @@ CREATE TABLE `schedule_job`  (
   `remark` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '备注',
   `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`job_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '定时任务' ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '定时任务' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for schedule_job_log
@@ -333,7 +333,7 @@ CREATE TABLE `schedule_job_log`  (
   `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`log_id`) USING BTREE,
   INDEX `job_id`(`job_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1098462319601569855 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '定时任务日志' ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 1098462319601569855 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '定时任务日志' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of schedule_job_log
@@ -509,7 +509,7 @@ CREATE TABLE `sys_config`  (
   `remark` varchar(500) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '备注',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `param_key`(`param_key`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '系统配置信息表' ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '系统配置信息表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_config
@@ -530,7 +530,7 @@ CREATE TABLE `sys_dept`  (
   `status` int(10) NULL DEFAULT 0 COMMENT '0：正常，1：停用',
   `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`dept_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 11 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '部门管理' ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 11 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '部门管理' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_dept
@@ -560,7 +560,7 @@ CREATE TABLE `sys_dict`  (
   `del_flag` tinyint(4) NULL DEFAULT 0 COMMENT '删除标记  -1：已删除  0：正常',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `type`(`type`, `code`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '数据字典表' ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '数据字典表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_dict
@@ -579,7 +579,7 @@ CREATE TABLE `sys_icon`  (
   `type` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '图标类型',
   `status` int(10) NULL DEFAULT NULL COMMENT '0：不启用，1：启用',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 299 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 299 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_icon
@@ -897,7 +897,7 @@ CREATE TABLE `sys_log`  (
   `ip` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT 'IP地址',
   `create_date` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1098431558701871175 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '系统日志' ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 1098431558701871244 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '系统日志' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_log
@@ -1090,42 +1090,111 @@ INSERT INTO `sys_log` VALUES (1098431558701871135, 'admin', '修改角色', 'com
 INSERT INTO `sys_log` VALUES (1098431558701871136, 'admin', '下载会员信息', 'com.winnerdt.modules.qrcode.controller.WxUserManageController.download()', NULL, 5901, '0:0:0:0:0:0:0:1', '2019-04-29 18:15:40');
 INSERT INTO `sys_log` VALUES (1098431558701871137, 'admin', '下载会员信息', 'com.winnerdt.modules.qrcode.controller.WxUserManageController.download()', NULL, 3532, '0:0:0:0:0:0:0:1', '2019-04-29 18:16:15');
 INSERT INTO `sys_log` VALUES (1098431558701871138, 'admin', '下载会员信息', 'com.winnerdt.modules.qrcode.controller.WxUserManageController.download()', NULL, 164, '0:0:0:0:0:0:0:1', '2019-04-29 18:18:12');
-INSERT INTO `sys_log` VALUES (1098431558701871139, 'admin', '保存菜单', 'com.winnerdt.modules.sys.controller.SysMenuController.save()', '{\"menuId\":78,\"parentId\":54,\"name\":\"导出\",\"perms\":\"wxUser:manage:download\",\"type\":2}', 13, '0:0:0:0:0:0:0:1', '2019-04-30 11:42:17');
-INSERT INTO `sys_log` VALUES (1098431558701871140, 'admin', '下载会员信息', 'com.winnerdt.modules.qrcode.controller.WxUserManageController.download()', NULL, 129, '0:0:0:0:0:0:0:1', '2019-04-30 11:43:28');
-INSERT INTO `sys_log` VALUES (1098431558701871141, 'admin', '下载会员信息', 'com.winnerdt.modules.qrcode.controller.WxUserManageController.download()', NULL, 14, '0:0:0:0:0:0:0:1', '2019-04-30 11:44:20');
-INSERT INTO `sys_log` VALUES (1098431558701871142, 'admin', '下载会员信息', 'com.winnerdt.modules.qrcode.controller.WxUserManageController.download()', NULL, 10, '0:0:0:0:0:0:0:1', '2019-04-30 11:44:54');
-INSERT INTO `sys_log` VALUES (1098431558701871143, 'admin', '修改二维码信息', 'com.winnerdt.modules.qrcode.controller.QRCodeConfigController.update()', '{\"id\":1,\"qrcodeHeight\":680,\"qrcodeWidth\":680,\"qrcodeFontSize\":19,\"qrcodeFontHeight\":90,\"qrcodeIndexUrl\":\"pages/index/index\",\"qrcodePath\":\"/home/cp_beijing/data/shell_qrcode/\",\"qrcodeConfigName\":\"测试位置码\",\"remark\":\"用于生成测试的位置码\",\"qrcodeShape\":0}', 30, '127.0.0.1', '2019-04-30 15:09:00');
-INSERT INTO `sys_log` VALUES (1098431558701871144, 'admin', '修改二维码信息', 'com.winnerdt.modules.qrcode.controller.QRCodeConfigController.update()', '{\"id\":2,\"qrcodeHeight\":430,\"qrcodeWidth\":430,\"qrcodeFontSize\":19,\"qrcodeFontHeight\":90,\"qrcodeIndexUrl\":\"pages/index/index\",\"qrcodePath\":\"/home/cp_beijing/data/shell_qrcode/\",\"qrcodeConfigName\":\"汇纳科技测试\",\"remark\":\"用于生成测试的导购码\",\"qrcodeShape\":0}', 4, '127.0.0.1', '2019-04-30 15:09:07');
-INSERT INTO `sys_log` VALUES (1098431558701871145, 'admin', '删除二维码信息', 'com.winnerdt.modules.qrcode.controller.QRCodeInfoController.delete()', '[1]', 23, '127.0.0.1', '2019-04-30 15:36:52');
-INSERT INTO `sys_log` VALUES (1098431558701871146, 'admin', '删除角色', 'com.winnerdt.modules.sys.controller.SysRoleController.delete()', '[1]', 27, '127.0.0.1', '2019-04-30 15:37:13');
-INSERT INTO `sys_log` VALUES (1098431558701871147, 'admin', '保存二维码', 'com.winnerdt.modules.qrcode.controller.QRCodeInfoController.save()', '{\"id\":2,\"deptName\":\"总渠道管理\",\"deptId\":1,\"isCreateQrcode\":0,\"isDel\":0,\"createTime\":\"Apr 30, 2019 3:39:04 PM\",\"UpdateTime\":\"Apr 30, 2019 3:39:04 PM\",\"deptCode\":\"ZHONG\"}', 152, '127.0.0.1', '2019-04-30 15:39:05');
-INSERT INTO `sys_log` VALUES (1098431558701871148, 'admin', '修改二维码信息', 'com.winnerdt.modules.qrcode.controller.QRCodeConfigController.update()', '{\"id\":1,\"qrcodeHeight\":680,\"qrcodeWidth\":680,\"qrcodeFontSize\":19,\"qrcodeFontHeight\":90,\"qrcodeIndexUrl\":\"pages/index/index\",\"qrcodePath\":\"/home/cp_beijing/data/shell_qrcode/\",\"qrcodeConfigName\":\"测试位置码\",\"remark\":\"用于生成测试的位置码\",\"qrcodeShape\":1}', 128, '127.0.0.1', '2019-04-30 17:51:52');
-INSERT INTO `sys_log` VALUES (1098431558701871149, 'admin', '保存二维码', 'com.winnerdt.modules.qrcode.controller.QRCodeInfoController.save()', '{\"id\":3,\"deptName\":\"总渠道管理\",\"deptId\":1,\"isCreateQrcode\":0,\"isDel\":0,\"createTime\":\"May 5, 2019 8:54:53 AM\",\"UpdateTime\":\"May 5, 2019 8:54:53 AM\",\"deptCode\":\"ZHONG\"}', 189, '127.0.0.1', '2019-05-05 08:54:54');
-INSERT INTO `sys_log` VALUES (1098431558701871150, 'admin', '保存角色', 'com.winnerdt.modules.sys.controller.SysRoleController.save()', '{\"roleId\":2,\"roleName\":\"汇纳远景渠道商\",\"deptId\":1,\"menuIdList\":[3,15,16,17,19,20,21,22,29,32,33,34,50,51,53,56,61,62,63,64,65,66,67,68,70,71,72,76,77,78],\"deptIdList\":[3,4,5,8],\"createTime\":\"May 5, 2019 9:02:51 AM\"}', 84, '127.0.0.1', '2019-05-05 09:02:52');
-INSERT INTO `sys_log` VALUES (1098431558701871151, 'admin', '删除用户', 'com.winnerdt.modules.sys.controller.SysUserController.delete()', '[5]', 30, '127.0.0.1', '2019-05-05 09:03:20');
-INSERT INTO `sys_log` VALUES (1098431558701871152, 'admin', '修改用户', 'com.winnerdt.modules.sys.controller.SysUserController.update()', '{\"userId\":6,\"email\":\"15130719914@163.com\",\"mobile\":\"15130719914\",\"status\":1,\"roleIdList\":[\"2\"],\"deptId\":1}', 40, '127.0.0.1', '2019-05-05 09:04:15');
-INSERT INTO `sys_log` VALUES (1098431558701871153, 'admin', '下载会员信息', 'com.winnerdt.modules.qrcode.controller.WxUserManageController.download()', NULL, 300, '127.0.0.1', '2019-05-05 09:30:00');
-INSERT INTO `sys_log` VALUES (1098431558701871154, 'admin', '下载会员信息', 'com.winnerdt.modules.qrcode.controller.WxUserManageController.download()', NULL, 32, '127.0.0.1', '2019-05-05 09:40:58');
-INSERT INTO `sys_log` VALUES (1098431558701871155, 'admin', '下载会员信息', 'com.winnerdt.modules.qrcode.controller.WxUserManageController.download()', NULL, 8, '127.0.0.1', '2019-05-05 09:42:04');
-INSERT INTO `sys_log` VALUES (1098431558701871156, 'admin', '下载会员信息', 'com.winnerdt.modules.qrcode.controller.WxUserManageController.download()', NULL, 5, '127.0.0.1', '2019-05-05 09:44:42');
-INSERT INTO `sys_log` VALUES (1098431558701871157, 'admin', '下载会员信息', 'com.winnerdt.modules.qrcode.controller.WxUserManageController.download()', NULL, 6, '127.0.0.1', '2019-05-05 09:46:47');
-INSERT INTO `sys_log` VALUES (1098431558701871158, 'admin', '修改角色', 'com.winnerdt.modules.sys.controller.SysRoleController.update()', '{\"roleId\":2,\"roleName\":\"汇纳远景渠道商\",\"deptId\":1,\"menuIdList\":[3,15,16,17,19,20,21,22,29,32,33,34,50,51,53,56,61,62,63,64,65,66,67,68,69,70,71,72,76,77,78],\"deptIdList\":[3,4,5,8]}', 41, '127.0.0.1', '2019-05-05 10:14:07');
-INSERT INTO `sys_log` VALUES (1098431558701871159, 'admin', '修改角色', 'com.winnerdt.modules.sys.controller.SysRoleController.update()', '{\"roleId\":2,\"roleName\":\"汇纳远景渠道商\",\"deptId\":1,\"menuIdList\":[15,52,54,70,71,72,73,78],\"deptIdList\":[3,4,5,8]}', 29, '127.0.0.1', '2019-05-05 10:15:17');
-INSERT INTO `sys_log` VALUES (1098431558701871160, 'admin', '修改用户', 'com.winnerdt.modules.sys.controller.SysUserController.updateBasic()', '{\"userId\":1,\"nickName\":\"admin\",\"email\":\"123145@qq.com\",\"mobile\":\"12345698711\",\"signature\":\"一个文艺小青年\"}', 16, '127.0.0.1', '2019-05-05 13:45:55');
-INSERT INTO `sys_log` VALUES (1098431558701871161, 'admin', '修改角色', 'com.winnerdt.modules.sys.controller.SysRoleController.update()', '{\"roleId\":2,\"roleName\":\"汇纳远景渠道商\",\"deptId\":1,\"menuIdList\":[1,2,3,4,15,16,17,18,19,20,21,22,23,24,25,26,29,31,32,33,34,35,50,51,52,53,54,56,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78],\"deptIdList\":[3,4,5,8]}', 211, '127.0.0.1', '2019-05-05 13:56:56');
-INSERT INTO `sys_log` VALUES (1098431558701871162, 'admin', '保存用户', 'com.winnerdt.modules.sys.controller.SysUserController.save()', '{\"userId\":7,\"username\":\"帅康\",\"password\":\"2e3fade53208fd98442ecc5943c630ef911203e98cd0cbefe6b4db011db9a5bf\",\"salt\":\"aaRPxHzTMyJUncxefz6J\",\"email\":\"123@qq.com\",\"mobile\":\"11111111111\",\"status\":1,\"roleIdList\":[\"2\"],\"createTime\":\"May 5, 2019 2:20:17 PM\",\"deptId\":2}', 51, '127.0.0.1', '2019-05-05 14:20:17');
-INSERT INTO `sys_log` VALUES (1098431558701871163, 'admin', '修改用户', 'com.winnerdt.modules.sys.controller.SysUserController.update()', '{\"userId\":6,\"email\":\"15130719914@163.com\",\"mobile\":\"15130719914\",\"status\":1,\"roleIdList\":[\"2\"],\"deptId\":3}', 10, '127.0.0.1', '2019-05-05 14:20:32');
-INSERT INTO `sys_log` VALUES (1098431558701871164, 'admin', '保存角色', 'com.winnerdt.modules.sys.controller.SysRoleController.save()', '{\"roleId\":3,\"roleName\":\"汇纳科技渠道商\",\"deptId\":2,\"menuIdList\":[1,2,3,4,15,16,17,18,19,20,21,22,23,24,25,26,29,31,32,33,34,35,50,51,52,53,54,56,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78],\"deptIdList\":[2,9],\"createTime\":\"May 5, 2019 2:29:35 PM\"}', 50, '127.0.0.1', '2019-05-05 14:29:35');
-INSERT INTO `sys_log` VALUES (1098431558701871165, 'admin', '修改角色', 'com.winnerdt.modules.sys.controller.SysRoleController.update()', '{\"roleId\":2,\"roleName\":\"汇纳远景渠道商\",\"deptId\":3,\"menuIdList\":[1,2,3,4,15,16,17,18,19,20,21,22,23,24,25,26,29,31,32,33,34,35,50,51,52,53,54,56,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78],\"deptIdList\":[3,4,5,8]}', 29, '127.0.0.1', '2019-05-05 14:29:49');
-INSERT INTO `sys_log` VALUES (1098431558701871166, 'admin', '修改用户', 'com.winnerdt.modules.sys.controller.SysUserController.update()', '{\"userId\":7,\"email\":\"123@qq.com\",\"mobile\":\"11111111111\",\"status\":1,\"roleIdList\":[\"3\"],\"deptId\":2}', 16, '127.0.0.1', '2019-05-05 14:30:12');
-INSERT INTO `sys_log` VALUES (1098431558701871167, 'admin', '修改角色', 'com.winnerdt.modules.sys.controller.SysRoleController.update()', '{\"roleId\":2,\"roleName\":\"汇纳远景渠道商\",\"deptId\":3,\"menuIdList\":[1,2,3,4,15,16,17,18,19,20,21,22,23,24,25,26,29,31,32,33,34,35,50,51,52,53,54,56,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78],\"deptIdList\":[3,4,5,8]}', 40, '127.0.0.1', '2019-05-05 14:41:41');
-INSERT INTO `sys_log` VALUES (1098431558701871168, 'admin', '保存角色', 'com.winnerdt.modules.sys.controller.SysRoleController.save()', '{\"roleId\":4,\"roleName\":\"汇纳数据渠道商\",\"deptId\":6,\"menuIdList\":[1,2,3,4,15,16,17,18,19,20,21,22,23,24,25,26,29,31,32,33,34,35,50,51,52,53,54,56,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78],\"deptIdList\":[6,10],\"createTime\":\"May 5, 2019 2:42:23 PM\"}', 36, '127.0.0.1', '2019-05-05 14:42:23');
-INSERT INTO `sys_log` VALUES (1098431558701871169, 'admin', '保存用户', 'com.winnerdt.modules.sys.controller.SysUserController.save()', '{\"userId\":8,\"username\":\"张文斌\",\"password\":\"a74724d739e30d9767c932fa7affa0f872b406e4ff3d8cbdcf94f3fbef8a7769\",\"salt\":\"A38Orf6HxfgJpG76mTUs\",\"email\":\"123@qq.com\",\"mobile\":\"12311111111\",\"status\":1,\"roleIdList\":[\"4\"],\"createTime\":\"May 5, 2019 2:43:13 PM\",\"deptId\":6}', 17, '127.0.0.1', '2019-05-05 14:43:13');
-INSERT INTO `sys_log` VALUES (1098431558701871170, 'admin', '修改角色', 'com.winnerdt.modules.sys.controller.SysRoleController.update()', '{\"roleId\":2,\"roleName\":\"汇纳远景渠道商\",\"deptId\":3,\"menuIdList\":[1,2,3,4,15,16,17,18,19,20,21,22,23,24,25,26,29,31,32,33,34,35,50,51,52,53,54,56,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78],\"deptIdList\":[2,3,4,5,8,9]}', 55, '127.0.0.1', '2019-05-05 15:09:51');
-INSERT INTO `sys_log` VALUES (1098431558701871171, 'admin', '下载会员信息', 'com.winnerdt.modules.qrcode.controller.WxUserManageController.download()', NULL, 311, '127.0.0.1', '2019-05-05 15:13:51');
-INSERT INTO `sys_log` VALUES (1098431558701871172, 'admin', '修改角色', 'com.winnerdt.modules.sys.controller.SysRoleController.update()', '{\"roleId\":2,\"roleName\":\"汇纳远景渠道商\",\"deptId\":3,\"menuIdList\":[1,2,3,4,15,16,17,18,19,20,21,22,23,24,25,26,29,31,32,33,34,35,50,51,52,53,54,56,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78],\"deptIdList\":[3,4,5,8]}', 218, '127.0.0.1', '2019-05-05 16:13:45');
-INSERT INTO `sys_log` VALUES (1098431558701871173, 'admin', '修改角色', 'com.winnerdt.modules.sys.controller.SysRoleController.update()', '{\"roleId\":2,\"roleName\":\"汇纳远景渠道商\",\"deptId\":3,\"menuIdList\":[1,2,3,4,15,16,17,18,19,20,21,22,23,24,25,26,29,31,32,33,34,35,50,51,52,53,54,56,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78],\"deptIdList\":[2,3,4,5,8,9]}', 44, '127.0.0.1', '2019-05-05 16:16:09');
-INSERT INTO `sys_log` VALUES (1098431558701871174, 'admin', '修改角色', 'com.winnerdt.modules.sys.controller.SysRoleController.update()', '{\"roleId\":2,\"roleName\":\"汇纳远景渠道商\",\"deptId\":3,\"menuIdList\":[1,2,3,4,15,16,17,18,19,20,21,22,23,24,25,26,29,31,32,33,34,35,50,51,52,53,54,56,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78],\"deptIdList\":[3,4,5,8]}', 32, '127.0.0.1', '2019-05-05 16:20:50');
+INSERT INTO `sys_log` VALUES (1098431558701871139, 'admin', '修改角色', 'com.winnerdt.modules.sys.controller.SysRoleController.update()', '{\"roleId\":1,\"roleName\":\"test1\",\"remark\":\"数据授权，代表拥有本角色的用户拥有哪些数据查看权限\",\"deptId\":4,\"menuIdList\":[2,15,16,17,18,31,32,33,34,35,51,52,53,54,56,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77],\"deptIdList\":[1,2,3,4,5,6,8]}', 184, '0:0:0:0:0:0:0:1', '2019-05-05 15:08:05');
+INSERT INTO `sys_log` VALUES (1098431558701871140, 'admin', '下载会员信息', 'com.winnerdt.modules.qrcode.controller.WxUserManageController.download()', NULL, 233, '0:0:0:0:0:0:0:1', '2019-05-05 17:10:02');
+INSERT INTO `sys_log` VALUES (1098431558701871141, 'admin', '下载单个二维码信息', 'com.winnerdt.modules.qrcode.controller.QRCodeInfoController.download()', NULL, 2188, '0:0:0:0:0:0:0:1', '2019-05-05 17:11:13');
+INSERT INTO `sys_log` VALUES (1098431558701871142, 'admin', '修改二维码信息', 'com.winnerdt.modules.qrcode.controller.QRCodeConfigController.update()', '{\"id\":1,\"qrcodeHeight\":680,\"qrcodeWidth\":680,\"qrcodeFontSize\":19,\"qrcodeFontHeight\":90,\"qrcodeIndexUrl\":\"pages/index/index\",\"qrcodePath\":\"C:\\\\Users\\\\user\\\\Desktop\\\\test\",\"qrcodeConfigName\":\"测试位置码\",\"remark\":\"用于生成测试的位置码\",\"qrcodeShape\":1}', 107, '0:0:0:0:0:0:0:1', '2019-05-06 14:24:12');
+INSERT INTO `sys_log` VALUES (1098431558701871143, 'admin', '修改二维码信息', 'com.winnerdt.modules.qrcode.controller.QRCodeConfigController.update()', '{\"id\":2,\"qrcodeHeight\":430,\"qrcodeWidth\":430,\"qrcodeFontSize\":19,\"qrcodeFontHeight\":90,\"qrcodeIndexUrl\":\"pages/index/index\",\"qrcodePath\":\"C:\\\\Users\\\\user\\\\Desktop\\\\test\",\"qrcodeConfigName\":\"汇纳科技测试\",\"remark\":\"用于生成测试的导购码\",\"qrcodeShape\":0}', 32, '0:0:0:0:0:0:0:1', '2019-05-06 14:24:18');
+INSERT INTO `sys_log` VALUES (1098431558701871144, 'admin', '下载多个二维码信息', 'com.winnerdt.modules.qrcode.controller.QRCodeInfoController.batchDownload()', NULL, 11494, '0:0:0:0:0:0:0:1', '2019-05-06 14:49:49');
+INSERT INTO `sys_log` VALUES (1098431558701871145, 'admin', '下载多个二维码信息', 'com.winnerdt.modules.qrcode.controller.QRCodeInfoController.batchDownload()', NULL, 38, '0:0:0:0:0:0:0:1', '2019-05-06 14:51:17');
+INSERT INTO `sys_log` VALUES (1098431558701871146, 'admin', '下载多个二维码信息', 'com.winnerdt.modules.qrcode.controller.QRCodeInfoController.batchDownload()', NULL, 26090, '0:0:0:0:0:0:0:1', '2019-05-06 14:52:07');
+INSERT INTO `sys_log` VALUES (1098431558701871147, 'admin', '下载多个二维码信息', 'com.winnerdt.modules.qrcode.controller.QRCodeInfoController.batchDownload()', NULL, 11426, '0:0:0:0:0:0:0:1', '2019-05-06 14:53:32');
+INSERT INTO `sys_log` VALUES (1098431558701871148, 'admin', '下载多个二维码信息', 'com.winnerdt.modules.qrcode.controller.QRCodeInfoController.batchDownload()', NULL, 1511, '0:0:0:0:0:0:0:1', '2019-05-06 14:53:54');
+INSERT INTO `sys_log` VALUES (1098431558701871149, 'admin', '下载多个二维码信息', 'com.winnerdt.modules.qrcode.controller.QRCodeInfoController.batchDownload()', NULL, 43890, '0:0:0:0:0:0:0:1', '2019-05-06 14:56:37');
+INSERT INTO `sys_log` VALUES (1098431558701871150, 'admin', '下载多个二维码信息', 'com.winnerdt.modules.qrcode.controller.QRCodeInfoController.batchDownload()', NULL, 8061, '0:0:0:0:0:0:0:1', '2019-05-06 14:57:38');
+INSERT INTO `sys_log` VALUES (1098431558701871151, 'admin', '下载多个二维码信息', 'com.winnerdt.modules.qrcode.controller.QRCodeInfoController.batchDownload()', NULL, 74945, '0:0:0:0:0:0:0:1', '2019-05-06 14:59:31');
+INSERT INTO `sys_log` VALUES (1098431558701871152, 'admin', '下载多个二维码信息', 'com.winnerdt.modules.qrcode.controller.QRCodeInfoController.batchDownload()', NULL, 4182, '0:0:0:0:0:0:0:1', '2019-05-06 15:15:40');
+INSERT INTO `sys_log` VALUES (1098431558701871153, 'admin', '下载多个二维码信息', 'com.winnerdt.modules.qrcode.controller.QRCodeInfoController.batchDownload()', NULL, 45, '0:0:0:0:0:0:0:1', '2019-05-06 15:17:16');
+INSERT INTO `sys_log` VALUES (1098431558701871154, 'admin', '下载多个二维码信息', 'com.winnerdt.modules.qrcode.controller.QRCodeInfoController.batchDownload()', NULL, 33, '0:0:0:0:0:0:0:1', '2019-05-06 15:22:57');
+INSERT INTO `sys_log` VALUES (1098431558701871155, 'admin', '下载多个二维码信息', 'com.winnerdt.modules.qrcode.controller.QRCodeInfoController.batchDownload()', NULL, 32, '0:0:0:0:0:0:0:1', '2019-05-06 15:24:43');
+INSERT INTO `sys_log` VALUES (1098431558701871156, 'admin', '下载多个二维码信息', 'com.winnerdt.modules.qrcode.controller.QRCodeInfoController.batchDownload()', NULL, 35, '0:0:0:0:0:0:0:1', '2019-05-06 15:36:10');
+INSERT INTO `sys_log` VALUES (1098431558701871157, 'admin', '下载多个二维码信息', 'com.winnerdt.modules.qrcode.controller.QRCodeInfoController.batchDownload()', NULL, 45, '0:0:0:0:0:0:0:1', '2019-05-06 15:37:57');
+INSERT INTO `sys_log` VALUES (1098431558701871158, 'admin', '下载多个二维码信息', 'com.winnerdt.modules.qrcode.controller.QRCodeInfoController.batchDownload()', NULL, 15, '0:0:0:0:0:0:0:1', '2019-05-06 15:38:34');
+INSERT INTO `sys_log` VALUES (1098431558701871159, 'admin', '下载多个二维码信息', 'com.winnerdt.modules.qrcode.controller.QRCodeInfoController.batchDownload()', NULL, 15, '0:0:0:0:0:0:0:1', '2019-05-06 15:42:00');
+INSERT INTO `sys_log` VALUES (1098431558701871160, 'admin', '下载多个二维码信息', 'com.winnerdt.modules.qrcode.controller.QRCodeInfoController.batchDownload()', NULL, 14, '0:0:0:0:0:0:0:1', '2019-05-06 15:42:15');
+INSERT INTO `sys_log` VALUES (1098431558701871161, 'admin', '下载多个二维码信息', 'com.winnerdt.modules.qrcode.controller.QRCodeInfoController.batchDownload()', NULL, 36, '0:0:0:0:0:0:0:1', '2019-05-06 15:43:49');
+INSERT INTO `sys_log` VALUES (1098431558701871162, 'admin', '下载多个二维码信息', 'com.winnerdt.modules.qrcode.controller.QRCodeInfoController.batchDownload()', NULL, 34, '0:0:0:0:0:0:0:1', '2019-05-06 15:45:26');
+INSERT INTO `sys_log` VALUES (1098431558701871163, 'admin', '下载多个二维码信息', 'com.winnerdt.modules.qrcode.controller.QRCodeInfoController.batchDownload()', NULL, 16, '0:0:0:0:0:0:0:1', '2019-05-06 15:45:33');
+INSERT INTO `sys_log` VALUES (1098431558701871164, 'admin', '删除二维码信息', 'com.winnerdt.modules.qrcode.controller.QRCodeInfoController.delete()', '[2]', 49, '0:0:0:0:0:0:0:1', '2019-05-07 10:09:52');
+INSERT INTO `sys_log` VALUES (1098431558701871165, 'admin', '删除二维码信息', 'com.winnerdt.modules.qrcode.controller.QRCodeInfoController.delete()', '[2]', 130, '0:0:0:0:0:0:0:1', '2019-05-07 10:10:21');
+INSERT INTO `sys_log` VALUES (1098431558701871166, 'admin', '下载多个二维码信息', 'com.winnerdt.modules.qrcode.controller.QRCodeInfoController.batchDownload()', NULL, 53, '0:0:0:0:0:0:0:1', '2019-05-07 15:16:30');
+INSERT INTO `sys_log` VALUES (1098431558701871167, 'admin', '下载多个二维码信息', 'com.winnerdt.modules.qrcode.controller.QRCodeInfoController.batchDownload()', NULL, 78, '0:0:0:0:0:0:0:1', '2019-05-07 15:24:39');
+INSERT INTO `sys_log` VALUES (1098431558701871168, 'admin', '下载多个二维码信息', 'com.winnerdt.modules.qrcode.controller.QRCodeInfoController.batchDownload()', NULL, 9470, '0:0:0:0:0:0:0:1', '2019-05-07 15:29:24');
+INSERT INTO `sys_log` VALUES (1098431558701871169, 'admin', '下载多个二维码信息', 'com.winnerdt.modules.qrcode.controller.QRCodeInfoController.batchDownload()', NULL, 5347, '0:0:0:0:0:0:0:1', '2019-05-07 15:31:07');
+INSERT INTO `sys_log` VALUES (1098431558701871170, 'admin', '下载多个二维码信息', 'com.winnerdt.modules.qrcode.controller.QRCodeInfoController.batchDownload()', NULL, 10205, '0:0:0:0:0:0:0:1', '2019-05-07 15:31:55');
+INSERT INTO `sys_log` VALUES (1098431558701871171, 'admin', '修改角色', 'com.winnerdt.modules.sys.controller.SysRoleController.update()', '{\"roleId\":3,\"roleName\":\"汇纳科技渠道商\",\"deptId\":2,\"menuIdList\":[2,3,15,16,17,18,19,20,21,22,23,24,25,26,29,31,32,33,34,35,50,51,52,53,54,56,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,1],\"deptIdList\":[2,9]}', 249, '0:0:0:0:0:0:0:1', '2019-05-07 16:58:21');
+INSERT INTO `sys_log` VALUES (1098431558701871172, '帅康', '保存角色', 'com.winnerdt.modules.sys.controller.SysRoleController.save()', '{\"roleId\":5,\"roleName\":\"test\",\"remark\":\"test\",\"deptId\":2,\"menuIdList\":[2,15,16,17,18,31,32,33,34,35,52,54,70,71,72,73,74,75,78],\"deptIdList\":[2,9],\"createTime\":\"May 7, 2019 5:18:42 PM\"}', 45, '0:0:0:0:0:0:0:1', '2019-05-07 17:18:42');
+INSERT INTO `sys_log` VALUES (1098431558701871173, '帅康', '保存用户', 'com.winnerdt.modules.sys.controller.SysUserController.save()', '{\"userId\":9,\"username\":\"test\",\"password\":\"d70c607f09a6dea5942a5f0fe30f5fe957c73c8d15d1676a135dac4451ee0ee2\",\"salt\":\"TU7wDeeAOYkZ3iZqhYL7\",\"email\":\"123@qq.com\",\"mobile\":\"11111111111\",\"status\":1,\"roleIdList\":[\"5\"],\"createTime\":\"May 7, 2019 5:19:06 PM\",\"deptId\":2}', 58, '0:0:0:0:0:0:0:1', '2019-05-07 17:19:07');
+INSERT INTO `sys_log` VALUES (1098431558701871174, '帅康', '修改角色', 'com.winnerdt.modules.sys.controller.SysRoleController.update()', '{\"roleId\":5,\"roleName\":\"test\",\"remark\":\"test\",\"deptId\":2,\"menuIdList\":[2,15,16,17,18,31,32,33,34,35,52,54,70,71,72,73,74,75,78,3],\"deptIdList\":[2,9]}', 80, '0:0:0:0:0:0:0:1', '2019-05-07 17:19:59');
+INSERT INTO `sys_log` VALUES (1098431558701871175, '帅康', '修改角色', 'com.winnerdt.modules.sys.controller.SysRoleController.update()', '{\"roleId\":5,\"roleName\":\"test\",\"remark\":\"test\",\"deptId\":2,\"menuIdList\":[2,15,16,17,18,31,32,33,34,35,52,54,70,71,72,73,74,75,78,3,1],\"deptIdList\":[2,9]}', 72, '0:0:0:0:0:0:0:1', '2019-05-07 17:20:39');
+INSERT INTO `sys_log` VALUES (1098431558701871176, '帅康', '修改角色', 'com.winnerdt.modules.sys.controller.SysRoleController.update()', '{\"roleId\":5,\"roleName\":\"test\",\"remark\":\"test\",\"deptId\":2,\"menuIdList\":[2,15,16,17,18,31,32,33,34,35,52,54,70,71,72,73,74,75,78,3,1,19,20,21,22],\"deptIdList\":[2,9]}', 96, '0:0:0:0:0:0:0:1', '2019-05-07 17:21:28');
+INSERT INTO `sys_log` VALUES (1098431558701871177, 'admin', '修改角色', 'com.winnerdt.modules.sys.controller.SysRoleController.update()', '{\"roleId\":3,\"roleName\":\"汇纳科技渠道商\",\"deptId\":2,\"menuIdList\":[2,3,15,16,17,18,19,20,21,22,29,31,32,33,34,35,50,51,52,53,54,56,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,1],\"deptIdList\":[2,9]}', 72, '0:0:0:0:0:0:0:1', '2019-05-07 17:33:58');
+INSERT INTO `sys_log` VALUES (1098431558701871178, 'admin', '修改角色', 'com.winnerdt.modules.sys.controller.SysRoleController.update()', '{\"roleId\":3,\"roleName\":\"汇纳科技渠道商\",\"deptId\":2,\"menuIdList\":[2,3,15,16,17,18,19,20,21,22,29,31,32,33,34,35,50,51,52,53,54,56,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,1,41],\"deptIdList\":[2,9]}', 176, '0:0:0:0:0:0:0:1', '2019-05-07 18:21:08');
+INSERT INTO `sys_log` VALUES (1098431558701871179, 'admin', '修改角色', 'com.winnerdt.modules.sys.controller.SysRoleController.update()', '{\"roleId\":5,\"roleName\":\"test\",\"remark\":\"test\",\"deptId\":2,\"menuIdList\":[2,15,16,17,18,31,32,33,34,35,52,54,70,71,72,73,74,75,78,3,1,19,20,21,22,41],\"deptIdList\":[2,9]}', 172, '0:0:0:0:0:0:0:1', '2019-05-08 10:40:23');
+INSERT INTO `sys_log` VALUES (1098431558701871180, 'admin', '下载会员信息（表单自动填充）', 'com.winnerdt.modules.qrcode.controller.WxUserManageController.downloadForForm()', NULL, 212, '0:0:0:0:0:0:0:1', '2019-05-13 11:16:57');
+INSERT INTO `sys_log` VALUES (1098431558701871181, 'admin', '下载会员信息（表单自动填充）', 'com.winnerdt.modules.qrcode.controller.WxUserManageController.downloadForForm()', NULL, 194, '0:0:0:0:0:0:0:1', '2019-05-13 11:18:15');
+INSERT INTO `sys_log` VALUES (1098431558701871182, 'admin', '下载会员信息（表单自动填充）', 'com.winnerdt.modules.qrcode.controller.WxUserManageController.downloadForForm()', NULL, 6024, '0:0:0:0:0:0:0:1', '2019-05-13 14:27:01');
+INSERT INTO `sys_log` VALUES (1098431558701871183, 'admin', '下载会员信息（表单自动填充）', 'com.winnerdt.modules.qrcode.controller.WxUserManageController.downloadForForm()', NULL, 5636, '0:0:0:0:0:0:0:1', '2019-05-13 14:28:22');
+INSERT INTO `sys_log` VALUES (1098431558701871184, 'admin', '下载会员信息（表单自动填充）', 'com.winnerdt.modules.qrcode.controller.WxUserManageController.downloadForForm()', NULL, 3717, '0:0:0:0:0:0:0:1', '2019-05-13 14:30:39');
+INSERT INTO `sys_log` VALUES (1098431558701871185, 'admin', '下载会员信息（表单自动填充）', 'com.winnerdt.modules.qrcode.controller.WxUserManageController.downloadForForm()', NULL, 35792, '0:0:0:0:0:0:0:1', '2019-05-13 14:33:06');
+INSERT INTO `sys_log` VALUES (1098431558701871186, 'admin', '下载会员信息（表单自动填充）', 'com.winnerdt.modules.qrcode.controller.WxUserManageController.downloadForForm()', NULL, 8604, '0:0:0:0:0:0:0:1', '2019-05-13 14:34:31');
+INSERT INTO `sys_log` VALUES (1098431558701871187, 'admin', '下载会员信息（表单自动填充）', 'com.winnerdt.modules.qrcode.controller.WxUserManageController.downloadForForm()', NULL, 4550, '0:0:0:0:0:0:0:1', '2019-05-13 14:36:15');
+INSERT INTO `sys_log` VALUES (1098431558701871188, 'admin', '下载会员信息（表单自动填充）', 'com.winnerdt.modules.qrcode.controller.WxUserManageController.downloadForForm()', NULL, 145, '0:0:0:0:0:0:0:1', '2019-05-13 14:40:08');
+INSERT INTO `sys_log` VALUES (1098431558701871189, 'admin', '下载会员信息（表单自动填充）', 'com.winnerdt.modules.qrcode.controller.WxUserManageController.downloadForForm()', NULL, 146, '0:0:0:0:0:0:0:1', '2019-05-13 14:44:01');
+INSERT INTO `sys_log` VALUES (1098431558701871190, 'admin', '下载会员信息（表单自动填充）', 'com.winnerdt.modules.qrcode.controller.WxUserManageController.downloadForForm()', NULL, 161, '0:0:0:0:0:0:0:1', '2019-05-13 14:50:50');
+INSERT INTO `sys_log` VALUES (1098431558701871191, 'admin', '下载会员信息（表单自动填充）', 'com.winnerdt.modules.qrcode.controller.WxUserManageController.downloadForForm()', NULL, 198936, '0:0:0:0:0:0:0:1', '2019-05-13 14:54:39');
+INSERT INTO `sys_log` VALUES (1098431558701871192, 'admin', '下载会员信息（表单自动填充）', 'com.winnerdt.modules.qrcode.controller.WxUserManageController.downloadForForm()', NULL, 12047, '0:0:0:0:0:0:0:1', '2019-05-13 14:55:24');
+INSERT INTO `sys_log` VALUES (1098431558701871193, 'admin', '下载会员信息（表单自动填充）', 'com.winnerdt.modules.qrcode.controller.WxUserManageController.downloadForForm()', NULL, 183667, '0:0:0:0:0:0:0:1', '2019-05-13 15:05:50');
+INSERT INTO `sys_log` VALUES (1098431558701871194, 'admin', '下载会员信息（表单自动填充）', 'com.winnerdt.modules.qrcode.controller.WxUserManageController.downloadForForm()', NULL, 3780, '0:0:0:0:0:0:0:1', '2019-05-13 15:08:16');
+INSERT INTO `sys_log` VALUES (1098431558701871195, 'admin', '下载会员信息（表单自动填充）', 'com.winnerdt.modules.qrcode.controller.WxUserManageController.downloadForForm()', NULL, 19083, '0:0:0:0:0:0:0:1', '2019-05-13 15:20:43');
+INSERT INTO `sys_log` VALUES (1098431558701871196, 'admin', '下载会员信息（表单自动填充）', 'com.winnerdt.modules.qrcode.controller.WxUserManageController.downloadForForm()', NULL, 8560, '0:0:0:0:0:0:0:1', '2019-05-13 15:22:08');
+INSERT INTO `sys_log` VALUES (1098431558701871197, 'admin', '下载会员信息（表单自动填充）', 'com.winnerdt.modules.qrcode.controller.WxUserManageController.downloadForForm()', NULL, 141, '0:0:0:0:0:0:0:1', '2019-05-13 15:23:27');
+INSERT INTO `sys_log` VALUES (1098431558701871198, 'admin', '下载会员信息（表单自动填充）', 'com.winnerdt.modules.qrcode.controller.WxUserManageController.downloadForForm()', NULL, 139, '0:0:0:0:0:0:0:1', '2019-05-13 15:27:15');
+INSERT INTO `sys_log` VALUES (1098431558701871199, 'admin', '下载会员信息（表单自动填充）', 'com.winnerdt.modules.qrcode.controller.WxUserManageController.downloadForForm()', NULL, 84860, '0:0:0:0:0:0:0:1', '2019-05-13 15:30:01');
+INSERT INTO `sys_log` VALUES (1098431558701871200, 'admin', '下载会员信息（表单自动填充）', 'com.winnerdt.modules.qrcode.controller.WxUserManageController.downloadForForm()', NULL, 6882, '0:0:0:0:0:0:0:1', '2019-05-13 15:30:37');
+INSERT INTO `sys_log` VALUES (1098431558701871201, 'admin', '下载会员信息（表单自动填充）', 'com.winnerdt.modules.qrcode.controller.WxUserManageController.downloadForForm()', NULL, 3750, '0:0:0:0:0:0:0:1', '2019-05-13 15:32:05');
+INSERT INTO `sys_log` VALUES (1098431558701871202, 'admin', '下载会员信息（表单自动填充）', 'com.winnerdt.modules.qrcode.controller.WxUserManageController.downloadForForm()', NULL, 162, '0:0:0:0:0:0:0:1', '2019-05-13 15:35:12');
+INSERT INTO `sys_log` VALUES (1098431558701871203, 'admin', '下载会员信息（表单自动填充）', 'com.winnerdt.modules.qrcode.controller.WxUserManageController.downloadForForm()', NULL, 147, '0:0:0:0:0:0:0:1', '2019-05-13 15:40:32');
+INSERT INTO `sys_log` VALUES (1098431558701871204, 'admin', '下载会员信息（表单自动填充）', 'com.winnerdt.modules.qrcode.controller.WxUserManageController.downloadForForm()', NULL, 149, '0:0:0:0:0:0:0:1', '2019-05-13 15:41:55');
+INSERT INTO `sys_log` VALUES (1098431558701871205, 'admin', '下载会员信息（表单自动填充）', 'com.winnerdt.modules.qrcode.controller.WxUserManageController.downloadForForm()', NULL, 155, '0:0:0:0:0:0:0:1', '2019-05-13 16:24:17');
+INSERT INTO `sys_log` VALUES (1098431558701871206, 'admin', '下载会员信息（表单自动填充）', 'com.winnerdt.modules.qrcode.controller.WxUserManageController.downloadForForm()', NULL, 145, '0:0:0:0:0:0:0:1', '2019-05-13 16:25:46');
+INSERT INTO `sys_log` VALUES (1098431558701871207, 'admin', '下载会员信息（表单自动填充）', 'com.winnerdt.modules.qrcode.controller.WxUserManageController.downloadForForm()', NULL, 148, '0:0:0:0:0:0:0:1', '2019-05-13 16:35:15');
+INSERT INTO `sys_log` VALUES (1098431558701871208, 'admin', '下载会员信息（表单自动填充）', 'com.winnerdt.modules.qrcode.controller.WxUserManageController.downloadForForm()', NULL, 144, '0:0:0:0:0:0:0:1', '2019-05-13 16:37:02');
+INSERT INTO `sys_log` VALUES (1098431558701871209, 'admin', '下载会员信息（表单自动填充）', 'com.winnerdt.modules.qrcode.controller.WxUserManageController.downloadForForm()', NULL, 144, '0:0:0:0:0:0:0:1', '2019-05-13 16:40:18');
+INSERT INTO `sys_log` VALUES (1098431558701871210, 'admin', '下载会员信息（表单自动填充）', 'com.winnerdt.modules.qrcode.controller.WxUserManageController.downloadForForm()', NULL, 149, '0:0:0:0:0:0:0:1', '2019-05-13 16:42:20');
+INSERT INTO `sys_log` VALUES (1098431558701871211, 'admin', '下载会员信息（表单自动填充）', 'com.winnerdt.modules.qrcode.controller.WxUserManageController.downloadForForm()', NULL, 146, '0:0:0:0:0:0:0:1', '2019-05-13 16:47:56');
+INSERT INTO `sys_log` VALUES (1098431558701871212, 'admin', '下载会员信息（表单自动填充）', 'com.winnerdt.modules.qrcode.controller.WxUserManageController.downloadForForm()', NULL, 154, '0:0:0:0:0:0:0:1', '2019-05-13 16:49:15');
+INSERT INTO `sys_log` VALUES (1098431558701871213, 'admin', '下载会员信息（表单自动填充）', 'com.winnerdt.modules.qrcode.controller.WxUserManageController.downloadForForm()', NULL, 150, '0:0:0:0:0:0:0:1', '2019-05-13 17:08:11');
+INSERT INTO `sys_log` VALUES (1098431558701871214, 'admin', '下载会员信息（表单自动填充）', 'com.winnerdt.modules.qrcode.controller.WxUserManageController.downloadForForm()', NULL, 10, '0:0:0:0:0:0:0:1', '2019-05-13 17:13:03');
+INSERT INTO `sys_log` VALUES (1098431558701871215, 'admin', '下载会员信息（表单自动填充）', 'com.winnerdt.modules.qrcode.controller.WxUserManageController.downloadForForm()', NULL, 149, '127.0.0.1', '2019-05-13 17:14:03');
+INSERT INTO `sys_log` VALUES (1098431558701871216, 'admin', '下载会员信息', 'com.winnerdt.modules.qrcode.controller.WxUserManageController.download()', NULL, 259, '0:0:0:0:0:0:0:1', '2019-05-15 15:28:14');
+INSERT INTO `sys_log` VALUES (1098431558701871217, 'admin', '下载会员信息', 'com.winnerdt.modules.qrcode.controller.WxUserManageController.download()', NULL, 196, '0:0:0:0:0:0:0:1', '2019-05-15 17:18:14');
+INSERT INTO `sys_log` VALUES (1098431558701871218, 'admin', '下载会员信息', 'com.winnerdt.modules.qrcode.controller.WxUserManageController.download()', NULL, 226, '0:0:0:0:0:0:0:1', '2019-05-15 17:22:33');
+INSERT INTO `sys_log` VALUES (1098431558701871219, 'admin', '下载会员信息', 'com.winnerdt.modules.qrcode.controller.WxUserManageController.download()', NULL, 199, '0:0:0:0:0:0:0:1', '2019-05-15 17:23:46');
+INSERT INTO `sys_log` VALUES (1098431558701871220, '帅康', '下载会员信息', 'com.winnerdt.modules.qrcode.controller.WxUserManageController.download()', NULL, 32, '0:0:0:0:0:0:0:1', '2019-05-15 17:25:23');
+INSERT INTO `sys_log` VALUES (1098431558701871221, '帅康', '下载会员信息', 'com.winnerdt.modules.qrcode.controller.WxUserManageController.download()', NULL, 28, '0:0:0:0:0:0:0:1', '2019-05-15 17:43:57');
+INSERT INTO `sys_log` VALUES (1098431558701871222, '帅康', '下载会员信息', 'com.winnerdt.modules.qrcode.controller.WxUserManageController.download()', NULL, 29, '0:0:0:0:0:0:0:1', '2019-05-15 18:21:46');
+INSERT INTO `sys_log` VALUES (1098431558701871223, 'admin', '下载会员信息', 'com.winnerdt.modules.qrcode.controller.WxUserManageController.download()', NULL, 139, '0:0:0:0:0:0:0:1', '2019-05-16 16:27:57');
+INSERT INTO `sys_log` VALUES (1098431558701871224, 'admin', '下载会员信息', 'com.winnerdt.modules.qrcode.controller.WxUserManageController.download()', NULL, 60119, '0:0:0:0:0:0:0:1', '2019-05-16 16:30:11');
+INSERT INTO `sys_log` VALUES (1098431558701871225, 'admin', '下载会员信息', 'com.winnerdt.modules.qrcode.controller.WxUserManageController.download()', NULL, 19830, '0:0:0:0:0:0:0:1', '2019-05-16 16:31:42');
+INSERT INTO `sys_log` VALUES (1098431558701871226, 'admin', '下载会员信息', 'com.winnerdt.modules.qrcode.controller.WxUserManageController.download()', NULL, 16074, '0:0:0:0:0:0:0:1', '2019-05-16 16:32:29');
+INSERT INTO `sys_log` VALUES (1098431558701871227, 'admin', '下载会员信息', 'com.winnerdt.modules.qrcode.controller.WxUserManageController.download()', NULL, 3314, '0:0:0:0:0:0:0:1', '2019-05-16 16:32:52');
+INSERT INTO `sys_log` VALUES (1098431558701871228, 'admin', '下载会员信息', 'com.winnerdt.modules.qrcode.controller.WxUserManageController.download()', NULL, 12916, '0:0:0:0:0:0:0:1', '2019-05-16 16:34:44');
+INSERT INTO `sys_log` VALUES (1098431558701871229, 'admin', '下载会员信息', 'com.winnerdt.modules.qrcode.controller.WxUserManageController.download()', NULL, 13520, '0:0:0:0:0:0:0:1', '2019-05-16 16:35:06');
+INSERT INTO `sys_log` VALUES (1098431558701871230, 'admin', '下载会员信息', 'com.winnerdt.modules.qrcode.controller.WxUserManageController.download()', NULL, 3314, '0:0:0:0:0:0:0:1', '2019-05-16 16:35:30');
+INSERT INTO `sys_log` VALUES (1098431558701871231, 'admin', '下载会员信息', 'com.winnerdt.modules.qrcode.controller.WxUserManageController.download()', NULL, 424549, '0:0:0:0:0:0:0:1', '2019-05-16 16:44:02');
+INSERT INTO `sys_log` VALUES (1098431558701871232, 'admin', '下载会员信息', 'com.winnerdt.modules.qrcode.controller.WxUserManageController.download()', NULL, 8443, '0:0:0:0:0:0:0:1', '2019-05-16 16:46:23');
+INSERT INTO `sys_log` VALUES (1098431558701871233, 'admin', '下载会员信息', 'com.winnerdt.modules.qrcode.controller.WxUserManageController.download()', NULL, 7059, '0:0:0:0:0:0:0:1', '2019-05-16 17:03:41');
+INSERT INTO `sys_log` VALUES (1098431558701871234, 'admin', '下载会员信息', 'com.winnerdt.modules.qrcode.controller.WxUserManageController.download()', NULL, 10043, '0:0:0:0:0:0:0:1', '2019-05-16 17:04:04');
+INSERT INTO `sys_log` VALUES (1098431558701871235, 'admin', '下载会员信息', 'com.winnerdt.modules.qrcode.controller.WxUserManageController.download()', NULL, 3198, '0:0:0:0:0:0:0:1', '2019-05-16 17:05:22');
+INSERT INTO `sys_log` VALUES (1098431558701871236, 'admin', '下载会员信息', 'com.winnerdt.modules.qrcode.controller.WxUserManageController.download()', NULL, 18801, '0:0:0:0:0:0:0:1', '2019-05-16 17:06:04');
+INSERT INTO `sys_log` VALUES (1098431558701871237, 'admin', '下载会员信息', 'com.winnerdt.modules.qrcode.controller.WxUserManageController.download()', NULL, 23210, '0:0:0:0:0:0:0:1', '2019-05-16 17:07:00');
+INSERT INTO `sys_log` VALUES (1098431558701871238, 'admin', '下载会员信息', 'com.winnerdt.modules.qrcode.controller.WxUserManageController.download()', NULL, 14705, '0:0:0:0:0:0:0:1', '2019-05-16 17:08:48');
+INSERT INTO `sys_log` VALUES (1098431558701871239, 'admin', '下载会员信息', 'com.winnerdt.modules.qrcode.controller.WxUserManageController.download()', NULL, 215, '0:0:0:0:0:0:0:1', '2019-05-16 17:12:54');
+INSERT INTO `sys_log` VALUES (1098431558701871240, 'admin', '下载会员信息', 'com.winnerdt.modules.qrcode.controller.WxUserManageController.download()', NULL, 69, '0:0:0:0:0:0:0:1', '2019-05-16 17:13:00');
+INSERT INTO `sys_log` VALUES (1098431558701871241, 'admin', '下载会员信息', 'com.winnerdt.modules.qrcode.controller.WxUserManageController.download()', NULL, 47, '0:0:0:0:0:0:0:1', '2019-05-16 17:23:03');
+INSERT INTO `sys_log` VALUES (1098431558701871242, 'admin', '删除用户', 'com.winnerdt.modules.sys.controller.SysUserController.delete()', '[9]', 48, '0:0:0:0:0:0:0:1', '2019-05-17 10:29:39');
+INSERT INTO `sys_log` VALUES (1098431558701871243, 'admin', '下载会员信息', 'com.winnerdt.modules.qrcode.controller.WxUserManageController.download()', NULL, 347, '0:0:0:0:0:0:0:1', '2019-05-22 11:51:11');
 
 -- ----------------------------
 -- Table structure for sys_menu
@@ -1143,7 +1212,7 @@ CREATE TABLE `sys_menu`  (
   `locale` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '给前台使用的，具体作用不明',
   `exact` int(10) NULL DEFAULT 0 COMMENT '给前台使用的，具体作用不明,boolean类型',
   PRIMARY KEY (`menu_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 79 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '菜单管理' ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 81 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '菜单管理' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_menu
@@ -1152,6 +1221,8 @@ INSERT INTO `sys_menu` VALUES (1, 0, '系统管理', '/system-manager', NULL, 0,
 INSERT INTO `sys_menu` VALUES (2, 0, '用户管理', '/admin-manager', NULL, 0, 'user', 1, 'menu.adminManager', 1);
 INSERT INTO `sys_menu` VALUES (3, 1, '角色管理', '/system-manager/role-manager', NULL, 1, 'tool', 2, 'menu.systemManager.roleManager', 1);
 INSERT INTO `sys_menu` VALUES (4, 1, '菜单管理', '/system-manager/menu-manager', NULL, 1, 'tool', 3, 'menu.systemManager.menuManager', 1);
+INSERT INTO `sys_menu` VALUES (5, 1, 'SQL监控', '/system-manager/sql-manager', NULL, 1, 'tool', 4, 'menu.systemManager.sqlManager', 1);
+INSERT INTO `sys_menu` VALUES (6, 1, '定时任务', '/system-manager/timing-manager', NULL, 1, 'tool', 5, 'menu.systemManager.timingManager', 1);
 INSERT INTO `sys_menu` VALUES (7, 6, '查看', NULL, 'sys:schedule:list,sys:schedule:info', 2, NULL, 0, NULL, 1);
 INSERT INTO `sys_menu` VALUES (8, 6, '新增', NULL, 'sys:schedule:save', 2, NULL, 0, NULL, 1);
 INSERT INTO `sys_menu` VALUES (9, 6, '修改', NULL, 'sys:schedule:update', 2, NULL, 0, NULL, 1);
@@ -1172,16 +1243,20 @@ INSERT INTO `sys_menu` VALUES (23, 4, '查看', NULL, 'sys:menu:list,sys:menu:in
 INSERT INTO `sys_menu` VALUES (24, 4, '新增', NULL, 'sys:menu:save,sys:menu:select', 2, NULL, 0, NULL, 1);
 INSERT INTO `sys_menu` VALUES (25, 4, '修改', NULL, 'sys:menu:update,sys:menu:select', 2, NULL, 0, NULL, 1);
 INSERT INTO `sys_menu` VALUES (26, 4, '删除', NULL, 'sys:menu:delete', 2, NULL, 0, NULL, 1);
+INSERT INTO `sys_menu` VALUES (27, 1, '参数管理', '/system-manager/parameter-manager', 'sys:config:list,sys:config:info,sys:config:save,sys:config:update,sys:config:delete', 1, 'tool', 6, 'menu.systemManager.parameterManager', 1);
 INSERT INTO `sys_menu` VALUES (29, 1, '系统日志', '/system-manager/system-log', 'sys:log:list', 1, 'tool', 7, 'menu.systemManager.systemLog', 1);
+INSERT INTO `sys_menu` VALUES (30, 1, '文件上传', '/system-manager/file-upload', 'sys:oss:list', 1, 'tool', 6, 'menu.systemManager.fileUpload', 1);
 INSERT INTO `sys_menu` VALUES (31, 0, '渠道管理', '/department-manager', NULL, 0, 'tool', 1, 'menu.departmentManager', 1);
 INSERT INTO `sys_menu` VALUES (32, 75, '查看', NULL, 'sys:dept:list,sys:dept:info', 2, NULL, 0, NULL, 1);
 INSERT INTO `sys_menu` VALUES (33, 75, '新增', NULL, 'sys:dept:save,sys:dept:select', 2, NULL, 0, NULL, 1);
 INSERT INTO `sys_menu` VALUES (34, 75, '修改', NULL, 'sys:dept:update,sys:dept:select', 2, NULL, 0, NULL, 1);
 INSERT INTO `sys_menu` VALUES (35, 75, '删除', NULL, 'sys:dept:delete', 2, NULL, 0, NULL, 1);
+INSERT INTO `sys_menu` VALUES (36, 1, '字典管理', '/system-manager/dictionary-manager', NULL, 1, 'tool', 6, 'menu.systemManager.dictionaryManager', 1);
 INSERT INTO `sys_menu` VALUES (37, 36, '查看', NULL, 'sys:dict:list,sys:dict:info', 2, NULL, 6, NULL, 1);
 INSERT INTO `sys_menu` VALUES (38, 36, '新增', NULL, 'sys:dict:save', 2, NULL, 6, NULL, 1);
 INSERT INTO `sys_menu` VALUES (39, 36, '修改', NULL, 'sys:dict:update', 2, NULL, 6, NULL, 1);
 INSERT INTO `sys_menu` VALUES (40, 36, '删除', NULL, 'sys:dict:delete', 2, NULL, 6, NULL, 1);
+INSERT INTO `sys_menu` VALUES (41, 1, '测试页面', '/system-manager/system-test', NULL, 1, 'tool', 1, 'menu.systemManager.testPage', 1);
 INSERT INTO `sys_menu` VALUES (42, 30, '查看', NULL, 'sys:oss:list', 2, NULL, 1, NULL, 0);
 INSERT INTO `sys_menu` VALUES (43, 30, '新增', NULL, 'sys:oss:save', 2, NULL, 2, NULL, 0);
 INSERT INTO `sys_menu` VALUES (44, 30, '上传', NULL, 'sys:oss:upload', 2, NULL, 3, NULL, 0);
@@ -1214,6 +1289,8 @@ INSERT INTO `sys_menu` VALUES (75, 31, '渠道列表', '/department-manager/depa
 INSERT INTO `sys_menu` VALUES (76, 53, '二维码生成', NULL, 'qrcode:info:createqrCode', 2, NULL, NULL, NULL, 0);
 INSERT INTO `sys_menu` VALUES (77, 53, '二维码批量生成', NULL, 'qrcode:info:createqrCodes', 2, NULL, NULL, NULL, 0);
 INSERT INTO `sys_menu` VALUES (78, 54, '导出', NULL, 'wxUser:manage:download', 2, NULL, NULL, NULL, 0);
+INSERT INTO `sys_menu` VALUES (79, 53, '二维码下载', NULL, 'qrcode:info:download', 2, NULL, NULL, NULL, 0);
+INSERT INTO `sys_menu` VALUES (80, 53, '批量下载', NULL, 'qrcode:info:batchDownLoad', 2, NULL, NULL, NULL, 0);
 
 -- ----------------------------
 -- Table structure for sys_oss
@@ -1226,61 +1303,7 @@ CREATE TABLE `sys_oss`  (
   `file_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '文件名',
   `create_date` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 129 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '文件上传' ROW_FORMAT = Compact;
-
--- ----------------------------
--- Records of sys_oss
--- ----------------------------
-INSERT INTO `sys_oss` VALUES (79, 'http://pm2vkbv1m.bkt.clouddn.com/upload/20190130/2fb361592b77489caae8cf82018a4cdb.png', 'master-test', 'upload/20190130/2fb361592b77489caae8cf82018a4cdb.png', '2019-01-30 15:30:04');
-INSERT INTO `sys_oss` VALUES (80, 'http://pm2vkbv1m.bkt.clouddn.com/upload/20190130/1357e652e7134b8f94726d471b776519.png', 'master-test', 'upload/20190130/1357e652e7134b8f94726d471b776519.png', '2019-01-30 15:30:04');
-INSERT INTO `sys_oss` VALUES (81, 'http://pm2vkbv1m.bkt.clouddn.com/upload/20190130/621779f9cbd8447489ab5c1063919e40.png', 'master-test', 'upload/20190130/621779f9cbd8447489ab5c1063919e40.png', '2019-01-30 15:30:05');
-INSERT INTO `sys_oss` VALUES (82, 'http://pm2vkbv1m.bkt.clouddn.com/upload/20190130/0188acb13161465993e92fca152b2c6b.png', 'master-test', 'upload/20190130/0188acb13161465993e92fca152b2c6b.png', '2019-01-30 15:30:06');
-INSERT INTO `sys_oss` VALUES (83, 'http://pm2vkbv1m.bkt.clouddn.com/upload/20190130/64d6e61ca521466fae2976cefbfdad7c.png', 'master-test', 'upload/20190130/64d6e61ca521466fae2976cefbfdad7c.png', '2019-01-30 15:30:06');
-INSERT INTO `sys_oss` VALUES (84, 'http://pm2vkbv1m.bkt.clouddn.com/upload/20190130/d7235fe00a9b450d9113320403de0d78.png', 'master-test', 'upload/20190130/d7235fe00a9b450d9113320403de0d78.png', '2019-01-30 15:30:07');
-INSERT INTO `sys_oss` VALUES (85, 'http://pm2vkbv1m.bkt.clouddn.com/upload/20190130/2b9f54a3806e41d1a4f838340d99365c.png', 'master-test', 'upload/20190130/2b9f54a3806e41d1a4f838340d99365c.png', '2019-01-30 15:30:07');
-INSERT INTO `sys_oss` VALUES (86, 'http://pm2vkbv1m.bkt.clouddn.com/upload/20190130/3663ed20b1aa4ae59e9c5c4648fdd47c.png', 'master-test', 'upload/20190130/3663ed20b1aa4ae59e9c5c4648fdd47c.png', '2019-01-30 15:30:08');
-INSERT INTO `sys_oss` VALUES (87, 'http://pm2vkbv1m.bkt.clouddn.com/upload/20190130/50d9a2b6eb0b44888efd43ad206faad5.jpg', 'master-test', 'upload/20190130/50d9a2b6eb0b44888efd43ad206faad5.jpg', '2019-01-30 15:30:08');
-INSERT INTO `sys_oss` VALUES (88, 'http://pm2vkbv1m.bkt.clouddn.com/upload/20190130/1fe7e32fa8b641a5b13112514919f1ae.png', 'master-test', 'upload/20190130/1fe7e32fa8b641a5b13112514919f1ae.png', '2019-01-30 15:30:08');
-INSERT INTO `sys_oss` VALUES (89, 'http://pm2vkbv1m.bkt.clouddn.com/upload/20190130/67862baaf63c491c9f387f4327c03da2.jpg', 'master-test', 'upload/20190130/67862baaf63c491c9f387f4327c03da2.jpg', '2019-01-30 15:30:09');
-INSERT INTO `sys_oss` VALUES (90, 'http://pm2vkbv1m.bkt.clouddn.com/upload/20190130/33fed781629b4b90be1ce49fb1e6bc57.jpg', 'master-test', 'upload/20190130/33fed781629b4b90be1ce49fb1e6bc57.jpg', '2019-01-30 15:30:09');
-INSERT INTO `sys_oss` VALUES (91, 'http://pm2vkbv1m.bkt.clouddn.com/upload/20190130/243167b2b85544a18a41a90bfde2c8e4.jpg', 'master-test', 'upload/20190130/243167b2b85544a18a41a90bfde2c8e4.jpg', '2019-01-30 15:30:09');
-INSERT INTO `sys_oss` VALUES (92, 'http://pm2vkbv1m.bkt.clouddn.com/upload/20190130/8c82147f4f2c4582a997c0b2aa362faf.png', 'master-test', 'upload/20190130/8c82147f4f2c4582a997c0b2aa362faf.png', '2019-01-30 15:30:10');
-INSERT INTO `sys_oss` VALUES (93, 'http://pm2vkbv1m.bkt.clouddn.com/upload/20190130/89e19054c00642899e38fdb68bd8f5a4.png', 'master-test', 'upload/20190130/89e19054c00642899e38fdb68bd8f5a4.png', '2019-01-30 15:30:10');
-INSERT INTO `sys_oss` VALUES (94, 'http://pm2vkbv1m.bkt.clouddn.com/upload/20190130/c26745a811754b758b4fe116620e3582.png', 'master-test', 'upload/20190130/c26745a811754b758b4fe116620e3582.png', '2019-01-30 15:30:10');
-INSERT INTO `sys_oss` VALUES (95, 'http://pm2vkbv1m.bkt.clouddn.com/upload/20190130/28b70b0983594ac5a11e9878c1bad0b2.png', 'master-test', 'upload/20190130/28b70b0983594ac5a11e9878c1bad0b2.png', '2019-01-30 15:30:11');
-INSERT INTO `sys_oss` VALUES (96, 'http://pm2vkbv1m.bkt.clouddn.com/upload/20190130/768d3a96dfcc4fc88acfa21541c1ea5b.png', 'master-test', 'upload/20190130/768d3a96dfcc4fc88acfa21541c1ea5b.png', '2019-01-30 15:30:11');
-INSERT INTO `sys_oss` VALUES (97, 'http://pm2vkbv1m.bkt.clouddn.com/upload/20190130/5a25c9511d964a3e8a6ae76c8c20273e.png', 'master-test', 'upload/20190130/5a25c9511d964a3e8a6ae76c8c20273e.png', '2019-01-30 15:30:11');
-INSERT INTO `sys_oss` VALUES (98, 'http://pm2vkbv1m.bkt.clouddn.com/upload/20190130/e4591eb7ba3948f79cf9eb15760c58c4.png', 'master-test', 'upload/20190130/e4591eb7ba3948f79cf9eb15760c58c4.png', '2019-01-30 15:30:12');
-INSERT INTO `sys_oss` VALUES (99, 'http://pm2vkbv1m.bkt.clouddn.com/upload/20190130/5f3cc3d665834bfaa81f9ea582b7811e.png', 'master-test', 'upload/20190130/5f3cc3d665834bfaa81f9ea582b7811e.png', '2019-01-30 15:30:12');
-INSERT INTO `sys_oss` VALUES (100, 'http://pm2vkbv1m.bkt.clouddn.com/upload/20190130/4c7e150c830e4e3490649527999ea5ab.png', 'master-test', 'upload/20190130/4c7e150c830e4e3490649527999ea5ab.png', '2019-01-30 15:30:12');
-INSERT INTO `sys_oss` VALUES (101, 'http://pm2vkbv1m.bkt.clouddn.com/upload/20190130/1ad950d8bffa4373a978d8a91ce77c72.png', 'master-test', 'upload/20190130/1ad950d8bffa4373a978d8a91ce77c72.png', '2019-01-30 15:30:12');
-INSERT INTO `sys_oss` VALUES (102, 'http://pm2vkbv1m.bkt.clouddn.com/upload/20190130/36412eba0aba4ea19c06bd25e4dfe8ae.png', 'master-test', 'upload/20190130/36412eba0aba4ea19c06bd25e4dfe8ae.png', '2019-01-30 15:30:13');
-INSERT INTO `sys_oss` VALUES (103, 'http://pm2vkbv1m.bkt.clouddn.com/upload/20190130/bb9ead7362114e978a3ef755ef0a4a3a.png', 'master-test', 'upload/20190130/bb9ead7362114e978a3ef755ef0a4a3a.png', '2019-01-30 15:30:13');
-INSERT INTO `sys_oss` VALUES (104, 'http://pm2vkbv1m.bkt.clouddn.com/upload/20190130/2559e1aad3a64ca09e4de90dca29bc8b.png', 'master-test', 'upload/20190130/2559e1aad3a64ca09e4de90dca29bc8b.png', '2019-01-30 15:30:13');
-INSERT INTO `sys_oss` VALUES (105, 'http://pm2vkbv1m.bkt.clouddn.com/upload/20190130/5324c89668564d158f02e3e1ee149b45.png', 'master-test', 'upload/20190130/5324c89668564d158f02e3e1ee149b45.png', '2019-01-30 15:30:14');
-INSERT INTO `sys_oss` VALUES (106, 'http://pm2vkbv1m.bkt.clouddn.com/upload/20190130/941f376c887a4ef8a05ae73d8528e555.png', 'master-test', 'upload/20190130/941f376c887a4ef8a05ae73d8528e555.png', '2019-01-30 15:30:14');
-INSERT INTO `sys_oss` VALUES (107, 'http://pm2vkbv1m.bkt.clouddn.com/upload/20190130/f1fefab6f04a42789a68aba82742e8bb.png', 'master-test', 'upload/20190130/f1fefab6f04a42789a68aba82742e8bb.png', '2019-01-30 15:30:14');
-INSERT INTO `sys_oss` VALUES (108, 'http://pm2vkbv1m.bkt.clouddn.com/upload/20190130/c9b4fd9a591b4ad9bf175278907e11f8.png', 'master-test', 'upload/20190130/c9b4fd9a591b4ad9bf175278907e11f8.png', '2019-01-30 15:30:15');
-INSERT INTO `sys_oss` VALUES (109, 'http://pm2vkbv1m.bkt.clouddn.com/upload/20190130/b0bff630f1c6467e8f60ff4e501d8c47.png', 'master-test', 'upload/20190130/b0bff630f1c6467e8f60ff4e501d8c47.png', '2019-01-30 15:30:15');
-INSERT INTO `sys_oss` VALUES (110, 'http://pm2vkbv1m.bkt.clouddn.com/upload/20190130/4b701a890148475bb241a6f44c9f9f0f.png', 'master-test', 'upload/20190130/4b701a890148475bb241a6f44c9f9f0f.png', '2019-01-30 15:30:15');
-INSERT INTO `sys_oss` VALUES (111, 'http://pm2vkbv1m.bkt.clouddn.com/upload/20190130/51d071972a3d4e7487e4c7919f7cc1f8.png', 'master-test', 'upload/20190130/51d071972a3d4e7487e4c7919f7cc1f8.png', '2019-01-30 15:30:15');
-INSERT INTO `sys_oss` VALUES (112, 'http://pm2vkbv1m.bkt.clouddn.com/upload/20190130/f65b75fdec554cafad3a84ba872771c5.png', 'master-test', 'upload/20190130/f65b75fdec554cafad3a84ba872771c5.png', '2019-01-30 15:30:16');
-INSERT INTO `sys_oss` VALUES (113, 'http://pm2vkbv1m.bkt.clouddn.com/upload/20190130/c7d8a2e338d6447fb62599c1a3954897.png', 'master-test', 'upload/20190130/c7d8a2e338d6447fb62599c1a3954897.png', '2019-01-30 15:30:16');
-INSERT INTO `sys_oss` VALUES (114, 'http://pm2vkbv1m.bkt.clouddn.com/upload/20190130/c7245d54caa1462bb6eb8bf2d7ce6a82.png', 'master-test', 'upload/20190130/c7245d54caa1462bb6eb8bf2d7ce6a82.png', '2019-01-30 15:30:16');
-INSERT INTO `sys_oss` VALUES (115, 'http://pm2vkbv1m.bkt.clouddn.com/upload/20190130/8ae11ea6287f442ebf4c2358f3ad60ef.png', 'master-test', 'upload/20190130/8ae11ea6287f442ebf4c2358f3ad60ef.png', '2019-01-30 15:30:16');
-INSERT INTO `sys_oss` VALUES (116, 'http://pm2vkbv1m.bkt.clouddn.com/upload/20190130/62f4cd654dcd400a9af4ae59d5c7c00a.png', 'master-test', 'upload/20190130/62f4cd654dcd400a9af4ae59d5c7c00a.png', '2019-01-30 15:30:17');
-INSERT INTO `sys_oss` VALUES (117, 'http://pm2vkbv1m.bkt.clouddn.com/upload/20190130/a16ba61fe2f1404987c9140269a7b37e.png', 'master-test', 'upload/20190130/a16ba61fe2f1404987c9140269a7b37e.png', '2019-01-30 15:30:17');
-INSERT INTO `sys_oss` VALUES (118, 'http://pm2vkbv1m.bkt.clouddn.com/upload/20190130/99140c49b7524b40878feeb70d75a478.png', 'master-test', 'upload/20190130/99140c49b7524b40878feeb70d75a478.png', '2019-01-30 15:30:17');
-INSERT INTO `sys_oss` VALUES (119, 'http://pm2vkbv1m.bkt.clouddn.com/upload/20190130/a81f587365dc41708b3576af57771e1a.png', 'master-test', 'upload/20190130/a81f587365dc41708b3576af57771e1a.png', '2019-01-30 15:30:18');
-INSERT INTO `sys_oss` VALUES (120, 'http://pm2vkbv1m.bkt.clouddn.com/upload/20190130/41451d66cd8243a3afc86067df99952f.jpg', 'master-test', 'upload/20190130/41451d66cd8243a3afc86067df99952f.jpg', '2019-01-30 15:30:18');
-INSERT INTO `sys_oss` VALUES (121, 'http://pm2vkbv1m.bkt.clouddn.com/upload/20190130/e99bb7b2625842c1810c154ef41940db.png', 'master-test', 'upload/20190130/e99bb7b2625842c1810c154ef41940db.png', '2019-01-30 15:30:18');
-INSERT INTO `sys_oss` VALUES (122, 'http://pm2vkbv1m.bkt.clouddn.com/upload/20190130/ea501a7e8d9746b5834191009e4b705c.png', 'master-test', 'upload/20190130/ea501a7e8d9746b5834191009e4b705c.png', '2019-01-30 15:30:18');
-INSERT INTO `sys_oss` VALUES (123, 'http://pm2vkbv1m.bkt.clouddn.com/upload/20190130/f9d015268044403da5e7cfad0a8d81aa.png', 'master-test', 'upload/20190130/f9d015268044403da5e7cfad0a8d81aa.png', '2019-01-30 15:30:19');
-INSERT INTO `sys_oss` VALUES (124, 'http://pm2vkbv1m.bkt.clouddn.com/upload/20190130/48c04388255c47a789b0d512a3a6fc73.png', 'master-test', 'upload/20190130/48c04388255c47a789b0d512a3a6fc73.png', '2019-01-30 15:30:19');
-INSERT INTO `sys_oss` VALUES (125, 'http://pm2vkbv1m.bkt.clouddn.com/upload/20190130/a88eff67f2014d1c960ab7ad21d725ea.png', 'master-test', 'upload/20190130/a88eff67f2014d1c960ab7ad21d725ea.png', '2019-01-30 15:30:19');
-INSERT INTO `sys_oss` VALUES (126, 'http://pm2vkbv1m.bkt.clouddn.com/upload/20190130/696e57bf1d9c453fb470147af1a26728.png', 'master-test', 'upload/20190130/696e57bf1d9c453fb470147af1a26728.png', '2019-01-30 15:30:20');
-INSERT INTO `sys_oss` VALUES (127, 'http://pm2vkbv1m.bkt.clouddn.com/upload/20190130/392e3cd7c2034e14a2ccb1383e7d4e73.jpg', 'master-test', 'upload/20190130/392e3cd7c2034e14a2ccb1383e7d4e73.jpg', '2019-01-30 15:30:20');
-INSERT INTO `sys_oss` VALUES (128, 'http://pm2vkbv1m.bkt.clouddn.com/upload/20190130/c8a0f719f09c4f14a53e88352da69a70.jpg', 'master-test', 'upload/20190130/c8a0f719f09c4f14a53e88352da69a70.jpg', '2019-01-30 15:30:20');
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '文件上传' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for sys_role
@@ -1293,7 +1316,7 @@ CREATE TABLE `sys_role`  (
   `dept_id` bigint(20) NULL DEFAULT NULL COMMENT '部门ID',
   `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`role_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '角色' ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '角色' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_role
@@ -1301,6 +1324,7 @@ CREATE TABLE `sys_role`  (
 INSERT INTO `sys_role` VALUES (2, '汇纳远景渠道商', NULL, 3, '2019-05-05 09:02:52');
 INSERT INTO `sys_role` VALUES (3, '汇纳科技渠道商', NULL, 2, '2019-05-05 14:29:35');
 INSERT INTO `sys_role` VALUES (4, '汇纳数据渠道商', NULL, 6, '2019-05-05 14:42:23');
+INSERT INTO `sys_role` VALUES (5, 'test', 'test', 2, '2019-05-07 17:18:42');
 
 -- ----------------------------
 -- Table structure for sys_role_dept
@@ -1311,19 +1335,21 @@ CREATE TABLE `sys_role_dept`  (
   `role_id` bigint(20) NULL DEFAULT NULL COMMENT '角色ID',
   `dept_id` bigint(20) NULL DEFAULT NULL COMMENT '部门ID',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1087620602212151387 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '角色与部门对应关系' ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 1087620602212151403 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '角色与部门对应关系' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_role_dept
 -- ----------------------------
-INSERT INTO `sys_role_dept` VALUES (1087620602212151355, 3, 2);
-INSERT INTO `sys_role_dept` VALUES (1087620602212151356, 3, 9);
 INSERT INTO `sys_role_dept` VALUES (1087620602212151365, 4, 6);
 INSERT INTO `sys_role_dept` VALUES (1087620602212151366, 4, 10);
 INSERT INTO `sys_role_dept` VALUES (1087620602212151383, 2, 3);
 INSERT INTO `sys_role_dept` VALUES (1087620602212151384, 2, 4);
 INSERT INTO `sys_role_dept` VALUES (1087620602212151385, 2, 5);
 INSERT INTO `sys_role_dept` VALUES (1087620602212151386, 2, 8);
+INSERT INTO `sys_role_dept` VALUES (1087620602212151399, 3, 2);
+INSERT INTO `sys_role_dept` VALUES (1087620602212151400, 3, 9);
+INSERT INTO `sys_role_dept` VALUES (1087620602212151401, 5, 2);
+INSERT INTO `sys_role_dept` VALUES (1087620602212151402, 5, 9);
 
 -- ----------------------------
 -- Table structure for sys_role_menu
@@ -1334,7 +1360,7 @@ CREATE TABLE `sys_role_menu`  (
   `role_id` bigint(20) NULL DEFAULT NULL COMMENT '角色ID',
   `menu_id` bigint(20) NULL DEFAULT NULL COMMENT '菜单ID',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1098431558227915934 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '角色与菜单对应关系' ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 1098431558227916173 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '角色与菜单对应关系' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_role_menu
@@ -1724,52 +1750,6 @@ INSERT INTO `sys_role_menu` VALUES (1098431558227914964, 1098431558068531205, 48
 INSERT INTO `sys_role_menu` VALUES (1098431558227914965, 1098431558068531205, 49);
 INSERT INTO `sys_role_menu` VALUES (1098431558227914966, 1098431558068531205, 50);
 INSERT INTO `sys_role_menu` VALUES (1098431558227914967, 1098431558068531205, 51);
-INSERT INTO `sys_role_menu` VALUES (1098431558227915566, 3, 1);
-INSERT INTO `sys_role_menu` VALUES (1098431558227915567, 3, 2);
-INSERT INTO `sys_role_menu` VALUES (1098431558227915568, 3, 3);
-INSERT INTO `sys_role_menu` VALUES (1098431558227915569, 3, 4);
-INSERT INTO `sys_role_menu` VALUES (1098431558227915570, 3, 15);
-INSERT INTO `sys_role_menu` VALUES (1098431558227915571, 3, 16);
-INSERT INTO `sys_role_menu` VALUES (1098431558227915572, 3, 17);
-INSERT INTO `sys_role_menu` VALUES (1098431558227915573, 3, 18);
-INSERT INTO `sys_role_menu` VALUES (1098431558227915574, 3, 19);
-INSERT INTO `sys_role_menu` VALUES (1098431558227915575, 3, 20);
-INSERT INTO `sys_role_menu` VALUES (1098431558227915576, 3, 21);
-INSERT INTO `sys_role_menu` VALUES (1098431558227915577, 3, 22);
-INSERT INTO `sys_role_menu` VALUES (1098431558227915578, 3, 23);
-INSERT INTO `sys_role_menu` VALUES (1098431558227915579, 3, 24);
-INSERT INTO `sys_role_menu` VALUES (1098431558227915580, 3, 25);
-INSERT INTO `sys_role_menu` VALUES (1098431558227915581, 3, 26);
-INSERT INTO `sys_role_menu` VALUES (1098431558227915582, 3, 29);
-INSERT INTO `sys_role_menu` VALUES (1098431558227915583, 3, 31);
-INSERT INTO `sys_role_menu` VALUES (1098431558227915584, 3, 32);
-INSERT INTO `sys_role_menu` VALUES (1098431558227915585, 3, 33);
-INSERT INTO `sys_role_menu` VALUES (1098431558227915586, 3, 34);
-INSERT INTO `sys_role_menu` VALUES (1098431558227915587, 3, 35);
-INSERT INTO `sys_role_menu` VALUES (1098431558227915588, 3, 50);
-INSERT INTO `sys_role_menu` VALUES (1098431558227915589, 3, 51);
-INSERT INTO `sys_role_menu` VALUES (1098431558227915590, 3, 52);
-INSERT INTO `sys_role_menu` VALUES (1098431558227915591, 3, 53);
-INSERT INTO `sys_role_menu` VALUES (1098431558227915592, 3, 54);
-INSERT INTO `sys_role_menu` VALUES (1098431558227915593, 3, 56);
-INSERT INTO `sys_role_menu` VALUES (1098431558227915594, 3, 61);
-INSERT INTO `sys_role_menu` VALUES (1098431558227915595, 3, 62);
-INSERT INTO `sys_role_menu` VALUES (1098431558227915596, 3, 63);
-INSERT INTO `sys_role_menu` VALUES (1098431558227915597, 3, 64);
-INSERT INTO `sys_role_menu` VALUES (1098431558227915598, 3, 65);
-INSERT INTO `sys_role_menu` VALUES (1098431558227915599, 3, 66);
-INSERT INTO `sys_role_menu` VALUES (1098431558227915600, 3, 67);
-INSERT INTO `sys_role_menu` VALUES (1098431558227915601, 3, 68);
-INSERT INTO `sys_role_menu` VALUES (1098431558227915602, 3, 69);
-INSERT INTO `sys_role_menu` VALUES (1098431558227915603, 3, 70);
-INSERT INTO `sys_role_menu` VALUES (1098431558227915604, 3, 71);
-INSERT INTO `sys_role_menu` VALUES (1098431558227915605, 3, 72);
-INSERT INTO `sys_role_menu` VALUES (1098431558227915606, 3, 73);
-INSERT INTO `sys_role_menu` VALUES (1098431558227915607, 3, 74);
-INSERT INTO `sys_role_menu` VALUES (1098431558227915608, 3, 75);
-INSERT INTO `sys_role_menu` VALUES (1098431558227915609, 3, 76);
-INSERT INTO `sys_role_menu` VALUES (1098431558227915610, 3, 77);
-INSERT INTO `sys_role_menu` VALUES (1098431558227915611, 3, 78);
 INSERT INTO `sys_role_menu` VALUES (1098431558227915704, 4, 1);
 INSERT INTO `sys_role_menu` VALUES (1098431558227915705, 4, 2);
 INSERT INTO `sys_role_menu` VALUES (1098431558227915706, 4, 3);
@@ -1862,6 +1842,74 @@ INSERT INTO `sys_role_menu` VALUES (1098431558227915930, 2, 75);
 INSERT INTO `sys_role_menu` VALUES (1098431558227915931, 2, 76);
 INSERT INTO `sys_role_menu` VALUES (1098431558227915932, 2, 77);
 INSERT INTO `sys_role_menu` VALUES (1098431558227915933, 2, 78);
+INSERT INTO `sys_role_menu` VALUES (1098431558227916105, 3, 2);
+INSERT INTO `sys_role_menu` VALUES (1098431558227916106, 3, 3);
+INSERT INTO `sys_role_menu` VALUES (1098431558227916107, 3, 15);
+INSERT INTO `sys_role_menu` VALUES (1098431558227916108, 3, 16);
+INSERT INTO `sys_role_menu` VALUES (1098431558227916109, 3, 17);
+INSERT INTO `sys_role_menu` VALUES (1098431558227916110, 3, 18);
+INSERT INTO `sys_role_menu` VALUES (1098431558227916111, 3, 19);
+INSERT INTO `sys_role_menu` VALUES (1098431558227916112, 3, 20);
+INSERT INTO `sys_role_menu` VALUES (1098431558227916113, 3, 21);
+INSERT INTO `sys_role_menu` VALUES (1098431558227916114, 3, 22);
+INSERT INTO `sys_role_menu` VALUES (1098431558227916115, 3, 29);
+INSERT INTO `sys_role_menu` VALUES (1098431558227916116, 3, 31);
+INSERT INTO `sys_role_menu` VALUES (1098431558227916117, 3, 32);
+INSERT INTO `sys_role_menu` VALUES (1098431558227916118, 3, 33);
+INSERT INTO `sys_role_menu` VALUES (1098431558227916119, 3, 34);
+INSERT INTO `sys_role_menu` VALUES (1098431558227916120, 3, 35);
+INSERT INTO `sys_role_menu` VALUES (1098431558227916121, 3, 50);
+INSERT INTO `sys_role_menu` VALUES (1098431558227916122, 3, 51);
+INSERT INTO `sys_role_menu` VALUES (1098431558227916123, 3, 52);
+INSERT INTO `sys_role_menu` VALUES (1098431558227916124, 3, 53);
+INSERT INTO `sys_role_menu` VALUES (1098431558227916125, 3, 54);
+INSERT INTO `sys_role_menu` VALUES (1098431558227916126, 3, 56);
+INSERT INTO `sys_role_menu` VALUES (1098431558227916127, 3, 61);
+INSERT INTO `sys_role_menu` VALUES (1098431558227916128, 3, 62);
+INSERT INTO `sys_role_menu` VALUES (1098431558227916129, 3, 63);
+INSERT INTO `sys_role_menu` VALUES (1098431558227916130, 3, 64);
+INSERT INTO `sys_role_menu` VALUES (1098431558227916131, 3, 65);
+INSERT INTO `sys_role_menu` VALUES (1098431558227916132, 3, 66);
+INSERT INTO `sys_role_menu` VALUES (1098431558227916133, 3, 67);
+INSERT INTO `sys_role_menu` VALUES (1098431558227916134, 3, 68);
+INSERT INTO `sys_role_menu` VALUES (1098431558227916135, 3, 69);
+INSERT INTO `sys_role_menu` VALUES (1098431558227916136, 3, 70);
+INSERT INTO `sys_role_menu` VALUES (1098431558227916137, 3, 71);
+INSERT INTO `sys_role_menu` VALUES (1098431558227916138, 3, 72);
+INSERT INTO `sys_role_menu` VALUES (1098431558227916139, 3, 73);
+INSERT INTO `sys_role_menu` VALUES (1098431558227916140, 3, 74);
+INSERT INTO `sys_role_menu` VALUES (1098431558227916141, 3, 75);
+INSERT INTO `sys_role_menu` VALUES (1098431558227916142, 3, 76);
+INSERT INTO `sys_role_menu` VALUES (1098431558227916143, 3, 77);
+INSERT INTO `sys_role_menu` VALUES (1098431558227916144, 3, 78);
+INSERT INTO `sys_role_menu` VALUES (1098431558227916145, 3, 1);
+INSERT INTO `sys_role_menu` VALUES (1098431558227916146, 3, 41);
+INSERT INTO `sys_role_menu` VALUES (1098431558227916147, 5, 2);
+INSERT INTO `sys_role_menu` VALUES (1098431558227916148, 5, 15);
+INSERT INTO `sys_role_menu` VALUES (1098431558227916149, 5, 16);
+INSERT INTO `sys_role_menu` VALUES (1098431558227916150, 5, 17);
+INSERT INTO `sys_role_menu` VALUES (1098431558227916151, 5, 18);
+INSERT INTO `sys_role_menu` VALUES (1098431558227916152, 5, 31);
+INSERT INTO `sys_role_menu` VALUES (1098431558227916153, 5, 32);
+INSERT INTO `sys_role_menu` VALUES (1098431558227916154, 5, 33);
+INSERT INTO `sys_role_menu` VALUES (1098431558227916155, 5, 34);
+INSERT INTO `sys_role_menu` VALUES (1098431558227916156, 5, 35);
+INSERT INTO `sys_role_menu` VALUES (1098431558227916157, 5, 52);
+INSERT INTO `sys_role_menu` VALUES (1098431558227916158, 5, 54);
+INSERT INTO `sys_role_menu` VALUES (1098431558227916159, 5, 70);
+INSERT INTO `sys_role_menu` VALUES (1098431558227916160, 5, 71);
+INSERT INTO `sys_role_menu` VALUES (1098431558227916161, 5, 72);
+INSERT INTO `sys_role_menu` VALUES (1098431558227916162, 5, 73);
+INSERT INTO `sys_role_menu` VALUES (1098431558227916163, 5, 74);
+INSERT INTO `sys_role_menu` VALUES (1098431558227916164, 5, 75);
+INSERT INTO `sys_role_menu` VALUES (1098431558227916165, 5, 78);
+INSERT INTO `sys_role_menu` VALUES (1098431558227916166, 5, 3);
+INSERT INTO `sys_role_menu` VALUES (1098431558227916167, 5, 1);
+INSERT INTO `sys_role_menu` VALUES (1098431558227916168, 5, 19);
+INSERT INTO `sys_role_menu` VALUES (1098431558227916169, 5, 20);
+INSERT INTO `sys_role_menu` VALUES (1098431558227916170, 5, 21);
+INSERT INTO `sys_role_menu` VALUES (1098431558227916171, 5, 22);
+INSERT INTO `sys_role_menu` VALUES (1098431558227916172, 5, 41);
 
 -- ----------------------------
 -- Table structure for sys_user
@@ -1882,7 +1930,7 @@ CREATE TABLE `sys_user`  (
   `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`user_id`) USING BTREE,
   UNIQUE INDEX `username`(`username`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 9 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '系统用户' ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 9 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '系统用户' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_user
@@ -1901,7 +1949,7 @@ CREATE TABLE `sys_user_role`  (
   `user_id` bigint(20) NULL DEFAULT NULL COMMENT '用户ID',
   `role_id` bigint(20) NULL DEFAULT NULL COMMENT '角色ID',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1087608018633302030 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '用户与角色对应关系' ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 1087608018633302031 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '用户与角色对应关系' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_user_role
@@ -1910,6 +1958,7 @@ INSERT INTO `sys_user_role` VALUES (1087608018633302021, 4, 1098431558068531203)
 INSERT INTO `sys_user_role` VALUES (1087608018633302027, 6, 2);
 INSERT INTO `sys_user_role` VALUES (1087608018633302028, 7, 3);
 INSERT INTO `sys_user_role` VALUES (1087608018633302029, 8, 4);
+INSERT INTO `sys_user_role` VALUES (1087608018633302030, 9, 5);
 
 -- ----------------------------
 -- Table structure for wx_appinfo
@@ -1928,7 +1977,7 @@ CREATE TABLE `wx_appinfo`  (
   `remark` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '说明',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `appid_index`(`appid`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '小程序相关配置' ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '小程序相关配置' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of wx_appinfo
@@ -1968,6 +2017,7 @@ CREATE TABLE `wx_user`  (
   `use_region` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '用户注册时使用地区',
   `invoice_type` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '用户注册开票类型',
   `is_regist` int(10) NULL DEFAULT 0 COMMENT '0=未注册，1=已经注册',
+  `is_open_card` int(10) NULL DEFAULT 0 COMMENT '0=未开卡，1=已经开卡',
   `webid` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '华联与微众唯一key，默认第一次注册手机号',
   `webank` tinyint(2) NULL DEFAULT NULL COMMENT '是否微众轻会员',
   `scene` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '二维码',
@@ -1980,17 +2030,17 @@ CREATE TABLE `wx_user`  (
   INDEX `open_id_index`(`open_id`(191)) USING BTREE,
   INDEX `dept_id_index`(`dept_id`) USING BTREE,
   INDEX `share_id_index`(`share_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 31 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '微信小程序用户信息' ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 49 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '微信小程序用户信息' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of wx_user
 -- ----------------------------
-INSERT INTO `wx_user` VALUES (15, 'okrZJ5Nj2dbymgQBfRge-FGLCQWM', 'lS9f4V67+avRyfHdZYZ+VA==', '{shareId=1, deptId=1, deptCode=zsk}', '10.161.31.225', 'ox0d3wyqnRoJGipuDGAglIwtPKJI', NULL, 'Richard', 1, 'https://wx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTI16ruuuGmgUGXwoLjXRmbPTTVTOZD9HmfQpnw7jSrBp2KDubj77DMlaVUiaDRbmBeAo7VpoJUy2mA/132', 'Chaoyang', 'Beijing', 'zh_CN', '18810317855', '18810317855', '86', NULL, NULL, NULL, '3', 3, 'zsk', '412326199002043355', '张伟乾', '18810317855', '北京', '充值开票', 1, NULL, 0, '{shareId=1, deptId=1, deptCode=zsk}', NULL, NULL, '1047', '2019-04-28 18:26:06', '2019-05-05 15:08:19');
-INSERT INTO `wx_user` VALUES (16, 'okrZJ5IbllaoN-Iol4VuCci-FPl0', 'NaRE/1cWloFDuboGYyqYSw==', '{shareId=1, deptId=1, deptCode=zsk}', '10.161.31.225', 'ox0d3wy7bP6WyHvL3112kOumMCmM', NULL, '蒋丽娥 Katrina', 2, 'https://wx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTLXC0cN0sTDlMa6gb1lm1TJZH3xsariaJajcyRmpYBKT2IS7x5Ln5uIPflcD5IOFLS62Pem9GiaQw0Q/132', 'Xuhui', 'Shanghai', 'zh_CN', '15900534905', '15900534905', '86', NULL, NULL, NULL, '3', 3, 'zsk', NULL, NULL, NULL, NULL, NULL, 0, NULL, 0, '{shareId=1, deptId=1, deptCode=zsk}', NULL, NULL, '1048', '2019-04-29 11:26:49', '2019-04-29 11:26:56');
-INSERT INTO `wx_user` VALUES (24, 'okrZJ5F9oYZs3GlG-uprF9l1Wb4I', 'YrhGXaaaFenflXN4igDrmw==', '{shareId=2, deptId=1}', '10.161.31.225', 'ox0d3wzmeshaqtKAVEE6UI1eLrcM', NULL, '余空、鱼白', 1, 'https://wx.qlogo.cn/mmopen/vi_32/JvvCBqoV1r82aYnWx5nUeQm6BoY4JJasQxzPP3rAicnhCboHer9o6XhJMGbf3ibichicmKZNbwyHTMm19xNm0XDAgA/132', '', '', 'zh_CN', '18838987007', '18838987007', '86', NULL, NULL, NULL, '2', 1, 'ZHONG', '41142219960103271X', '张帅康', '18838987007', '北京', '充值开票', 1, NULL, 0, '{shareId=2, deptId=1}', NULL, NULL, '1047', '2019-04-30 16:24:47', '2019-04-30 16:25:06');
-INSERT INTO `wx_user` VALUES (26, 'okrZJ5D407nCorFxFQ-xyln24Dhg', 'edj48wwCwAeqo2wWCzKs8g==', '{shareId=3, deptId=1}', '10.161.31.225', 'ox0d3w3jf7P-tbtDA6_nGEs4ulR8', NULL, '抹忆归尘', 1, 'https://wx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTI2libXDbCJhiceplseiaWeOQEQKGVAPgQgtTkOG9rZmTGdBxblGic6kef0SQ220ZPBBNe7OOJGUT3XvA/132', 'Chaoyang', 'Beijing', 'zh_CN', '15130719914', '15130719914', '86', NULL, NULL, NULL, '3', 1, 'ZHONG', '130434199501045211', '曹利争', '15130719914', '青岛', '消费开票', 1, NULL, 0, '{shareId=3, deptId=1}', NULL, NULL, '1047', '2019-05-05 09:15:27', '2019-05-06 15:01:45');
-INSERT INTO `wx_user` VALUES (27, 'okrZJ5N-1BUc5A934dkozA2--Pxk', 'rkU9/+cBZGThZpvHjxaTFw==', '{shareId=1, deptId=1}', '10.161.31.225', 'ox0d3w7uCnftMx5iYV67idcVbe5E', NULL, '樊雨洁', 2, 'https://wx.qlogo.cn/mmopen/vi_32/xvUCjicLmRzDN3pqvJWoZgdc3WtXmH4ic9ic3wP0QHOj8oI1fNZ12LOGtlaNYseAn5nmsl7HfcS8oaNS8g002S7Gg/132', 'Pudong New District', 'Shanghai', 'zh_CN', '18677951854', '18677951854', '86', NULL, NULL, NULL, '1', 1, 'zsk', NULL, NULL, NULL, NULL, NULL, 0, NULL, 0, '{shareId=1, deptId=1}', NULL, NULL, '1048', '2019-05-05 15:17:20', '2019-05-05 15:17:27');
-INSERT INTO `wx_user` VALUES (28, 'okrZJ5EtnHGvE_RDBmr1KbC6Owvg', 'xUASvzIavjZ/AH0SDwnSRw==', '{shareId=1, deptId=1}', '10.161.31.225', 'ox0d3ww8oJB3J1Dk6iQ-RZnUIEJM', NULL, '王晓坤', 2, 'https://wx.qlogo.cn/mmopen/vi_32/DYAIOgq83epfZu0BJ7YGcQ9YqR5S19qcXMv1KFZ849IVHU1w22zG57y4GZMGwrrKpy9caP7k4bribY5aCibygWZw/132', 'Warman', 'Saskatchewan', 'zh_CN', '13516192696', '13516192696', '86', NULL, NULL, NULL, '1', 1, 'zsk', '120105198011034822', '王晓坤', '13516192696', '天津', '消费开票', 1, NULL, 0, '{shareId=1, deptId=1}', NULL, NULL, '1047', '2019-05-05 15:19:52', '2019-05-05 15:21:31');
-INSERT INTO `wx_user` VALUES (30, 'okrZJ5Kj4OBgZbGpbQ2SZCgr27ps', 'Vs3dFgZn0O2UTdDJlL3uXA==', '{shareId=undefined, deptId=}', '10.161.31.225', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, 0, '{shareId=undefined, deptId=}', NULL, NULL, '1001', '2019-05-05 18:07:35', '2019-05-05 18:07:37');
+INSERT INTO `wx_user` VALUES (16, 'okrZJ5IbllaoN-Iol4VuCci-FPl0', 'NaRE/1cWloFDuboGYyqYSw==', '{shareId=1, deptId=1, deptCode=zsk}', '10.161.31.225', 'ox0d3wy7bP6WyHvL3112kOumMCmM', NULL, '蒋丽娥 Katrina', 2, 'https://wx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTLXC0cN0sTDlMa6gb1lm1TJZH3xsariaJajcyRmpYBKT2IS7x5Ln5uIPflcD5IOFLS62Pem9GiaQw0Q/132', 'Xuhui', 'Shanghai', 'zh_CN', '15900534905', '15900534905', '86', NULL, NULL, NULL, '3', 3, 'zsk', NULL, '1', '11', '111', NULL, 1, 0, NULL, 0, '{shareId=1, deptId=1, deptCode=zsk}', NULL, NULL, '1048', '2019-04-29 11:26:49', '2019-04-29 11:26:56');
+INSERT INTO `wx_user` VALUES (27, 'okrZJ5N-1BUc5A934dkozA2--Pxk', 'rkU9/+cBZGThZpvHjxaTFw==', '{shareId=1, deptId=1}', '10.161.31.225', 'ox0d3w7uCnftMx5iYV67idcVbe5E', NULL, '樊雨洁', 2, 'https://wx.qlogo.cn/mmopen/vi_32/xvUCjicLmRzDN3pqvJWoZgdc3WtXmH4ic9ic3wP0QHOj8oI1fNZ12LOGtlaNYseAn5nmsl7HfcS8oaNS8g002S7Gg/132', 'Pudong New District', 'Shanghai', 'zh_CN', '18677951854', '18677951854', '86', NULL, NULL, NULL, '1', 1, 'zsk', NULL, '2', '22', '222', NULL, 1, 0, NULL, 0, '{shareId=1, deptId=1}', NULL, NULL, '1048', '2019-05-05 15:17:20', '2019-05-05 15:17:27');
+INSERT INTO `wx_user` VALUES (28, 'okrZJ5EtnHGvE_RDBmr1KbC6Owvg', 'xUASvzIavjZ/AH0SDwnSRw==', '{shareId=1, deptId=1}', '10.161.31.225', 'ox0d3ww8oJB3J1Dk6iQ-RZnUIEJM', NULL, '王晓坤', 2, 'https://wx.qlogo.cn/mmopen/vi_32/DYAIOgq83epfZu0BJ7YGcQ9YqR5S19qcXMv1KFZ849IVHU1w22zG57y4GZMGwrrKpy9caP7k4bribY5aCibygWZw/132', 'Warman', 'Saskatchewan', 'zh_CN', '13516192696', '13516192696', '86', NULL, NULL, NULL, '1', 1, 'zsk', '120105198011034822', '王晓坤', '13516192696', '天津', '消费开票', 1, 1, NULL, 0, '{shareId=1, deptId=1}', NULL, NULL, '1047', '2019-05-05 15:19:52', '2019-05-05 15:21:31');
+INSERT INTO `wx_user` VALUES (39, 'okrZJ5OdcYVCeFFQc7mRKVqaB_yY', 'zPPDMitwAaspq8WVTG/giQ==', '1011', '192.168.30.53', 'ox0d3w9TTMPmVhq9nyXjYErWTdw4', NULL, '魁梧的小超人', 1, 'https://wx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTLChwKGSRJ51rHBRBiaEvZTARNkIOiabEibuk7ic8Ns65rNibPuC9Ct4mHria0zxfFliaXBsnUt82dRH08Sg/132', 'Chaoyang', 'Beijing', 'zh_CN', '15313361706', '15313361706', '86', NULL, NULL, NULL, '2', 2, NULL, NULL, '3', '33', '333', NULL, 0, 0, NULL, 0, NULL, NULL, NULL, '1011', '2019-05-07 16:09:51', '2019-05-07 16:12:09');
+INSERT INTO `wx_user` VALUES (40, 'okrZJ5F9oYZs3GlG-uprF9l1Wb4I', '04TWr18CYQ8bAKUR5CsXYA==', '1011', '192.168.30.53', 'ox0d3wzmeshaqtKAVEE6UI1eLrcM', NULL, '余空、鱼白', 1, 'https://wx.qlogo.cn/mmopen/vi_32/JvvCBqoV1r82aYnWx5nUeQm6BoY4JJasQxzPP3rAicnhCboHer9o6XhJMGbf3ibichicmKZNbwyHTMm19xNm0XDAgA/132', '', '', 'zh_CN', '18838987007', '18838987007', '86', NULL, NULL, NULL, '2', 2, NULL, NULL, '4', '44', '444', NULL, 0, 0, NULL, 0, NULL, NULL, NULL, '1011', '2019-05-07 16:10:07', '2019-05-07 16:10:36');
+INSERT INTO `wx_user` VALUES (47, 'okrZJ5LQwg6NXbGg8CWA86I76L6E', 'DpkpN3EDInqR0nihs7h/yw==', '1001', '192.168.30.47', 'ox0d3w4Kz4qrQv5UQ8ihB362Ais8', NULL, 'Jing', 2, 'https://wx.qlogo.cn/mmopen/vi_32/k3n5icX0B4E7KGXvvZVhlIELLOqAibFgpZJAR2G4AtLGgXhkkdI7xD65wPRDB6Iw5PDRibPby3C560o3ibOhBQcShw/132', 'Handan', 'Hebei', 'zh_CN', '15732671279', '15732671279', '86', NULL, NULL, NULL, '2', 2, NULL, '130423199606144022', '宋京', '15732671279', '天津', '充值开票', 1, 0, NULL, 0, NULL, NULL, NULL, '1001', '2019-05-17 11:25:25', '2019-05-17 15:55:35');
+INSERT INTO `wx_user` VALUES (48, 'okrZJ5KSsaXVcrM6E_f1ILO10sa4', 'ETDlZiN01TZDUv3hk68zVQ==', '1', '192.168.30.53', 'ox0d3wykNp2n2POifUCVNDwX6FK8', NULL, '胡萝呗丶', 2, 'https://wx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTIBlxYhXibtULIGToBWFOxS56MQompcAGEa7sVAfZ7SQyTVLcCrmeYTQd44OXfVIVNKGWYsCuiba22g/132', 'Gongju', 'Jeollanam-do', 'zh_TW', '13833679111', '13833679111', '86', NULL, NULL, NULL, '2', 2, NULL, '131002199608124647', '王玮', '13833679111', '天津', '充值开票', 1, 0, NULL, 0, '1', NULL, NULL, '1001', '2019-05-17 11:27:57', '2019-05-17 14:05:36');
 
 SET FOREIGN_KEY_CHECKS = 1;
